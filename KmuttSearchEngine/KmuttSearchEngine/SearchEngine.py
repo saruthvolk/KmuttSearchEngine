@@ -26,23 +26,33 @@ def searchengine (search):
          'ต้องการนำเข้า E-mail จาก KMUTT E-mail ไปใน KMUTT Google Apps ต้องทำอย่างไร','การตั้งค่าการซิงค์ KMUTT Google Apps Account ไปยังระบบปฏิบัติการ Android','การตั้งค่าการซิงค์ KMUTT Google Apps Account ไปยังระบบปฏิบัติการ iOS',
          'การตั้งค่าการซิงค์ KMUTT Google Apps Account ไปยัง Microsoft Outlook',' ']
 
-    for x in range(len(Query)):  
-        Question = re.sub('[!#$()“”]','', Query[x])
-        print(Question)
-        Output = aug.augment(Question, postag = False, max_syn_sent = 5 , postag_corpus='lst20')
-        for x in range(len(Output)):
-            temp = "".join(Output[x])
-            augmented.append(temp)
-        print(augmented)
+#========================= Train Dictionary to file ===========================#
+#   for x in range(len(Query)):  
+#       Question = re.sub('[!#$()“”]','', Query[x])
+#       print(Question)
+#       Output = aug.augment(Question, postag = False, max_syn_sent = 5 , postag_corpus='lst20')
+#       for x in range(len(Output)):
+#           temp = "".join(Output[x])
+#           augmented.append(temp)
+#       print(augmented)
 
-    oskut.load_model(engine='scads')
-    for x in augmented:
-        token = oskut.OSKut(x)
-        for x in token:
-            train.append(x)
-    train = list(dict.fromkeys(train))
-    print (train)
+#    oskut.load_model(engine='scads')
+#    for x in augmented:
+#        token = oskut.OSKut(x)
+#        for x in token:
+#            train.append(x)
+#    train = list(dict.fromkeys(train))
+#    print (train)
+#    check_train = 1
 
+#    with open('train.txt', 'w' , encoding="utf-8") as f:
+#        for item in train:
+#            f.write(item+"\n")
+
+#========================= Read Dictionary from file ===========================#
+    with open("train.txt", 'r', encoding='UTF-8') as f:
+        train = f.read().splitlines()
+    
     Input = search #ต้องคืยหนงสือที่ยมมาที่ไหขครัช
     correct = ""
     retry = 1
@@ -50,9 +60,11 @@ def searchengine (search):
     oskut.load_model(engine='scads')
     token = oskut.OSKut(Input)
     print(token)
-#==== Custom dict from data set ==========#
+
+#=============== Custom dict from data set =======================#
     checker_dataset = NorvigSpellChecker(custom_dict=train) #Using dict from dataset train
     checker_ttc = NorvigSpellChecker(custom_dict=ttc.word_freqs()) #Using dict from pre data train
+
     for x in range(len(token)):
         temp  = ""
         temp = checker_dataset.correct(token[x])
@@ -65,7 +77,7 @@ def searchengine (search):
     aug = WordNetAug()
     wv = WordVector()
   #========================= Create Synonyms Sentence ===========================#
-    Output = aug.augment(Input, postag = True, max_syn_sent = 10 , postag_corpus='lst20')
+    Output = aug.augment(Input, postag = True, max_syn_sent = 10 , postag_corpus='lst20', tokenize = 'Default')
     for x in range(len(Output)):
         temp = "".join(Output[x])
         final.append(temp)
@@ -77,6 +89,7 @@ def searchengine (search):
          'ระบบแจ้งว่า “Your account is not SSO ready” หมายความว่าอะไร','ระบบแจ้งว่า “Your account is not SSO ready” ต้องดำเนินการอย่างไร','เปิดใช้งานของ KMUTT Google Account ต้องทำอย่างไร',
          'ต้องการนำเข้า E-mail จาก KMUTT E-mail ไปใน KMUTT Google Apps ต้องทำอย่างไร','การตั้งค่าการซิงค์ KMUTT Google Apps Account ไปยังระบบปฏิบัติการ Android','การตั้งค่าการซิงค์ KMUTT Google Apps Account ไปยังระบบปฏิบัติการ iOS',
          'การตั้งค่าการซิงค์ KMUTT Google Apps Account ไปยัง Microsoft Outlook']
+
   #========================= Word 2 Vector computation part ===========================#
     for x in range(len(Query)):
         test1 = wv.sentence_vectorizer(Query[x], use_mean=False)
