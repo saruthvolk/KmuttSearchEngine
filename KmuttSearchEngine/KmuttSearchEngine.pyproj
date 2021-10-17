@@ -39,6 +39,9 @@
     <Compile Include="app\views.py" />
     <Compile Include="app\__init__.py" />
     <Compile Include="app\migrations\__init__.py" />
+    <Compile Include="KmuttSearchEngine\Query.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="KmuttSearchEngine\SearchEngine.py">
       <SubType>Code</SubType>
     </Compile>

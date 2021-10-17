@@ -6,6 +6,7 @@ from datetime import datetime
 from django.shortcuts import render
 from django.http import HttpRequest
 from KmuttSearchEngine.SearchEngine import searchengine
+from KmuttSearchEngine.Query import queryDb_QA
 from KmuttSearchEngine.SearchEngine import return_Result
 
 def home(request):
@@ -36,17 +37,20 @@ def contact(request):
 def search(request):
 	"""Renders the contact page."""
 	assert isinstance(request, HttpRequest)
+	table = "questionanswer"
+	query = queryDb_QA()
+
 	search = request.POST.get('search')
-	result = searchengine(search)
+	result = searchengine(search, query)
 
 	if result.Correct is not None:
 	   pre_seach = search
 	   search = result.Correct
 	   check = 1
-	   return render(request,'app/search.html', {'Correct': result.Correct, 'Question': pre_seach, 'Result': result.res})
+	   return render(request,'app/search.html', {'Correct': result.Correct, 'Question': pre_seach, 'Result': result.res, 'Position': result.pos})
 	else:
 	   check = 0
-	   return render(request,'app/search.html', {'Result': result.res, 'Question': search})
+	   return render(request,'app/search.html', {'Result': result.res, 'Question': search, 'Answer':result.ans})
 
 def about(request):
 	"""Renders the about page."""

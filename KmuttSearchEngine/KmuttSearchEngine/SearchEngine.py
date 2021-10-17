@@ -12,19 +12,26 @@ from scipy import spatial
 class return_Result:
   Retry = 0
   Correct = None
+  pos = ''
   res = ''
+  ans = ''
 
-def searchengine (search):
+def searchengine (search, query):
 
     print(search)
     train = []
+    Query=[]
+    Answer=[]
     augmented = []
     aug = WordNetAug()
-    Query = ['อยากดูโปรเจกต์เก่าต้องทำไง','คืนหนังสือที่ยืมมาอย่างไร','บัตรนักศึกษาหายทำยังไง','ข้อสอบเก่าสามารถดูได้ที่ไหนครับ','SSO คืออะไร','ทำไมต้องเปลี่ยนไปใช้ SSO ตัวใหม่','จะเปลี่ยนไปใช้ SSO ตัวใหม่ต้องเตรียมตัวอย่างไร',
-         'เมื่อเปลี่ยนมาใช้ SSO ใหม่แล้ว เมล (@mail.kmutt.ac.th ) จะยังสามารถใช้งานได้อยู่หรือไม่ ต้องทำอย่างไรบ้าง','เมื่อเปลี่ยนไปใช้ SSO ใหม่ นักศึกษาต้องเปลี่ยน User Account ตามหรือไม่',
-         'ระบบแจ้งว่า “Your account is not SSO ready” หมายความว่าอะไร','ระบบแจ้งว่า “Your account is not SSO ready” ต้องดำเนินการอย่างไร','เปิดใช้งานของ KMUTT Google Account ต้องทำอย่างไร',
-         'ต้องการนำเข้า E-mail จาก KMUTT E-mail ไปใน KMUTT Google Apps ต้องทำอย่างไร','การตั้งค่าการซิงค์ KMUTT Google Apps Account ไปยังระบบปฏิบัติการ Android','การตั้งค่าการซิงค์ KMUTT Google Apps Account ไปยังระบบปฏิบัติการ iOS',
-         'การตั้งค่าการซิงค์ KMUTT Google Apps Account ไปยัง Microsoft Outlook',' ']
+
+    Query = query.question
+
+    #Query = ['อยากดูโปรเจกต์เก่าต้องทำไง','คืนหนังสือที่ยืมมาอย่างไร','บัตรนักศึกษาหายทำยังไง','ข้อสอบเก่าสามารถดูได้ที่ไหนครับ','SSO คืออะไร','ทำไมต้องเปลี่ยนไปใช้ SSO ตัวใหม่','จะเปลี่ยนไปใช้ SSO ตัวใหม่ต้องเตรียมตัวอย่างไร',
+      #   'เมื่อเปลี่ยนมาใช้ SSO ใหม่แล้ว เมล (@mail.kmutt.ac.th ) จะยังสามารถใช้งานได้อยู่หรือไม่ ต้องทำอย่างไรบ้าง','เมื่อเปลี่ยนไปใช้ SSO ใหม่ นักศึกษาต้องเปลี่ยน User Account ตามหรือไม่',
+     #    'ระบบแจ้งว่า “Your account is not SSO ready” หมายความว่าอะไร','ระบบแจ้งว่า “Your account is not SSO ready” ต้องดำเนินการอย่างไร','เปิดใช้งานของ KMUTT Google Account ต้องทำอย่างไร',
+     #    'ต้องการนำเข้า E-mail จาก KMUTT E-mail ไปใน KMUTT Google Apps ต้องทำอย่างไร','การตั้งค่าการซิงค์ KMUTT Google Apps Account ไปยังระบบปฏิบัติการ Android','การตั้งค่าการซิงค์ KMUTT Google Apps Account ไปยังระบบปฏิบัติการ iOS',
+    #     'การตั้งค่าการซิงค์ KMUTT Google Apps Account ไปยัง Microsoft Outlook',' ']
 
 #========================= Train Dictionary to file ===========================#
 #   for x in range(len(Query)):  
@@ -73,6 +80,7 @@ def searchengine (search):
     retry = 0
     final = []
     Result = []
+    Position = []
     final.append(Input)
     aug = WordNetAug()
     wv = WordVector()
@@ -84,11 +92,11 @@ def searchengine (search):
     answer = []
     location=[]
     max = 0
-    Query = ['อยากดูโปรเจกต์เก่าต้องทำไง','คืนหนังสือที่ยืมมาอย่างไร','บัตรนักศึกษาหายทำยังไง','ข้อสอบเก่าสามารถดูได้ที่ไหนครับ','SSO คืออะไร','ทำไมต้องเปลี่ยนไปใช้ SSO ตัวใหม่','จะเปลี่ยนไปใช้ SSO ตัวใหม่ต้องเตรียมตัวอย่างไร',
-         'เมื่อเปลี่ยนมาใช้ SSO ใหม่แล้ว เมล (@mail.kmutt.ac.th ) จะยังสามารถใช้งานได้อยู่หรือไม่ ต้องทำอย่างไรบ้าง','เมื่อเปลี่ยนไปใช้ SSO ใหม่ นักศึกษาต้องเปลี่ยน User Account ตามหรือไม่',
-         'ระบบแจ้งว่า “Your account is not SSO ready” หมายความว่าอะไร','ระบบแจ้งว่า “Your account is not SSO ready” ต้องดำเนินการอย่างไร','เปิดใช้งานของ KMUTT Google Account ต้องทำอย่างไร',
-         'ต้องการนำเข้า E-mail จาก KMUTT E-mail ไปใน KMUTT Google Apps ต้องทำอย่างไร','การตั้งค่าการซิงค์ KMUTT Google Apps Account ไปยังระบบปฏิบัติการ Android','การตั้งค่าการซิงค์ KMUTT Google Apps Account ไปยังระบบปฏิบัติการ iOS',
-         'การตั้งค่าการซิงค์ KMUTT Google Apps Account ไปยัง Microsoft Outlook']
+   # Query = ['อยากดูโปรเจกต์เก่าต้องทำไง','คืนหนังสือที่ยืมมาอย่างไร','บัตรนักศึกษาหายทำยังไง','ข้อสอบเก่าสามารถดูได้ที่ไหนครับ','SSO คืออะไร','ทำไมต้องเปลี่ยนไปใช้ SSO ตัวใหม่','จะเปลี่ยนไปใช้ SSO ตัวใหม่ต้องเตรียมตัวอย่างไร',
+   #      'เมื่อเปลี่ยนมาใช้ SSO ใหม่แล้ว เมล (@mail.kmutt.ac.th ) จะยังสามารถใช้งานได้อยู่หรือไม่ ต้องทำอย่างไรบ้าง','เมื่อเปลี่ยนไปใช้ SSO ใหม่ นักศึกษาต้องเปลี่ยน User Account ตามหรือไม่',
+   #      'ระบบแจ้งว่า “Your account is not SSO ready” หมายความว่าอะไร','ระบบแจ้งว่า “Your account is not SSO ready” ต้องดำเนินการอย่างไร','เปิดใช้งานของ KMUTT Google Account ต้องทำอย่างไร',
+   #      'ต้องการนำเข้า E-mail จาก KMUTT E-mail ไปใน KMUTT Google Apps ต้องทำอย่างไร','การตั้งค่าการซิงค์ KMUTT Google Apps Account ไปยังระบบปฏิบัติการ Android','การตั้งค่าการซิงค์ KMUTT Google Apps Account ไปยังระบบปฏิบัติการ iOS',
+   #      'การตั้งค่าการซิงค์ KMUTT Google Apps Account ไปยัง Microsoft Outlook']
 
   #========================= Word 2 Vector computation part ===========================#
     for x in range(len(Query)):
@@ -111,17 +119,20 @@ def searchengine (search):
         print ("Result:")
         for j in range(len(location)):
             position = location[j]
-            temp = (str(j+1)+".) "+ Query[position] + ' [ '+ str("{:.2f}".format(pos[j]*100))+ '% ]')
+            temp = (str(j+1)+".) "+ Query[position] + ' [ '+ str("{:.2f}".format(pos[j]*100))+ '% ]'+'// '+'Ans:'+ query.answer[position])
             Result.append(temp)
+            Position.append(position)
 
         if Input != correct:
            return_Result.res = Result
+           return_Result.pos = Position
            return_Result.Correct = correct
            return (return_Result)
                
         else:
            retry = 0
            return_Result.Correct = None
+           return_Result.pos = Position
            return_Result.res = Result
            return_Result.Retry = 0
            return(return_Result)
