@@ -39,6 +39,9 @@
     <Compile Include="app\views.py" />
     <Compile Include="app\__init__.py" />
     <Compile Include="app\migrations\__init__.py" />
+    <Compile Include="KmuttSearchEngine\insertquestion.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="KmuttSearchEngine\Query.py">
       <SubType>Code</SubType>
     </Compile>
@@ -64,6 +67,7 @@
     <Folder Include="KmuttSearchEngine\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\templates\app\CRUDquestion.html" />
     <Content Include="app\templates\app\search.html" />
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />

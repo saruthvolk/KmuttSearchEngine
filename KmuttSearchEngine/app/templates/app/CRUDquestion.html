@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+      <h1>Insert form</h1>
+      <form method="POST">
+          {% csrf_token %}
+            <h1>question id</h1>
+            <h2><input type="text" placeholder="enter question id" name="question_id"/></h2>
+            <h1>question</h1>
+            <h1><input type="text" placeholder="enter question" name="question"/></h1>
+            <h1>answer</h1>
+            <h1><input type="text" placeholder="enter answer" name="answer"/></h1>
+            <h1>question english</h1>
+            <h1><input type="text" placeholder="enter question english" name="question_en"/></h1>
+            <h1>answer english</h1>
+            <h1><input type="text" placeholder="enter answer english" name="answer_en"/></h1>
+            <h1>create date</h1>
+            <h1><input type="text" placeholder="enter create date" name="create_date"/></h1>
+            <h1>create time</h1>
+            <h1><input type="text" placeholder="enter create time" name="create_time"/></h1>
+            <h1>user id</h1>
+            <h1><input type="text" placeholder="enter user id" name="user_id"/></h1>
+            <h1>update date</h1>
+            <h1><input type="text" placeholder="enter update date" name="update_date"/></h1>
+            <h1>update_time</h1>
+            <h1><input type="text" placeholder="enter update time" name="update_time"/></h1>
+            <h1>status</h1>
+            <h1><input type="text" placeholder="enter status" name="status"/></h1>
+            <h1>view count</h1>
+            <h1><input type="text" placeholder="enter view count" name="view_count"/></h1>
+          <button type="submit" class="btn-primary"> submit</button>
+      </form>
+</body>
+</html>
