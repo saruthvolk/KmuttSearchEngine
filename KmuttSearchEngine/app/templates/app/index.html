@@ -2,7 +2,20 @@
 
 {% block content %}
 {% load static %}
-<div class="jumbotron">
+<script>
+    onChange="window.location.href=this.value"
+</script>
+
+<div class="jumbotron">    
+    <h1>Admin</h1>
+    <label for="operation">Choose operation:</label>
+    <select name="operation" id="operation" onchange="location = this.value;">
+        <option value="">Choose option</option>
+        <option value="{% url 'insertques' %}" href="{% url 'insertques' %}">Add</option>
+        <option value="Edit">Edit</option>
+        <option value="Delete">Delete</option>
+    </select>
+
     <h1>Search</h1>
     <p class="lead">Type anything to search</p>
     <form action="{% url 'search' %}" class="form-inline" method="POST">

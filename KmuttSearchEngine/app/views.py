@@ -2,7 +2,8 @@
 Definition of views.
 """
 
-from datetime import datetime
+from datetime import date
+from datetime import time
 from django.shortcuts import render
 from django.http import HttpRequest
 from KmuttSearchEngine.SearchEngine import searchengine
@@ -20,7 +21,7 @@ def home(request):
 		'app/index.html',
 		{
 			'title':'Home Page',
-			'year':datetime.now().year,
+			#'year':datetime.now().year,#
 		}
 	)
 

@@ -3,37 +3,57 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title> CRUD operations </title>
 </head>
 <body>
+    <center>
       <h1>Insert form</h1>
-      <form method="POST">
-          {% csrf_token %}
-            <h1>question id</h1>
-            <h2><input type="text" placeholder="enter question id" name="question_id"/></h2>
-            <h1>question</h1>
-            <h1><input type="text" placeholder="enter question" name="question"/></h1>
-            <h1>answer</h1>
-            <h1><input type="text" placeholder="enter answer" name="answer"/></h1>
-            <h1>question english</h1>
-            <h1><input type="text" placeholder="enter question english" name="question_en"/></h1>
-            <h1>answer english</h1>
-            <h1><input type="text" placeholder="enter answer english" name="answer_en"/></h1>
-            <h1>create date</h1>
-            <h1><input type="text" placeholder="enter create date" name="create_date"/></h1>
-            <h1>create time</h1>
-            <h1><input type="text" placeholder="enter create time" name="create_time"/></h1>
-            <h1>user id</h1>
-            <h1><input type="text" placeholder="enter user id" name="user_id"/></h1>
-            <h1>update date</h1>
-            <h1><input type="text" placeholder="enter update date" name="update_date"/></h1>
-            <h1>update_time</h1>
-            <h1><input type="text" placeholder="enter update time" name="update_time"/></h1>
-            <h1>status</h1>
-            <h1><input type="text" placeholder="enter status" name="status"/></h1>
-            <h1>view count</h1>
-            <h1><input type="text" placeholder="enter view count" name="view_count"/></h1>
-          <button type="submit" class="btn-primary"> submit</button>
-      </form>
+        <form method="POST">
+            {% csrf_token %}
+        <table border="1">
+            <tr>
+                    <td>question id</td>
+                    <td><input type="number" placeholder="enter question id" name="question_id"/></td>
+            </tr>
+            <tr>
+                    <td>question</td>
+                    <td><input type="text" placeholder="enter question " name="question"/></td>
+            </tr>
+            <tr>
+                    <td>answer</td>
+                    <td><input type="text" placeholder="enter answer " name="answer"/></td>
+            </tr>
+            <tr>
+                    <td>question EN</td>
+                    <td><input type="text" placeholder="enter questionEN " name="question_en"/></td>
+            </tr>
+            <tr>
+                    <td>answer EN</td>
+                    <td><input type="text" placeholder="enter answerEN " name="answer_en"/></td>
+            </tr>
+            <tr>
+                    <td>user id</td>
+                    <td><input type="number" placeholder="enter user id " name="user_id"/></td>
+            </tr>
+            <tr>
+                    <td>updated by</td>
+                    <td><input type="number" placeholder="updated by " name="updated_by"/></td>
+            </tr>
+            <tr>
+                    <td>status</td>
+                    <td><input type="text" name="status" value="True"></td>
+            </tr>
+            <tr>
+                    <td>view count</td>
+                    <td><input type="number" placeholder="enter view count " name="view_count"/></td>
+            </tr>
+            <tr>
+                    <td>department id</td>
+                    <td><input type="number" placeholder="enter department id " name="department_id"/></td>
+            </tr>
+        </table>
+        <button type="submit" class="btn-primary"> Submit</button>
+        </form>
+    </center>
 </body>
 </html>
