@@ -12,9 +12,8 @@ class Result:
 def Add_QA(request):
 	assert isinstance(request, HttpRequest)
 	if request.method == "POST" :
-		if request.POST.get('id') and request.POST.get('question') and request.POST.get('answer') and request.POST.get('question_en') and request.POST.get('answer_en') and request.POST.get('user_id') and request.POST.get('updated_by') and request.POST.get('view_count') and request.POST.get('department_id'):
+		if  request.POST.get('question') and request.POST.get('answer') and request.POST.get('question_en') and request.POST.get('answer_en') and request.POST.get('user_id') and request.POST.get('updated_by') and request.POST.get('department_id'):
 			saverecord = questionanswer()
-			saverecord.id = request.POST.get('id')
 			saverecord.question = request.POST.get('question')
 			saverecord.answer = request.POST.get('answer')
 			saverecord.question_en = request.POST.get('question_en')
@@ -22,7 +21,7 @@ def Add_QA(request):
 			saverecord.user_id = request.POST.get('user_id')
 			saverecord.updated_by = request.POST.get('updated_by')
 			saverecord.status = True
-			saverecord.view_count = request.POST.get('view_count')
+			saverecord.view_count = '0'
 			saverecord.department_id = request.POST.get('department_id')
 			saverecord.save()
 
