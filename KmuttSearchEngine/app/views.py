@@ -75,7 +75,7 @@ def Crud_QA (request):
 	if operation == "Add":
 		result = Add_QA(request)
 		if result.code == 200:
-			return render(request,'app/CRUDquestion.html')
+			return render(request,'app/index.html')
 		else:
 			return render(request,'app/CRUDquestion.html')
 
