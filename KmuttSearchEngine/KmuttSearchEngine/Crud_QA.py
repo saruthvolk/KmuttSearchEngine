@@ -39,3 +39,11 @@ def Add_QA(request):
 		Result.code == 400
 		Result.message == 'Error'
 		return Result
+
+def Edit_QA(request,query,id):
+	#Editques = questionanswer.object.get(id=id)
+
+	Result.code = 300
+	return Result
+
+#def Remove_QA(request,id):
