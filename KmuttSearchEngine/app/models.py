@@ -3,10 +3,11 @@ Definition of models.
 """
 
 from django.db import models
-from django.utils.timezone import now
+import datetime
 
 # Create your models here.
 
+now = datetime.datetime.now().replace(microsecond=0)
 
 class questionanswer (models.Model):
     id = models.IntegerField(primary_key=True)
@@ -26,3 +27,4 @@ class questionanswer (models.Model):
 
     class Meta:
         db_table="questionanswer"
+

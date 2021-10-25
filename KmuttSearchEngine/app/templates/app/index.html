@@ -11,8 +11,8 @@
     <label for="operation">Choose operation:</label>
     <select name="operation" id="operation" onchange="location = this.value;">
         <option value="">Choose option</option>
-        <option value="{% url 'insertques' %}" href="{% url 'insertques' %}">Add</option>
-        <option value="Edit">Edit</option>
+        <option value="{% url 'Crud_QA' operation='Add' %}" href="{% url 'Crud_QA' operation='Add' %}">Add</option>
+        <option value="{% url 'Crud_QA' operation='Edit' %}" href="{% url 'Crud_QA' operation='Edit' %}">Edit</option>
         <option value="Delete">Delete</option>
     </select>
 

@@ -69,9 +69,8 @@ def about(request):
 		}
 	)
 
-def Crud_QA (request):
+def Crud_QA (request, operation):
 
-	operation = 'Add'
 	if operation == "Add":
 		result = Add_QA(request)
 		if result.code == 200:
