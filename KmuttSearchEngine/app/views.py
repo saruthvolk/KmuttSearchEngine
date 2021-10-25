@@ -80,22 +80,18 @@ def Crud_QA (request, operation,id):
 
 	elif operation == "View":
 		query = queryDb_QA_All()
-		result = Edit_QA(request,query)
-		if result.code == 200:
-			return render(request,'app/index.html')
-		else:
-			return render(request, 'app/Viewquestion.html', {'query': query})
+
+		return render(request, 'app/Viewquestion.html', {'query': query})
 
 	elif operation == "Remove":
 		result = Remove_QA()
 
 	elif operation == "Edit":
-		query = queryDb_QA_All()
-		result = Edit_QA(request,query)
+		result = Edit_QA(request,id)
 		if result.code == 200:
 			return render(request,'app/index.html')
 		else:
-			return render(request, 'app/Editquestion.html', {'id': id})
+			return render(request, 'app/Editquestion.html', {'questionanswer': result.query})
 
 #def insertques(request):
 
