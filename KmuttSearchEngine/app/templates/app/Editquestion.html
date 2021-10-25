@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title> CRUD operations </title>
+</head>
+<body>
+    <center>
+      <h1>Insert form</h1>
+        <form method="POST">
+            {% csrf_token %}
+        <table border="1">
+            <tr>
+                    <td>question id</td>
+                    <td><input type="number" name="id" value="{{questionanswer.id}}" readonly/></td>
+            </tr>
+            <tr>
+                    <td>question</td>
+                    <td><input type="text" name="question" value="{{questionanswer.question}}"/></td>
+            </tr>
+            <tr>
+                    <td>answer</td>
+                    <td><input type="text" name="answer" value="{{questionanswer.answer}}"/></td>
+            </tr>
+            <tr>
+                    <td>question EN</td>
+                    <td><input type="text" name="question_en" value="{{questionanswer.question_en}}"/></td>
+            </tr>
+            <tr>
+                    <td>answer EN</td>
+                    <td><input type="text" name="answer_en" value="{{questionanswer.answer_en}}"/></td>
+            </tr>
+            <tr>
+                    <td>user id</td>
+                    <td><input type="number" name="user_id" value="{{questionanswer.user_id}}"/></td>
+            </tr>
+            <tr>
+                    <td>updated by</td>
+                    <td><input type="number" placeholder="updated by " name="updated_by" value="{{questionanswer.updated_by}}"/></td>
+            </tr>
+            <tr>
+                    <td>status</td>
+                    <td><input type="text" name="status" value="True"></td>
+            </tr>
+            <tr>
+                    <td>view count</td>
+                    <td><input type="number" placeholder="enter view count " name="view_count" value="{{questionanswer.view_count}}"/></td>
+            </tr>
+            <tr>
+                    <td>department id</td>
+                    <td><input type="number" placeholder="enter department id " name="department_id" value="{{questionanswer.department_id}}"/></td>
+            </tr>
+        </table>
+        <button type="submit" class="btn-primary"> Submit</button>
+        </form>
+    </center>
+</body>
+</html>
