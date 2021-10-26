@@ -1,11 +1,11 @@
-from datetime import date
-from datetime import time
+import datetime
 from django.utils.timezone import now
 from django.shortcuts import render
 from django.http import HttpRequest
 from app.models import questionanswer
 from app.models import edit_questionanswer
 from app.forms import editform
+from django.db import models
 
 class Result:
   code = ''
@@ -14,18 +14,23 @@ class Result:
 
 def Add_QA(request):
 	assert isinstance(request, HttpRequest)
+	current_time = datetime.datetime.now().replace(microsecond=0)
 	if request.method == "POST" :
-		if  request.POST.get('question') and request.POST.get('answer') and request.POST.get('question_en') and request.POST.get('answer_en') and request.POST.get('user_id') and request.POST.get('updated_by') and request.POST.get('department_id'):
+		if  request.POST.get('question') and request.POST.get('answer') and request.POST.get('question_en') and request.POST.get('answer_en') and request.POST.get('department_id'):
 			saverecord = questionanswer()
 			saverecord.question = request.POST.get('question')
 			saverecord.answer = request.POST.get('answer')
 			saverecord.question_en = request.POST.get('question_en')
 			saverecord.answer_en = request.POST.get('answer_en')
-			saverecord.user_id = request.POST.get('user_id')
-			saverecord.updated_by = request.POST.get('updated_by')
+			saverecord.user_id = 1 #waiting for user function
+			saverecord.updated_by = 1 #waiting for user function
 			saverecord.status = True
-			saverecord.view_count = '0'
+			saverecord.view_count = 1 #waiting for user function
 			saverecord.department_id = request.POST.get('department_id')
+			saverecord.updated_date = current_time
+			saverecord.updated_time = current_time
+			saverecord.created_date = current_time
+			saverecord.created_time = current_time
 			saverecord.save()
 
 			Result.code == 200
@@ -67,11 +72,23 @@ def Update_QA(request,id):
 	if request.method == "POST" :
 		if request.POST.get('id') and request.POST.get('question') and request.POST.get('answer') and request.POST.get('question_en') and request.POST.get('answer_en') :
 			saverecord = edit_questionanswer()
-			saverecord.id = request.POST.get('id')
-			saverecord.question = request.POST.get('question')
-			saverecord.answer = request.POST.get('answer')
-			saverecord.question_en = request.POST.get('question_en')
-			saverecord.answer_en = request.POST.get('answer_en')
+			id = request.POST.getlist('id')
+			question = request.POST.getlist('question')
+			answer = request.POST.getlist('answer')
+			question_en = request.POST.getlist('question_en')
+			answer_en = request.POST.getlist('answer_en')
+			saverecord.updated_by = 1 #waiting for user function
+		
+		current_time = datetime.datetime.now().replace(microsecond=0) 
+		for i in range(len(id)):
+			saverecord.id = id[i]
+			saverecord.question = question[i]
+			saverecord.answer = answer[i]
+			saverecord.question_en = question_en[i]
+			saverecord.answer_en = answer_en[i]
+			saverecord.updated_by = 1 #waiting for user function
+			saverecord.updated_date = current_time
+			saverecord.updated_time = current_time
 			saverecord.save()
 
 	query = list(questionanswer.objects.all())
