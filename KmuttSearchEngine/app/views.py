@@ -72,6 +72,7 @@ def about(request):
 def Crud_QA (request, operation,id):
 
 	if operation == "Add":
+
 		result = Add_QA(request)
 		if result.code == 200:
 			return render(request,'app/index.html')
@@ -79,14 +80,24 @@ def Crud_QA (request, operation,id):
 			return render(request,'app/CRUDquestion.html')
 
 	elif operation == "View":
-		query = queryDb_QA_All()
 
+		query = queryDb_QA_All()
 		return render(request, 'app/Viewquestion.html', {'query': query})
 
 	elif operation == "Remove":
-		result = Remove_QA()
+
+		if request.method == 'POST':
+			id = request.POST.getlist('id_check')
+
+		result = Remove_QA(request,id)
+
+		if result.code == 200:
+			return render(request,'app/index.html')
+		else:
+			return render(request, 'app/Editquestion.html', {'query': result.query})
 
 	elif operation == "Edit":
+
 		if request.method == 'POST':
 			id = request.POST.getlist('id_check')
 

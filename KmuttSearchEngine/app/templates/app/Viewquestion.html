@@ -29,6 +29,7 @@
             {% endfor %}
         </table>
         <button type="submit" class="btn-primary"> Edit</button>
+        <button type="submit" formaction="{% url 'Crud_QA' operation='Remove' id='0' %}">Delete</button>
         </form>
     </center>
 </body>
