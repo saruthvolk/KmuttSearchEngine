@@ -11,6 +11,7 @@
     <form method="POST">
         {% csrf_token %}
         <table border="1">
+            {% for questionanswer in query %}
             <tr>
                 <td>ID</td>
                 <td><input type="number" name="id" value="{{questionanswer.id}}" readonly/></td>
@@ -22,10 +23,11 @@
                 <td><input type="text" name="question_en" value="{{questionanswer.question_en}}"readonly/></td>
                 <td>answer EN</td>
                 <td><input type="text" name="answer_en" value="{{questionanswer.answer_en}}"readonly/></td>
-                    
-                <td><a href ="#">Save</a></td>
-                <td><a href ="#">Delete</a></td>           
+
+                <td><a href="#">Save</a></td>
+                <td><a href="#">Delete</a></td>
             </tr>
+            {% endfor %}
         </table>
 
     </form>

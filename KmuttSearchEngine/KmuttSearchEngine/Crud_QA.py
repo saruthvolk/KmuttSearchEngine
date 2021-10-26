@@ -42,10 +42,13 @@ def Add_QA(request):
 		return Result
 
 def Edit_QA(request,id):
+	temp = []
 
-	Result.query = questionanswer.objects.get(id=id)
+	temp = questionanswer.objects.filter(id__in=id)
 
+	Result.query = temp
 	Result.code = 300
+
 	return (Result)
 
 #def Remove_QA(request,id):
