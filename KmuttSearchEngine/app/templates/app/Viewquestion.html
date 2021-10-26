@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title> CRUD operations </title>
+</head>
+<body>
+    <center>
+      <h1>View form</h1>
+        <form action="{% url 'Crud_QA' operation='Edit' id='0' %}" method="POST">
+        {% csrf_token %}
+        <table border="1">
+        {% for questionanswer in query %}
+        <tr>
+            <td><input type="checkbox" name="id_check" value="{{questionanswer.id}}" readonly/></td>
+            <td>ID</td>
+            <td><input type="number" name="id" value="{{questionanswer.id}}" readonly/></td>
+            <td>question</td>
+            <td><input type="text" name="question" value="{{questionanswer.question}}" readonly/></td>
+            <td>answer</td>
+            <td><input type="text" name="answer" value="{{questionanswer.answer}}"readonly/></td>
+            <td>question EN</td>
+            <td><input type="text" name="question_en" value="{{questionanswer.question_en}}"readonly/></td>
+            <td>answer EN</td>
+            <td><input type="text" name="answer_en" value="{{questionanswer.answer_en}}"readonly/></td>
+            <td><a href="#">Delete</a></td>
+        </tr>           
+            {% endfor %}
+        </table>
+        <button type="submit" class="btn-primary"> Edit</button>
+        </form>
+    </center>
+</body>
+</html>                        

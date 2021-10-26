@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.http import HttpRequest
 from KmuttSearchEngine.SearchEngine import searchengine
 from KmuttSearchEngine.Crud_QA import *
-from KmuttSearchEngine.Query import queryDb_QA
+from KmuttSearchEngine.Query import *
 from app.models import questionanswer
 from KmuttSearchEngine.SearchEngine import return_Result
 from django.contrib import messages
@@ -69,9 +69,8 @@ def about(request):
 		}
 	)
 
-def Crud_QA (request):
+def Crud_QA (request, operation,id):
 
-	operation = 'Add'
 	if operation == "Add":
 		result = Add_QA(request)
 		if result.code == 200:
@@ -79,12 +78,24 @@ def Crud_QA (request):
 		else:
 			return render(request,'app/CRUDquestion.html')
 
-	elif operation == "Edit":
-		result = Edit_QA()
+	elif operation == "View":
+		query = queryDb_QA_All()
+
+		return render(request, 'app/Viewquestion.html', {'query': query})
 
 	elif operation == "Remove":
 		result = Remove_QA()
 
+	elif operation == "Edit":
+		if request.method == 'POST':
+			id = request.POST.getlist('id_check')
+
+		result = Edit_QA(request,id)
+
+		if result.code == 200:
+			return render(request,'app/index.html')
+		else:
+			return render(request, 'app/Editquestion.html', {'query': result.query})
 
 #def insertques(request):
 

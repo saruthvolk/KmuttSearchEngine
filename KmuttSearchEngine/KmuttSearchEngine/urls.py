@@ -13,7 +13,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('contact/', views.contact, name='contact'),
     path('search/', views.search, name='search'),
-    path('insert', views.Crud_QA, name='insertques'),
+    path('Crud_QA/<operation>?<id>', views.Crud_QA, name='Crud_QA'),
     path('about/', views.about, name='about'),
     path('login/',
          LoginView.as_view

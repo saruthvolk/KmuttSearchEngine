@@ -40,3 +40,23 @@ def queryDb_QA():
 
 
    return questionanswerDto
+
+def queryDb_QA_All():
+   
+   class questionanswerDto:
+        question = []
+        answer = []
+        question_en = []
+        answer_en =[]
+        created_time = []
+        created_date =[]
+        user_id = []
+        updated_date = []
+        updated_time = []
+        status = []
+        view_count = []
+
+
+   query = list(questionanswer.objects.all())
+
+   return query

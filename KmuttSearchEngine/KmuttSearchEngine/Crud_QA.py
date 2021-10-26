@@ -8,6 +8,7 @@ from app.models import questionanswer
 class Result:
   code = ''
   message = ''
+  query = ''
 
 def Add_QA(request):
 	assert isinstance(request, HttpRequest)
@@ -38,3 +39,15 @@ def Add_QA(request):
 		Result.code == 400
 		Result.message == 'Error'
 		return Result
+
+def Edit_QA(request,id):
+	temp = []
+
+	temp = questionanswer.objects.filter(id__in=id)
+
+	Result.query = temp
+	Result.code = 300
+
+	return (Result)
+
+#def Remove_QA(request,id):
