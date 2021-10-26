@@ -24,7 +24,7 @@
                 <td>answer EN</td>
                 <td><input type="text" name="answer_en" value="{{questionanswer.answer_en}}"/></td>
 
-                <td><a href="#">Save</a></td>
+                <button type="submit" formaction="{% url 'Crud_QA' operation='Update' id='0' %}">Save</button>
                 <td><a href="#">Delete</a></td>
             </tr>
             {% endfor %}
