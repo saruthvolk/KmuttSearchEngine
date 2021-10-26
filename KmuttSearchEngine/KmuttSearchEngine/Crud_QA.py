@@ -50,4 +50,12 @@ def Edit_QA(request,id):
 
 	return (Result)
 
-#def Remove_QA(request,id):
+def Remove_QA(request,id):
+
+	temp = questionanswer.objects.filter(id__in=id)
+	temp.delete()
+	
+	Result.query = temp
+	Result.code = 300
+
+	return (Result)
