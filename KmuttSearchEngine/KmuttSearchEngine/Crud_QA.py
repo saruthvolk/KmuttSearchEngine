@@ -68,11 +68,18 @@ def Update_QA(request,id):
 	if request.method == "POST" :
 		if request.POST.get('id') and request.POST.get('question') and request.POST.get('answer') and request.POST.get('question_en') and request.POST.get('answer_en') :
 			saverecord = edit_questionanswer()
-			saverecord.id = request.POST.get('id')
-			saverecord.question = request.POST.get('question')
-			saverecord.answer = request.POST.get('answer')
-			saverecord.question_en = request.POST.get('question_en')
-			saverecord.answer_en = request.POST.get('answer_en')
+			id = request.POST.getlist('id')
+			question = request.POST.getlist('question')
+			answer = request.POST.getlist('answer')
+			question_en = request.POST.getlist('question_en')
+			answer_en = request.POST.getlist('answer_en')
+
+		for i in range(len(id)):
+			saverecord.id = id[i]
+			saverecord.question = question[i]
+			saverecord.answer = answer[i]
+			saverecord.question_en = question_en[i]
+			saverecord.answer_en = answer_en[i]
 			saverecord.save()
 
 	query = list(questionanswer.objects.all())
