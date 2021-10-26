@@ -94,7 +94,7 @@ def Crud_QA (request, operation,id):
 		if result.code == 200:
 			return render(request,'app/index.html')
 		else:
-			return render(request, 'app/Editquestion.html', {'query': result.query})
+			return render(request, 'app/Viewquestion.html', {'query': result.query})
 
 	elif operation == "Edit":
 
@@ -107,6 +107,18 @@ def Crud_QA (request, operation,id):
 			return render(request,'app/index.html')
 		else:
 			return render(request, 'app/Editquestion.html', {'query': result.query})
+
+	elif operation == "Update":
+
+		if request.method == 'POST':
+			id = request.POST.getlist('id_check')
+
+		result = Update_QA(request,id)
+
+		if result.code == 200:
+			return render(request,'app/index.html')
+		else:
+			return render(request, 'app/Viewquestion.html', {'query': result.query})
 
 #def insertques(request):
 

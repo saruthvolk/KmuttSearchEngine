@@ -4,6 +4,8 @@ from django.utils.timezone import now
 from django.shortcuts import render
 from django.http import HttpRequest
 from app.models import questionanswer
+from app.models import edit_questionanswer
+from app.forms import editform
 
 class Result:
   code = ''
@@ -59,4 +61,21 @@ def Remove_QA(request,id):
 	Result.query = temp
 	Result.code = 300
 
+	return (Result)
+
+def Update_QA(request,id):
+
+	if request.method == "POST" :
+		if request.POST.get('id') and request.POST.get('question') and request.POST.get('answer') and request.POST.get('question_en') and request.POST.get('answer_en') :
+			saverecord = edit_questionanswer()
+			saverecord.id = request.POST.get('id')
+			saverecord.question = request.POST.get('question')
+			saverecord.answer = request.POST.get('answer')
+			saverecord.question_en = request.POST.get('question_en')
+			saverecord.answer_en = request.POST.get('answer_en')
+			saverecord.save()
+
+	query = list(questionanswer.objects.all())
+	Result.code = 300
+	Result.query = query
 	return (Result)
