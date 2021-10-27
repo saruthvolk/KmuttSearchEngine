@@ -8,10 +8,15 @@
         selector: 'textarea#editor',
         menubar: false
     });
+
+    tinymce.init({
+        selector: 'textarea#editor1',
+        menubar: false
+    });
 </script>
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title> CRUD operations </title>
 </head>
 <body>
@@ -22,30 +27,42 @@
         <table border="1">
             {% for questionanswer in query %}
             <tr>
-                <td><input type="checkbox" name="id_check" value="{{questionanswer.id}}" readonly/></td>
-                <td>ID</td>
-                <td><input type="number" name="id" value="{{questionanswer.id}}" readonly/></td>
-                <td>question</td>
-                <td><input type="text" name="question" value="{{questionanswer.question}}"/></td>
-                <td>answer</td>
-                <td>
-                    <span style="white-space: pre-line">
-                        <textarea rows = "5" cols = "60" name = "answer" id="editor" >{{questionanswer.answer}}</textarea>
-                    </span>
+                <td colspan="2">
+                    <input type="checkbox" name="id_check" id="id_check" value="{{questionanswer.id}}"/>
+                    Quesion ID
+                    {{questionanswer.id}}
                 </td>
-                <td>question EN</td>
-                <td><input type="text" name="question_en" value="{{questionanswer.question_en}}"/></td>
-                <td>answer EN</td>
-                <td>
-                    <span style="white-space: pre-line">
-                        <textarea rows = "5" cols = "60" name = "answer_en">{{questionanswer.answer_en}}</textarea>
-                    </span>
+                </tr>
+            <tr>
+                <td>Question</td>
+
+                <td colspan="2">
+                    <input type="text" name="question" value="{{questionanswer.question}}"/>
                 </td>
-                <td><a href="{% url 'Crud_QA' operation='Remove' id=questionanswer.id %}">Delete</a></td>
-            </tr>   
-            <span style="white-space: pre-line">
-                <textarea rows = "5" cols = "60" name = "answer" id="editor" >{{questionanswer.answer}}</textarea>
-            </span>
+                <tr>
+                    <td>Answer</td>
+                    <td colspan="10">
+                        <span style="white-space: pre-line">
+                            <textarea name = "answer" id="editor" >{{questionanswer.answer}}</textarea>
+                        </span>
+                    </td>
+                </tr>
+                <td >Question EN</td>
+                <td colspan="2">
+                    <input type="text" name="question_en" value="{{questionanswer.question_en}}"/>
+                </td>
+                <tr>
+                    <td>Answer en</td>
+                    <td colspan="6">
+                        <span style="white-space: pre-line">
+                            <textarea name = "answer_en" id="editor1" >{{questionanswer.answer_en}}</textarea>
+                        </span>
+                    </td>
+                </tr>
+                <td colspan="2">
+                    <a href="{% url 'Crud_QA' operation='Remove' id=questionanswer.id %}">Delete</a>
+                </td>
+            </tr>
             {% endfor %}
         </table>
         <br/>
@@ -54,4 +71,4 @@
 </center>
 </body>
 
-{% endblock %}    
+{% endblock %}

@@ -81,9 +81,8 @@ def Remove_QA(request,id):
 def Update_QA(request,id):
 
 	if request.method == "POST" :
-		if request.POST.get('id') and request.POST.get('question') and request.POST.get('answer') and request.POST.get('question_en') and request.POST.get('answer_en') :
+		if request.POST.get('id_check') and request.POST.get('question') and request.POST.get('answer') and request.POST.get('question_en') and request.POST.get('answer_en') :
 			saverecord = edit_questionanswer()
-			id = request.POST.getlist('id')
 			question = request.POST.getlist('question')
 			answer = request.POST.getlist('answer')
 			question_en = request.POST.getlist('question_en')
