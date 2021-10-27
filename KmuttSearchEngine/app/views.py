@@ -81,8 +81,9 @@ def Crud_QA (request, operation,id):
 
 	elif operation == "View":
 
-		query = queryDb_QA_All()
-		return render(request, 'app/Viewquestion.html', {'query': query})
+		result = View_QA(request,id)
+
+		return render(request, 'app/Viewquestion.html', {'query': result.query})
 
 	elif operation == "Remove":
 

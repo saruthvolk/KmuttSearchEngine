@@ -20,12 +20,19 @@
                 <td>question</td>
                 <td><input type="text" name="question" value="{{questionanswer.question}}" readonly/></td>
                 <td>answer</td>
-                <td><input type="text" name="answer" value="{{questionanswer.answer}}"readonly/></td>
+                <td>
+                    <span style="white-space: pre-line">
+                        <textarea rows = "5" cols = "60" name = "answer" readonly>{{questionanswer.answer}}</textarea>
+                    </span>
+                </td>
                 <td>question EN</td>
                 <td><input type="text" name="question_en" value="{{questionanswer.question_en}}"readonly/></td>
                 <td>answer EN</td>
-                <td><input type="text" name="answer_en" value="{{questionanswer.answer_en}}"readonly/></td>
-
+                <td>
+                    <span style="white-space: pre-line">
+                        <textarea rows = "5" cols = "60" name = "answer_en" readonly>{{questionanswer.answer_en}}</textarea>
+                    </span>
+                </td>
                 <td><a href="{% url 'Crud_QA' operation='Remove' id=questionanswer.id %}">Delete</a></td>
             </tr>           
             {% endfor %}

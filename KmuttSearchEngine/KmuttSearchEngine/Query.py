@@ -55,8 +55,7 @@ def queryDb_QA_All():
         updated_time = []
         status = []
         view_count = []
-
-
-   query = list(questionanswer.objects.all())
+ 
+   query = list(questionanswer.objects.all())  
 
    return query

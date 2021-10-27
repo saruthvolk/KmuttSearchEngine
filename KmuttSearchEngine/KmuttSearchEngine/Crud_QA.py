@@ -1,11 +1,11 @@
 import datetime
-from django.utils.timezone import now
 from django.shortcuts import render
 from django.http import HttpRequest
 from app.models import questionanswer
 from app.models import edit_questionanswer
 from app.forms import editform
 from django.db import models
+from KmuttSearchEngine.Query import queryDb_QA_All
 
 class Result:
   code = ''
@@ -47,6 +47,15 @@ def Add_QA(request):
 		Result.message == 'Error'
 		return Result
 
+def View_QA(reuqest,id):
+
+	query = queryDb_QA_All()
+
+	Result.query = query
+	Result.code = 300
+
+	return (Result)
+
 def Edit_QA(request,id):
 	temp = []
 
@@ -64,7 +73,6 @@ def Remove_QA(request,id):
 	
 	query = list(questionanswer.objects.all())
 
-	Result.code = 300
 	Result.query = query
 	Result.code = 300
 
