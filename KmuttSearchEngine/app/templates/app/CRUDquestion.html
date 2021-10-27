@@ -1,7 +1,19 @@
 {% extends "app/layout.html" %}
 
 {% block content %}
+<script src="https://cdn.tiny.cloud/1/lkp5p0w1fk12lr4trywat44qle2pxarpedhgjkdxxmsohyl2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
+<script>
+    tinymce.init({
+        selector: 'textarea#editor',
+        menubar: false
+    });
+
+    tinymce.init({
+        selector: 'textarea#editor1',
+        menubar: false
+    });
+</script>
 <head>
     <meta charset="utf-8" />
     <title> CRUD operations </title>
@@ -17,22 +29,22 @@
                 <td><input type="text" placeholder="enter question " name="question"/></td>
             </tr>
             <tr>
-                <td>answer</td>
-                <td>
-                    <span style="white-space: pre-line">
-                        <textarea rows = "5" cols = "60" name = "answer"></textarea>
-                    </span>
-                </td>
+                <td>Answer</td>
+                   <td colspan="10">
+                       <span style="white-space: pre-line">
+                            <textarea name = "answer" id="editor" ></textarea>
+                       </span>
+                   </td>
             </tr>
             <tr>
                 <td>question EN</td>
                 <td><input type="text" placeholder="enter questionEN " name="question_en"/></td>
             </tr>
             <tr>
-                <td>answer EN</td>
-                <td>
+                <td>Answer en</td>
+                <td colspan="6">
                     <span style="white-space: pre-line">
-                        <textarea rows = "5" cols = "60" name = "answer_en"></textarea>
+                        <textarea name = "answer_en" id="editor1" ></textarea>
                     </span>
                 </td>
             </tr>
