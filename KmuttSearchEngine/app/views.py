@@ -85,7 +85,8 @@ def upload_image(request):
         upload_time = timezone.now()
         path = os.path.join(
             settings.MEDIA_ROOT,
-            'tinymce',
+			'static',
+            'img',
             str(upload_time.year),
             str(upload_time.month),
             str(upload_time.day)
@@ -96,7 +97,7 @@ def upload_image(request):
 
         file_path = os.path.join(path, file_obj.name)
 
-        file_url = f'{settings.MEDIA_URL}tinymce/{upload_time.year}/{upload_time.month}/{upload_time.day}/{file_obj.name}'
+        file_url = f'/static/img/{upload_time.year}/{upload_time.month}/{upload_time.day}/{file_obj.name}'
 
         if os.path.exists(file_path):
             return JsonResponse({
