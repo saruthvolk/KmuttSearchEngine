@@ -24,10 +24,12 @@
                 <td><input type="text" name="question_en" value="{{questionanswer.question_en}}"/></td>
                 <td>answer EN</td>
                 <td><input type="text" name="answer_en" value="{{questionanswer.answer_en}}"/></td>
-                <td><a href="#">Delete</a></td>
+
+                <td><a href="{% url 'Crud_QA' operation='Remove' id=questionanswer.id %}">Delete</a></td>
             </tr>
             {% endfor %}
         </table>
+        <br/>
         <button type="submit" formaction="{% url 'Crud_QA' operation='Update' id='0' %}">Save</button>
     </form>
 </center>

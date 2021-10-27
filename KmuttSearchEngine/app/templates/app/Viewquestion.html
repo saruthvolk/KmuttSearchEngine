@@ -25,7 +25,8 @@
                 <td><input type="text" name="question_en" value="{{questionanswer.question_en}}"readonly/></td>
                 <td>answer EN</td>
                 <td><input type="text" name="answer_en" value="{{questionanswer.answer_en}}"readonly/></td>
-                <td><a href="#">Delete</a></td>
+
+                <td><a href="{% url 'Crud_QA' operation='Remove' id=questionanswer.id %}">Delete</a></td>
             </tr>           
             {% endfor %}
         </table>

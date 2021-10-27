@@ -62,7 +62,10 @@ def Remove_QA(request,id):
 	temp = questionanswer.objects.filter(id__in=id)
 	temp.delete()
 	
-	Result.query = temp
+	query = list(questionanswer.objects.all())
+
+	Result.code = 300
+	Result.query = query
 	Result.code = 300
 
 	return (Result)
