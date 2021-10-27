@@ -1,6 +1,14 @@
 {% extends "app/layout.html" %}
 
 {% block content %}
+<script src="https://cdn.tiny.cloud/1/lkp5p0w1fk12lr4trywat44qle2pxarpedhgjkdxxmsohyl2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+<script>
+    tinymce.init({
+        selector: 'textarea#editor',
+        menubar: false
+    });
+</script>
 
 <head>
     <meta charset="utf-8" />
@@ -22,7 +30,7 @@
                 <td>answer</td>
                 <td>
                     <span style="white-space: pre-line">
-                        <textarea rows = "5" cols = "60" name = "answer" >{{questionanswer.answer}}</textarea>
+                        <textarea rows = "5" cols = "60" name = "answer" id="editor" >{{questionanswer.answer}}</textarea>
                     </span>
                 </td>
                 <td>question EN</td>
@@ -34,7 +42,10 @@
                     </span>
                 </td>
                 <td><a href="{% url 'Crud_QA' operation='Remove' id=questionanswer.id %}">Delete</a></td>
-            </tr>           
+            </tr>   
+            <span style="white-space: pre-line">
+                <textarea rows = "5" cols = "60" name = "answer" id="editor" >{{questionanswer.answer}}</textarea>
+            </span>
             {% endfor %}
         </table>
         <br/>

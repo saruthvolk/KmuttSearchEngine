@@ -22,7 +22,9 @@
                 <td>answer</td>
                 <td>
                     <span style="white-space: pre-line">
-                        <textarea rows = "5" cols = "60" name = "answer" readonly>{{questionanswer.answer}}</textarea>
+                        {% autoescape off %}
+                        {{questionanswer.answer}}
+                        {% endautoescape %}
                     </span>
                 </td>
                 <td>question EN</td>
@@ -45,3 +47,4 @@
 </body>
 
 {% endblock %}        
+
