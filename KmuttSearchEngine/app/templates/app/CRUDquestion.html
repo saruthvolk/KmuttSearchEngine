@@ -1,39 +1,41 @@
-<!DOCTYPE html>
+{% extends "app/layout.html" %}
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+{% block content %}
+
 <head>
     <meta charset="utf-8" />
     <title> CRUD operations </title>
 </head>
 <body>
-    <center>
-      <h1>Insert form</h1>
-        <form method="POST">
-            {% csrf_token %}
+<center>
+    <h1>Insert form</h1>
+    <form method="POST">
+        {% csrf_token %}
         <table border="1">
             <tr>
-                    <td>question</td>
-                    <td><input type="text" placeholder="enter question " name="question"/></td>
+                <td>question</td>
+                <td><input type="text" placeholder="enter question " name="question"/></td>
             </tr>
             <tr>
-                    <td>answer</td>
-                    <td><input type="text" placeholder="enter answer " name="answer"/></td>
+                <td>answer</td>
+                <td><input type="text" placeholder="enter answer " name="answer"/></td>
             </tr>
             <tr>
-                    <td>question EN</td>
-                    <td><input type="text" placeholder="enter questionEN " name="question_en"/></td>
+                <td>question EN</td>
+                <td><input type="text" placeholder="enter questionEN " name="question_en"/></td>
             </tr>
             <tr>
-                    <td>answer EN</td>
-                    <td><input type="text" placeholder="enter answerEN " name="answer_en"/></td>
+                <td>answer EN</td>
+                <td><input type="text" placeholder="enter answerEN " name="answer_en"/></td>
             </tr>
             <tr>
-                    <td>department id</td>
-                    <td><input type="number" placeholder="enter department id " name="department_id"/></td>
+                <td>department id</td>
+                <td><input type="number" placeholder="enter department id " name="department_id"/></td>
             </tr>
         </table>
         <button type="submit" class="btn-primary"> Submit</button>
-        </form>
-    </center>
+    </form>
+</center>
 </body>
-</html>
+
+{% endblock %}    
