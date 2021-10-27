@@ -7,9 +7,11 @@ from django.urls import path
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, LogoutView
 from app import forms, views
-
+from django.conf.urls import include
 
 urlpatterns = [
+    path('tinymce/', include('tinymce.urls')),
+    path('upload_image/', views.upload_image),
     path('', views.home, name='home'),
     path('contact/', views.contact, name='contact'),
     path('search/', views.search, name='search'),
