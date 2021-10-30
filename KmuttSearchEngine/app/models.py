@@ -27,7 +27,7 @@ class questionanswer (models.Model):
 
     class Meta:
         db_table="questionanswer"
-        ordering = ('id',)
+#        ordering = ('id',)
 
 class edit_questionanswer (models.Model):
 
