@@ -1,5 +1,6 @@
 from pythainlp.word_vector import WordVector
 from pythainlp.tokenize import word_tokenize
+from django.utils.html import strip_tags
 from pythainlp.corpus import ttc
 from KmuttSearchEngine.Query import *
 from app.models import questionanswer
@@ -98,7 +99,7 @@ def augment(Input):
     aug = WordNetAug()
     final = []
 
-    Output = aug.augment(Input, postag = True, max_syn_sent = 10 , postag_corpus='lst20', tokenize = 'Default')
+    Output = aug.augment(Input, postag = True, max_syn_sent = 5 , postag_corpus='lst20', tokenize = 'Default')
     for x in range(len(Output)):
         temp = "".join(Output[x])
         final.append(temp)
