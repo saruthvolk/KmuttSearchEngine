@@ -51,7 +51,7 @@
 <center>
     <h1>Edit form</h1>
     {% for questionanswer in query %}
-    <form method="POST">
+    <form method="POST" class="was-validated">
         {% csrf_token %}
         <table class="table table-hover">
             <thead class="thead-dark">
@@ -64,25 +64,25 @@
             <td>Question</td>
 
             <td colspan="6">
-                <input type="text" class="form-control" name="question" value="{{questionanswer.question}}"/>
+                <input type="text"  class="form-control is-valid" name="question" value="{{questionanswer.question}}" required/>
             </td>
             <tr>
                 <td>Answer</td>
                 <td colspan="10">
                     <span style="white-space: pre-line">
-                        <textarea name = "answer" class="editor" id="editor{{question.id}}" >{{questionanswer.answer}}</textarea>
+                        <textarea name = "answer" class="editor" id="editor{{question.id}}" required>{{questionanswer.answer}}</textarea>
                     </span>
                 </td>
             </tr>
             <td >Question EN</td>
             <td colspan="2">
-                <input type="text" class="form-control" name="question_en" value="{{questionanswer.question_en}}"/>
+                <input type="text" class="form-control is-valid" name="question_en" value="{{questionanswer.question_en}}" required/>
             </td>
             <tr>
                 <td>Answer en</td>
                 <td colspan="6">
                     <span style="white-space: pre-line">
-                        <textarea name = "answer_en" class="editor_en" id="editor1{{question.id}}" >{{questionanswer.answer_en}}</textarea>
+                        <textarea name = "answer_en" class="editor_en" id="editor1{{question.id}}" required>{{questionanswer.answer_en}}</textarea>
                     </span>
                 </td>
             </tr>

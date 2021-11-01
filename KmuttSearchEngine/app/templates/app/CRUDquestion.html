@@ -21,6 +21,11 @@
             'alignright alignjustify | bullist numlist outdent indent | ' +
             'code image | ' +
             'removeformat',
+        setup: function (editor) {
+            editor.on('change', function () {
+                tinymce.triggerSave();
+        });
+    }
     });
 
     tinymce.init({
@@ -39,6 +44,11 @@
             'alignright alignjustify | bullist numlist outdent indent | ' +
             'code image | ' +
             'removeformat',
+            setup: function (editor) {
+                editor.on('change', function () {
+                    tinymce.triggerSave();
+        });
+    }
     });
 </script>
 <head>
@@ -49,12 +59,11 @@
 <br/>
 <h1>Insert form</h1>
 <div class="form-group">
-    <form method="POST">
+    <form method="POST" class="was-validated">
         {% csrf_token %}
 
         <label for="Question">Question</label>
-        <input type="text" placeholder="enter question " name="question" class="form-control"/>
-
+        <input type="text" placeholder="enter question " name="question" class="form-control is-valid" required/>
         <label for="Answer">Answer</label>
 
         <span style="white-space: pre-line">
@@ -62,7 +71,7 @@
         </span>
 
         <label for="Question">Question English</label>
-        <input type="text" placeholder="enter questionEN " name="question_en" class="form-control"/>
+        <input type="text" placeholder="enter questionEN " name="question_en" class="form-control is-valid" required/>
 
         <label for="Question">Answer English</label>
         <span style="white-space: pre-line">
