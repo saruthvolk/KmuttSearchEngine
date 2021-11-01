@@ -5,9 +5,11 @@
 
 <script>
     tinymce.init({
-        selector: 'textarea#editor',  // change this value according to your HTML
+        editor_selector : "editor",
+        mode: "textareas",// change this value according to your HTML
         images_upload_url: '/upload_image/', // Image upload address in Django route
         height: 500,
+        branding:false,
         menubar: false,
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
@@ -22,9 +24,11 @@
     });
 
     tinymce.init({
-        selector: 'textarea#editor1',  // change this value according to your HTML
+        editor_selector : "editor_en",
+        mode: "textareas",// change this value according to your HTML
         images_upload_url: '/upload_image/', // Image upload address in Django route
         height: 500,
+        branding:false,
         menubar: false,
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
@@ -46,51 +50,47 @@
 <body>
 <center>
     <h1>Edit form</h1>
+    {% for questionanswer in query %}
     <form method="POST">
         {% csrf_token %}
-        <table border="1">
-            {% for questionanswer in query %}
-            <tr>
-                <td colspan="2">
-                    <input type="checkbox" name="id_check" id="id_check" value="{{questionanswer.id}}"/>
-                    Quesion ID
-                    {{questionanswer.id}}
-                </td>
-                </tr>
-            <tr>
-                <td>Question</td>
+        <table class="table table-hover">
+            <thead class="thead-dark">
+            <th scope="col" colspan="6">
+                <input type="checkbox" name="id_check" id="id_check" value="{{questionanswer.id}}"/>
+                <label type="text" name="question"> Quesion ID </label>
+                <label type="text" name="question_id">{{questionanswer.id}} </label>
+            </th>
+            </thead>
+            <td>Question</td>
 
-                <td colspan="2">
-                    <input type="text" name="question" value="{{questionanswer.question}}"/>
+            <td colspan="6">
+                <input type="text" class="form-control" name="question" value="{{questionanswer.question}}"/>
+            </td>
+            <tr>
+                <td>Answer</td>
+                <td colspan="10">
+                    <span style="white-space: pre-line">
+                        <textarea name = "answer" class="editor" id="editor{{question.id}}" >{{questionanswer.answer}}</textarea>
+                    </span>
                 </td>
-                <tr>
-                    <td>Answer</td>
-                    <td colspan="10">
-                        <span style="white-space: pre-line">
-                            <textarea name = "answer" id="editor" >{{questionanswer.answer}}</textarea>
-                        </span>
-                    </td>
-                </tr>
-                <td >Question EN</td>
-                <td colspan="2">
-                    <input type="text" name="question_en" value="{{questionanswer.question_en}}"/>
-                </td>
-                <tr>
-                    <td>Answer en</td>
-                    <td colspan="6">
-                        <span style="white-space: pre-line">
-                            <textarea name = "answer_en" id="editor1" >{{questionanswer.answer_en}}</textarea>
-                        </span>
-                    </td>
-                </tr>
-                <td colspan="2">
-                    <a href="{% url 'Crud_QA' operation='Remove' id=questionanswer.id %}">Delete</a>
+            </tr>
+            <td >Question EN</td>
+            <td colspan="2">
+                <input type="text" class="form-control" name="question_en" value="{{questionanswer.question_en}}"/>
+            </td>
+            <tr>
+                <td>Answer en</td>
+                <td colspan="6">
+                    <span style="white-space: pre-line">
+                        <textarea name = "answer_en" class="editor_en" id="editor1{{question.id}}" >{{questionanswer.answer_en}}</textarea>
+                    </span>
                 </td>
             </tr>
             {% endfor %}
         </table>
+        <button type="submit" class="btn-primary" formaction="{% url 'Crud_QA' operation='Update' id='0' %}">Save</button>
+        <button type="submit" class="btn-primary" formaction="{% url 'Crud_QA' operation='Remove' id='0' %}">Delete</button>
         <br/>
-        <button type="submit" formaction="{% url 'Crud_QA' operation='Update' id='0' %}">Save</button>
     </form>
 </center>
 </body>

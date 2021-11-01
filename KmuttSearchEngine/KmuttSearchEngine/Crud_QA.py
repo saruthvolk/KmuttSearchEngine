@@ -16,7 +16,7 @@ def Add_QA(request):
 	assert isinstance(request, HttpRequest)
 	current_time = datetime.datetime.now().replace(microsecond=0)
 	if request.method == "POST" :
-		if  request.POST.get('question') and request.POST.get('answer') and request.POST.get('question_en') and request.POST.get('answer_en') and request.POST.get('department_id'):
+		if  (request.POST.get('question') and request.POST.get('answer')) or (request.POST.get('question_en') and request.POST.get('answer_en')) and request.POST.get('department_id'):
 			saverecord = questionanswer()
 			saverecord.question = request.POST.get('question')
 			saverecord.answer = request.POST.get('answer')

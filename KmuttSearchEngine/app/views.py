@@ -56,10 +56,10 @@ def search(request):
 	   pre_seach = search
 	   search = result.Correct
 	   check = 1
-	   return render(request,'app/search.html', {'Correct': result.Correct, 'Question': pre_seach, 'Result': result.res, 'Position': result.pos})
+	   return render(request,'app/search.html', {'Correct': result.Correct, 'Question': pre_seach, 'query': result.query, 'Percentage': result.percentage})
 	else:
 	   check = 0
-	   return render(request,'app/search.html', {'Result': result.res, 'Question': search, 'Answer':result.ans})
+	   return render(request,'app/search.html', {'query': result.query, 'Question': search, 'Answer':result.ans, 'Percentage': result.percentage})
 
 def about(request):
 	"""Renders the about page."""

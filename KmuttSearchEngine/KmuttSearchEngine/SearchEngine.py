@@ -1,6 +1,10 @@
 from pythainlp.word_vector import WordVector
 from pythainlp.tokenize import word_tokenize
+from django.utils.html import strip_tags
 from pythainlp.corpus import ttc
+from KmuttSearchEngine.Query import *
+from app.models import questionanswer
+from django.db import models
 from pythainlp.spell import NorvigSpellChecker
 from pythainlp.augment import *
 import numpy as np
@@ -12,8 +16,8 @@ from scipy import spatial
 class return_Result:
   Retry = 0
   Correct = None
-  pos = ''
-  res = ''
+  query = ''
+  percentage = ''
   ans = ''
 
 
@@ -21,8 +25,10 @@ def searchengine (search, query):
 
     Query=[]
     Position = []
+    Answer = []
     location=[]
-    Result = []
+    percentage = []
+    temp1=[]
     retry = 0
     aug = WordNetAug()
 
@@ -37,22 +43,27 @@ def searchengine (search, query):
     print ("\nQuestion: "+ search+ "\n")
     print ("Result:")
     for j in range(len(location)):
-        position = location[j]
-        temp = (str(j+1)+".) "+ Query[position] + ' [ '+ str("{:.2f}".format(pos[j]*100))+ '% ]'+'// '+'Ans:'+ query.answer[position])
-        Result.append(temp)
-        Position.append(position)
+        temp = int(location[j])
+        Position.append(temp+1)
+        temp2 = str("{:.2f}".format(pos[j]*100))
+        percentage.append(temp2)
+
+    temp1 = questionanswer.objects.filter(id__in=Position)
+
+    temp1 = dict([(obj.id, obj) for obj in temp1])
+    sorted_temp1 = [temp1[id] for id in Position]
+
+    return_Result.query =  sorted_temp1
 
     if search != correct:
-      return_Result.res = Result
-      return_Result.pos = Position
+      return_Result.percentage = percentage
       return_Result.Correct = correct
       return (return_Result)
                
     else:
+      return_Result.percentage = percentage
       retry = 0
       return_Result.Correct = None
-      return_Result.pos = Position
-      return_Result.res = Result
       return_Result.Retry = 0
       return(return_Result)
 
@@ -88,7 +99,7 @@ def augment(Input):
     aug = WordNetAug()
     final = []
 
-    Output = aug.augment(Input, postag = True, max_syn_sent = 10 , postag_corpus='lst20', tokenize = 'Default')
+    Output = aug.augment(Input, postag = True, max_syn_sent = 5 , postag_corpus='lst20', tokenize = 'Default')
     for x in range(len(Output)):
         temp = "".join(Output[x])
         final.append(temp)
