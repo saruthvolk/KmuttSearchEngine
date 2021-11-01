@@ -54,12 +54,13 @@
         setup: function (editor) {
             editor.on('change', function () {
                 tinymce.triggerSave();
-                chkSubmit();
+                chkSubmit1();
             });
         }
     });
 
     $(document).on('click', '#submit', chkSubmit);
+    $(document).on('click', '#submit', chkSubmit1);
 	
     function chkSubmit() {
 
@@ -78,6 +79,28 @@
             //alert(textmsg);
             $('.error').hide();
             $('.error').html('');
+					
+        }
+		
+    }
+
+    function chkSubmit1() {
+
+        var msg = $('.tinymce1').val();
+			
+        var textmsg = $.trim($(msg).text());
+			
+        if (textmsg == '') {
+					
+            //alert('nogo');
+            $('.error1').show();
+            $('.error1').html('This is a required field. this cannot be empty');
+            return false;
+        }
+        else{
+            //alert(textmsg);
+            $('.error1').hide();
+            $('.error1').html('');
 					
         }
 		
@@ -108,8 +131,8 @@
 
         <label for="Question">Answer English</label>
         <span style="white-space: pre-line">
-            <textarea name = "answer_en" id="editor1" class="tinymce"></textarea>
-            <span class="error" style="color: #a80000;font-weight: bold;"></span>
+            <textarea name = "answer_en" id="editor1" class="tinymce1"></textarea>
+            <span class="error1" style="color: #a80000;font-weight: bold;"></span>
         </span>
 
         <label for="Question">Department ID</label>
