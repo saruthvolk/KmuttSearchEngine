@@ -16,6 +16,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 
 def home(request):
@@ -153,7 +154,8 @@ def Crud_QA (request, operation,id):
 		if result.code == 200:
 			return render(request,'app/index.html')
 		else:
-			return render(request, 'app/Editquestion.html', {'query': result.query})
+			json_id = json.dumps(id)
+			return render(request, 'app/Editquestion.html', {'query': result.query, 'id_list': json_id })
 
 	elif operation == "Update":
 
