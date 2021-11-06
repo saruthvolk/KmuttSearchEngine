@@ -7,6 +7,7 @@ from app.models import questionanswer
 from django.db import models
 from pythainlp.spell import NorvigSpellChecker
 from pythainlp.augment import *
+from pythainlp.augment.word2vec import Thai2fitAug
 import numpy as np
 import oskut
 import re
@@ -16,6 +17,7 @@ from scipy import spatial
 class return_Result:
   Retry = 0
   Correct = None
+  code = ''
   query = ''
   percentage = ''
   ans = ''
@@ -38,13 +40,14 @@ def searchengine (search, query):
     augments = augment(search)
     answer = word2vector (Query,augments)
 
+
     pos = sorted(answer,reverse = True)
     location = np.argsort(answer)[::-1]
     print ("\nQuestion: "+ search+ "\n")
-    print ("Result:")
+
     for j in range(len(location)):
         temp = int(location[j])
-        Position.append(temp+1)
+        Position.append(temp+1) 
         temp2 = str("{:.2f}".format(pos[j]*100))
         percentage.append(temp2)
 
@@ -111,6 +114,10 @@ def word2vector(Query,final):
 
     wv = WordVector()
     answer = []
+    value = 0
+    test1 = 0
+    temp = 0
+    avg = 0
 
     for x in range(len(Query)):
         test1 = wv.sentence_vectorizer(Query[x], use_mean=False)
@@ -130,20 +137,25 @@ def word2vector(Query,final):
 
 def train_dictionary(Query):
 
+   aug = WordNetAug()
+
+   augmented = []
+   train = []
+
    for x in range(len(Query)):  
-       Question = re.sub('[!#$()“”]','', Query[x])
-       print(Question)
-       Output = aug.augment(Question, postag = False, max_syn_sent = 5 , postag_corpus='lst20')
-       for x in range(len(Output)):
-           temp = "".join(Output[x])
-           augmented.append(temp)
-       print(augmented)
+       Question = re.sub('[a-zA-Z!#$()“”?/\0-9!@#$%^&*<>:;=]','',Query[x])
+       augmented.append(Question)
 
    oskut.load_model(engine='scads')
    for x in augmented:
         token = oskut.OSKut(x)
         for x in token:
             train.append(x)
+            temp = aug.find_synonyms(x)
+            for x in temp:
+                train.append(x)
+                print(train)
+
    train = list(dict.fromkeys(train))
    print (train)
    check_train = 1
@@ -151,4 +163,7 @@ def train_dictionary(Query):
    with open('train.txt', 'w' , encoding="utf-8") as f:
         for item in train:
             f.write(item+"\n")
-    
+
+   return_Result.code = 300
+
+   return (return_Result)

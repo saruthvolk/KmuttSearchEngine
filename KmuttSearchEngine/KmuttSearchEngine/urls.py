@@ -13,6 +13,7 @@ urlpatterns = [
     path('tinymce/', include('tinymce.urls')),
     path('upload_image/', views.upload_image),
     path('', views.home, name='home'),
+    path('train_dict/', views.train_dict, name='train_dict'),
     path('contact/', views.contact, name='contact'),
     path('search/', views.search, name='search'),
     path('Crud_QA/<operation>/<id>', views.Crud_QA, name='Crud_QA'),

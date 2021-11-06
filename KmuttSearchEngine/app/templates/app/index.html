@@ -14,14 +14,15 @@
         <option value="{% url 'Crud_QA' operation='Add' id='0' %}" href="{% url 'Crud_QA' operation='Add' id='0' %}">Add</option>
         <option value="{% url 'Crud_QA' operation='View' id='0' %}" href="{% url 'Crud_QA' operation='View' id='0' %}">View</option>
     </select>
+    <button type="submit" class="btn-primary" style="margin-left:2.5em" formaction="{% url 'train_dict' %}"> Train Dict</button>
 </div>
 <div class="jumbotron">
     <h1>Search</h1>
     <p class="lead">Type anything to search</p>
     <form action="{% url 'search' %}" class="form-inline" method="POST">
         {% csrf_token %}
-        <input name="search" type="" class="form-control" id="" placeholder="type for search">
-        <button type="submit" class="btn-primary"> Search</button>
+        <input name="search" type="" class="form-control col-lg-offset-3 col-lg-6" id="" placeholder="type for search">
+        <button type="submit" class="btn-primary" style="margin-left:1.0em"> Search</button>
     </form>
 </div>
 <p>

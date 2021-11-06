@@ -5,24 +5,36 @@ from app.models import questionanswer
 from django.http import HttpRequest
 
 
+class questionanswerDto:
 
+     question = []
+     answer = []
+     question_en = []
+     answer_en =[]
+     created_time = []
+     created_date =[]
+     user_id = []
+     updated_date = []
+     updated_time = []
+     status = []
+     view_count = []
+     def reset():
+         questionanswerDto.question = []
+         questionanswerDto.questionanswer = []
+         questionanswerDto.question_en = []
+         questionanswerDto.answer_en =[]
+         questionanswerDto.created_time = []
+         questionanswerDto.created_date =[]
+         questionanswerDto.user_id = []
+         questionanswerDto.updated_date = []
+         questionanswerDto.updated_time = []
+         questionanswerDto.status = []
+         questionanswerDto.view_count = []
 
 def queryDb_QA():
-   
-   class questionanswerDto:
-        question = []
-        answer = []
-        question_en = []
-        answer_en =[]
-        created_time = []
-        created_date =[]
-        user_id = []
-        updated_date = []
-        updated_time = []
-        status = []
-        view_count = []
 
-
+   questionanswerDto.reset()
+   print (len(questionanswerDto.question))
    query = list(questionanswer.objects.all())
 
    for result in query:
@@ -37,7 +49,6 @@ def queryDb_QA():
         (questionanswerDto.updated_time).append(result.updated_time)
         (questionanswerDto.status).append(result.status)
         (questionanswerDto.view_count).append(result.view_count)
-
 
    return questionanswerDto
 

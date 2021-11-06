@@ -7,10 +7,12 @@ from datetime import time
 from django.shortcuts import render
 from django.http import HttpRequest
 from KmuttSearchEngine.SearchEngine import searchengine
+from KmuttSearchEngine.SearchEngine import train_dictionary
 from KmuttSearchEngine.Crud_QA import *
 from KmuttSearchEngine.Query import *
 from app.models import questionanswer
 from KmuttSearchEngine.SearchEngine import return_Result
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from django.conf import settings
 from django.http import JsonResponse
@@ -18,6 +20,13 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 import json
 
+class Searh_reuslt:
+  Retry = 0
+  Correct = None
+  code = ''
+  query = ''
+  percentage = ''
+  ans = ''
 
 def home(request):
 	"""Renders the home page."""
@@ -44,23 +53,50 @@ def contact(request):
 		}
 	)
 
+def train_dict(request):
+
+	assert isinstance(request, HttpRequest)
+	query = queryDb_QA()
+	for answer in query.answer:
+		(query.question).append(answer)
+
+	result = train_dictionary(query.question)
+	
+	if result.code == 200:
+		return render(request,'app/index.html')
+	else:
+		message = 'Done'
+		return render(request,'app/index.html', {'message':'Done'})
+
 def search(request):
 	"""Renders the contact page."""
 	assert isinstance(request, HttpRequest)
 	table = "questionanswer"
-	query = queryDb_QA()
-
 	search = request.POST.get('search')
-	result = searchengine(search, query)
 
-	if result.Correct is not None:
-	   pre_seach = search
-	   search = result.Correct
+	page = request.GET.get('page', 1)
+
+	if page == 1:
+		query = queryDb_QA()
+		result = searchengine(search, query)
+		Searh_reuslt.query = result.query
+		Searh_reuslt.Correct = result.Correct
+		
+	paginator = Paginator(Searh_reuslt.query, 10)
+	try:
+		query1 = paginator.page(page)
+	except PageNotAnInteger:
+		query1 = paginator.page(1)
+	except EmptyPage:
+		query1 = paginator.page(paginator.num_pages)
+
+	pre_search = search
+	if Searh_reuslt.Correct is not None:
 	   check = 1
-	   return render(request,'app/search.html', {'Correct': result.Correct, 'Question': pre_seach, 'query': result.query, 'Percentage': result.percentage})
+	   return render(request,'app/search.html', {'Correct': Searh_reuslt.Correct, 'Question': pre_search, 'query': query1, 'Percentage': Searh_reuslt.percentage})
 	else:
 	   check = 0
-	   return render(request,'app/search.html', {'query': result.query, 'Question': search, 'Answer':result.ans, 'Percentage': result.percentage})
+	   return render(request,'app/search.html', {'Question': pre_search, 'query': query1, 'Question': search, 'Percentage': Searh_reuslt.percentage})
 
 def about(request):
 	"""Renders the about page."""
