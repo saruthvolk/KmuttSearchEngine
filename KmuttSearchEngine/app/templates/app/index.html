@@ -3,8 +3,44 @@
 {% block content %}
 {% load static %}
 <script>
-    onChange = "window.location.href=this.value"
+    onChange = "window.location.href=this.value";
 </script>
+
+<style>
+
+    #search {
+        text-align: center; 
+
+        margin-left: -40%;
+        margin-right: -40%;
+        Height: 500px;
+        color: aliceblue;
+        background-color: #f37a3b;
+        background-position: 0px -410px; 
+        background-image: url("{% static 'img/bg.png' %}")
+    }
+
+    #search-input {
+        margin-left: auto;
+    }
+    #search-button {
+        margin-right: auto;
+        background-color: #e87639;
+        border-color: #e87639;
+    }
+
+</style>
+<div class="jumbotron" id="search">
+    <h1 style="margin-top: 140px;">How can we help you ?</h1>
+    <p class="lead">Type the question you want to ask </p>
+    <form action="{% url 'search' %}" class="form-inline" method="POST">
+        {% csrf_token %}
+        <input name="search" id="search-input" tpye="search" class="form-control col-lg-offset-3 col-lg-6" placeholder="Search here.....">
+        <button id="search-button" type="submit" class="btn btn-primary">
+            <i class="fas fa-search" ></i>
+        </button>
+    </form>
+</div>
 
 <div class="jumbotron">
     <h1>Admin</h1>
@@ -14,47 +50,31 @@
         <option value="{% url 'Crud_QA' operation='Add' id='0' %}" href="{% url 'Crud_QA' operation='Add' id='0' %}">Add</option>
         <option value="{% url 'Crud_QA' operation='View' id='0' %}" href="{% url 'Crud_QA' operation='View' id='0' %}">View</option>
     </select>
-    <button type="submit" class="btn-primary" style="margin-left:2.5em" formaction="{% url 'train_dict' %}"> Train Dict</button>
+    <button type="submit" class="btn-primary" style="margin-left: 2.5em;" formaction="{% url 'train_dict' %}"> Train Dict</button>
 </div>
-<div class="jumbotron">
-    <h1>Search</h1>
-    <p class="lead">Type anything to search</p>
-    <form action="{% url 'search' %}" class="form-inline" method="POST">
-        {% csrf_token %}
-        <input name="search" type="" class="form-control col-lg-offset-3 col-lg-6" id="" placeholder="type for search">
-        <button type="submit" class="btn-primary" style="margin-left:1.0em"> Search</button>
-    </form>
-</div>
-<p>
-    <a href="https://www.djangoproject.com/" class="btn btn-primary btn-large">Learn more &raquo;</a>
-</p>
+<p></p>
+
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            Django gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p>
-            <a class="btn btn-default" href="https://djangobook.com/django-tutorials/">Learn more &raquo;</a>
-        </p>
+    <div class="col-md-6">
+            <h3>Most Asked Question</h3>
+            <p>
+                Django gives you a powerful, patterns-based way to build dynamic websites that
+                enables a clean separation of concerns and gives you full control over markup
+                for enjoyable, agile development.
+            </p>
+            <p>
+                <a class="btn btn-default" href="https://djangobook.com/django-tutorials/">Learn more &raquo;</a>
+            </p>
+        </div>
+
+        <div class="col-md-6">
+            <h3>Recent Updated</h3>
+            <p>The Python Package Index is a repository of software for the Python programming language.</p>
+            <p>
+                <a class="btn btn-default" href="https://pypi.org/">Learn more &raquo;</a>
+            </p>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>The Python Package Index is a repository of software for the Python programming language.</p>
-        <p>
-            <a class="btn btn-default" href="https://pypi.org/">Learn more &raquo;</a>
-        </p>
-    </div>
-    <div class="col-md-4">
-        <h2>Microsoft Azure</h2>
-        <p>You can easily publish to Microsoft Azure using Visual Studio. Find out how you can host your application using a free trial today.</p>
-        <p>
-            <a class="btn btn-default" href="http://azure.microsoft.com">Learn more &raquo;</a>
-        </p>
-    </div>
-</div>
 
 {% endblock %}

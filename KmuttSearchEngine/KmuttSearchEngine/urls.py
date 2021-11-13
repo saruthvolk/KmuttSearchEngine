@@ -22,7 +22,7 @@ urlpatterns = [
          LoginView.as_view
          (
              template_name='app/login.html',
-             authentication_form=forms.BootstrapAuthenticationForm,
+             #authentication_form=forms.BootstrapAuthenticationForm,
              extra_context=
              {
                  'title': 'Log in',

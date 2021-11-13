@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     # Add your apps here to enable them
     'django.contrib.admin',
     'tinymce',
+    'fontawesomefree',
     "filebrowser",
     'django.contrib.auth',
     'django.contrib.contenttypes',

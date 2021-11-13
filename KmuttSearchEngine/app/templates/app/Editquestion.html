@@ -89,11 +89,12 @@
     <title> CRUD operations </title>
 </head>
 <body>
+<br/><br/><br/>
 <center>
     <h1>Edit form</h1>
 
     {% for questionanswer in query %}
-    <div class ="id" id="{{id_list}}"></div>
+    <div class="id" id="{{id_list}}"></div>
     <form method="POST" class="was-validated">
         {% csrf_token %}
         <table class="table table-hover">
@@ -112,7 +113,7 @@
             <tr>
                 <td>Answer</td>
                 <td colspan="10">
-                    <span style="white-space: pre-line" >
+                    <span style="white-space: pre-line">
                         <textarea name = "answer" class="editor" id="editor{{questionanswer.id}}" required>{{questionanswer.answer}}</textarea>
                     </span>
                 </td>

@@ -7,11 +7,12 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
     <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
+    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">KMUTT-Knowledgebase</a>
+<nav class="navbar navbar-expand-lg navbar fixed-top navbar-dark bg-dark" style="background-color: #f76d00">
+    <a class="navbar-brand" href="{% url 'home' %}" style="font-weight: bold;">KMUTT-Knowledgebase</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -39,9 +40,12 @@
                 </div>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <form action="{% url 'search' %}" class="form-inline" method="POST">
+            {% csrf_token %}
+            <input name="search" id="search-input" tpye = "search" class="form-control mr-sm-2" placeholder="Search">
+            <button id="search-button" type="button" class="btn btn-primary">
+                <i class="fas fa-search"></i>
+            </button>
         </form>
     </div>
 </nav>

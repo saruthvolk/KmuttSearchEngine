@@ -20,12 +20,13 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 import json
 
-class Searh_reuslt:
+class Search_result:
   Retry = 0
   Correct = None
   code = ''
   query = ''
   percentage = ''
+  search = ''
   ans = ''
 
 def home(request):
@@ -79,24 +80,33 @@ def search(request):
 	if page == 1:
 		query = queryDb_QA()
 		result = searchengine(search, query)
-		Searh_reuslt.query = result.query
-		Searh_reuslt.Correct = result.Correct
+		Search_result.search = search
+		Search_result.query = result.query
+		Search_result.Correct = result.Correct
+		Search_result.percentage=result.percentage
 		
-	paginator = Paginator(Searh_reuslt.query, 10)
+	paginator = Paginator(Search_result.query, 10)
+
 	try:
 		query1 = paginator.page(page)
+
 	except PageNotAnInteger:
 		query1 = paginator.page(1)
+
 	except EmptyPage:
 		query1 = paginator.page(paginator.num_pages)
+	
+	if search:
+		pre_search = search
+	else:
+		pre_search = Search_result.search
 
-	pre_search = search
-	if Searh_reuslt.Correct is not None:
+	if Search_result.Correct is not None:
 	   check = 1
-	   return render(request,'app/search.html', {'Correct': Searh_reuslt.Correct, 'Question': pre_search, 'query': query1, 'Percentage': Searh_reuslt.percentage})
+	   return render(request,'app/search.html', {'Correct': Search_result.Correct, 'Question': pre_search, 'query': query1, 'Percentage': Search_result.percentage})
 	else:
 	   check = 0
-	   return render(request,'app/search.html', {'Question': pre_search, 'query': query1, 'Question': search, 'Percentage': Searh_reuslt.percentage})
+	   return render(request,'app/search.html', {'Question': pre_search, 'query': query1, 'Question': pre_search, 'Percentage': Search_result.percentage})
 
 def about(request):
 	"""Renders the about page."""
@@ -113,44 +123,44 @@ def about(request):
 
 @csrf_exempt
 def upload_image(request):
-    if request.method == "POST":
-        file_obj = request.FILES['file']
-        file_name_suffix = file_obj.name.split(".")[-1]
-        if file_name_suffix not in ["jpg", "png", "gif", "jpeg", ]:
-            return JsonResponse({"message": "Wrong file format"})
+	if request.method == "POST":
+		file_obj = request.FILES['file']
+		file_name_suffix = file_obj.name.split(".")[-1]
+		if file_name_suffix not in ["jpg", "png", "gif", "jpeg", ]:
+			return JsonResponse({"message": "Wrong file format"})
 
-        upload_time = timezone.now()
-        path = os.path.join(
-            settings.MEDIA_ROOT,
+		upload_time = timezone.now()
+		path = os.path.join(
+			settings.MEDIA_ROOT,
 			'static',
-            'img',
-            str(upload_time.year),
-            str(upload_time.month),
-            str(upload_time.day)
-        )
-        # If there is no such path, create
-        if not os.path.exists(path):
-            os.makedirs(path)
+			'img',
+			str(upload_time.year),
+			str(upload_time.month),
+			str(upload_time.day)
+		)
+		# If there is no such path, create
+		if not os.path.exists(path):
+			os.makedirs(path)
 
-        file_path = os.path.join(path, file_obj.name)
+		file_path = os.path.join(path, file_obj.name)
 
-        file_url = f'/static/img/{upload_time.year}/{upload_time.month}/{upload_time.day}/{file_obj.name}'
+		file_url = f'/static/img/{upload_time.year}/{upload_time.month}/{upload_time.day}/{file_obj.name}'
 
-        if os.path.exists(file_path):
-            return JsonResponse({
-                "message": "file already exist",
-                'location': file_url
-            })
+		if os.path.exists(file_path):
+			return JsonResponse({
+				"message": "file already exist",
+				'location': file_url
+			})
 
-        with open(file_path, 'wb+') as f:
-            for chunk in file_obj.chunks():
-                f.write(chunk)
+		with open(file_path, 'wb+') as f:
+			for chunk in file_obj.chunks():
+				f.write(chunk)
 
-        return JsonResponse({
-            'message': 'Image uploaded successfully',
-            'location': file_url
-        })
-    return JsonResponse({'detail': "Wrong request"})
+		return JsonResponse({
+			'message': 'Image uploaded successfully',
+			'location': file_url
+		})
+	return JsonResponse({'detail': "Wrong request"})
 
 def Crud_QA (request, operation,id):
 
