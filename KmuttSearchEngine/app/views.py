@@ -32,11 +32,18 @@ class Search_result:
 def home(request):
 	"""Renders the home page."""
 	assert isinstance(request, HttpRequest)
+
+	query = queryDb_QA()
+	question = query.question;
+
+	json_question = json.dumps(question)
+
 	return render(
 		request,
 		'app/index.html',
 		{
 			'title':'Home Page',
+			'question':json_question,
 			#'year':datetime.now().year,#
 		}
 	)

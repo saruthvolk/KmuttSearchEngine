@@ -6,9 +6,9 @@
     <title>{{ title }} - My Django Application</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/scripts/jquery-ui.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
     <script src="{% static 'app/scripts/jquery-3.6.0.min.js' %}"></script>
     <script src="{% static 'app/scripts/jquery-ui.min.js' %}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
     <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
 </head>
 
@@ -61,10 +61,10 @@
         </footer>
     </div>
 
-    <script src="{% static 'app/scripts/jquery-1.10.2.js' %}"></script>
-    <script src="{% static 'app/scripts/bootstrap.js' %}"></script>
-    <script src="{% static 'app/scripts/respond.js' %}"></script>
-{% block scripts %}{% endblock %}
+{% block scripts %}
+<script src="{% static 'app/scripts/bootstrap.js' %}"></script>
+<script src="{% static 'app/scripts/respond.js' %}"></script>
+{% endblock %}
 
 </body>
 </html>

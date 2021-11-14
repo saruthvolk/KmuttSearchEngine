@@ -34,6 +34,8 @@ def searchengine (search, query):
     retry = 0
     aug = WordNetAug()
 
+    print(search);
+
     Query = query.question
     dictionary = getDictionary()
     correct = spellCheck(search, dictionary)
@@ -102,7 +104,7 @@ def augment(Input):
     aug = WordNetAug()
     final = []
 
-    Output = aug.augment(Input, postag = True, max_syn_sent = 5 , postag_corpus='lst20', tokenize = 'Default')
+    Output = aug.augment(Input, postag = True, max_syn_sent = 3 , postag_corpus='lst20', tokenize = 'Default')
     for x in range(len(Output)):
         temp = "".join(Output[x])
         final.append(temp)
