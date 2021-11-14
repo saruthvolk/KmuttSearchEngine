@@ -2,18 +2,32 @@
 
 {% block content %}
 {% load static %}
+
 <script>
+
+    $(document).ready(function() {
+        var availableTags = [
+            "ActionScript", "AppleScript", "Asp", "BASIC", "C", "C++",
+            "Clojure", "COBOL", "ColdFusion", "Erlang", "Fortran",
+            "Groovy", "Haskell", "Java", "JavaScript", "Lisp", "Perl",
+            "PHP", "Python", "Ruby", "Scala", "Scheme"
+        ];
+        $("#search-input").autocomplete({
+            source: availableTags
+        });
+    });
+
     onChange = "window.location.href=this.value";
+
 </script>
 
 <style>
 
     #search {
         text-align: center; 
-
         margin-left: -40%;
         margin-right: -40%;
-        Height: 500px;
+        Height: 600px;
         color: aliceblue;
         background-color: #f37a3b;
         background-position: 0px -410px; 
@@ -29,21 +43,87 @@
         border-color: #e87639;
     }
 
+    #Viewquestion {
+        background-color: #f7f7f9;
+        border: 1px solid #eceeef;
+        border-radius: 6px;
+        margin-top: -150px;
+        margin-left: -40px;
+        text-align: center; 
+        border-radius: 20px;
+        transition: border-color 0.3s;
+    }
+
+    #FAQs {
+        background-color: #f7f7f9;
+        border: 1px solid #eceeef;
+        border-radius: 6px;
+        margin-top: -150px;
+        margin-left: 30px;
+        text-align: center; 
+        border-radius: 20px;
+        transition: border-color 0.3s;
+    }
+
+    #recent_update {
+        background-color: #f7f7f9;
+        border: 1px solid #eceeef;
+        border-radius: 6px;
+        margin-top: -150px;
+        margin-left: 30px;
+        margin-right: -40px;
+        text-align: center; 
+        border-radius: 20px;
+        transition: border-color 0.3s;
+    }
+
+
 </style>
+
 <div class="jumbotron" id="search">
     <h1 style="margin-top: 140px;">How can we help you ?</h1>
     <p class="lead">Type the question you want to ask </p>
+
     <form action="{% url 'search' %}" class="form-inline" method="POST">
         {% csrf_token %}
-        <input name="search" id="search-input" tpye="search" class="form-control col-lg-offset-3 col-lg-6" placeholder="Search here.....">
+        <input name="search-input" id="search-input" tpye="text" class="form-control" placeholder="Search here.....">
         <button id="search-button" type="submit" class="btn btn-primary">
             <i class="fas fa-search" ></i>
         </button>
     </form>
 </div>
+<p></p>
 
+<div class="row">
+    <div class="col-sm-4" id="Viewquestion" href="#">
+        <h4 style="margin-top: 30px">View Questions</h4>
+        <br/>
+        <i class="far fa-question-circle fa-3x" style="margin-bottom:30px"></i>
+        <p style="width: 300px; margin-left: auto; margin-right: auto">View all question in our knowledge base. </p>
+        <br/>
+    </div>
+
+    <div class="col-sm-4" id="FAQs" href="#">
+        <h4 style="margin-top: 30px">FAQs</h4>
+        <br/>
+        <i class="far fa-comments fa-3x" style="margin-bottom:30px"></i>
+        <p style="width: 300px; margin-left: auto; margin-right: auto">Check for the latest update of the question in our knowledge base. </p>
+        <br/>
+    </div>
+    
+    <div class="col-sm-4" id="recent_update" href="#">
+        <h4 style="margin-top: 30px">Recent Updated</h4>
+        <br/>
+        <i class="fas fa-edit fa-3x" style="margin-bottom:30px"></i>
+        <p style="width: 300px; margin-left: auto; margin-right: auto">Check for the latest update of the question in our knowledge base. </p>
+        <br/>
+    </div>
+
+</div>
+<br/><br/><br/>
 <div class="jumbotron">
-    <h1>Admin</h1>
+    <h1>Admin panel</h1>
+    <br/>
     <label for="operation">Choose operation:</label>
     <select name="operation" id="operation" onchange="location = this.value;">
         <option value="">Choose option</option>
@@ -52,29 +132,5 @@
     </select>
     <button type="submit" class="btn-primary" style="margin-left: 2.5em;" formaction="{% url 'train_dict' %}"> Train Dict</button>
 </div>
-<p></p>
-
-
-<div class="row">
-    <div class="col-md-6">
-            <h3>Most Asked Question</h3>
-            <p>
-                Django gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p>
-                <a class="btn btn-default" href="https://djangobook.com/django-tutorials/">Learn more &raquo;</a>
-            </p>
-        </div>
-
-        <div class="col-md-6">
-            <h3>Recent Updated</h3>
-            <p>The Python Package Index is a repository of software for the Python programming language.</p>
-            <p>
-                <a class="btn btn-default" href="https://pypi.org/">Learn more &raquo;</a>
-            </p>
-        </div>
-    </div>
 
 {% endblock %}
