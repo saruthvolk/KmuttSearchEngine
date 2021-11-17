@@ -42,17 +42,19 @@ def searchengine (search, query):
     augments = augment(search)
     answer = word2vector (Query,augments)
 
-
     pos = sorted(answer,reverse = True)
-    location = np.argsort(answer)[::-1]
-    print ("\nQuestion: "+ search+ "\n")
+    pos = list(filter(lambda a: a != 0.0, pos))
 
-    for j in range(len(location)):
+    location = np.argsort(answer)[::-1]
+
+
+    for j in range(len(pos)):
         temp = int(location[j])
         Position.append(temp+1) 
         temp2 = str("{:.2f}".format(pos[j]*100))
         percentage.append(temp2)
-
+ 
+    
     temp1 = questionanswer.objects.filter(id__in=Position)
 
     temp1 = dict([(obj.id, obj) for obj in temp1])
@@ -127,14 +129,16 @@ def word2vector(Query,final):
         for i in range(len(final)):
             test2 = wv.sentence_vectorizer(final[i], use_mean=False)
             temp = 1 - spatial.distance.cosine(test2,test1)
-            value += temp
+            if temp < 0.55:
+                break;
+            else:
+                value += temp
         if (value == len(final)):
             value = 0
         avg = value/len(final)
         answer.append(avg)
 
     return answer
-
 
 
 def train_dictionary(Query):
@@ -150,16 +154,18 @@ def train_dictionary(Query):
 
    oskut.load_model(engine='scads')
    for x in augmented:
-        token = oskut.OSKut(x)
-        for x in token:
-            train.append(x)
-            temp = aug.find_synonyms(x)
-            for x in temp:
+
+        if x is '':
+             x = 'Null';
+        else:
+            token = oskut.OSKut(x)
+            for x in token:
                 train.append(x)
-                print(train)
+                temp = aug.find_synonyms(x)
+                for x in temp:
+                  train.append(x)
 
    train = list(dict.fromkeys(train))
-   print (train)
    check_train = 1
 
    with open('train.txt', 'w' , encoding="utf-8") as f:

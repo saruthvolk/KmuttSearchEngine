@@ -1,0 +1,41 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<style>
+    #question {
+        margin-top: 8vw;
+        margin-bottom: 5vw;
+    }
+    #update {
+        float: right;
+        position: relative;
+        margin-top: -3%;
+    }
+    
+    #answer {
+        background: #f2f2f3;
+    }
+
+    #request {
+        background: #f37a3b;
+        border-color: #f37a3b;
+    }
+
+
+</style>
+
+
+<h3 id="question"><b>{{query.question}}</b></h3>
+
+<p id="update">Last update: {{ query.updated_date }}</p>
+
+<div class="jumbotron" id="answer">
+    <span id="answer">
+        {% autoescape off %}
+        {{query.answer}}
+        {% endautoescape %}
+    </span>
+</div>
+<button class="btn btn-info" id="request">Request for changes</button>
+
+{% endblock %}

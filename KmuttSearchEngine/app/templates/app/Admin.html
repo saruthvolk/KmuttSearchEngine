@@ -1,0 +1,20 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<h3>{{ message }}</h3>
+
+<br/><br/>
+<div class="jumbotron">
+    <h1>Admin panel</h1>
+    <br/>
+    <label for="operation">Choose operation:</label>
+    <select name="operation" id="operation" onchange="location = this.value;">
+        <option value="">Choose option</option>
+        <option value="{% url 'Crud_QA' operation='Add' id='0' %}" href="{% url 'Crud_QA' operation='Add' id='0' %}">Add</option>
+        <option value="{% url 'Crud_QA' operation='View' id='0' %}" href="{% url 'Crud_QA' operation='View' id='0' %}">View</option>
+    </select>
+    <button type="submit" class="btn-primary" style="margin-left: 2.5em;" formaction="{% url 'train_dict' %}"> Train Dict</button>
+</div>
+
+{% endblock %}

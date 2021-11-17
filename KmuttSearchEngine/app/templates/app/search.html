@@ -1,7 +1,45 @@
 {% extends "app/layout.html" %}
 
 {% block content %}
+<script>
 
+</script>
+<style>
+    #question1, #question {
+        color: #212529;
+        font-size: 1.05rem;
+        text-decoration: none;
+    }
+
+    #question:hover { color: #f37a3b; }
+
+    #question1:hover { color: #f37a3b; }
+
+    #result { background: #e9ecef; }
+
+    #warn {
+        font-size: 1.1rem;
+        margin-top: -4%;
+    }
+
+    .card-header {
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        background: #f2f2f3;
+        border-color: #f2f2f3;
+        border-radius: 10px;
+        display: -webkit-box;
+        font-size: 0.95rem;
+        max-height: 80px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    #update {
+        color: #727272;
+        font-size: 0.9rem;
+    }
+</style>
 <div class="jumbotron">
     <h1>Search</h1>
     <p class="lead">Type anything to search</p>
@@ -11,73 +49,59 @@
         <button type="submit" class="btn-primary"> Search</button>
     </form>
 </div>
-<div class="jumbotron">
+
+<h4>Found {{ length|length }} results related to your question.</h4>
+<div class="jumbotron" id="result">
     {% if Correct is not None %}
-    <p class="lead">It look like you have a wrong spelling</p>
+
+    <p class="lead" id="warn">It look like you have a wrong spelling</p>
+    <br/>
     <form action="{% url 'search' %}" class="form-inline" method="POST">
         {% csrf_token %}
-        <p class="lead" name="search">Do you want to search again with: <input type="submit" class="btn btn-link" name="search" value="{{Correct}}"/></p>
+        <p class="lead" name="search" id="warn">Do you want to search again with: <input type="submit" class="btn btn-link" name="search" value="{{Correct}}"/></p>
     </form>
-
-    <h2>Result</h2>
     <br/>
     {% for result in query %}{% for percen in Percentage %}
     {% if forloop.counter == forloop.parentloop.counter %}
 
-    <h5>Question: {{ result.question }}  [{{percen}}%] </h5>
-    <div class="accordion" id="accordionExample">
-        <div class="card">
-            <div class="card-header" id="question1{{ result.id }}">
-                <h5 class="mb-0">
-                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#question{{ result.id }}" aria-expanded="false" aria-controls="question{{ result.id }}">
-                        Answer:
-                    </button>
-                </h5>
-            </div>
+    <a id="question1" href="{% url 'question' id=result.id %}">
+        <h5 style="font-weight: bold" id="question1">{{ result.question }} [{{percen}}%] </h5>
+    </a>
 
-            <div id="question{{ result.id }}" class="collapse" aria-labelledby="question1{{ result.id }}" data-parent="#accordionExample">
-                <div class="card-body">
-                    <span style="white-space: pre-line">
-                        {% autoescape off %}
-                        {{result.answer}}
-                        {% endautoescape %}
-                    </span>
-                </div>
-            </div>
-        </div>
-        <br/>
+    <div class="card-header" id="question{{ result.id }}">
+        <span id="answer">
+            {% autoescape off %}
+            {{result.answer}}
+            {% endautoescape %}
+        </span>
     </div>
+    <br/>
+    <p id="update">Last update: {{ result.updated_date }}</p>
+    <hr/>
+    <br/>
+
     {% endif %}
     {% endfor %}{% endfor %}
     {% else %}
-    <h2>Result</h2>
-    <br/>
 
     {% for result in query %}{% for percen in Percentage %}
     {% if forloop.counter == forloop.parentloop.counter %}
-    <h5>Question: {{ result.question }} [{{percen}}%] </h5>
-    <div class="accordion" id="accordionExample">
-        <div class="card">
-            <div class="card-header" id="question1{{ result.id }}">
-                <h5 class="mb-0">
-                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#question{{ result.id }}" aria-expanded="false" aria-controls="question{{ result.id }}">
-                        Answer:
-                    </button>
-                </h5>
-            </div>
 
-            <div id="question{{ result.id }}" class="collapse" aria-labelledby="question1{{ result.id }}" data-parent="#accordionExample">
-                <div class="card-body">
-                    <span style="white-space: pre-line">
-                        {% autoescape off %}
-                        {{result.answer}}
-                        {% endautoescape %}
-                    </span>
-                </div>
-            </div>
-        </div>
-        <br/>
+    <a id="question1" href="{% url 'question' id=result.id %}">
+        <h5 style="font-size: 1.05rem; font-weight: bold;"> {{ result.question }} [{{percen}}%] </h5>
+    </a>
+
+    <div class="card-header" id="question1{{ result.id }}">
+        <span id="answer">
+            {% autoescape off %}
+            {{result.answer}}
+            {% endautoescape %}
+        </span>
     </div>
+    <br/>
+    <p id="update">Last update: {{ result.updated_date }}</p>
+    <hr/>
+    <br/>
     {% endif %}
     {% endfor %}{% endfor %}
     {% endif %}
@@ -117,8 +141,11 @@
         </ul>
         {% else %}
 
-        <li class="disabled">
-            <span>&raquo;</span>
+        <li class="page-item disabled">
+            <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">Next</span>
+                <span class="sr-only">Next</span>
+            </a>
         </li>
         {% endif %}
         {% endif %}

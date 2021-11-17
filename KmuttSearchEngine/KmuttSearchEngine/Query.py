@@ -7,6 +7,7 @@ from django.http import HttpRequest
 
 class questionanswerDto:
 
+     id = []
      question = []
      answer = []
      question_en = []
@@ -19,6 +20,7 @@ class questionanswerDto:
      status = []
      view_count = []
      def reset():
+         questionanswerDto.id = []
          questionanswerDto.question = []
          questionanswerDto.questionanswer = []
          questionanswerDto.question_en = []
@@ -38,6 +40,7 @@ def queryDb_QA():
    query = list(questionanswer.objects.all())
 
    for result in query:
+        (questionanswerDto.id).append(result.id)
         (questionanswerDto.question).append(result.question)
         (questionanswerDto.answer).append(result.answer)
         (questionanswerDto.question_en).append(result.question_en)
@@ -55,6 +58,7 @@ def queryDb_QA():
 def queryDb_QA_All():
    
    class questionanswerDto:
+        id = []
         question = []
         answer = []
         question_en = []

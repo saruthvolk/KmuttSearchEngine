@@ -90,18 +90,23 @@ def search(request):
 		Search_result.search = search
 		Search_result.query = result.query
 		Search_result.Correct = result.Correct
-		Search_result.percentage=result.percentage
-		
+		Search_result.percentage = result.percentage
+
+	length = Search_result.percentage;
 	paginator = Paginator(Search_result.query, 10)
+	paginator1 = Paginator(Search_result.percentage, 10)
 
 	try:
 		query1 = paginator.page(page)
+		query2 =paginator1.page(page)
 
 	except PageNotAnInteger:
 		query1 = paginator.page(1)
+		query2 = paginator1.page(1)
 
 	except EmptyPage:
 		query1 = paginator.page(paginator.num_pages)
+		query2 =paginator1.page(paginator1.num_pages)
 	
 	if search:
 		pre_search = search
@@ -110,10 +115,10 @@ def search(request):
 
 	if Search_result.Correct is not None:
 	   check = 1
-	   return render(request,'app/search.html', {'Correct': Search_result.Correct, 'Question': pre_search, 'query': query1, 'Percentage': Search_result.percentage})
+	   return render(request,'app/search.html', {'Correct': Search_result.Correct, 'Question': pre_search, 'query': query1, 'Percentage': query2, 'length': length})
 	else:
 	   check = 0
-	   return render(request,'app/search.html', {'Question': pre_search, 'query': query1, 'Question': pre_search, 'Percentage': Search_result.percentage})
+	   return render(request,'app/search.html', {'Question': pre_search, 'query': query1, 'Question': pre_search, 'Percentage': query2, 'length': length })
 
 def about(request):
 	"""Renders the about page."""
@@ -124,6 +129,32 @@ def about(request):
 		{
 			'title':'About',
 			'message':'Your application description page.',
+			'year':datetime.now().year,
+		}
+	)
+
+def question(request,id):
+	"""Renders the about page."""
+	assert isinstance(request, HttpRequest)
+	result = questionanswer.objects.get(id=id)
+	return render(
+		request,
+		'app/question.html',
+		{
+			'title':'Question Detail',
+			'query': result,
+			'year':datetime.now().year,
+		}
+	)
+
+def Admin(request):
+	"""Renders the about page."""
+	assert isinstance(request, HttpRequest)
+	return render(
+		request,
+		'app/Admin.html',
+		{
+			'title':'Admin Panel',
 			'year':datetime.now().year,
 		}
 	)
