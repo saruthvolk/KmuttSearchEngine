@@ -1,10 +1,7 @@
 import datetime
-from django.shortcuts import render
 from django.http import HttpRequest
 from app.models import questionanswer
 from app.models import edit_questionanswer
-from app.forms import editform
-from django.db import models
 from KmuttSearchEngine.Query import queryDb_QA_All
 
 class Result:

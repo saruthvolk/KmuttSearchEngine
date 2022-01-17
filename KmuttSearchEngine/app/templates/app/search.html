@@ -20,6 +20,7 @@
     #warn {
         font-size: 1.1rem;
         margin-top: -4%;
+        line-height: 45px;
     }
 
     .card-header {
@@ -52,13 +53,13 @@
 
 <h4>Found {{ length|length }} results related to your question.</h4>
 <div class="jumbotron" id="result">
-    {% if Correct is not None %}
 
-    <p class="lead" id="warn">It look like you have a wrong spelling</p>
+    {% if Correct is not None %}
+    <p class="lead" id="warn" >It look like you have a wrong spelling</p>
     <br/>
     <form action="{% url 'search' %}" class="form-inline" method="POST">
         {% csrf_token %}
-        <p class="lead" name="search" id="warn">Do you want to search again with: <input type="submit" class="btn btn-link" name="search" value="{{Correct}}"/></p>
+        <p class="lead" name="search" id="warn" >Do you want to search again with: <input type="submit" class="btn btn-link" name="search" value="{{Correct}}"/></p>
     </form>
     <br/>
     {% for result in query %}{% for percen in Percentage %}
@@ -152,32 +153,5 @@
     </ul>
 </nav>
 <br></br>
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            Django gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p>
-            <a class="btn btn-default" href="https://djangobook.com/django-tutorials/">Learn more &raquo;</a>
-        </p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>The Python Package Index is a repository of software for the Python programming language.</p>
-        <p>
-            <a class="btn btn-default" href="https://pypi.org/">Learn more &raquo;</a>
-        </p>
-    </div>
-    <div class="col-md-4">
-        <h2>Microsoft Azure</h2>
-        <p>You can easily publish to Microsoft Azure using Visual Studio. Find out how you can host your application using a free trial today.</p>
-        <p>
-            <a class="btn btn-default" href="http://azure.microsoft.com">Learn more &raquo;</a>
-        </p>
-    </div>
-</div>
 
 {% endblock %}

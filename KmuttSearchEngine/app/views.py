@@ -2,8 +2,6 @@
 Definition of views.
 """
 import os
-from datetime import date
-from datetime import time
 from django.shortcuts import render
 from django.http import HttpRequest
 from KmuttSearchEngine.SearchEngine import searchengine
@@ -11,9 +9,7 @@ from KmuttSearchEngine.SearchEngine import train_dictionary
 from KmuttSearchEngine.Crud_QA import *
 from KmuttSearchEngine.Query import *
 from app.models import questionanswer
-from KmuttSearchEngine.SearchEngine import return_Result
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib import messages
 from django.conf import settings
 from django.http import JsonResponse
 from django.utils import timezone
@@ -35,7 +31,6 @@ def home(request):
 
 	query = queryDb_QA()
 	question = query.question;
-
 	json_question = json.dumps(question)
 
 	return render(
@@ -77,9 +72,9 @@ def train_dict(request):
 		return render(request,'app/index.html', {'message':'Done'})
 
 def search(request):
-	"""Renders the contact page."""
+
 	assert isinstance(request, HttpRequest)
-	table = "questionanswer"
+
 	search = request.POST.get('search')
 
 	page = request.GET.get('page', 1)
@@ -120,6 +115,7 @@ def search(request):
 	   check = 0
 	   return render(request,'app/search.html', {'Question': pre_search, 'query': query1, 'Question': pre_search, 'Percentage': query2, 'length': length })
 
+
 def about(request):
 	"""Renders the about page."""
 	assert isinstance(request, HttpRequest)
@@ -136,6 +132,13 @@ def about(request):
 def question(request,id):
 	"""Renders the about page."""
 	assert isinstance(request, HttpRequest)
+
+	#================ Update view count ==================#
+	result = questionanswer.objects.get(id=id)
+	result.view_count = result.view_count+1;
+	result.save(update_fields=["view_count"]) 
+
+	#================ Query ==================#
 	result = questionanswer.objects.get(id=id)
 	return render(
 		request,
@@ -200,6 +203,7 @@ def upload_image(request):
 		})
 	return JsonResponse({'detail': "Wrong request"})
 
+
 def Crud_QA (request, operation,id):
 
 	if operation == "Add":
@@ -252,27 +256,3 @@ def Crud_QA (request, operation,id):
 			return render(request,'app/index.html')
 		else:
 			return render(request, 'app/Viewquestion.html', {'query': result.query})
-
-#def insertques(request):
-
-#	assert isinstance(request, HttpRequest)
-#	if request.method == "POST" :
-#		if request.POST.get('question_id') and request.POST.get('question') and request.POST.get('answer') and request.POST.get('question_en') and request.POST.get('answer_en') and request.POST.get('create_time') and request.POST.get('create_date') and request.POST.get('user_id') and request.POST.get('update_date') and request.POST.get('update_time') and request.POST.get('status') and request.POST.get('view_count'):
-#			saverecord = questionanswer()
-#			saverecord.question_id = request.POST.get('question_id')
-#			saverecord.question = request.POST.get('question')
-#			saverecord.answer = request.POST.get('answer')
-#			saverecord.question_en = request.POST.get('question_en')
-#			saverecord.answer_en = request.POST.get('answer_en')
-#			saverecord.create_time = request.POST.get('create_time')
-#			saverecord.create_date = request.POST.get('create_date')
-#			saverecord.user_id = request.POST.get('user_id')
-#			saverecord.update_date = request.POST.get('update_date')
-#			saverecord.update_time = request.POST.get('update_time')
-#			saverecord.status = request.POST.get('status')
-#			saverecord.view_count = request.POST.get('view_count')
-#			saverecord.save()
-			#messages.success(request,'question '+saverecord.question_id+ 'is saved in the datebase')#
-#			return render(request,'app/CRUDquestion.html')
-#	else:
-#		return render(request,'app/CRUDquestion.html')

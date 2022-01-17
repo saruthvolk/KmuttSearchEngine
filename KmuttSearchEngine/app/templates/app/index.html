@@ -5,14 +5,19 @@
 
 <script>
 
-    $(function() {
-        var question = {{ question|safe }};
+    $(function(){ 
+
+    var question = {{ question| safe }};
 
     $("#search_input").autocomplete({
-        source: question,
+        maxResults: 10,
+        source: function(request, response) {
+            var results = $.ui.autocomplete.filter(question, request.term);
+            response(results.slice(0, this.options.maxResults));
+        },
         minLength: 2
     }).data("ui-autocomplete")._renderItem = function(ul, item) {
-        let txt = String(item.value).replace(new RegExp(this.term, "gi"), "<span class='highlight'>$&</span>");
+        var txt = String(item.value).replace(new RegExp(this.term, "gi"), "<span class='highlight'>$&</span>");
         return $("<li></li>")
             .data("ui-autocomplete-item", item)
             .append("<a>" + txt + "</a>")
@@ -20,10 +25,10 @@
     };
     });
 
-    jQuery.ui.autocomplete.prototype._resizeMenu = function () {
+    jQuery.ui.autocomplete.prototype._resizeMenu = function() {
         var ul = this.menu.element;
         ul.outerWidth(this.element.outerWidth());
-    }
+    };
 
     onChange = "window.location.href=this.value";
 
@@ -34,8 +39,8 @@
     .highlight {
         color: #e87639;
         font-weight: bold;
+        text-decoration: underline;
     }
-
     .ui-autocomplete {
         position: absolute;
         top: 100%;
@@ -43,6 +48,7 @@
         z-index: 1000;
         float: left;
         display: none;
+        line-height: 28px;
         min-width: 160px;   
         padding: 4px 0;
         margin: 0 0 10px 25px;
@@ -74,25 +80,28 @@
         color: #555555;
         white-space: nowrap;
         text-decoration: none;
+
     }
 
-    .ui-state-hover, .ui-state-active {
-        color: #ffffff;
-        text-decoration: none;
-        background-color: #e87639;
-        border-radius: 0px;
-        -webkit-border-radius: 0px;
-        -moz-border-radius: 0px;
-        background-image: none;
-    }
-
-    .ui-menu-item .ui-menu-item-wrapper.ui-state-active {
-        background: #dedede !important;
-        color: #262626 !important;
+    .ui-menu-item .ui-menu-item-wrapper:hover, 
+    .ui-menu-item-wrapper.ui-state-active {
+        background: #dedede ;
+        color: #262626 !important ;
         border-color: rgba(0, 0, 0, 0);
         text-decoration:none;
+        display: block;
         border-radius: 5px;
+
     } 
+
+    .ui-menu-item-wrapper {
+        display: block;
+    }
+  
+    .ui-autocomplete > li {
+        padding: 2px 10px;
+    }
+
 
     #search {
         text-align: center; 

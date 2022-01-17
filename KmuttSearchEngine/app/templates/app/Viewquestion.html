@@ -1,7 +1,16 @@
 {% extends "app/layout.html" %}
 
 {% block content %}
-
+<style>
+    #submit, #delete {
+        float: right;
+        background-color: #f37a3b;
+        border-color: #f37a3b;
+    }
+    #submit {
+        margin-right:10px
+    }
+</style>
 <head>
     <meta charset="utf-8"/>
     <title> CRUD operations </title>
@@ -22,7 +31,9 @@
                     <input type="checkbox" name="id_check" id="id_check" value="{{questionanswer.id}}"/>
                     <label type="text" name="question"class="font-weight-bold"> Quesion ID </label>
                     <label type="text" name="question_id">{{questionanswer.id}} </label>
-                    <a href="{% url 'Crud_QA' operation='Remove' id=questionanswer.id %}">Delete</a>
+                    <button type="submit" class="btn btn-primary btn-sm" href="{% url 'Crud_QA' operation='Remove' id=questionanswer.id %}" id="delete">Delete</button>
+                    <button type="submit" class="btn btn-primary btn-sm" id="submit"> Edit </button>
+                    
                 </th>
                 </thead>
                 <tr>
@@ -52,6 +63,7 @@
                             {% endautoescape %}
                         </span>
                     </td>
+
                 </tr>
                 {% endfor %}
             </table>

@@ -1,9 +1,27 @@
 <!DOCTYPE html>
+<style>
+    #notification {
+        color: aliceblue;
+        margin-right: 1vw;
+    }
+    #notification:hover {
+        color: #f37a3b;
+    }
+
+    #logo {
+        color: #f37a3b;
+    }
+
+    #logo:hover {
+        color: aliceblue;
+    }
+
+</style>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} - My Django Application</title>
+    <title>KMUTT-Knowledgebase</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/scripts/jquery-ui.min.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
@@ -14,7 +32,7 @@
 
 <body>
 <nav class="navbar navbar-expand-lg navbar fixed-top navbar-dark bg-dark" style="background-color: #f76d00">
-    <a class="navbar-brand" href="{% url 'home' %}" style="font-weight: bold;">KMUTT-Knowledgebase</a>
+    <a class="navbar-brand" href="{% url 'home' %}" style="font-weight: bold;" id="logo">KMUTT-Knowledgebase</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -42,6 +60,11 @@
                 </div>
             </li>
         </ul>
+
+        <a href="#">
+        <i class="fas fa-bell fa-lg" id="notification" ></i>
+        </a>
+
         <form action="{% url 'search' %}" class="form-inline" method="POST">
             {% csrf_token %}
             <input name="search" id="search-input" tpye = "search" class="form-control mr-sm-2" placeholder="Search">

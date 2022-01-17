@@ -11,6 +11,10 @@
         position: relative;
         margin-top: -3%;
     }
+
+    #view {
+        float: right;
+    }
     
     #answer {
         background: #f2f2f3;
@@ -35,6 +39,7 @@
         {{query.answer}}
         {% endautoescape %}
     </span>
+    <p id="view">Views: {{ query.view_count }}</p>
 </div>
 <button class="btn btn-info" id="request">Request for changes</button>
 
