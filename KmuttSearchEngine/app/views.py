@@ -1,6 +1,7 @@
 """
 Definition of views.
 """
+import oskut
 import os
 from django.shortcuts import render
 from django.http import HttpRequest
@@ -28,6 +29,9 @@ class Search_result:
 def home(request):
 	"""Renders the home page."""
 	assert isinstance(request, HttpRequest)
+
+	oskut.load_model(engine='scads')
+	tokenized = oskut.OSKut("Process",k=100)
 
 	query = queryDb_QA()
 	question = query.question;
@@ -59,6 +63,8 @@ def contact(request):
 def train_dict(request):
 
 	assert isinstance(request, HttpRequest)
+
+	print ("Creating Dict")
 	query = queryDb_QA()
 	for answer in query.answer:
 		(query.question).append(answer)

@@ -3,6 +3,8 @@ from django.http import HttpRequest
 from app.models import questionanswer
 from app.models import edit_questionanswer
 from KmuttSearchEngine.Query import queryDb_QA_All
+from KmuttSearchEngine.SearchEngine import stopwords1
+from KmuttSearchEngine.SearchEngine import tokenized
 
 class Result:
   code = ''
@@ -16,6 +18,7 @@ def Add_QA(request):
 		if  (request.POST.get('question') and request.POST.get('answer')) or (request.POST.get('question_en') and request.POST.get('answer_en')) and request.POST.get('department_id'):
 			saverecord = questionanswer()
 			saverecord.question = request.POST.get('question')
+			#saverecord.question_sw = stopwords1(saverecord.question)
 			saverecord.answer = request.POST.get('answer')
 			saverecord.question_en = request.POST.get('question_en')
 			saverecord.answer_en = request.POST.get('answer_en')
@@ -81,6 +84,8 @@ def Update_QA(request,id):
 		if request.POST.get('id_check') and request.POST.get('question') and request.POST.get('answer') and request.POST.get('question_en') and request.POST.get('answer_en') :
 			saverecord = edit_questionanswer()
 			question = request.POST.getlist('question')
+			#question_sw = stopwords1(question)
+			#question_tokenized = tokenized(question)
 			answer = request.POST.getlist('answer')
 			question_en = request.POST.getlist('question_en')
 			answer_en = request.POST.getlist('answer_en')
@@ -90,6 +95,8 @@ def Update_QA(request,id):
 		for i in range(len(id)):
 			saverecord.id = id[i]
 			saverecord.question = question[i]
+			#saverecord.question_sw = question_sw[i]
+			#saverecord.question_tokenized = question_tokenized[i]
 			saverecord.answer = answer[i]
 			saverecord.question_en = question_en[i]
 			saverecord.answer_en = answer_en[i]

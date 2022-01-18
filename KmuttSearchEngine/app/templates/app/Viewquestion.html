@@ -11,6 +11,15 @@
         margin-right:10px
     }
 </style>
+<script>
+    function toggle(source) {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i] != source)
+                checkboxes[i].checked = source.checked;
+        }
+    } 
+</script>
 <head>
     <meta charset="utf-8"/>
     <title> CRUD operations </title>
@@ -22,6 +31,7 @@
     <br/>
     <h1>View form</h1>
     <div class="form-group">
+        <input type="checkbox" onclick="toggle(this);" />Check all?<br />
         {% for questionanswer in query %}
         <form action="{% url 'Crud_QA' operation='Edit' id='0' %}" method="POST">
             {% csrf_token %}
@@ -33,7 +43,7 @@
                     <label type="text" name="question_id">{{questionanswer.id}} </label>
                     <button type="submit" class="btn btn-primary btn-sm" href="{% url 'Crud_QA' operation='Remove' id=questionanswer.id %}" id="delete">Delete</button>
                     <button type="submit" class="btn btn-primary btn-sm" id="submit"> Edit </button>
-                    
+
                 </th>
                 </thead>
                 <tr>

@@ -24,6 +24,8 @@ class questionanswer (models.Model):
     status = models.BooleanField()
     view_count = models.IntegerField()
     department_id = models.IntegerField()
+    #question_sw = models.CharField(max_length = 1000)
+    #question_tokenized = models.CharField(max_length = 1000)
 
     class Meta:
         db_table="questionanswer"
@@ -38,6 +40,8 @@ class edit_questionanswer (models.Model):
     answer_en = models.CharField(max_length = 1000)
     updated_date = models.DateTimeField(default=now, editable=True)
     updated_time = models.DateTimeField(default=now, editable=True)
+    #question_sw = models.CharField(max_length = 1000)
+    #question_tokenized = models.CharField(max_length = 1000)
 
     class Meta:
         db_table="questionanswer"

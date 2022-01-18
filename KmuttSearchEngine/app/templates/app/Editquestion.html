@@ -26,21 +26,21 @@
             var editorH = editor.editorContainer.offsetHeight;
             var class_id = {{ id_list|safe }};
 
-            for (let i = 0; i < class_id.length; i++) {
+    for (let i = 0; i < class_id.length; i++) {
 
-                $('#editor' + class_id[i])
-                .css({
-                    'position': 'absolute',
-                    'height': editorH
-                })
-                .show();
-             }
-        },
-        setup: function (editor) {
-            editor.on('change', function () {
-                editor.save();
-            });
-        }
+        $('#editor' + class_id[i])
+            .css({
+                'position': 'absolute',
+                'height': editorH
+            })
+            .show();
+    }
+    },
+    setup: function (editor) {
+        editor.on('change', function () {
+            editor.save();
+        });
+    }
     });
 
     tinymce.init({
@@ -65,22 +65,30 @@
             var editorH = editor.editorContainer.offsetHeight;
 
             var class_id = {{ id_list|safe }};
-            for (let i = 0; i < class_id.length; i++) {
+    for (let i = 0; i < class_id.length; i++) {
 
-                $('#editor1' + class_id[i])
-                    .css({
-                    'position': 'absolute',
-                    'height': editorH
-                    })
-                    .show();
-                }
-            },
-        setup: function (editor) {
-            editor.on('change', function () {
-                editor.save();
-            });
-        }
+        $('#editor1' + class_id[i])
+            .css({
+                'position': 'absolute',
+                'height': editorH
+            })
+            .show();
+    }
+    },
+    setup: function (editor) {
+        editor.on('change', function () {
+            editor.save();
+        });
+    }
     });
+    
+    function toggle(source) {
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i] != source)
+                    checkboxes[i].checked = source.checked;
+            }
+        }
 
 </script>
 
@@ -92,6 +100,8 @@
 <br/><br/><br/>
 <center>
     <h1>Edit form</h1>
+    
+    <input type="checkbox" onclick="toggle(this);" />Check all?<br />
 
     {% for questionanswer in query %}
     <div class="id" id="{{id_list}}"></div>

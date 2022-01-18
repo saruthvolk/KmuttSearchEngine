@@ -1,7 +1,10 @@
 from pythainlp.word_vector import WordVector
+from pythainlp.tokenize import THAI2FIT_TOKENIZER
 from KmuttSearchEngine.Query import *
+from itertools import zip_longest
 from app.models import questionanswer
 from pythainlp.spell import NorvigSpellChecker
+from sklearn.feature_extraction.text import TfidfVectorizer
 from pythainlp.augment import *
 import numpy as np
 import oskut
@@ -21,6 +24,7 @@ class return_Result:
 def searchengine (search, query):
 
     Query=[]
+    Query_Tokenized=[]
     Position = []
     location=[]
     percentage = []
@@ -29,25 +33,30 @@ def searchengine (search, query):
     print(search);
 
     Query = query.question
+    #Query_Tokenized=query.question_tokenized
     dictionary = getDictionary()
 
+    #======= spell check ========#
     result = spellCheck(search, dictionary)
     correct = result.correct
     tokenized = result.tokenized
+    print (tokenized)
 
-    print(tokenized)
+    #======= augment ========#
+    augments,augment_tokenized = augment(tokenized)
 
-    augments = augment(tokenized)
+    #======= remove stop words ========#
+    removed_stopwords_Query,removed_stopwords_final = stopwords(Query,augments)
 
-    print("Input:" + search)
-    print ("Augmentation: ")
-    for x in range(len(augments)):
-        print(str((x+1))+".) " + augments[x])
+    #======= W2V process ========#
+    #removed_stopwords_Query = query.question_sw
+    #removed_stopwords_final = stopwords1(augments)
 
-    answer = word2vector (Query,augments)
+    answer = word2vector (removed_stopwords_Query , removed_stopwords_final)
 
     pos = sorted(answer,reverse = True)
     pos = list(filter(lambda a: a != 0.0, pos))
+
 
     location = np.argsort(answer)[::-1]
 
@@ -66,6 +75,7 @@ def searchengine (search, query):
 
     return_Result.query =  sorted_temp1
 
+    #======================================#
 
     if search != correct:
       return_Result.percentage = percentage
@@ -82,28 +92,36 @@ def searchengine (search, query):
 #========================= Read Dictionary from file ===========================#
 def getDictionary():
 
-    start = time.time()
-
     with open("train.txt", 'r', encoding='UTF-8') as f:
         train = f.read().splitlines()
-
-    end = time.time()
-    print ("Dictionary: "+ str((end - start)))
 
     return train
 
 #========================= Spell Check Part ===========================#
 def spellCheck(Input,train):
 
-    #start = time.time()
+    start = time.time()
 
     class return_result:
         tokenized = []
         correct = []
 
     correct = ""
-    oskut.load_model(engine='scads')
-    tokenized = oskut.OSKut(Input)
+
+    start = time.time()
+    oskut.load_model(engine='tl-deepcut-tnhc')
+    tokenized = oskut.OSKut(Input,k=100)
+    end = time.time()   
+    print (tokenized)
+    print ("Spell check deepcut: "+ str((end - start)))
+
+#    start = time.time()
+#    oskut.load_model(engine='deepcut')
+#    tokenized = oskut.OSKut(Input,k=100)
+#    end = time.time()
+#    print (tokenized)
+#    print ("Spell check deepcut: "+ str((end - start)))
+
 
     checker_dataset = NorvigSpellChecker(custom_dict=train) #Using dict from dataset train
     #checker_ttc = NorvigSpellChecker(custom_dict=ttc.word_freqs()) #Using dict from pre data train
@@ -117,18 +135,16 @@ def spellCheck(Input,train):
 
     return_result.tokenized = tokenized
 
-    #end = time.time()
-    #print ("Spell check: "+ str((end - start)))
-
     return return_result
 
 #========================= Create Synonyms Sentence ===========================#
 def augment(Input):
 
-    #start = time.time()
+    start = time.time()
 
     aug = WordNetAug()
     final = []
+    augment_tokenized = []
 
     Output = aug.augment(Input, postag = True, max_syn_sent = 3 , postag_corpus='orchid', tokenize = 'Tokenized')
     for x in range(len(Output)):
@@ -138,10 +154,11 @@ def augment(Input):
     Input = ''.join(Input)
     final.append(Input)
 
-    #end = time.time()
-    #print ("Augment: "+ str((end - start)))
+    augment_tokenized = tokenized(final)
+    end = time.time()
+    print ("Augment: "+ str((end - start)))
 
-    return final
+    return final,augment_tokenized
 
 #========================= Word 2 Vector computation part ===========================#
 def word2vector(Query,final):
@@ -156,10 +173,6 @@ def word2vector(Query,final):
     v1 = [wv.sentence_vectorizer(i, use_mean=False) for i in Query]
     v2 = [wv.sentence_vectorizer(i, use_mean=False) for i in final]
 
-   # for x in range(len(v2)):
-   #     print ("Vector augment")
-   #     print(str(x+1)+"):"+ str(v2[x]))
-
     temp = [(1 - spatial.distance.cosine(test1,test2)) for test1 in v1 for test2 in v2]
     
 
@@ -173,9 +186,6 @@ def word2vector(Query,final):
             yield every_chunk
 
     temp = list(list_split(temp, len(final)))
-
-    #answer = [(max(x)) if (max(x)) > 0.55 else 0.0 for x in temp]
-
     
     #  get the max value from the list of the answer #
     for x in temp:
@@ -196,23 +206,26 @@ def word2vector(Query,final):
 
 
 def train_dictionary(Query):
-
+   
+   print("Creating Dict")
    aug = WordNetAug()
 
    augmented = []
    train = []
 
    for x in range(len(Query)):  
+       print (x)
        Question = re.sub('[a-zA-Z!#$()“”?/\0-9!@#$%^&*<>:;=]','',Query[x])
        augmented.append(Question)
-      
-   oskut.load_model(engine='scads')
+     
+   
+   oskut.load_model(engine='ws-augment-60p')
    for x in augmented:
 
         if x is '':
              x = 'Null';
         else:
-            token = oskut.OSKut(x)
+            token = oskut.OSKut(x,k=100)
             for x in token:
                 train.append(x)
                 temp = aug.find_synonyms(x)
@@ -225,7 +238,99 @@ def train_dictionary(Query):
    with open('train.txt', 'w' , encoding="utf-8") as f:
         for item in train:
             f.write(item+"\n")
+   f.close()
 
    return_Result.code = 300
 
    return (return_Result)
+
+def stopwords (Query,final):
+
+    start = time.time()
+
+    removed_stopwords_Query = []
+    removed_stopwords_Final = []
+
+    f = open('stopwords_th.txt', 'r' , encoding="utf-8")
+    words_list = f.read().splitlines()
+    f.close()
+
+    tokenized_Query = []
+    tokenized_Final = []
+
+    #oskut.load_model(engine='scads')
+    tokenized_Query = tokenized(Query)
+    tokenized_Final = tokenized(final)
+    
+
+    for x in final:
+        temp = []
+        if x is '':
+             x = 'Null';
+        else:
+            token = THAI2FIT_TOKENIZER.word_tokenize(x)
+            tokenized_Final.append(token)
+
+    #Query = [x.split("|") for x in Query]
+    #final = [x.split("|") for x in final]
+
+    for word_query,word_final in zip_longest(tokenized_Query,tokenized_Final,fillvalue=None):
+
+        temp = []
+
+        if word_final is not None:
+
+            temp = [word for word in word_query if not word in words_list]
+            removed_stopwords_Query.append(temp)
+
+            temp1 = [word for word in word_final if not word in words_list]
+            removed_stopwords_Final.append(temp1)
+        else:
+
+            temp = [word for word in word_query if not word in words_list]
+            removed_stopwords_Query.append(temp)
+
+    end = time.time()
+    print ("stopwords: "+ str((end - start)))
+
+    return removed_stopwords_Query,removed_stopwords_Final
+
+def stopwords1 (Query):
+
+    removed_stopwords_Query = []
+
+    f = open('stopwords_th.txt', 'r' , encoding="utf-8")
+    words_list = f.read().splitlines()
+    f.close()
+
+    oskut.load_model(engine='scads')
+
+    for x in Query:
+        temp = []
+        if x is '':
+             x = 'Null';
+        else:
+            token = oskut.OSKut(x)
+            temp = [word for word in token if not word in words_list]
+            removed_stopwords_Query.append(''.join(temp))
+
+    return removed_stopwords_Query
+
+
+def tokenized (Query):
+
+    tokenized_Query = []
+
+    #oskut.load_model(engine='scads')
+
+    for x in Query:
+        temp = []
+        if x is '':
+             x = 'Null';
+        else:
+            token = THAI2FIT_TOKENIZER.word_tokenize(x)
+            #tokenized_Query.append('|'.join(token))
+
+            tokenized_Query.append(token)
+    
+    return tokenized_Query

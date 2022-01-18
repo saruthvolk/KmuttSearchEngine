@@ -11,6 +11,7 @@ class questionanswerDto:
      question = []
      answer = []
      question_en = []
+     question_sw = []
      answer_en =[]
      created_time = []
      created_date =[]
@@ -22,6 +23,7 @@ class questionanswerDto:
      def reset():
          questionanswerDto.id = []
          questionanswerDto.question = []
+         #questionanswerDto.question_sw = []
          questionanswerDto.questionanswer = []
          questionanswerDto.question_en = []
          questionanswerDto.answer_en =[]
@@ -32,6 +34,7 @@ class questionanswerDto:
          questionanswerDto.updated_time = []
          questionanswerDto.status = []
          questionanswerDto.view_count = []
+         #questionanswerDto.question_tokenized = []
 
 def queryDb_QA():
 
@@ -42,6 +45,8 @@ def queryDb_QA():
    for result in query:
         (questionanswerDto.id).append(result.id)
         (questionanswerDto.question).append(result.question)
+        #(questionanswerDto.question_sw).append(result.question_sw)
+        #(questionanswerDto.question_tokenized).append(result.question_tokenized)
         (questionanswerDto.answer).append(result.answer)
         (questionanswerDto.question_en).append(result.question_en)
         (questionanswerDto.answer_en).append(result.answer_en)
@@ -60,8 +65,10 @@ def queryDb_QA_All():
    class questionanswerDto:
         id = []
         question = []
+        question_sw = []
         answer = []
         question_en = []
+        #question_tokenized = []
         answer_en =[]
         created_time = []
         created_date =[]
