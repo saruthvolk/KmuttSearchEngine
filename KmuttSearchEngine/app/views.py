@@ -26,16 +26,19 @@ class Search_result:
   search = ''
   ans = ''
 
+  oskut.load_model(engine='deepcut')
+  tokenized = oskut.OSKut("Process",k=1)
+
 def home(request):
+
 	"""Renders the home page."""
 	assert isinstance(request, HttpRequest)
-
-	oskut.load_model(engine='scads')
-	tokenized = oskut.OSKut("Process",k=100)
 
 	query = queryDb_QA()
 	question = query.question;
 	json_question = json.dumps(question)
+
+	feature_question = list(questionanswer.objects.all().order_by('view_count').reverse())[:5]
 
 	return render(
 		request,
@@ -43,6 +46,7 @@ def home(request):
 		{
 			'title':'Home Page',
 			'question':json_question,
+			'feature_question': feature_question
 			#'year':datetime.now().year,#
 		}
 	)

@@ -48,6 +48,9 @@
     <Compile Include="KmuttSearchEngine\SearchEngine.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="KmuttSearchEngine\tfidf.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="manage.py" />
     <Compile Include="KmuttSearchEngine\__init__.py" />
     <Compile Include="KmuttSearchEngine\settings.py" />

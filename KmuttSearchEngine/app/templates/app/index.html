@@ -7,7 +7,7 @@
 
     $(function(){ 
 
-    var question = {{ question| safe }};
+        var question = {{ question| safe }};
 
     $("#search_input").autocomplete({
         maxResults: 10,
@@ -41,97 +41,91 @@
         font-weight: bold;
         text-decoration: underline;
     }
+
     .ui-autocomplete {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        z-index: 1000;
-        float: left;
-        display: none;
-        line-height: 28px;
-        min-width: 160px;   
-        padding: 4px 0;
-        margin: 0 0 10px 25px;
-        list-style: none;
+        -moz-background-clip: padding;
+        -moz-border-radius: 5px;
+        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -webkit-background-clip: padding-box;
+        -webkit-border-radius: 5px;
+        -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        background-clip: padding-box;
         background-color: #ffffff;
+        *border-bottom-width: 2px;
         border-color: #ccc;
         border-color: rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        *border-right-width: 2px;
         border-style: solid;
         border-width: 1px;
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        border-radius: 5px;
-        -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        -webkit-background-clip: padding-box;
-        -moz-background-clip: padding;
-        background-clip: padding-box;
-        *border-right-width: 2px;
-        *border-bottom-width: 2px;
+        display: none;
+        float: left;
+        left: 0;
+        line-height: 28px;
+        list-style: none;
+        margin: 0 0 10px 25px;
+        min-width: 160px;
+        padding: 4px 0;
+        position: absolute;
+        top: 100%;
+        z-index: 1000;
     }
 
     .ui-menu-item > a.ui-corner-all {
-        display: block;
-        padding: 3px 15px;
         clear: both;
+        color: #555555;
+        display: block;
         font-weight: normal;
         line-height: 18px;
-        color: #555555;
-        white-space: nowrap;
+        padding: 3px 15px;
         text-decoration: none;
-
+        white-space: nowrap;
     }
 
-    .ui-menu-item .ui-menu-item-wrapper:hover, 
+    .ui-menu-item .ui-menu-item-wrapper:hover,
     .ui-menu-item-wrapper.ui-state-active {
-        background: #dedede ;
-        color: #262626 !important ;
+        background: #dedede;
         border-color: rgba(0, 0, 0, 0);
-        text-decoration:none;
-        display: block;
         border-radius: 5px;
-
-    } 
-
-    .ui-menu-item-wrapper {
+        color: #262626 !important;
         display: block;
+        text-decoration: none;
     }
-  
-    .ui-autocomplete > li {
-        padding: 2px 10px;
-    }
+
+    .ui-menu-item-wrapper { display: block; }
+
+    .ui-autocomplete > li { padding: 2px 10px; }
 
 
     #search {
-        text-align: center; 
+        background-color: #f37a3b;
+        background-image: url("{% static 'img/bg.png' %}");
+        background-position: 0px -410px;
+        color: aliceblue;
+        Height: 600px;
         margin-left: -40%;
         margin-right: -40%;
-        Height: 600px;
-        color: aliceblue;
-        background-color: #f37a3b;
-        background-position: 0px -410px; 
-        background-image: url("{% static 'img/bg.png' %}")
+        text-align: center;
     }
 
-    #search_input {
-        margin-left: auto;
-    }
+    #search_input { margin-left: auto; }
+
     #search-button {
-        margin-right: auto;
         background-color: #e87639;
         border-color: #e87639;
+        margin-right: auto;
     }
 
     #Viewquestion {
         background-color: #f7f7f9;
         border: 2px solid #f7f7f9;
         border-radius: 6px;
-        margin-top: -150px;
-        margin-left: -40px;
-        text-align: center;
-        color: #262626;
         border-radius: 20px;
+        color: #262626;
+        margin-left: -40px;
+        margin-top: -150px;
+        text-align: center;
         transition: border-color 0.3s;
     }
 
@@ -139,46 +133,100 @@
         background-color: #f7f7f9;
         border: 2px solid #f7f7f9;
         border-radius: 6px;
-        margin-top: -150px;
-        margin-left: 30px;
-        text-align: center;
-        color: #262626;
         border-radius: 20px;
+        color: #262626;
+        margin-left: 30px;
+        margin-top: -150px;
+        text-align: center;
         transition: border-color 0.3s;
     }
 
     #recent_update {
-        border: 2px solid #f7f7f9;
         background-color: #f7f7f9;
+        border: 2px solid #f7f7f9;
         border-radius: 6px;
-        margin-top: -150px;
+        border-radius: 20px;
+        color: #262626;
         margin-left: 30px;
         margin-right: -40px;
-        color: #262626;
-        text-align: center; 
-        border-radius: 20px;
+        margin-top: -150px;
+        text-align: center;
         transition: border-color 0.3s;
     }
 
     #recent_update:hover {
-        text-decoration: none;
         border: 2px solid #f37a3b;
         color: #f37a3b;
+        text-decoration: none;
     }
 
     #FAQs:hover {
-        text-decoration: none;
         border: 2px solid #f37a3b;
         color: #f37a3b;
+        text-decoration: none;
     }
 
     #Viewquestion:hover {
-        text-decoration: none;
         border: 2px solid #f37a3b;
         color: #f37a3b;
+        text-decoration: none;
     }
 
-    </style>
+    #question1, #question {
+        color: #212529;
+        font-size: 1.00rem;
+        text-decoration: none;
+    }
+
+    #question:hover { color: #f37a3b; }
+
+    #question1:hover { color: #f37a3b; }
+
+    #result { background: #e9ecef; }
+
+    #warn {
+        font-size: 1.1rem;
+        line-height: 45px;
+        margin-top: -4%;
+    }
+
+    .card-header {
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        background: #f2f2f3;
+        border-color: #f2f2f3;
+        border-radius: 10px;
+        display: -webkit-box;
+        font-size: 0.95rem;
+        max-height: 80px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    #update1 {
+        color: #727272;
+        float: right;
+        font-size: 0.9rem;
+    }
+
+    #question { margin-top: -3%; }
+
+    #feature_question { background: #f7f7f9; }
+
+    .numberCircle {
+        width: 30px;
+        line-height: 25px;
+        border-radius: 50%;
+        text-align: center;
+        font-size: 1.0rem;
+        margin-right: 1.5%;
+        color: #f2f2f3;
+        float: left;
+        font-weight: bold;
+        background:  #f37a3b;
+        border: 2px solid  #f37a3b;;
+    }
+</style>
 
 <div class="jumbotron" id="search">
     <h1 style="margin-top: 140px;">How can we help you ?</h1>
@@ -189,21 +237,21 @@
         <br/><br/><br/>
         <input name="search" id="search_input" tpye="text" class="form-control col-lg-offset-3 col-lg-6" placeholder="Search here....." autocomplete="off">
         <button id="search-button" type="submit" class="btn btn-primary">
-            <i class="fas fa-search" ></i>
+            <i class="fas fa-search"></i>
         </button>
     </form>
 </div>
 <p></p>
 
 <div class="row">
-    <a href="{% url 'Crud_QA' operation='View' id='0' %}" class="col-sm-4" id="Viewquestion" >
-    <div>
-        <i class="far fa-question-circle fa-3x" style="margin-bottom: 30px; margin-top: 30px; color: #f37a3b"></i>
-        <h4 style="">View Questions</h4>
-        <br/>
-        <p style="width: 10vw; margin-left: auto; margin-right: auto; color: #262626">View all question in our knowledge base. </p>
-        <br/>
-    </div>
+    <a href="{% url 'Crud_QA' operation='View' id='0' %}" class="col-sm-4" id="Viewquestion">
+        <div>
+            <i class="far fa-question-circle fa-3x" style="margin-bottom: 30px; margin-top: 30px; color: #f37a3b"></i>
+            <h4 style="">View Questions</h4>
+            <br/>
+            <p style="width: 10vw; margin-left: auto; margin-right: auto; color: #262626">View all question in our knowledge base. </p>
+            <br/>
+        </div>
     </a>
     <a href="{% url 'about' %}" class="col-sm-4" id="FAQs">
         <div >
@@ -229,12 +277,20 @@
 <br/><br/><br/>
 
 <h4>Feature Questions</h4>
-<hr/>
-<br/>
-<div class="jumbotron">
 
+<div class="jumbotron" id="feature_question">
+    <div id="question">
+        {% for questions in feature_question %}
+        <br/>
+        <p id="update1"> {{ questions.updated_date }} </p>
+        <a id="question1" href="{% url 'question' id=questions.id %}">
+            <div class="numberCircle"> {{ forloop.counter }} </div> 
+            <h5 style="font-weight: bold" id="question1"> {{ questions.question }} </h5>
+            <p id="update1" style="float: left"> Views: {{ questions.view_count }} </p>
+            <br/>
+        </a>
+        <hr/>
+        {% endfor %}
+    </div>
 </div>
-  
-
-
 {% endblock %}
