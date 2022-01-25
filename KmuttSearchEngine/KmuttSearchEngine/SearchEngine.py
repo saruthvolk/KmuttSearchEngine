@@ -1,7 +1,7 @@
 from pythainlp.word_vector import WordVector
 from pythainlp.tokenize import THAI2FIT_TOKENIZER
 from KmuttSearchEngine.Query import *
-from itertools import zip_longest, groupby
+from itertools import zip_longest, groupby, chain
 from KmuttSearchEngine.tfidf import *
 from app.models import questionanswer
 from pythainlp.spell import NorvigSpellChecker
@@ -12,6 +12,10 @@ import oskut
 import re
 from scipy import spatial
 import time
+import difflib
+
+class counter:
+    j,i = 0,0
 
 class return_Result:
   Retry = 0
@@ -58,11 +62,11 @@ def searchengine (search, query):
 
     #============ TF-IDF ==============#
 
-    removed_stopwords_Query_tfid,removed_stopwords_Final_tfid = tfidf(removed_stopwords_Query,removed_stopwords_Final) #TF-IDF
+    tfid,index_question = tfidf(removed_stopwords_Query,removed_stopwords_Final) #TF-IDF
 
     #======= W2V process ========#
 
-    answer = word2vector (removed_stopwords_Query_tfid , removed_stopwords_Final_tfid)
+    answer = word2vector (removed_stopwords_Query , removed_stopwords_Final,tfid,index_question)
 
     pos = sorted(answer,reverse = True)
     pos = list(filter(lambda a: a != 0.0, pos))
@@ -168,22 +172,60 @@ def augment(Input):
 
 #========================= Word 2 Vector computation part ===========================#
 
-def word2vector(Query,final):
+def word2vector(Query,final,tfidf_value,index_question):
 
     wv = WordVector()
     answer = []
-
+    i,j,k,l = 0,0,0,0
     start = time.time()
 
     wv.load_wordvector("thai2fit_wv")
 
-    v1 = [wv.sentence_vectorizer(i, use_mean=False) for i in Query]
+    wv1 = []
+    wv2= []
+    #v1 = [wv.sentence_vectorizer(i, use_mean=False) for i in Query]
     v2 = [wv.sentence_vectorizer(i, use_mean=False) for i in final]
+
+    length_question = {}
+    '''
+    for question in Query:
+        k += 1
+        length = len(question)-1
+        length_question[k] = str(length)
+
+    word_list = list(chain.from_iterable(Query))
+
+    count = 1
+    value = 0
+
+    for word in word_list:
+        temp = wv.word_vectorizer(word_list[0], use_mean=False)
+        word = word_list[0]
+        value += (tfidf_value.get(count)[i])*temp 
+        i += 1
+        word_list.remove(word)
+        if str(i-1) == length_question[count]:
+           i = 0
+           count += 1
+           wv1.append(value)
+           value = 0
+    '''
+
+
+    for question in Query:
+        value,i = 0,0
+        j += 1
+        for word in question:
+            temp = wv.word_vectorizer(word, use_mean=False)
+            value += (tfidf_value.get(j)[i])*temp 
+            i += 1
+        wv1.append(value)
+
 
     end = time.time()
     print ("w2v: "+ str((end - start)))
 
-    temp = [(1 - spatial.distance.cosine(test1,test2)) for test1 in v1 for test2 in v2]
+    temp = [(1 - spatial.distance.cosine(test1,test2)) for test1 in wv1 for test2 in v2] 
 
     def list_split(listA, n):
         for x in range(0, len(listA), n):
@@ -195,8 +237,40 @@ def word2vector(Query,final):
             yield every_chunk
 
     temp = list(list_split(temp, len(final)))
-    
+
+    '''
     #  get the max value from the list of the answer #
+    for x in temp:
+        max_value = max(x)
+        if max_value < 0.55:    
+            max_value = 0.0
+        answer.append(max_value)
+
+    location = np.argsort(answer)[::-1]
+
+    for question in final:
+        for word in question:
+            temp = wv.word_vectorizer(word, use_mean=False)
+            try:
+                pos = Query[location[0]].index(word)
+                print(pos)
+            except ValueError:
+                pos = "not found"
+            if pos is not "not found" :
+               print(word)
+               value = tfidf_value.get(location[0]+1)[pos]
+               print (value)
+               value1 += value*temp
+            else:
+               value1 = temp
+        wv2.append(value1)
+    
+    temp = [(1 - spatial.distance.cosine(test1,test2)) for test1 in wv1 for test2 in wv2] 
+    temp = list(list_split(temp, len(final)))
+
+    answer = []
+    '''
+
     for x in temp:
         max_value = max(x)
         if max_value < 0.55:    
@@ -208,7 +282,6 @@ def word2vector(Query,final):
         answer = [0,0]
 
     return answer
-
 
 def train_dictionary(Query):
    
@@ -340,8 +413,16 @@ def tfidf (remove_sw_query, remove_sw_final):
     removed_stopwords_Query_tfid = []
     removed_stopwords_Final_tfid = []
 
-    get_tfidf = get_tf_idf(remove_sw_query)
+    get_tfidf,get_index = get_tf_idf(remove_sw_query)
 
+    return (get_tfidf,get_index)
+        
+   
+   
+
+
+
+    '''
     for question,input_question in zip_longest(remove_sw_query,remove_sw_final):
     
         if input_question is not None:
@@ -360,3 +441,4 @@ def tfidf (remove_sw_query, remove_sw_final):
             removed_stopwords_Query_tfid.append(temp)
 
     return (removed_stopwords_Query_tfid,removed_stopwords_Final_tfid)
+    '''

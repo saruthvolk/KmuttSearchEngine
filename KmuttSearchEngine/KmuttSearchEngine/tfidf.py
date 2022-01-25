@@ -5,15 +5,17 @@ import math
 import time
 from sklearn.feature_extraction.text import TfidfVectorizer
 from collections import Counter
+from collections import defaultdict
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
 def get_tf_idf (sentences):
 
     vectors = []
+    i = 0
     start = time.time()
 
-    tfidf = {}
+    tfidf = defaultdict(dict)
 
     word_set = [word for question in sentences for word in question]
     total_documents = len(sentences)
@@ -21,32 +23,39 @@ def get_tf_idf (sentences):
     #index_dict = {} #Dictionary to store index for each word
     #i = 0
     #for word in word_set:
-       # index_dict[word] = i
-       # i += 1
+    #    index_dict[word] = i
+    #    i += 1
+    #print (index_dict)
     
     word_count = count_dict(sentences,word_set)
 
-    #tf_idf_vec = np.zeros((len(word_set),))
-
+    tf_idf_vec = np.zeros((len(word_set),))
+    tf_idf_sentence_value = []
+    
+    index_sentence = {}
     for sent in sentences:
+        i += 1
+        index_sentence[tuple(sent)] = i
+        tf_idf_sentence_value = []
         for word in sent:
-
             tf = termfreq(sent,word)
             idf = inverse_doc_freq(word,total_documents,word_count)
 
             value = tf*idf
-            
+            #tf_idf_sentence_value.append(value)
             #if (tfidf.get(word,value) != value):
             #    temp = tfidf[word]
             #    temp2 = value + temp
             #    tfidf[word] = temp2
-
+            #tfidf[i][word] = value
             #else:
-            tfidf[word] = value
+            tf_idf_sentence_value.append(value)
 
-    sorted_tfidf = dict(sorted(tfidf.items(), key=operator.itemgetter(1),reverse=True))
+        tfidf[i] = tf_idf_sentence_value
+        
+    #sorted_tfidf = dict(sorted(tfidf.items(), key=operator.itemgetter(1),reverse=True))
        
-    print (sorted_tfidf)
+    #print (sorted_tfidf)
 
     #for word in tfidf:
     #    tfidf_value = tfidf[word]
@@ -61,12 +70,11 @@ def get_tf_idf (sentences):
 
     #sorted_tfidf = dict(sorted(tfidf.items(), key=operator.itemgetter(1),reverse=True))
     #print (sorted_tfidf )
-    #print (vectors )
-
+ 
     end = time.time()
     print ("TFIDF: "+ str((end - start)))
 
-    return sorted_tfidf 
+    return (tfidf, index_sentence) 
 
 def count_dict(sentences,word_set):
 
