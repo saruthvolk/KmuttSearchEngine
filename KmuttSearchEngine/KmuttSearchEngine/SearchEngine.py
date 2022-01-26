@@ -1,7 +1,7 @@
 from pythainlp.word_vector import WordVector
 from pythainlp.tokenize import THAI2FIT_TOKENIZER
 from KmuttSearchEngine.Query import *
-from itertools import zip_longest, groupby, chain
+from itertools import zip_longest, groupby, chain, repeat
 from KmuttSearchEngine.tfidf import *
 from app.models import questionanswer
 from pythainlp.spell import NorvigSpellChecker
@@ -154,10 +154,13 @@ def augment(Input):
     final = []
 
     Output = aug.augment(Input, postag = True, max_syn_sent = 3 , postag_corpus='orchid', tokenize = 'Tokenized')
-    for x in range(len(Output)):
-        temp = "".join(Output[x])
+
+    for x in Output:
+        temp = "".join(x)
         final.append(temp)
-    
+
+    #final = ["".join(x) for x in Output]
+
     Input = ''.join(Input)
     final.append(Input)
 
@@ -175,43 +178,39 @@ def augment(Input):
 def word2vector(Query,final,tfidf_value,index_question):
 
     wv = WordVector()
-    answer = []
-    i,j,k,l = 0,0,0,0
+    wv1,wv2,answer = [],[],[]
+    i,j,value = 0,0,0
+
     start = time.time()
 
     wv.load_wordvector("thai2fit_wv")
 
-    wv1 = []
-    wv2= []
     #v1 = [wv.sentence_vectorizer(i, use_mean=False) for i in Query]
     v2 = [wv.sentence_vectorizer(i, use_mean=False) for i in final]
 
     length_question = {}
-    '''
-    for question in Query:
-        k += 1
+
+    for count,question in enumerate(Query):
         length = len(question)-1
-        length_question[k] = str(length)
+        length_question[count+1] = str(length)
 
     word_list = list(chain.from_iterable(Query))
 
     count = 1
-    value = 0
-
-    for word in word_list:
+ 
+    for _ in repeat(None,len(word_list)):
         temp = wv.word_vectorizer(word_list[0], use_mean=False)
-        word = word_list[0]
         value += (tfidf_value.get(count)[i])*temp 
         i += 1
-        word_list.remove(word)
+        del(word_list[0])
         if str(i-1) == length_question[count]:
            i = 0
            count += 1
            wv1.append(value)
            value = 0
+        else:
+            continue
     '''
-
-
     for question in Query:
         value,i = 0,0
         j += 1
@@ -220,22 +219,8 @@ def word2vector(Query,final,tfidf_value,index_question):
             value += (tfidf_value.get(j)[i])*temp 
             i += 1
         wv1.append(value)
-
-
-    end = time.time()
-    print ("w2v: "+ str((end - start)))
-
-    temp = [(1 - spatial.distance.cosine(test1,test2)) for test1 in wv1 for test2 in v2] 
-
-    def list_split(listA, n):
-        for x in range(0, len(listA), n):
-            every_chunk = listA[x: n+x]
-
-            if len(every_chunk) < n:
-                every_chunk = every_chunk + \
-                    [None for y in range(n-len(every_chunk))]
-            yield every_chunk
-
+    '''
+    temp = [(1 - spatial.distance.cosine(test1,test2)) for test1 in wv1 for test2 in v2]
     temp = list(list_split(temp, len(final)))
 
     '''
@@ -280,8 +265,21 @@ def word2vector(Query,final,tfidf_value,index_question):
     # use to dect if result found is 0 #
     if answer.count(answer[0]) == len(answer):   
         answer = [0,0]
+    
+    end = time.time()
+    print ("(volk) w2v: "+ str((end - start)))
 
     return answer
+
+def list_split(listA, n):
+
+    for x in range(0, len(listA), n):
+        every_chunk = listA[x: n+x]
+
+        if len(every_chunk) < n:
+          every_chunk = every_chunk + \
+            [None for y in range(n-len(every_chunk))]
+        yield every_chunk
 
 def train_dictionary(Query):
    
@@ -338,7 +336,7 @@ def stopwords (Query,final):
     #oskut.load_model(engine='scads')
     tokenized_Query = tokenized(Query)
     tokenized_Final = tokenized(final)
-    
+
     #Query = [x.split("|") for x in Query]
     #final = [x.split("|") for x in final]
 
@@ -418,10 +416,6 @@ def tfidf (remove_sw_query, remove_sw_final):
     return (get_tfidf,get_index)
         
    
-   
-
-
-
     '''
     for question,input_question in zip_longest(remove_sw_query,remove_sw_final):
     
