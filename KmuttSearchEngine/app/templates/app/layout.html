@@ -58,6 +58,8 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Something else here</a>
                 </div>
+            <span id="login" name='login'>hello,{{request.user.username}}</span>
+            <span><a href="{% url 'signout' %}"> signout </a></span>
             </li>
         </ul>
 

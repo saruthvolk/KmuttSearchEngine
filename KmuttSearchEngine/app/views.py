@@ -3,18 +3,20 @@ Definition of views.
 """
 import oskut
 import os
-from django.shortcuts import render
+import datetime
+from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from KmuttSearchEngine.SearchEngine import searchengine
 from KmuttSearchEngine.SearchEngine import train_dictionary
 from KmuttSearchEngine.Crud_QA import *
 from KmuttSearchEngine.Query import *
-from app.models import questionanswer
+from app.models import questionanswer, userinfo
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import authenticate, login, logout
 import json
 
 class Search_result:
@@ -31,8 +33,11 @@ class Search_result:
 
 def home(request):
 
+
 	"""Renders the home page."""
+
 	assert isinstance(request, HttpRequest)
+
 
 	query = queryDb_QA()
 	question = query.question;
@@ -266,3 +271,54 @@ def Crud_QA (request, operation,id):
 			return render(request,'app/index.html')
 		else:
 			return render(request, 'app/Viewquestion.html', {'query': result.query})
+
+
+def signin (request):
+
+	if request.method=='POST':
+		username1=request.POST['username']
+		password1=request.POST['password']
+		user = userinfo.objects.filter(username=username1).first()
+		if user and user.password == password1:
+			login(request,user)
+			print('111111111')
+			print(request.user.email)
+			return render(request,'app/index.html')
+		else:
+			return redirect('signin')
+	else:
+		return render(request,'app/login.html')
+
+def signout(request):
+	logout(request)
+	return redirect('signin')
+
+
+def register(request):
+	current_time = datetime.now().replace(microsecond=0)
+	if request.method == "POST" :
+		if  (request.POST.get('username') and request.POST.get('password')) or (request.POST.get('first_name') and request.POST.get('last_name')) and request.POST.get('email'):
+			saverecord = userinfo()
+			saverecord.username = request.POST.get('username')
+			#saverecord.question_sw = stopwords1(saverecord.question)
+			saverecord.password = request.POST.get('password')
+			saverecord.first_name = request.POST.get('first_name')
+			saverecord.last_name = request.POST.get('last_name')
+			saverecord.email = request.POST.get('email')
+			saverecord.created_by = 1 #waiting for user function
+			saverecord.updated_by = 1 #waiting for user function
+			saverecord.status = True
+			saverecord.updated_date = current_time
+			saverecord.updated_time = current_time
+			saverecord.created_date = current_time
+			saverecord.created_time = current_time
+			saverecord.last_login = current_time
+			saverecord.role_code = 2 #waiting for user function
+			saverecord.save()
+
+			return redirect('admin')
+		else:
+
+			return redirect('register')
+	else:
+		return render(request,'app/register.html')

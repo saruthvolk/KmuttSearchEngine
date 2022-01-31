@@ -22,7 +22,7 @@ def Add_QA(request):
 			saverecord.answer = request.POST.get('answer')
 			saverecord.question_en = request.POST.get('question_en')
 			saverecord.answer_en = request.POST.get('answer_en')
-			saverecord.user_id = 1 #waiting for user function
+			saverecord.user_id = request.user.id
 			saverecord.updated_by = 1 #waiting for user function
 			saverecord.status = True
 			saverecord.view_count = 1 #waiting for user function

@@ -1,0 +1,39 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<script src="https://cdn.tiny.cloud/1/lkp5p0w1fk12lr4trywat44qle2pxarpedhgjkdxxmsohyl2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+<head>
+    <meta charset="utf-8" />
+    <title> Register User </title>
+</head>
+<body>
+    <br /><br /><br />
+    <h1>Register form</h1>
+    <div class="form-group">
+        <form method="POST" class="was-validated">
+            {% csrf_token %}
+
+            <label for="Username">Username</label>
+            <input type="text" placeholder="enter username " name="username" class="form-control is-valid" required />
+
+            <label for="Password">Password</label>
+            <input type="text" placeholder="enter Password " name="password" class="form-control is-valid" required />
+
+            <label for="First Name">First Name</label>
+            <input type="text" placeholder="enter firstname " name="first_name" class="form-control is-valid" required />
+
+            <label for="Last Name">Last Name</label>
+            <input type="text" placeholder="enter lastname " name="last_name" class="form-control is-valid" required />
+
+            <label for="email">email</label>
+            <input type="text" placeholder="enter email " name="email" class="form-control is-valid" required />
+
+
+            <br />
+            <input type="submit" name="submit" id="submit" />
+        </form>
+    </div>
+</body>
+
+{% endblock %}

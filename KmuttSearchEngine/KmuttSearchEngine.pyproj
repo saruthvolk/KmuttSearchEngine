@@ -76,6 +76,7 @@
     <Content Include="app\templates\app\question.html" />
     <Content Include="app\templates\app\search.html" />
     <Content Include="app\templates\app\Viewquestion.html" />
+    <Content Include="app\templates\app\register.html" />
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
     <Content Include="app\static\app\content\bootstrap.css" />
