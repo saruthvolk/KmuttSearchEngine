@@ -1,5 +1,5 @@
 from pythainlp.word_vector import WordVector
-from pythainlp.tokenize import THAI2FIT_TOKENIZER
+from pythainlp.tokenize import THAI2FIT_TOKENIZER, word_tokenize
 from KmuttSearchEngine.Query import *
 from itertools import zip_longest, groupby, chain, repeat
 from KmuttSearchEngine.tfidf import *
@@ -13,9 +13,6 @@ import re
 from scipy import spatial
 import time
 import difflib
-
-class counter:
-    j,i = 0,0
 
 class return_Result:
   Retry = 0
@@ -62,11 +59,11 @@ def searchengine (search, query):
 
     #============ TF-IDF ==============#
 
-    tfid,index_question = tfidf(removed_stopwords_Query,removed_stopwords_Final) #TF-IDF
+    tfid,index_question,user_tfidf,removed_stopwords_Query = tfidf(removed_stopwords_Query,removed_stopwords_Final) #TF-IDF
 
     #======= W2V process ========#
 
-    answer = word2vector (removed_stopwords_Query , removed_stopwords_Final,tfid,index_question)
+    answer = word2vector(removed_stopwords_Query,removed_stopwords_Final,tfid,index_question,user_tfidf)
 
     pos = sorted(answer,reverse = True)
     pos = list(filter(lambda a: a != 0.0, pos))
@@ -125,24 +122,22 @@ def spellCheck(Input,train):
 
     correct = ""
 
-    start = time.time()
     oskut.load_model(engine='tl-deepcut-tnhc')
     tokenized = oskut.OSKut(Input,k=100)
-    end = time.time()   
-    print ("Spell check deepcut: "+ str((end - start)))
+
+    #tokenized = word_tokenize(Input, engine="nlpo3")
 
     checker_dataset = NorvigSpellChecker(custom_dict=train) #Using dict from dataset train
     #checker_ttc = NorvigSpellChecker(custom_dict=ttc.word_freqs()) #Using dict from pre data train
 
-    for x in range(len(tokenized)):
-        temp  = ""
-        temp = checker_dataset.correct(tokenized[x])
-        return_result.correct.append(temp)
+    return_result.correct = [checker_dataset.correct(word) for word in tokenized]
 
     return_result.correct = ''.join(return_result.correct)
 
     return_result.tokenized = tokenized
 
+    end = time.time() 
+    print ("Spell check deepcut: "+ str((end - start)))
     return return_result
 
 #========================= Create Synonyms Sentence ===========================#
@@ -175,7 +170,7 @@ def augment(Input):
 
 #========================= Word 2 Vector computation part ===========================#
 
-def word2vector(Query,final,tfidf_value,index_question):
+def word2vector(Query,final,tfidf_value,index_question,user_tfidf):
 
     wv = WordVector()
     wv1,wv2,answer = [],[],[]
@@ -185,9 +180,6 @@ def word2vector(Query,final,tfidf_value,index_question):
 
     wv.load_wordvector("thai2fit_wv")
 
-    #v1 = [wv.sentence_vectorizer(i, use_mean=False) for i in Query]
-    v2 = [wv.sentence_vectorizer(i, use_mean=False) for i in final]
-
     length_question = {}
 
     for count,question in enumerate(Query):
@@ -196,6 +188,25 @@ def word2vector(Query,final,tfidf_value,index_question):
 
     word_list = list(chain.from_iterable(Query))
 
+    user_question_index = next(iter(user_tfidf))
+    index_user = user_question_index
+
+    for question in final:
+        value,i = 0,0
+        for word in question:
+            temp = wv.word_vectorizer(word, use_mean=False)
+            value += (user_tfidf.get(index_user)[i])* temp 
+            i += 1
+        wv2.append(value)
+        index_user += 1
+
+    for count,question in enumerate(Query):
+          length = len(question)-1
+          length_question[count+1] = str(length)
+  
+    word_list = list(chain.from_iterable(Query))
+  
+    value,i = 0,0
     count = 1
  
     for _ in repeat(None,len(word_list)):
@@ -210,51 +221,9 @@ def word2vector(Query,final,tfidf_value,index_question):
            value = 0
         else:
             continue
-    '''
-    for question in Query:
-        value,i = 0,0
-        j += 1
-        for word in question:
-            temp = wv.word_vectorizer(word, use_mean=False)
-            value += (tfidf_value.get(j)[i])*temp 
-            i += 1
-        wv1.append(value)
-    '''
-    temp = [(1 - spatial.distance.cosine(test1,test2)) for test1 in wv1 for test2 in v2]
+
+    temp = [(1 - spatial.distance.cosine(test1,test2)) for test1 in wv1 for test2 in wv2]
     temp = list(list_split(temp, len(final)))
-
-    '''
-    #  get the max value from the list of the answer #
-    for x in temp:
-        max_value = max(x)
-        if max_value < 0.55:    
-            max_value = 0.0
-        answer.append(max_value)
-
-    location = np.argsort(answer)[::-1]
-
-    for question in final:
-        for word in question:
-            temp = wv.word_vectorizer(word, use_mean=False)
-            try:
-                pos = Query[location[0]].index(word)
-                print(pos)
-            except ValueError:
-                pos = "not found"
-            if pos is not "not found" :
-               print(word)
-               value = tfidf_value.get(location[0]+1)[pos]
-               print (value)
-               value1 += value*temp
-            else:
-               value1 = temp
-        wv2.append(value1)
-    
-    temp = [(1 - spatial.distance.cosine(test1,test2)) for test1 in wv1 for test2 in wv2] 
-    temp = list(list_split(temp, len(final)))
-
-    answer = []
-    '''
 
     for x in temp:
         max_value = max(x)
@@ -333,12 +302,8 @@ def stopwords (Query,final):
     words_list = f.read().splitlines()
     f.close()
 
-    #oskut.load_model(engine='scads')
     tokenized_Query = tokenized(Query)
     tokenized_Final = tokenized(final)
-
-    #Query = [x.split("|") for x in Query]
-    #final = [x.split("|") for x in final]
 
     for word_query,word_final in zip_longest(tokenized_Query,tokenized_Final,fillvalue=None):
 
@@ -389,50 +354,37 @@ def tokenized (Query):
 
     tokenized_Query = []
 
-    #oskut.load_model(engine='scads')
-
     for x in Query:
         temp = []
         if x is '':
              x = 'Null';
         else:
             token = THAI2FIT_TOKENIZER.word_tokenize(x)
-            #tokenized_Query.append('|'.join(token))
+
             token = [x.strip(" ") for x in token if x.strip(" ")]
             
             tokenized_Query.append(token)
     
     return tokenized_Query
 
+
 def tfidf (remove_sw_query, remove_sw_final):
 
-    MAX_TFIDF = 0.121
-
+    start = time.time()
+  
     removed_stopwords_Query_tfid = []
     removed_stopwords_Final_tfid = []
+  
 
-    get_tfidf,get_index = get_tf_idf(remove_sw_query)
+    for x in remove_sw_final:
+        remove_sw_query.append(x)
 
-    return (get_tfidf,get_index)
-        
-   
-    '''
-    for question,input_question in zip_longest(remove_sw_query,remove_sw_final):
-    
-        if input_question is not None:
+    get_tfidf,get_index,user_tfidf = get_tf_idf(remove_sw_query,remove_sw_final)
 
-            temp = [word for word in question if get_tfidf[word] > MAX_TFIDF]
-            print(temp)
-            removed_stopwords_Query_tfid.append(temp)
+    del remove_sw_query[-(len(remove_sw_final)):]
 
-            temp1 = [word for word in input_question if get_tfidf.get(word, float(1)) > MAX_TFIDF]
-            print (temp1)
-            removed_stopwords_Final_tfid.append(temp1)
+    end = time.time()
+    print ("TFIDF: "+ str((end - start)))
+  
 
-        else:
-            temp = [word for word in question if get_tfidf[word] > MAX_TFIDF]
-            print(temp)
-            removed_stopwords_Query_tfid.append(temp)
-
-    return (removed_stopwords_Query_tfid,removed_stopwords_Final_tfid)
-    '''
+    return (get_tfidf,get_index,user_tfidf,remove_sw_query)
