@@ -6,6 +6,7 @@ from django.db import models
 import datetime
 from django.contrib.auth.models import User 
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser,UserManager
 
 # Create your models here.
 
@@ -50,7 +51,7 @@ class edit_questionanswer (models.Model):
         managed = False
         ordering = ('id',)
 
-class userinfo(models.Model):
+class userinfo(AbstractBaseUser):
 
     id = models.AutoField(primary_key=True,unique=True)
     username = models.CharField(max_length = 1000,unique=True)
@@ -72,6 +73,11 @@ class userinfo(models.Model):
     path_profile_pic = models.CharField(max_length = 1000)
     role_code = models.IntegerField()
 
+    REQUIRED_FIELDS = ('id',)
+    USERNAME_FIELD = 'username'
+    PASSWORD_FIELD = 'password'
+
+    objects = UserManager()
 
     class Meta:  
       db_table="user"
