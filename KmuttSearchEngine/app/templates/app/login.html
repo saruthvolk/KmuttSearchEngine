@@ -45,7 +45,7 @@
 
 .login {
 	width: 90%;
-	height: 500px;
+	height: 600px;
 	background-color: #fff;
 	margin-left: auto;
 	padding: 15px;
@@ -236,12 +236,15 @@ input:checked + .slider:before {
 		<div class="row justify-content-center">
 		<div class="col-lg-8">
 			<div class="login">
-
 				<img src="{% static 'img/logo.png' %}" alt="logo" id="logo"/>
-
 				<!-- Loging form -->
-				<form method="POST">
+				<form method="POST" class="/login"> 
 					{% csrf_token %}
+					{% if error %}
+					<div style="text-transform:capitalize;">
+						<p style="border:2px; border-style:solid; border-color:#ffcccb;border-radius: 10px; padding: 1em;background-color:#ffcccb;color:red">{{error}}</p>
+					</div>
+					{% endif %}
 					<div class="form-group">
 						<input type="text" name="username" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username">
 
@@ -251,7 +254,6 @@ input:checked + .slider:before {
 					</div>
 
 					<div class="form-check">
-
 						<label class="switch">
 							<input type="checkbox">
 							<span class="slider round"></span>
@@ -263,6 +265,7 @@ input:checked + .slider:before {
 					</div>
 
 					<br>
+					
 					<button type="submit" class="btn btn-lg btn-block btn-success">Sign in</button>
 				</form>
 				<!-- End Loging form -->

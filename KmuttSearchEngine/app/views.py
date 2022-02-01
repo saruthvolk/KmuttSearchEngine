@@ -275,17 +275,18 @@ def Crud_QA (request, operation,id):
 
 def signin (request):
 
-    if request.method=='POST':
-        username1=request.POST['username']
-        password1=request.POST['password']
-        user = authenticate(username = username1, password =password1)
-        if user is not None:
-            login(request , user)
-            return redirect('/') 
-        else:
-            return redirect('signin')
-    else:
-        return render(request,'app/login.html')
+	if request.method=='POST':
+		username1=request.POST['username']
+		password1=request.POST['password']
+		user = authenticate(username = username1, password =password1)
+		if user is not None:
+			login(request , user)
+			return redirect('/') 
+		else:
+			context = {"error":"Invalid Username or Password"}
+			return render(request,'app/login.html',context)
+	else:
+		return render(request,'app/login.html')
 
 def signout(request):
 	logout(request)
