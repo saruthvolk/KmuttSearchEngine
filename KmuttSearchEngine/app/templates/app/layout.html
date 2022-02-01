@@ -1,93 +1,137 @@
 <!DOCTYPE html>
+{% load static %}
 <style>
-    #notification {
-        color: aliceblue;
-        margin-right: 1vw;
-    }
-    #notification:hover {
-        color: #f37a3b;
-    }
+	#notification {
+		color: aliceblue;
+		margin-right: 1vw;
+	}
+	#notification:hover {
+		color: #f37a3b;
+	}
 
-    #logo {
-        color: #f37a3b;
-    }
+	#logo {
+		color: #f37a3b;
+	}
 
-    #logo:hover {
-        color: aliceblue;
-    }
+	#logo:hover {
+		color: aliceblue;
+	}
+
+	#profile_pic {
+		background-image: url("{% static request.user.path_profile_pic %}");
+		background-size: 46px 46px;
+		width: 46px;
+		height: 46px;
+		position: relative;
+		border-radius: 50%;
+		margin-right: 20px;
+		margin-left: 10px;
+		border-color: #343a40;
+	}
+
+
+	#profile_menu {
+		margin-right: 50%;
+	}
+
+	.dropdown-item:hover {
+		color: #f37a3b;
+	}
+	
+	.notification {
+		position: relative;
+	}
 
 </style>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KMUTT-Knowledgebase</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'app/scripts/jquery-ui.min.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
-    <script src="{% static 'app/scripts/jquery-3.6.0.min.js' %}"></script>
-    <script src="{% static 'app/scripts/jquery-ui.min.js' %}"></script>
-    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>KMUTT-Knowledgebase</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'app/scripts/jquery-ui.min.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
+	<script src="{% static 'app/scripts/jquery-3.6.0.min.js' %}"></script>
+	<script src="{% static 'app/scripts/bootstrap.min.js' %}"></script>
+	<script src="{% static 'app/scripts/jquery-ui.min.js' %}"></script>
+	<script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
 </head>
 
 <body>
 <nav class="navbar navbar-expand-lg navbar fixed-top navbar-dark bg-dark" style="background-color: #f76d00">
-    <a class="navbar-brand" href="{% url 'home' %}" style="font-weight: bold;" id="logo">KMUTT-Knowledgebase</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+	<a class="navbar-brand" href="{% url 'home' %}" style="font-weight: bold;" id="logo">KMUTT-Knowledgebase</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'admin' %}">Admin</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'signin' %}">Login</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            <span id="login" name='login'>hello,{{request.user.username}}</span>
-            <span><a href="{% url 'signout' %}"> signout </a></span>
-            </li>
-        </ul>
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item active">
+				<a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'admin' %}">Admin</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'signin' %}">Login</a>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Dropdown
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<a class="dropdown-item" href="#">Action</a>
+					<a class="dropdown-item" href="#">Another action</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" href="#">Something else here</a>
+				</div>
+			</li>
+		</ul>
 
-        <a href="#">
-        <i class="fas fa-bell fa-lg" id="notification" ></i>
-        </a>
+		<span id="login" name='login' style="color:aliceblue">Welcome, {{request.user.username}}</span>
 
-        <form action="{% url 'search' %}" class="form-inline" method="POST">
-            {% csrf_token %}
-            <input name="search" id="search-input" tpye = "search" class="form-control mr-sm-2" placeholder="Search">
-            <button id="search-button" type="button" class="btn btn-primary">
-                <i class="fas fa-search"></i>
-            </button>
-        </form>
-    </div>
+		<div class="dropdown">
+			<button class="btn btn-secondary" id="profile_pic" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+			<div class="profile_pic">
+				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="profile_pic" id="profile_menu" style="margin-right: 20px; margin-top: 5px">
+					<a class="dropdown-item" href="#">My Profile</a>
+					<a class="dropdown-item" href="#">My Requests</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" href="{% url 'signout' %}">Sign out</a>
+				</div>
+			</div>
+		</div>
+
+		
+	<div class="dropdown1">
+		<button class="fas fa-bell fa-lg" id="notification" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+		<div class="notification menu">
+			<div class="dropdown-menu  dropdown-menu-right" aria-labelledby="notification menu" style="margin-top: 14px">
+				<a class="dropdown-item" href="#"><i class="fas fa-exclamation-circle"></i>  You don't have notification right now</a>
+			</div>
+		</div>
+	</div>
+
+
+		<form action="{% url 'search' %}" class="form-inline" method="POST">
+			{% csrf_token %}
+			<input name="search" id="search-input" tpye = "search" class="form-control mr-sm-2" placeholder="Search">
+			<button id="search-button" type="button" class="btn btn-primary">
+				<i class="fas fa-search"></i>
+			</button>
+		</form>
+	</div>
 </nav>
 
 
-    <div class="container body-content">
+	<div class="container body-content">
 {% block content %}{% endblock %}
-        <hr/>
-        <footer>
-            <p>&copy; {{ year }} Kmutt-Knowledge base</p>
-        </footer>
-    </div>
+		<hr/>
+		<footer>
+			<p>&copy; {{ year }} Kmutt-Knowledge base</p>
+		</footer>
+	</div>
 
 {% block scripts %}
-<script src="{% static 'app/scripts/bootstrap.js' %}"></script>
 <script src="{% static 'app/scripts/respond.js' %}"></script>
 {% endblock %}
 
