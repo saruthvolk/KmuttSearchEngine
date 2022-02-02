@@ -17,6 +17,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 import json
 
 class Search_result:
@@ -31,6 +32,7 @@ class Search_result:
   oskut.load_model(engine='deepcut')
   tokenized = oskut.OSKut("Process",k=1)
 
+@login_required(login_url='/login')
 def home(request):
 
 
@@ -56,6 +58,7 @@ def home(request):
 		}
 	)
 
+@login_required(login_url='/login')
 def contact(request):
 	"""Renders the contact page."""
 	assert isinstance(request, HttpRequest)
@@ -69,6 +72,7 @@ def contact(request):
 		}
 	)
 
+@login_required(login_url='/login')
 def train_dict(request):
 
 	assert isinstance(request, HttpRequest)
@@ -86,6 +90,7 @@ def train_dict(request):
 		message = 'Done'
 		return render(request,'app/index.html', {'message':'Done'})
 
+@login_required(login_url='/login')
 def search(request):
 
 	assert isinstance(request, HttpRequest)
@@ -130,7 +135,7 @@ def search(request):
 	   check = 0
 	   return render(request,'app/search.html', {'Question': pre_search, 'query': query1, 'Question': pre_search, 'Percentage': query2, 'length': length })
 
-
+@login_required(login_url='/login')
 def about(request):
 	"""Renders the about page."""
 	assert isinstance(request, HttpRequest)
@@ -144,6 +149,7 @@ def about(request):
 		}
 	)
 
+@login_required(login_url='/login')
 def question(request,id):
 	"""Renders the about page."""
 	assert isinstance(request, HttpRequest)
@@ -165,6 +171,7 @@ def question(request,id):
 		}
 	)
 
+@login_required(login_url='/login')
 def Admin(request):
 	"""Renders the about page."""
 	assert isinstance(request, HttpRequest)
@@ -281,7 +288,10 @@ def signin (request):
 		user = authenticate(username = username1, password =password1)
 		if user is not None:
 			login(request , user)
-			return redirect('/') 
+			if request.user.role_code is 1:
+				return render(request,'app/Admin.html')
+			else:
+				return redirect('/') 
 		else:
 			context = {"error":"Invalid Username or Password"}
 			return render(request,'app/login.html',context)
