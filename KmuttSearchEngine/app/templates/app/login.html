@@ -1,7 +1,8 @@
-<!doctype html>
+﻿<!doctype html>
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'app/scripts/jquery-ui.min.css' %}"/>
 <script src="{% static 'app/scripts/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'app/scripts/bootstrap.min.js' %}"></script>
 <script src="{% static 'app/scripts/jquery-ui.min.js' %}"></script>
 <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
 <style>
@@ -282,7 +283,7 @@
                         </label>
                         <label class="form-check-label" for="exampleCheck1">Remember me</label>
 
-                        <label class="forgot-password"><a href="#">Forgot Password?</a></label>
+                        <label class="forgot-password" data-toggle="modal" data-target="#forgotpassword"><a href="#">Forgot Password?</a></label>
 
                     </div>
 
@@ -292,6 +293,22 @@
                 </form>
                 <!-- End Loging form -->
 
+                <!-- Modal -->
+                <div class="modal fade" id="forgotpassword" tabindex="-1" role="dialog" aria-labelledby="forgotpasswordTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="forgotpasswordTitle">Notice</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                โปรดติดต่อเจ้าหน้าที่ที่ดูเเลเว็บไซต์
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         </div>

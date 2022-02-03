@@ -75,6 +75,7 @@
     <Content Include="app\templates\app\Editquestion.html" />
     <Content Include="app\templates\app\question.html" />
     <Content Include="app\templates\app\search.html" />
+    <Content Include="app\templates\app\Usermanagement.html" />
     <Content Include="app\templates\app\Viewquestion.html" />
     <Content Include="app\templates\app\register.html" />
     <Content Include="requirements.txt" />

@@ -18,6 +18,7 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('question/<id>', views.question, name='question'),
     path('admin/', views.Admin, name='admin'),
+    path('admin/user', views.usermanagement, name='user'),
     path('Crud_QA/<operation>/<id>', views.Crud_QA, name='Crud_QA'),
     path('about/', views.about, name='about'),
     path('login/',views.signin, name='signin'),

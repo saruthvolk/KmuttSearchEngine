@@ -5,6 +5,8 @@
 
 {% load static %}
 
+<head>
+
 <script>
 
     $(function(){ 
@@ -37,6 +39,9 @@
 </script>
 
 <style>
+    body{
+        font-family: 'Prompt', sans-serif;
+    }
 
     .highlight {
         color: #e87639;
@@ -101,11 +106,11 @@
 
 
     #search {
-        background-color: #f37a3b;
         background-image: url("{% static 'img/bg.png' %}");
         background-position: 0px -410px;
         color: aliceblue;
         Height: 600px;
+        position: relative;
         margin-left: -40%;
         margin-right: -40%;
         text-align: center;
@@ -229,7 +234,8 @@
         border: 2px solid  #f37a3b;;
     }
 </style>
-
+</head>
+<body>
 <div class="jumbotron" id="search">
     <h1 style="margin-top: 140px;">How can we help you ?</h1>
     <p class="lead">Type the question you want to ask </p>
@@ -295,4 +301,5 @@
         {% endfor %}
     </div>
 </div>
+</body>
 {% endblock %}

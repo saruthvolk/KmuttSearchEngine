@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.shortcuts import render
 from django.http import HttpRequest
-from app.models import questionanswer
+from app.models import *
 from django.http import HttpRequest
 
 
@@ -35,6 +35,30 @@ class questionanswerDto:
          questionanswerDto.status = []
          questionanswerDto.view_count = []
          #questionanswerDto.question_tokenized = []
+
+class UserDto:
+
+    id = []
+    username = []
+    password = []
+    created_by = []
+    created_time = []
+    created_date = []
+    updated_by = []
+    updated_time = []
+    updated_date = []
+    deleted_by = []
+    deleted_date = []
+    deleted_time = []
+    status = []
+    first_name = []
+    last_name = []
+    email = []
+    last_login = []
+    path_profile_pic = []
+    role_code =[]
+    gender =[]
+    date_of_birth = []
 
 def queryDb_QA():
 
@@ -79,5 +103,15 @@ def queryDb_QA_All():
         view_count = []
  
    query = list(questionanswer.objects.all())  
+
+   return query
+
+def queryDb_User_All():
+   
+   query = list(userinfo.objects.all()) 
+
+   for user in query:   
+       role = user_role.objects.get(role_code=user.role_code)
+       user.role_code = role.role_name
 
    return query

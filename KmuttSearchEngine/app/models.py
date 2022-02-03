@@ -72,6 +72,8 @@ class userinfo(AbstractBaseUser):
     last_login = models.DateTimeField(default=now, editable=True)
     path_profile_pic = models.CharField(max_length = 1000)
     role_code = models.IntegerField()
+    gender =models.CharField(max_length = 1000)
+    date_of_birth = models.DateTimeField(default=None, editable=True)
 
     REQUIRED_FIELDS = ('id',)
     USERNAME_FIELD = 'username'
@@ -83,3 +85,11 @@ class userinfo(AbstractBaseUser):
       db_table="user"
       managed = False
       ordering = ('id',)
+
+class user_role (models.Model):
+
+    role_code = models.IntegerField(primary_key=True,unique=True)
+    role_name = models.CharField(max_length = 1000)
+
+    class Meta:
+      db_table="user_role"

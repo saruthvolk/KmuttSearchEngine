@@ -180,7 +180,6 @@ def Admin(request):
 		'app/Admin.html',
 		{
 			'title':'Admin Panel',
-			'year':datetime.now().year,
 		}
 	)
 
@@ -303,6 +302,37 @@ def signout(request):
 	return redirect('signin')
 
 
+def usermanagement(request):
+
+	assert isinstance(request, HttpRequest)
+	user_info = queryDb_User_All()
+
+	page = request.GET.get('page', 1)
+
+	if page == 1:
+		user_info = queryDb_User_All()
+		
+	paginator = Paginator(user_info, 5)
+
+	try:
+		query1 = paginator.page(page)
+
+	except PageNotAnInteger:
+		query1 = paginator.page(1)
+
+	except EmptyPage:
+		query1 = paginator.page(paginator.num_pages)
+
+	return render(
+		request,
+		'app/Usermanagement.html',
+		{
+			'title':'User Management',
+			'message':'Your application description page.',
+			'user':user_info,
+			'query': query1
+		}
+	)
 def register(request):
 	current_time = datetime.now().replace(microsecond=0)
 	if request.method == "POST" :
