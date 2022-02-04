@@ -1,39 +1,241 @@
 {% extends "app/layout.html" %}
-
 {% block content %}
+{% load static %}
 <script src="https://cdn.tiny.cloud/1/lkp5p0w1fk12lr4trywat44qle2pxarpedhgjkdxxmsohyl2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css"/>
+
+<style>
+    body {
+        #background-image: url("{% static 'img/regis_bg.jpg' %}");
+    }
+    #logo { fill: #e87639; }
+
+    #Error {
+        background-color: #ffcccb;
+        border: 2px;
+        border-color: #ffcccb;
+        border-radius: 10px;
+        border-style: solid;
+        color: red;
+        height: 60px;
+        margin-bottom: 15px;
+        padding: 1em;
+    }
+
+    #frame {
+        border: 3px;
+        border-color: #b5b5b5;
+        border-radius: 50% 50% 50% 50%;
+        border-style: solid;
+        height: 200px;
+        margin-left: 120px;
+        margin-right: auto;
+        width: 200px;
+    }
+</style>
+<script>
+    function shake() {
+        $("#Error").effect("shake");
+    }
+
+
+    $(document).ready(function() {
+        $("#datepicker").datepicker({
+            format: 'yyyy-mm-dd' //can also use format: 'dd-mm-yyyy'     
+        });
+    });
+
+    function preview() {
+        frame.src = URL.createObjectURL(event.target.files[0]);
+    }
+
+</script>
 
 <head>
-    <meta charset="utf-8" />
-    <title> Register User </title>
+    <meta charset="utf-8"/>
+
+    <title > Register User </title>
 </head>
 <body>
-    <br /><br /><br />
-    <h1>Register form</h1>
-    <div class="form-group">
-        <form method="POST" class="was-validated">
-            {% csrf_token %}
+<div class="container py-5 h-100" style="margin-top: 50px">
+    <div class="row justify-content-center align-items-center h-100" style="width: 1000px; margin-left: -15%;">
+        <div class="col-12 col-lg-9 col-xl-7" style="width: 1000px">
+            <div class="card shadow-2-strong card-registration" style="border-radius: 15px; width: 1000px">
+                <div class="card-header p-1 p-md-4" style="background-color: #032539; border-radius: 15px 15px 0px 0px; height: 90px;">
+                    <h3 class="mb-4 pb-2 pb-md-0 mb-md-5" style="color: aliceblue; margin-top: 5px; text-align: center;">
+                        <b>Registration Form</b>
+                    </h3>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form method="POST" class="was-validated" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% if error %}
+                        <div style="text-transform: capitalize;" id="Error">
+                            <p><i class="fas fa-exclamation-triangle" style="margin-right: 10px;"></i> {{error}}</p>
+                            <script type="text/javascript">
+                                shake();
+                            </script>
+                        </div>
+                        {% endif %}
 
-            <label for="Username">Username</label>
-            <input type="text" placeholder="enter username " name="username" class="form-control is-valid" required />
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
 
-            <label for="Password">Password</label>
-            <input type="text" placeholder="enter Password " name="password" class="form-control is-valid" required />
+                                <div class="form-outline">
+                                    <label class="form-label" for="username"><i class="fas fa-user"></i> Username</label>
+                                    <input type="text" id="username" name="username" class="form-control is-valid" placeholder="Enter Username" required/>
+                                </div>
 
-            <label for="First Name">First Name</label>
-            <input type="text" placeholder="enter firstname " name="first_name" class="form-control is-valid" required />
+                            </div>
+                            <div class="col-md-6 mb-4">
 
-            <label for="Last Name">Last Name</label>
-            <input type="text" placeholder="enter lastname " name="last_name" class="form-control is-valid" required />
+                                <div class="form-outline">
+                                    <label class="form-label" for="password"><i class="fas fa-key"></i> Password</label>
+                                    <input type="password" id="password" name="password" class="form-control is-valid" placeholder="Enter Password" required/>
+                                </div>
 
-            <label for="email">email</label>
-            <input type="text" placeholder="enter email " name="email" class="form-control is-valid" required />
+                            </div>
+                            <div class="col-md-6 mb-4">
+
+                                <div class="form-outline">
+                                    <label class="form-label" for="firstName"><i class="fas fa-user-edit"></i> First Name</label>
+                                    <input type="text" id="firstName" name="first_name" class="form-control is-valid" placeholder="Enter First Name" required/>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6 mb-4">
+
+                                <div class="form-outline">
+                                    <label class="form-label" for="lastName"> Last Name</label>
+                                    <input type="text" id="lastName" name="last_name" class="form-control is-valid" placeholder="Enter Last Name" required/>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4 d-flex align-items-center">
+
+                                <div class="form-outline">
+                                    <label for="birthdayDate" class="form-label"><i class="fas fa-birthday-cake"></i> Birthday</label>
+                                    <input
+                                        class="form-control is-valid"
+                                        id="datepicker"
+                                        name="date_of_birth"
+                                        placeholder=" YYYY-MM-DD format"
+                                        style="width: 240px"
+                                        required/>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6 mb-4">
+
+                                <h6 class="mb-2 pb-1"><i class="fas fa-venus-mars"></i> Gender: </h6>
+
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label" for="femaleGender">Female</label>
+                                    <input
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="gender"
+                                        id="femaleGender"
+                                        value="female"
+
+                                        required/>
+
+                                </div>
+
+                                <label class="form-check-label" for="maleGender">Male</label>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="gender"
+                                        id="maleGender"
+                                        value="male"/>
+                                </div>
 
 
-            <br />
-            <input type="submit" name="submit" id="submit" />
-        </form>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label" for="otherGender">Other</label>
+                                    <input
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="gender"
+                                        id="otherGender"
+                                        value="other"/>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4 pb-2">
+
+                                <div class="form-outline">
+                                    <label class="form-label" for="emailAddress"><i class="fas fa-envelope"></i> Email</label>
+                                    <input type="email" id="emailAddress" name="email" class="form-control is-valid" placeholder="Enter Email" required/>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6 mb-4 pb-2">
+
+                                <div class="form-outline">
+                                    <label class="form-label" for="phoneNumber"><i class="fas fa-phone"></i> Phone Number</label>
+                                    <input type="tel" id="phoneNumber" name="phone_no" class="form-control is-valid" placeholder="Enter Phone Number" required/>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+
+                                <label class="form-label select-label"><i class="fas fa-building"></i> Choose Department</label>
+                                <select class="select form-control is-valid" required>
+                                    <option value="1">CPE(1)</option>
+                                    <option value="2" disabled>Subject 1</option>
+                                    <option value="3" disabled>Subject 2</option>
+                                    <option value="4" disabled>Subject 3</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+
+                                <br/>
+                                <label class="form-label select-label"><i class="fas fa-user-circle"></i> Profile Picture</label>
+                                <input class="form-control form-control-xs" id="formFileLg" name="avatar" type="file" accept="image/jpeg, image/png" onchange="preview()" style="height: 43px"/>
+                                <div class="small text-muted mt-2">upload profile picture. Max file size 50 MB</div>
+                                <br/>
+                            </div>
+
+                            <div class="col-md-6 mb-4 pb-2">
+                                <br/>
+                                <label class="form-label select-label"><i class="fas fa-image"></i> Preview </label>
+                                <br/>
+                                <img id="frame" src="{% static 'img/user.png' %}" alt="your image"/>
+                            </div>
+
+                        </div>
+
+
+                        <div class="mt-4 pt-2" style="margin-left: 380px; margin-right: auto">
+                            <form method="link" action="{% url 'user' %}">
+                                <input type="button" value="Cancel" class="btn btn-danger">
+                            </form>
+                            <input class="btn btn-primary" type="submit"/>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+
 </body>
 
 {% endblock %}

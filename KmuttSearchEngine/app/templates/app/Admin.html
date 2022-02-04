@@ -14,7 +14,11 @@
         <option value="{% url 'Crud_QA' operation='Add' id='0' %}" href="{% url 'Crud_QA' operation='Add' id='0' %}">Add</option>
         <option value="{% url 'Crud_QA' operation='View' id='0' %}" href="{% url 'Crud_QA' operation='View' id='0' %}">View</option>
     </select>
-   <button type="submit" class="btn-primary" style="margin-left: 2.5em;" formaction="{% url 'train_dict' %}"> Train Dict</button>
+    <br/>
+    <br/>
+    <form method="link" action="{% url 'user' %}">
+        <input type="button" value="User Management" class="btn-primary">
+    </form>
 </div>
 
 {% endblock %}

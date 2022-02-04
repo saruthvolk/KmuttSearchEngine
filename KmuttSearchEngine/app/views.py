@@ -333,14 +333,46 @@ def usermanagement(request):
 			'query': query1
 		}
 	)
+
 def register(request):
-	current_time = datetime.now().replace(microsecond=0)
+	current_time = datetime.datetime.now().replace(microsecond=0)
 	if request.method == "POST" :
-		if  (request.POST.get('username') and request.POST.get('password')) or (request.POST.get('first_name') and request.POST.get('last_name')) and request.POST.get('email'):
+		if  (request.POST.get('username') and request.POST.get('password') and request.POST.get('first_name') and request.POST.get('last_name') and request.POST.get('email') and 
+	   request.POST.get('date_of_birth') and request.POST.get('gender') and request.POST.get('phone_no')):
 			saverecord = userinfo()
+			password1 = request.POST.get('password')
+			username1 = request.POST.get('username')
+			email1 = request.POST.get('email')
+			if userinfo.objects.filter(username=username1).exists():
+				context = {"error":"Username already exist"}
+				return render(request,'app/register.html',context)
+			if userinfo.objects.filter(email=email1).exists():
+				context = {"error":"Email already exist"}
+				return render(request,'app/register.html',context)
+			print('222222')
+			try: 
+				img = request.FILES['avatar']
+				print(img);
+				img_extension = os.path.splitext(img.name)[1]
+				print(img_extension)
+				user_folder = 'static/img/Profile_Pic/' + str(request.POST.get('username'))
+				if not os.path.exists(user_folder):
+					os.mkdir(user_folder)
+				destination = open('static/img/Profile_Pic/'+str(request.POST.get('username'))+'/'+str(request.POST.get('username'))+str(img_extension), 'wb+')
+				path = ('static/img/Profile_Pic/'+str(request.POST.get('username'))+'/'+str(request.POST.get('username'))+str(img_extension))
+				for chunk in img.chunks():
+					print('1')
+					destination.write(chunk)
+				destination.close()
+			except:
+				path = ''
+			saverecord.path_profile_pic = path
 			saverecord.username = request.POST.get('username')
+			saverecord.gender = request.POST.get('gender')
+			saverecord.date_of_birth = request.POST.get('date_of_birth')
+			saverecord.phone_no = request.POST.get('phone_no')
 			#saverecord.question_sw = stopwords1(saverecord.question)
-			saverecord.password = request.POST.get('password')
+			saverecord.password = make_password(password1)
 			saverecord.first_name = request.POST.get('first_name')
 			saverecord.last_name = request.POST.get('last_name')
 			saverecord.email = request.POST.get('email')
