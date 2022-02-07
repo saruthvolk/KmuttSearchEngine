@@ -82,6 +82,10 @@
     <Content Include="app\templates\app\Usermanagement.html" />
     <Content Include="app\templates\app\Viewquestion.html" />
     <Content Include="app\templates\app\register.html" />
+    <Content Include="app\templates\password_reset.html" />
+    <Content Include="app\templates\password_reset_done.html" />
+    <Content Include="app\templates\password_reset_form.html" />
+    <Content Include="app\templates\password_reset_sent.html" />
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
     <Content Include="app\static\app\content\bootstrap.css" />

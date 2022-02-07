@@ -411,7 +411,7 @@ def register(request):
 			saverecord.email = request.POST.get('email')
 			saverecord.created_by = 1 #waiting for user function
 			saverecord.updated_by = 1 #waiting for user function
-			saverecord.status = True
+			saverecord.is_active = True
 			saverecord.updated_date = current_time
 			saverecord.updated_time = current_time
 			saverecord.created_date = current_time

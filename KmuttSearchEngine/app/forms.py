@@ -8,6 +8,8 @@ from django.utils.translation import ugettext_lazy as _
 from app.models import questionanswer, userinfo
 from django.contrib.auth.models import User
 
+from django.contrib.auth.forms import PasswordResetForm
+
 #class BootstrapAuthenticationForm(AuthenticationForm):
 #    """Authentication form which uses boostrap CSS."""
 #    username = forms.CharField(max_length=254,

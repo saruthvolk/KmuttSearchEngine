@@ -65,7 +65,7 @@ class userinfo(AbstractBaseUser):
     deleted_by = models.CharField(max_length = 1000)
     deleted_date = models.DateTimeField(default=None, editable=True)
     deleted_time = models.DateTimeField(default=None, editable=True)
-    status = models.BooleanField()
+    is_active = models.BooleanField()
     first_name = models.CharField(max_length = 1000)
     last_name = models.CharField(max_length = 1000)
     email = models.CharField(max_length = 1000)
