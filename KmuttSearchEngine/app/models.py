@@ -74,6 +74,7 @@ class userinfo(AbstractBaseUser):
     role_code = models.IntegerField()
     gender =models.CharField(max_length = 1000)
     date_of_birth = models.DateTimeField(default=None, editable=True)
+    phone_no = models.CharField(max_length = 1000)
 
     REQUIRED_FIELDS = ('id',)
     USERNAME_FIELD = 'username'

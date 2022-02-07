@@ -115,3 +115,13 @@ def queryDb_User_All():
        user.role_code = role.role_name
 
    return query
+
+def queryDb_User(id):
+   
+   query = userinfo.objects.filter(id=id)
+
+   for user in query:   
+       role = user_role.objects.get(role_code=user.role_code)
+       user.role_code = role.role_name
+
+   return query

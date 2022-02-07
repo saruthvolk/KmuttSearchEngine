@@ -42,6 +42,9 @@
     <Compile Include="KmuttSearchEngine\Crud_QA.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="KmuttSearchEngine\Crud_User.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="KmuttSearchEngine\Query.py">
       <SubType>Code</SubType>
     </Compile>
@@ -73,6 +76,7 @@
     <Content Include="app\templates\app\Admin.html" />
     <Content Include="app\templates\app\CRUDquestion.html" />
     <Content Include="app\templates\app\Editquestion.html" />
+    <Content Include="app\templates\app\profile.html" />
     <Content Include="app\templates\app\question.html" />
     <Content Include="app\templates\app\search.html" />
     <Content Include="app\templates\app\Usermanagement.html" />

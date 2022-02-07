@@ -9,6 +9,7 @@ from django.http import HttpRequest
 from KmuttSearchEngine.SearchEngine import searchengine
 from KmuttSearchEngine.SearchEngine import train_dictionary
 from KmuttSearchEngine.Crud_QA import *
+from KmuttSearchEngine.Crud_User import *
 from KmuttSearchEngine.Query import *
 from app.models import questionanswer, userinfo
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -302,7 +303,23 @@ def signout(request):
 	return redirect('signin')
 
 
-def usermanagement(request):
+def usermanagement (request,operation):
+
+
+	if operation == 'status':
+		print (operation)
+		if request.method == 'POST':
+			id = request.POST.get('userid')
+			print(id)
+			result = update_status_User(request,id)
+			if result.code is 200:
+				return redirect('user')
+			else:
+				return redirect('user')
+	else:
+		return redirect('user')
+
+def user(request):
 
 	assert isinstance(request, HttpRequest)
 	user_info = queryDb_User_All()
@@ -331,6 +348,22 @@ def usermanagement(request):
 			'message':'Your application description page.',
 			'user':user_info,
 			'query': query1
+		}
+	)
+
+def profile(request):
+
+	assert isinstance(request, HttpRequest)
+	
+	user_query = queryDb_User(request.user.id)
+
+	return render(
+		request,
+		'app/profile.html',
+		{
+			'title':'My Profile',
+			'message':'Your application description page.',
+			'query':user_query
 		}
 	)
 
