@@ -3,22 +3,19 @@
 {% block content %}
 <style>
     #question {
-        margin-top: 8vw;
         margin-bottom: 5vw;
-    }
-    #update {
-        float: right;
-        position: relative;
-        margin-top: -3%;
+        margin-top: 8vw;
     }
 
-    #view {
+    #update {
         float: right;
+        margin-top: -3%;
+        position: relative;
     }
-    
-    #answer {
-        background: #f2f2f3;
-    }
+
+    #view { float: right; }
+
+    #answer { background: #f2f2f3; }
 
     #request {
         background: #f37a3b;
@@ -29,7 +26,9 @@
 </style>
 
 
-<h3 id="question"><b>{{query.question}}</b></h3>
+<h3 id="question">
+    <b>{{query.question}}</b>
+</h3>
 
 <p id="update">Last update: {{ query.updated_date }}</p>
 

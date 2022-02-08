@@ -6,9 +6,8 @@
 <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css"/>
 
 <style>
-    body {
-        #background-image: url("{% static 'img/regis_bg.jpg' %}");
-    }
+    body { #background-image: url("{% static 'img/regis_bg.jpg' %}"); }
+
     #logo { fill: #e87639; }
 
     #Error {
@@ -33,6 +32,42 @@
         margin-right: auto;
         width: 200px;
     }
+
+    #message {
+        background: #f5f5f5;
+        border-radius: 20px 20px 20px 20px;
+        color: #000;
+        display: none;
+        margin-top: 10px;
+        padding: 20px;
+        position: relative;
+    }
+
+    #message p {
+        font-size: 14px;
+        margin-left: 35px;
+        margin-top: -10px;
+    }
+
+    /* Add a green text color and a checkmark when the requirements are right */
+
+    .valid { color: green; }
+
+    .valid:before {
+        content: "✔";
+        left: -35px;
+        position: relative;
+    }
+
+    /* Add a red text color and an "x" when the requirements are wrong */
+
+    .invalid { color: red; }
+
+    .invalid:before {
+        content: "✖";
+        left: -35px;
+        position: relative;
+    }
 </style>
 <script>
     function shake() {
@@ -50,6 +85,58 @@
         frame.src = URL.createObjectURL(event.target.files[0]);
     }
 
+    validate_password = function(val) {
+        var letter = document.getElementById("letter");
+        var capital = document.getElementById("capital");
+        var number = document.getElementById("number");
+        var length = document.getElementById("length");
+
+        val.onclick = function() {
+            document.getElementById("message").style.display = "block";
+        };
+
+        val.onblur = function() {
+            document.getElementById("message").style.display = "none";
+        };
+
+        val.onkeyup = function() {
+
+            var lowerCaseLetters = /[a-z]/g;
+            if (val.value.match(lowerCaseLetters)) {
+                letter.classList.remove("invalid");
+                letter.classList.add("valid");
+            } else {
+                letter.classList.remove("valid");
+                letter.classList.add("invalid");
+            }
+
+            var upperCaseLetters = /[A-Z]/g;
+            if (val.value.match(upperCaseLetters)) {
+                capital.classList.remove("invalid");
+                capital.classList.add("valid");
+            } else {
+                capital.classList.remove("valid");
+                capital.classList.add("invalid");
+            }
+
+            var numbers = /[0-9]/g;
+            if (val.value.match(numbers)) {
+                number.classList.remove("invalid");
+                number.classList.add("valid");
+            } else {
+                number.classList.remove("valid");
+                number.classList.add("invalid");
+            }
+
+            if (val.value.length >= 8) {
+                length.classList.remove("invalid");
+                length.classList.add("valid");
+            } else {
+                length.classList.remove("valid");
+                length.classList.add("invalid");
+            }
+        };
+    };
 </script>
 
 <head>
@@ -59,9 +146,9 @@
 </head>
 <body>
 <div class="container py-5 h-100" style="margin-top: 30px">
-    <div class="row justify-content-center align-items-center h-100" style="width: 1000px; margin-left: -15%; font-size: 14px;">
+    <div class="row justify-content-center align-items-center h-100" style="font-size: 14px; margin-left: -15%; width: 1000px;">
         <div class="col-12 col-lg-9 col-xl-7" style="width: 1000px">
-            <div class="card shadow-2-strong card-registration" style="border-radius: 15px; width: 1000px; transform: scale(0.93);">
+            <div class="card shadow-2-strong card-registration" style="border-radius: 15px; transform: scale(0.93); width: 1000px;">
                 <div class="card-header p-1 p-md-4" style="background-color: #032539; border-radius: 15px 15px 0px 0px; height: 90px;">
                     <h3 class="mb-4 pb-2 pb-md-0 mb-md-5" style="color: aliceblue; margin-top: 5px; text-align: center;">
                         <b>Registration Form</b>
@@ -92,7 +179,29 @@
 
                                 <div class="form-outline">
                                     <label class="form-label" for="password"><i class="fas fa-key"></i> Password</label>
-                                    <input type="password" id="password" name="password" class="form-control is-valid" placeholder="Enter Password" required/>
+                                    <input type="password" id="psw" name="password" class="form-control is-valid" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" onclick="validate_password(this)"required/>
+                                </div>
+
+                                <div id="message">
+                                    <br/>
+                                    <h6 style="font-size: 15px">
+                                        <b>Password must contain the following:</b>
+                                    </h6>
+                                    <br/>
+                                    <p id="letter" class="invalid">A <i><b>lowercase</b> letter</i></p>
+                                    <p id="capital" class="invalid">A <i><b>capital (uppercase)</b> letter</i></p>
+                                    <p id="number" class="invalid">
+                                        A
+                                        <i>
+                                            <b>number</b>
+                                        </i>
+                                    </p>
+                                    <p id="length" class="invalid">
+                                        Minimum
+                                        <i>
+                                            <b>8 characters</b>
+                                        </i>
+                                    </p>
                                 </div>
 
                             </div>

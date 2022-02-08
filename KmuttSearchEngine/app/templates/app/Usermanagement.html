@@ -165,7 +165,7 @@
     }
 
     .modal-confirm .modal-content {
-        height: 300px;
+        height: 350px;
         margin-top: 50%;
     }
 
@@ -261,21 +261,40 @@
     });
 
 
-    disable_button = function (val) {
+    disable_button = function(val) {
 
         var id = $(val).attr("id").split("_")[1];
 
         var sbmt = document.getElementById(`#delete_button_${id}`);
 
-        if (val.checked === true)
-        {
+        if (val.checked === true) {
             $(`#delete_button_${id}`).removeAttr("disabled");
+        } else {
+            $(`#delete_button_${id}`).attr("disabled", "disabled");
         }
-        else
-        {
-            $(`#delete_button_${id}`).attr("disabled","disabled");
+    };
+
+    disable_button_confirm = function(val) {
+
+        var id = $(val).attr("id").split("_")[2];
+
+        if (val.checked === true) {
+            $(`#confirm_button_${id}`).removeAttr("disabled");
+        } else {
+            $(`#confirm_button_${id}`).attr("disabled", "disabled");
         }
-    }
+    };
+
+    disable_button2 = function(val) {
+
+        var id = $(val).attr("id").split("_")[2];
+
+        if (val.checked === true) {
+            $(`#activate_button_${id}`).removeAttr("disabled");
+        } else {
+            $(`#activate_button_${id}`).attr("disabled", "disabled");
+        }
+    };
 
 </script>
 </head>
@@ -283,196 +302,241 @@
 <br></br>
 <br></br>
 <form method="POST">
-    {% csrf_token %}
-    <div class="container-xl" style="font-size: 14px;">
-        <div class="table-responsive">
-            <div class="table-wrapper">
-                <div class="table-title">
-                    <div class="row">
-                        <div class="col-sm-5">
-                            <h2>User <b>Management</b></h2>
-                        </div>
-                        <div class="col-sm-7">
-                            <a href="{% url 'register' %}" class="btn btn-secondary">
-                                <i class="material-icons">&#xE147;</i> <span>Add New User</span>
-                            </a>
-                            <a href="#" class="btn btn-secondary">
-                                <i class="material-icons">&#xE24D;</i> <span>Export to Excel</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <table class="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Date Created</th>
-                        <th>Role</th>
-                        <th>Status</th>
-                        <th>Last Login</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        {% for user_data in query %}
-                        <td>{{user_data.id}}</td>
-                        <td>
-                            {% if user_data.path_profile_pic is None %}
-                            <a href="#"><img src="{% static 'img/user.png' %}" class="avatar" alt="Avatar"> {{user_data.first_name}} {{user_data.last_name}} </a>
-                            {% else %}
-                            <a href="#"><img src="{% static user_data.path_profile_pic %}" class="avatar" alt="Avatar"> {{user_data.first_name}} {{user_data.last_name}} </a>
-                            {% endif %}
-                        </td>
-                        <td>{{user_data.created_date}}</td>
-                        <td>{{user_data.role_code}}</td>
-                        {% if user_data.status is False %}
-                        <td><span class="status text-danger" style="font-size: 60px; margin-bottom: 5%">&bull;</span> Suspended</td>
-                        {% else %}
-                        <td><span class="status text-success" style="font-size: 60px; margin-bottom: 5%">&bull;</span> Active</td>
-                        {% endif %}
-                        <td>{{user_data.last_login}}</td>
-                        <td>
-                            <a href="#" class="settings" title="Settings" data-toggle="modal" data-target="#userinfo_{{user_data.id}}">
-                                <i class="material-icons">&#xE8B8;</i>
-                            </a>
-                            <a href="#" class="delete" data-toggle="modal" title="Suspend" data-target="#myModal_{{user_data.id}}">
-                                <i class="material-icons ">&#xE5C9;</i>
-                            </a>
-                        </td>
-                        <div id="myModal_{{user_data.id}}" class="modal fade">
-                            <div class="modal-dialog modal-confirm">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <div class="icon-box">
-                                            <i class="material-icons" style="font-size: 55px">&#xE5CD;</i>
-                                        </div>
-                                        <h4 class="modal-title w-100">Confirm your process ?</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p class="text-center">Do you really want to suspend <b>{{user_data.first_name}}</b> account? The process cannot be undone.</p>
-                                        <br/>
-                                        <input type="checkbox" id="userid_{{ user_data.id }}" name="userid" class="checkbox" value="{{ user_data.id }}" style="margin-left: 16%;" onClick="disable_button(this)"/> Check the box to confirm the action.
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                        <button type="submit" class="btn btn-danger" id="delete_button_{{ user_data.id }}" formaction="{% url 'usermanagement' operation='status'%}" disabled="disabled">Delete</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="modal fade" id="userinfo_{{user_data.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="header_{{user_data.id}}">Edit {{user_data.first_name}}'s profile </h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form>
-                                            <div class="form-group">
-                                                <label class="col-form-label">First name:</label>
-                                                <input type="text" class="form-control" id="first_name_{{user_data.id}}" value="{{user_data.first_name}}">
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-form-label">Last name:</label>
-                                                <input type="text" class="form-control" id="last_name_{{user_data.id}}" value="{{user_data.last_name}}">
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-form-label">Password:</label>
-                                                <input type="password" class="form-control" id="password_{{user_data.id}}" value="{{user_data.password}}">
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-form-label">Date of birth:</label>
-                                                <input type="text" class="form-control" id="date_of_birth_{{user_data.id}}" value="{{user_data.date_of_birth}}">
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-form-label">Gender:</label>
-                                                <input type="text" class="form-control" id="gender_{{user_data.id}}" value="{{user_data.gender}}">
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-form-label">Email:</label>
-                                                <input type="text" class="form-control" id="email_{{user_data.id}}" value="{{user_data.email}}">
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-form-label">Phone No:</label>
-                                                <input type="text" class="form-control" id="phone_no_{{user_data.id}}" value="{{user_data.phone_no}}">
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Send message</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </tr>
-                    <tr>
-                        {% endfor %}
-                    </tr>
-                    </tbody>
-                </table>
-
-                <div class="clearfix">
-                    <div class="hint-text">
-                        Showing <b>{{ query.end_index }}</b> out of <b>{{ query.paginator.count }} entries</b>
-                    </div>
-                </div>
-                <br/>
-                <nav aria-label="Page navigation example">
-                    {% if query.has_other_pages %}
-                    <ul style="display: flex;" class="pagination">
-                        {% if query.has_previous %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ query.previous_page_number }}">Previous</a>
-                        </li>
-                        {% else %}
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">Previous</span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                        </li>
-                        {% endif %}
-                        {% for i in query.paginator.page_range %}
-                        {% if query.number == i %}
-                        <li class="page-item active">
-                            <span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
-                        </li>
-                        {% else %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ i }}" name="page">{{ i }}</a>
-                        </li>
-                        {% endif %}
-                        {% endfor %}
-                        {% if query.has_next %}
-                        <ul class="pagination">
-                            <li>
-                                <a class="page-link" href="?page={{ query.next_page_number }}">Next</a>
-                            </li>
-                        </ul>
-                        {% else %}
-
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">Next</span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </li>
-                        {% endif %}
-                        {% endif %}
-                    </ul>
-                </nav>
-            </div>
+{% csrf_token %}
+<div class="container-xl" style="font-size: 14px;">
+<div class="table-responsive">
+<div class="table-wrapper">
+<div class="table-title">
+    <div class="row">
+        <div class="col-sm-5">
+            <h2>User <b>Management</b></h2>
+        </div>
+        <div class="col-sm-7">
+            <a href="{% url 'register' %}" class="btn btn-secondary">
+                <i class="material-icons">&#xE147;</i> <span>Add New User</span>
+            </a>
+            <a href="#" class="btn btn-secondary">
+                <i class="material-icons">&#xE24D;</i> <span>Export to Excel</span>
+            </a>
         </div>
     </div>
+</div>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Date Created</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Last Login</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        {% for user_data in query %}
+        <td>{{user_data.id}}</td>
+        <td>
+            {% if user_data.path_profile_pic is None %}
+            <a href="#"><img src="{% static 'img/user.png' %}" class="avatar" alt="Avatar"> {{user_data.first_name}} {{user_data.last_name}} </a>
+            {% else %}
+            <a href="#"><img src="{% static user_data.path_profile_pic %}" class="avatar" alt="Avatar"> {{user_data.first_name}} {{user_data.last_name}} </a>
+            {% endif %}
+        </td>
+        <td>{{user_data.created_date}}</td>
+        <td>{{user_data.role_code}}</td>
+        {% if user_data.is_active is False %}
+        <td><span class="status text-danger" style="font-size: 60px; margin-bottom: 5%">&bull;</span> Suspended</td>
+        {% else %}
+        <td><span class="status text-success" style="font-size: 60px; margin-bottom: 5%">&bull;</span> Active</td>
+        {% endif %}
+        <td>{{user_data.last_login}}</td>
+        <td>
+            <a href="#" class="settings" title="Edit Profile" data-toggle="modal" data-target="#userinfo_{{user_data.id}}">
+                <i class="material-icons">&#xe3c9;</i>
+            </a>
+            {% if user_data.is_active %}
+            <a href="#" class="delete" data-toggle="modal" title="Suspend" data-target="#myModal_{{user_data.id}}">
+                <i class="material-icons ">&#xE5C9;</i>
+            </a>
+            {% else %}
+            <a href="#" class="delete" data-toggle="modal" title="Unsuspended" data-target="#myModal_active_{{user_data.id}}" style="color: #1b9b42">
+                <i class="material-icons ">&#xe86c;</i>
+            </a>
+            {% endif %}
+        </td>
+        <div id="myModal_{{user_data.id}}" class="modal fade">
+            <div class="modal-dialog modal-confirm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="icon-box">
+                            <i class="material-icons" style="font-size: 55px">&#xE5CD;</i>
+                        </div>
+                        <h4 class="modal-title w-100">Confirm your process ?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center">Do you really want to suspend <b>{{user_data.first_name}}</b> account? The process cannot be undone.</p>
+                        <br/>
+                        <input type="checkbox" id="userid_{{ user_data.id }}" name="userid" class="checkbox" value="{{ user_data.id }}" style="margin-left: 16%;" onClick="disable_button(this)"/> Check the box to confirm the action.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger" id="delete_button_{{ user_data.id }}" formaction="{% url 'usermanagement' operation='status'%}" disabled="disabled">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="myModal_active_{{user_data.id}}" class="modal fade">
+            <div class="modal-dialog modal-confirm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="icon-box" style="background-color: #1b9b42">
+                            <i class="material-icons" style="font-size: 55px;">&#xe5ca;</i>
+                        </div>
+                        <h4 class="modal-title w-100">Confirm your process ?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center">Do you really want to unsuspended <b>{{user_data.first_name}}</b> account? </p>
+                        <br/>
+                        <input type="checkbox" id="userid_activate_{{ user_data.id }}" name="userid" class="checkbox" value="{{ user_data.id }}" style="margin-left: 16%;" onClick="disable_button2(this)"/> Check the box to confirm the action.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success" id="activate_button_{{ user_data.id }}" formaction="{% url 'usermanagement' operation='status'%}" disabled="disabled" style="background-color: #1b9b42">Unsuspended</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="userinfo_{{user_data.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="border-color: transparent; border-radius: 10px;">
+                    <div class="modal-header" style="background-color: #e87639; border-radius: 10px 10px 0 0;">
+                        <h5 class="modal-title" id="header_{{user_data.id}}" style="color: #ffffff">Edit {{user_data.first_name}}'s profile </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-form-label">First name:</label>
+                            <input type="text" class="form-control" id="first_name_{{user_data.id}}" name="first_name_{{user_data.id}}"value="{{user_data.first_name}}">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Last name:</label>
+                            <input type="text" class="form-control" id="last_name_{{user_data.id}}" name="last_name_{{user_data.id}}" value="{{user_data.last_name}}">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-form-label">Date of birth:</label>
+                            <input type="date" class="form-control" id="date_of_birth_{{user_data.id}}" name="date_of_birth_{{user_data.id}}" value="{{user_data.date_of_birth|date:'Y-m-d'}}">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Gender:</label>
+                            {% if user_data.gender == 'Male' %}
+                            <select id="gender_{{user_data.id}}" name="gender_{{user_data.id}}" class="form-control">
+                                <option value="Male" selected="selected">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            {% elif user_data.gender == 'Female' %}
+                            <select id="gender_{{user_data.id}}" name="gender_{{user_data.id}}" class="form-control">
+                                <option value="Male">Male</option>
+                                <option value="Female" selected="selected">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            {% else %}
+                            <select id="gender_{{user_data.id}}" name="gender_{{user_data.id}}" class="form-control">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other" selected="selected">Other</option>
+                            </select>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Email:</label>
+                            <input type="text" class="form-control" id="email_{{user_data.id}}" name="email_{{user_data.id}}" value="{{user_data.email}}">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Phone No:</label>
+                            <input type="text" class="form-control" id="phone_no_{{user_data.id}}" name="phone_no_{{user_data.id}}" value="{{user_data.phone_no}}">
+                        </div>
+                        <br/>
+                        <div class="form-group">
+                            <input type="checkbox" id="userid_confirm_{{ user_data.id }}" name="userid_confirm" class="checkbox" value="{{ user_data.id }}" style="margin-left: 20%;" onClick="disable_button_confirm(this)"/> Check the box to confirm the action.
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success" id="confirm_button_{{ user_data.id }}" formaction="{% url 'usermanagement' operation='update'%}" disabled="disabled">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </tr>
+    <tr>
+        {% endfor %}
+    </tr>
+    </tbody>
+</table>
+
+<div class="clearfix">
+    <div class="hint-text">
+        Showing <b>{{ query.end_index }}</b> out of <b>{{ query.paginator.count }} entries</b>
+    </div>
+</div>
+<br/>
+<nav aria-label="Page navigation example">
+    {% if query.has_other_pages %}
+    <ul style="display: flex;" class="pagination">
+        {% if query.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ query.previous_page_number }}">Previous</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">Previous</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        {% endif %}
+        {% for i in query.paginator.page_range %}
+        {% if query.number == i %}
+        <li class="page-item active">
+            <span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ i }}" name="page">{{ i }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+        {% if query.has_next %}
+        <ul class="pagination">
+            <li>
+                <a class="page-link" href="?page={{ query.next_page_number }}">Next</a>
+            </li>
+        </ul>
+        {% else %}
+
+        <li class="page-item disabled">
+            <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">Next</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+        {% endif %}
+        {% endif %}
+    </ul>
+</nav>
+</div>
+</div>
+</div>
 </form>
 </body>
 {% endblock %}

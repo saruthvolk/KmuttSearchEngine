@@ -7,41 +7,39 @@
 <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
 <style>
     body {
+        -webkit-font-smoothing: antialiased;
         font-family: 'Montserrat', sans-serif;
-        text-rendering : optimizeLegibility;
-        -webkit-font-smoothing : antialiased;
+        text-rendering: optimizeLegibility;
     }
 
 
     #login-bg.container-fluid {
-        padding: 0;
         height: 100%;
+        padding: 0;
         position: absolute;
     }
 
     /* Background image an color divs*/
 
     .bg-img {
-        min-width: 50%;
-        vertical-align: top;
-        padding: 0;
-        margin-left: 0;
-        height: 100%;
         #background-color: #CAF0D3;
         #display: inline-block;
+        height: 100%;
+        margin-left: 0;
+        min-width: 50%;
         overflow: hidden;
+        padding: 0;
+        vertical-align: top;
     }
 
-    .bg-color {
-        margin-left: -5px;
-    }
+    .bg-color { margin-left: -5px; }
 
     .bg-img {
         background-image: url("{% static 'img/login_bg.jpg' %}");
         background-size: cover;
     }
 
-    #login{
+    #login {
         padding-top: 10%;
         text-align: center;
         text-transform: uppercase;
@@ -49,49 +47,49 @@
 
 
     .login {
-        width: 90%;
-        height: 550px;
         background-color: #fff;
-        position: relative;
+        border-radius: 20px;
+        height: 550px;
         margin-left: auto;
         margin-right: auto;
         padding: 15px;
         padding-top: 30px;
-        border-radius: 20px;
+        position: relative;
+        width: 90%;
     }
 
     .login h1 {
-        margin-top: 30px;
-        font-weight: bold;
         font-size: 60px;
+        font-weight: bold;
         letter-spacing: 3px;
+        margin-top: 30px;
     }
 
     .login form {
-        max-width: 420px;
         margin: 30px auto;
+        max-width: 420px;
     }
 
     .login .btn {
-        border-radius: 50px;
+        background-color: #e87639;
         border-color: #e87639;
-        #text-transform: uppercase;
+        border-radius: 50px;
+        font-size: 20px;
         font-weight: bold;
         letter-spacing: 2px;
-        font-size: 20px;
         padding: 14px;
-        background-color: #e87639;
+        #text-transform: uppercase;
     }
 
     .form-group input {
+        background-color: #F0F0F0;
+        border: none;
+        border-radius: 50px;
+        color: #465347 !important;
         font-size: 17px;
         font-weight: lighter;
-        border: none;
-        background-color: #F0F0F0;
-        color: #465347!important;
         padding: 26px 30px;
-        border-radius: 50px;
-        transition : 0.2s;
+        transition: 0.2s;
     }
 
 
@@ -105,18 +103,18 @@
     }
 
     .form-check label {
-        vertical-align: top;
-        padding-top: 5px;
-        padding-left: 5px;
-        font-size: 15px;
         color: #606060;
+        font-size: 15px;
         font-size: 14px;
+        padding-left: 5px;
+        padding-top: 5px;
+        vertical-align: top;
     }
 
     .forgot-password {
-        text-align: right;
         float: right;
         font-weight: bold;
+        text-align: right;
     }
 
     .forgot-password a {
@@ -125,61 +123,59 @@
     }
 
     .forgot-password a:hover {
-        opacity: 1;
         color: #e87639;
+        opacity: 1;
     }
 
 
     /* Switch styles */
 
     .switch {
-        position: relative;
         display: inline-block;
-        width: 60px;
         height: 30px;
+        position: relative;
+        width: 60px;
     }
 
     /* Hide default HTML checkbox */
-    .switch input {display:none;}
+
+    .switch input { display: none; }
 
     /* The slider */
+
     .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #F0F0F0;
         -webkit-transition: .4s;
-        transition: .4s;
+        background-color: #F0F0F0;
         border-radius: 30px;
+        bottom: 0;
+        cursor: pointer;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transition: .4s;
     }
 
     .slider:before {
-        position: absolute;
+        -webkit-transition: .4s;
+        background-color: white;
+        border-radius: 50%;
+        bottom: 4px;
         content: "";
         height: 22px;
-        width: 22px;
         left: 4px;
-        bottom: 4px;
-        background-color: white;
-        -webkit-transition: .4s;
+        position: absolute;
         transition: .4s;
-        border-radius: 50%;
+        width: 22px;
     }
 
-    input:checked + .slider {
-        background-color: #00B72E;
-    }
+    input:checked + .slider { background-color: #00B72E; }
 
-    input:focus + .slider {
-        box-shadow: 0 0 1px ##00B72E;
-    }
+    input:focus + .slider { box-shadow: 0 0 1px # #00B72E; }
 
     input:checked + .slider:before {
-        -webkit-transform: translateX(30px);
         -ms-transform: translateX(30px);
+        -webkit-transform: translateX(30px);
         transform: translateX(30px);
     }
 
@@ -187,76 +183,74 @@
 
     /* Media queries */
 
-    @media(max-width: 500px) {
-        .bg-img , .bg-color {
-            min-width: 100%;
+    @media (max-width: 500px) {
+        .bg-img, .bg-color {
             height: 50%;
             margin: 0;
+            min-width: 100%;
         }
 
         .forgot-password {
-            text-align: right;
             float: left;
             padding: 20px 0;
+            text-align: right;
         }
 
 
-        #login {
-            padding-top: 50px;
-        }
-
+        #login { padding-top: 50px; }
     }
+
     #logo {
-        height: 24%;
         fill: #e87639;
+        height: 24%;
     }
 
     #Error {
-        border:2px; 
-        border-style:solid; 
-        border-color:#ffcccb;
-        border-radius: 10px; 
-        padding: 1em;
+        background-color: #ffcccb;
+        border: 2px;
+        border-color: #ffcccb;
+        border-radius: 10px;
+        border-style: solid;
+        color: red;
         height: 60px;
         margin-bottom: 15px;
-        background-color:#ffcccb;
-        color: red;
+        padding: 1em;
     }
 </style>
 
 <script>
     function shake() {
-        $( "#Error" ).effect( "shake" );
+        $("#Error").effect("shake");
     }
 
 </script>
 <html lang="en">
-  <head>
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}"/>
 
 
     <!-- Loding font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,700" rel="stylesheet">
 
     <title>Login</title>
-  </head>
-  <body>
+</head>
+<body>
 
-    <!-- Backgrounds -->
+<!-- Backgrounds -->
 
-    <div id="login-bg" class="container-fluid">
+<div id="login-bg" class="container-fluid">
 
-      <div class="bg-img"></div>
-      <div class="bg-color"></div>
-    </div>
+    <div class="bg-img"></div>
+    <div class="bg-color"></div>
+</div>
 
-    <!-- End Backgrounds -->
-  <div class="container" id="login">
-        <div class="row justify-content-center">
+<!-- End Backgrounds -->
+<div class="container" id="login">
+    <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="login">
                 <img src="{% static 'img/logo.png' %}" alt="logo" id="logo"/>
@@ -283,7 +277,9 @@
                         </label>
                         <label class="form-check-label" for="exampleCheck1">Remember me</label>
 
-                        <label class="forgot-password" data-toggle="modal" data-target="#forgotpassword"><a href="#">Forgot Password?</a></label>
+                        <label class="forgot-password" data-toggle="modal" data-target="#forgotpassword">
+                            <a href="#">Forgot Password?</a>
+                        </label>
 
                     </div>
 
@@ -311,8 +307,8 @@
                 </div>
             </div>
         </div>
-        </div>
     </div>
+</div>
 
-  </body>
+</body>
 </html>

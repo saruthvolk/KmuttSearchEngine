@@ -4,6 +4,8 @@ Definition of views.
 import oskut
 import os
 import datetime
+import string
+import re
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from KmuttSearchEngine.SearchEngine import searchengine
@@ -19,6 +21,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password
 import json
 
 class Search_result:
@@ -316,6 +319,18 @@ def usermanagement (request,operation):
 				return redirect('user')
 			else:
 				return redirect('user')
+
+	elif operation == 'update':
+		print (operation)
+		if request.method == 'POST':
+			id = request.POST.get('userid_confirm')
+			print(id)
+			result = update_user_profile(request,id)
+			if result.code is 200:
+				return redirect('user')
+			else:
+				return redirect('user')
+
 	else:
 		return redirect('user')
 
@@ -370,19 +385,36 @@ def profile(request):
 def register(request):
 	current_time = datetime.datetime.now().replace(microsecond=0)
 	if request.method == "POST" :
+
 		if  (request.POST.get('username') and request.POST.get('password') and request.POST.get('first_name') and request.POST.get('last_name') and request.POST.get('email') and 
 	   request.POST.get('date_of_birth') and request.POST.get('gender') and request.POST.get('phone_no')):
 			saverecord = userinfo()
 			password1 = request.POST.get('password')
 			username1 = request.POST.get('username')
 			email1 = request.POST.get('email')
+			firstname = request.POST.get('first_name')
+			lastname = request.POST.get('last_name')
+			phone_no = request.POST.get('phone_no')
+
 			if userinfo.objects.filter(username=username1).exists():
-				context = {"error":"Username already exist"}
+				context = {"error":"Username already exist."}
 				return render(request,'app/register.html',context)
+			elif not username1.isalpha():
+				context = {"error":"Username can conatain only alphabets."}
+				return render(request,'app/register.html',context)
+			elif not re.fullmatch(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$',password1):
+				context = {"error":"Invalide password format"}
+				return render(request,'app/register.html',context)
+			elif not firstname.isalpha():
+				context = {"error":"Firstname can conatain only alphabets."}
+			elif not lastname.isalpha():
+				context = {"error":"Lastname can conatain only alphabets."}
+			elif phone_no.isalpha():
+				context = {"error":"Phone number can conatain only numbers."}
+
 			if userinfo.objects.filter(email=email1).exists():
 				context = {"error":"Email already exist"}
 				return render(request,'app/register.html',context)
-			print('222222')
 			try: 
 				img = request.FILES['avatar']
 				print(img);
@@ -404,7 +436,6 @@ def register(request):
 			saverecord.gender = request.POST.get('gender')
 			saverecord.date_of_birth = request.POST.get('date_of_birth')
 			saverecord.phone_no = request.POST.get('phone_no')
-			#saverecord.question_sw = stopwords1(saverecord.question)
 			saverecord.password = make_password(password1)
 			saverecord.first_name = request.POST.get('first_name')
 			saverecord.last_name = request.POST.get('last_name')
@@ -420,7 +451,7 @@ def register(request):
 			saverecord.role_code = 2 #waiting for user function
 			saverecord.save()
 
-			return redirect('admin')
+			return redirect('user')
 		else:
 
 			return redirect('register')

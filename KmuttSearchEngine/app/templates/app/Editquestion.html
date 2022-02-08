@@ -5,11 +5,11 @@
 
 <script>
     tinymce.init({
-        editor_selector : "editor",
-        mode: "textareas",// change this value according to your HTML
+        editor_selector: "editor",
+        mode: "textareas", // change this value according to your HTML
         images_upload_url: '/upload_image/', // Image upload address in Django route
         height: 500,
-        branding:false,
+        branding: false,
         menubar: false,
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
@@ -22,9 +22,10 @@
             'code image | ' +
             'removeformat',
 
-        init_instance_callback : function(editor) {
+        init_instance_callback: function(editor) {
             var editorH = editor.editorContainer.offsetHeight;
-            var class_id = {{ id_list|safe }};
+            var class_id = { { id_list|safe }
+        };
 
     for (let i = 0; i < class_id.length; i++) {
 
@@ -36,10 +37,11 @@
             .show();
     }
     },
-    setup: function (editor) {
-        editor.on('change', function () {
-            editor.save();
-        });
+    setup: function(editor) {
+        editor.on('change',
+            function() {
+                editor.save();
+            });
     }
     });
 
@@ -64,7 +66,8 @@
         init_instance_callback: function(editor) {
             var editorH = editor.editorContainer.offsetHeight;
 
-            var class_id = {{ id_list|safe }};
+            var class_id = { { id_list|safe }
+        };
     for (let i = 0; i < class_id.length; i++) {
 
         $('#editor1' + class_id[i])
@@ -75,20 +78,21 @@
             .show();
     }
     },
-    setup: function (editor) {
-        editor.on('change', function () {
-            editor.save();
-        });
+    setup: function(editor) {
+        editor.on('change',
+            function() {
+                editor.save();
+            });
     }
     });
-    
+
     function toggle(source) {
-            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            for (var i = 0; i < checkboxes.length; i++) {
-                if (checkboxes[i] != source)
-                    checkboxes[i].checked = source.checked;
-            }
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i] != source)
+                checkboxes[i].checked = source.checked;
         }
+    }
 
 </script>
 
@@ -100,8 +104,8 @@
 <br/><br/><br/>
 <center>
     <h1>Edit form</h1>
-    
-    <input type="checkbox" onclick="toggle(this);" />Check all?<br />
+
+    <input type="checkbox" onclick="toggle(this);"/>Check all?<br/>
 
     {% for questionanswer in query %}
     <div class="id" id="{{id_list}}"></div>

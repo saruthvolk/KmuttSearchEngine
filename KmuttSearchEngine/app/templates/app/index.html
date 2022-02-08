@@ -9,9 +9,10 @@
 
 <script>
 
-    $(function(){ 
+    $(function() {
 
-        var question = {{ question| safe }};
+        var question = { { question| safe }
+    };
 
     $("#search_input").autocomplete({
         maxResults: 10,
@@ -39,9 +40,7 @@
 </script>
 
 <style>
-    body{
-        font-family: 'Prompt', sans-serif;
-    }
+    body { font-family: 'Prompt', sans-serif; }
 
     .highlight {
         color: #e87639;
@@ -110,9 +109,9 @@
         background-position: 0px -410px;
         color: aliceblue;
         Height: 600px;
-        position: relative;
         margin-left: -40%;
         margin-right: -40%;
+        position: relative;
         text-align: center;
     }
 
@@ -221,17 +220,18 @@
     #feature_question { background: #f7f7f9; }
 
     .numberCircle {
-        width: 30px;
-        line-height: 25px;
+        background: #f37a3b;
+        border: 2px solid #f37a3b;
         border-radius: 50%;
-        text-align: center;
-        font-size: 1.0rem;
-        margin-right: 1.5%;
         color: #f2f2f3;
         float: left;
+        font-size: 1.0rem;
         font-weight: bold;
-        background:  #f37a3b;
-        border: 2px solid  #f37a3b;;
+        line-height: 25px;
+        margin-right: 1.5%;
+        text-align: center;
+        width: 30px;
+        ;
     }
 </style>
 </head>
@@ -254,29 +254,29 @@
 <div class="row">
     <a href="{% url 'Crud_QA' operation='View' id='0' %}" class="col-sm-4" id="Viewquestion">
         <div>
-            <i class="far fa-question-circle fa-3x" style="margin-bottom: 30px; margin-top: 30px; color: #f37a3b"></i>
+            <i class="far fa-question-circle fa-3x" style="color: #f37a3b; margin-bottom: 30px; margin-top: 30px;"></i>
             <h4 style="">View Questions</h4>
             <br/>
-            <p style="width: 10vw; margin-left: auto; margin-right: auto; color: #262626">View all question in our knowledge base. </p>
+            <p style="color: #262626; margin-left: auto; margin-right: auto; width: 10vw;">View all question in our knowledge base. </p>
             <br/>
         </div>
     </a>
     <a href="{% url 'about' %}" class="col-sm-4" id="FAQs">
         <div >
-            <i class="far fa-comments fa-3x" style="margin-bottom: 30px; margin-top: 30px; color: #f37a3b"></i>
+            <i class="far fa-comments fa-3x" style="color: #f37a3b; margin-bottom: 30px; margin-top: 30px;"></i>
             <h4 style="" id="faqs">FAQs</h4>
             <br/>
-            <p style="width: 13vw; margin-left: auto; margin-right: auto; color: #262626">View the most asked questions in our knowledge base. </p>
+            <p style="color: #262626; margin-left: auto; margin-right: auto; width: 13vw;">View the most asked questions in our knowledge base. </p>
             <br/>
         </div>
     </a>
 
     <a href="{% url 'about' %}" class="col-sm-4" id="recent_update">
         <div >
-            <i class="fas fa-edit fa-3x" style="margin-bottom: 30px; margin-top: 30px; color: #f37a3b"></i>
+            <i class="fas fa-edit fa-3x" style="color: #f37a3b; margin-bottom: 30px; margin-top: 30px;"></i>
             <h4 style="" id="update">Recent Updates</h4>
             <br/>
-            <p style="width: 13vw; margin-left: auto; margin-right: auto; color: #262626">Check for the latest update of the question in our knowledge base. </p>
+            <p style="color: #262626; margin-left: auto; margin-right: auto; width: 13vw;">Check for the latest update of the question in our knowledge base. </p>
             <br/>
         </div>
     </a>
@@ -292,7 +292,7 @@
         <br/>
         <p id="update1"> {{ questions.updated_date }} </p>
         <a id="question1" href="{% url 'question' id=questions.id %}">
-            <div class="numberCircle"> {{ forloop.counter }} </div> 
+            <div class="numberCircle"> {{ forloop.counter }} </div>
             <h5 style="font-weight: bold" id="question1"> {{ questions.question }} </h5>
             <p id="update1" style="float: left"> Views: {{ questions.view_count }} </p>
             <br/>

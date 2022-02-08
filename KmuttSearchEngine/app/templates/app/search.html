@@ -5,9 +5,7 @@
 
 </script>
 <style>
-    body{
-        font-family: 'Varela Round', sans-serif;
-    }
+    body { font-family: 'Varela Round', sans-serif; }
 
     #question1, #question {
         color: #212529;
@@ -23,8 +21,8 @@
 
     #warn {
         font-size: 1.1rem;
-        margin-top: -4%;
         line-height: 45px;
+        margin-top: -4%;
     }
 
     .card-header {
@@ -61,11 +59,11 @@
 <div class="jumbotron" id="result">
 
     {% if Correct is not None %}
-    <p class="lead" id="warn" >It look like you have a wrong spelling</p>
+    <p class="lead" id="warn">It look like you have a wrong spelling</p>
     <br/>
     <form action="{% url 'search' %}" class="form-inline" method="POST">
         {% csrf_token %}
-        <p class="lead" name="search" id="warn" >Do you want to search again with: <input type="submit" class="btn btn-link" name="search" value="{{Correct}}"/></p>
+        <p class="lead" name="search" id="warn">Do you want to search again with: <input type="submit" class="btn btn-link" name="search" value="{{Correct}}"/></p>
     </form>
     <br/>
     {% for result in query %}{% for percen in Percentage %}

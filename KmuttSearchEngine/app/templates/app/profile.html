@@ -4,24 +4,20 @@
 {% load static %}
 <!DOCTYPE html>
 <style>
-    body {
-        background: #e3e3e3;
-    }
+    body { background: #e3e3e3; }
 
     .form-control:focus {
+        border-color: #BA68C8;
         box-shadow: none;
-        border-color: #BA68C8
     }
 
     .profile-button {
         background: rgb(99, 39, 120);
+        border: none;
         box-shadow: none;
-        border: none
     }
 
-    .profile-button:hover {
-        background: #682773
-    }
+    .profile-button:hover { background: #682773 }
 
     .profile-button:focus {
         background: #682773;
@@ -38,21 +34,18 @@
         cursor: pointer
     }
 
-    .labels {
-        font-size: 11px
-    }
+    .labels { font-size: 11px }
 
     .add-experience:hover {
         background: #BA68C8;
+        border: solid 1px #BA68C8;
         color: #fff;
         cursor: pointer;
-        border: solid 1px #BA68C8
     }
-    .col-md-12 {
-        margin-top: 10px;
-    }
+
+    .col-md-12 { margin-top: 10px; }
 </style>
-<div class="container rounded bg-white mt-5 mb-5" >
+<div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3 border-right" style="background-color: #1a4d6a; border-radius: 20px 20px 20px 20px">
             {% for user_data in query %}
@@ -65,32 +58,54 @@
         </div>
         <div class="col-md-5 border-right">
             <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center mb-3" >
-                    <h4 class="text-right" > My Profile</h4>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right"> My Profile</h4>
                 </div>
                 <hr/>
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels"><i class="fas fa-user"></i> Name</label><input type="text" class="form-control" placeholder="first name" value="{{ user_data.first_name }}" readonly="readonly"></div>
-                    <div class="col-md-6"><label class="labels"><i class="fas fa-user"></i> Surname</label><input type="text" class="form-control" value="{{ user_data.last_name }}" placeholder="surname"readonly="readonly"></div>
+                    <div class="col-md-6">
+                        <label class="labels"><i class="fas fa-user"></i> Name</label><input type="text" class="form-control" placeholder="first name" value="{{ user_data.first_name }}" readonly="readonly">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="labels"><i class="fas fa-user"></i> Surname</label><input type="text" class="form-control" value="{{ user_data.last_name }}" placeholder="surname"readonly="readonly">
+                    </div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels"><i class="fas fa-envelope"></i> E-mail</label><input type="text" class="form-control" placeholder="enter phone number" value="{{ user_data.email}}"readonly="readonly"></div>
-                    <div class="col-md-12"><label class="labels"><i class="fas fa-venus-mars"></i> Gender</label><input type="text" class="form-control" placeholder="enter address line 1" value="{{ user_data.gender}}" readonly="readonly"></div>
-                    <div class="col-md-12"><label class="labels"><i class="fas fa-calendar-day"></i> Birthday Date</label><input type="text" class="form-control" placeholder="enter address line 2" value="{{ user_data.date_of_birth}}" readonly="readonly"></div>
-                    <div class="col-md-12"><label class="labels"><i class="fas fa-building"></i> Department</label><input type="text" class="form-control" placeholder="enter address line 2" value="{{ user_data.role_code}}" readonly="readonly"></div>
-                    <div class="col-md-12"><label class="labels"><i class="fas fa-phone-alt"></i> Phone No</label><input type="text" class="form-control" placeholder="enter address line 2" value="{{ user_data.phone_no}}" readonly="readonly"></div>
+                    <div class="col-md-12">
+                        <label class="labels"><i class="fas fa-envelope"></i> E-mail</label><input type="text" class="form-control" placeholder="enter phone number" value="{{ user_data.email}}"readonly="readonly">
+                    </div>
+                    <div class="col-md-12">
+                        <label class="labels"><i class="fas fa-venus-mars"></i> Gender</label><input type="text" class="form-control" placeholder="enter address line 1" value="{{ user_data.gender}}" readonly="readonly">
+                    </div>
+                    <div class="col-md-12">
+                        <label class="labels"><i class="fas fa-calendar-day"></i> Birthday Date</label><input type="text" class="form-control" placeholder="enter address line 2" value="{{ user_data.date_of_birth}}" readonly="readonly">
+                    </div>
+                    <div class="col-md-12">
+                        <label class="labels"><i class="fas fa-building"></i> Department</label><input type="text" class="form-control" placeholder="enter address line 2" value="{{ user_data.role_code}}" readonly="readonly">
+                    </div>
+                    <div class="col-md-12">
+                        <label class="labels"><i class="fas fa-phone-alt"></i> Phone No</label><input type="text" class="form-control" placeholder="enter address line 2" value="{{ user_data.phone_no}}" readonly="readonly">
+                    </div>
                 </div>
                 <div class="row mt-3">
                 </div>
-                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button" hidden>Save Profile</button></div>
+                <div class="mt-5 text-center">
+                    <button class="btn btn-primary profile-button" type="button" hidden>Save Profile</button>
+                </div>
             </div>
         </div>
         {% endfor %}
         <div class="col-md-4">
             <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center experience"><span>Edit Experience</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Experience</span></div><br>
-                <div class="col-md-12"><label class="labels">Experience in Designing</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
-                <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" class="form-control" placeholder="additional details" value=""></div>
+                <div class="d-flex justify-content-between align-items-center experience">
+                    <span>Edit Experience</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Experience</span>
+                </div><br>
+                <div class="col-md-12">
+                    <label class="labels">Experience in Designing</label><input type="text" class="form-control" placeholder="experience" value="">
+                </div> <br>
+                <div class="col-md-12">
+                    <label class="labels">Additional Details</label><input type="text" class="form-control" placeholder="additional details" value="">
+                </div>
             </div>
         </div>
     </div>
