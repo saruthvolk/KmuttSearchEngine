@@ -430,7 +430,8 @@ def register(request):
 					destination.write(chunk)
 				destination.close()
 			except:
-				path = ''
+				path = None
+
 			saverecord.path_profile_pic = path
 			saverecord.username = request.POST.get('username')
 			saverecord.gender = request.POST.get('gender')

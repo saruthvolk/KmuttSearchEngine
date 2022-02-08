@@ -20,15 +20,15 @@ def update_status_User(request,id):
 
 		if (user.is_active == True):
 			user.is_active = False
-			user.deleted_by = request.user.id
-			user.deleted_date = current_time
-			user.deleted_time = current_time
+			user.suspended_by = request.user.id
+			user.suspended_date = current_time
+			user.suspended_time = current_time
 			user.save()
 		else:
 			user.is_active = True
-			user.deleted_by = request.user.id
-			user.deleted_date = current_time
-			user.deleted_time = current_time
+			user.suspended_by = None
+			user.suspended_date = None
+			user.suspended_time = None
 			user.save()
 
 

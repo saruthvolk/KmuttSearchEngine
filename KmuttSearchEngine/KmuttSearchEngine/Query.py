@@ -47,9 +47,9 @@ class UserDto:
     updated_by = []
     updated_time = []
     updated_date = []
-    deleted_by = []
-    deleted_date = []
-    deleted_time = []
+    suspended_by = []
+    suspended_date = []
+    suspended_time = []
     status = []
     first_name = []
     last_name = []
@@ -113,6 +113,12 @@ def queryDb_User_All():
    for user in query:   
        role = user_role.objects.get(role_code=user.role_code)
        user.role_code = role.role_name
+       if user.suspended_by is not None:
+           try:
+                user.suspended_by = query[int(user.suspended_by)-1].first_name
+           except:
+                user.suspended_by = user.suspended_by
+
 
    return query
 

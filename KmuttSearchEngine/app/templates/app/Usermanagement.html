@@ -254,6 +254,15 @@
     }
 
     .modal-confirm .btn-secondary:hover, .modal-confirm .btn-secondary:focus { background: #a8a8a8; }
+
+    #view_profile_pic {
+        width: 150px; 
+        height: 150px; 
+        border-radius: 50% 50% 50% 50%;
+        margin-left: 35%;
+        border: solid 4px #1a4d6a;
+    }
+
 </style>
 <script>
     $(document).ready(function() {
@@ -339,9 +348,9 @@
         <td>{{user_data.id}}</td>
         <td>
             {% if user_data.path_profile_pic is None %}
-            <a href="#"><img src="{% static 'img/user.png' %}" class="avatar" alt="Avatar"> {{user_data.first_name}} {{user_data.last_name}} </a>
+            <a href="#" data-toggle="modal" data-target="#userview_{{user_data.id}}"><img src="{% static 'img/user.png' %}" class="avatar" alt="Avatar"> {{user_data.first_name}} {{user_data.last_name}} </a>
             {% else %}
-            <a href="#"><img src="{% static user_data.path_profile_pic %}" class="avatar" alt="Avatar"> {{user_data.first_name}} {{user_data.last_name}} </a>
+            <a href="#" data-toggle="modal" data-target="#userview_{{user_data.id}}"><img src="{% static user_data.path_profile_pic %}" class="avatar" alt="Avatar"> {{user_data.first_name}} {{user_data.last_name}} </a>
             {% endif %}
         </td>
         <td>{{user_data.created_date}}</td>
@@ -410,73 +419,151 @@
             </div>
         </div>
 
-        <div class="modal fade" id="userinfo_{{user_data.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content" style="border-color: transparent; border-radius: 10px;">
-                    <div class="modal-header" style="background-color: #e87639; border-radius: 10px 10px 0 0;">
-                        <h5 class="modal-title" id="header_{{user_data.id}}" style="color: #ffffff">Edit {{user_data.first_name}}'s profile </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+    <div class="modal fade" id="userinfo_{{user_data.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="border-color: transparent; border-radius: 10px;">
+                <div class="modal-header" style="background-color: #e87639; border-radius: 10px 10px 0 0;">
+                    <h5 class="modal-title" id="header_{{user_data.id}}" style="color: #ffffff">Edit {{user_data.first_name}}'s profile </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-form-label">First name:</label>
+                        <input type="text" class="form-control" id="first_name_{{user_data.id}}" name="first_name_{{user_data.id}}"value="{{user_data.first_name}}">
                     </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label class="col-form-label">First name:</label>
-                            <input type="text" class="form-control" id="first_name_{{user_data.id}}" name="first_name_{{user_data.id}}"value="{{user_data.first_name}}">
-                        </div>
-                        <div class="form-group">
-                            <label class="col-form-label">Last name:</label>
-                            <input type="text" class="form-control" id="last_name_{{user_data.id}}" name="last_name_{{user_data.id}}" value="{{user_data.last_name}}">
-                        </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Last name:</label>
+                        <input type="text" class="form-control" id="last_name_{{user_data.id}}" name="last_name_{{user_data.id}}" value="{{user_data.last_name}}">
+                    </div>
 
-                        <div class="form-group">
-                            <label class="col-form-label">Date of birth:</label>
-                            <input type="date" class="form-control" id="date_of_birth_{{user_data.id}}" name="date_of_birth_{{user_data.id}}" value="{{user_data.date_of_birth|date:'Y-m-d'}}">
-                        </div>
-                        <div class="form-group">
-                            <label class="col-form-label">Gender:</label>
-                            {% if user_data.gender == 'Male' %}
-                            <select id="gender_{{user_data.id}}" name="gender_{{user_data.id}}" class="form-control">
-                                <option value="Male" selected="selected">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Other">Other</option>
-                            </select>
-                            {% elif user_data.gender == 'Female' %}
-                            <select id="gender_{{user_data.id}}" name="gender_{{user_data.id}}" class="form-control">
-                                <option value="Male">Male</option>
-                                <option value="Female" selected="selected">Female</option>
-                                <option value="Other">Other</option>
-                            </select>
-                            {% else %}
-                            <select id="gender_{{user_data.id}}" name="gender_{{user_data.id}}" class="form-control">
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Other" selected="selected">Other</option>
-                            </select>
-                            {% endif %}
-                        </div>
-                        <div class="form-group">
-                            <label class="col-form-label">Email:</label>
-                            <input type="text" class="form-control" id="email_{{user_data.id}}" name="email_{{user_data.id}}" value="{{user_data.email}}">
-                        </div>
-                        <div class="form-group">
-                            <label class="col-form-label">Phone No:</label>
-                            <input type="text" class="form-control" id="phone_no_{{user_data.id}}" name="phone_no_{{user_data.id}}" value="{{user_data.phone_no}}">
-                        </div>
-                        <br/>
-                        <div class="form-group">
-                            <input type="checkbox" id="userid_confirm_{{ user_data.id }}" name="userid_confirm" class="checkbox" value="{{ user_data.id }}" style="margin-left: 20%;" onClick="disable_button_confirm(this)"/> Check the box to confirm the action.
-                        </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Date of birth:</label>
+                        <input type="date" class="form-control" id="date_of_birth_{{user_data.id}}" name="date_of_birth_{{user_data.id}}" value="{{user_data.date_of_birth|date:'Y-m-d'}}">
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success" id="confirm_button_{{ user_data.id }}" formaction="{% url 'usermanagement' operation='update'%}" disabled="disabled">Save changes</button>
+                    <div class="form-group">
+                        <label class="col-form-label">Gender:</label>
+                        {% if user_data.gender == 'Male' %}
+                        <select id="gender_{{user_data.id}}" name="gender_{{user_data.id}}" class="form-control">
+                            <option value="Male" selected="selected">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        {% elif user_data.gender == 'Female' %}
+                        <select id="gender_{{user_data.id}}" name="gender_{{user_data.id}}" class="form-control">
+                            <option value="Male">Male</option>
+                            <option value="Female" selected="selected">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        {% else %}
+                        <select id="gender_{{user_data.id}}" name="gender_{{user_data.id}}" class="form-control">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other" selected="selected">Other</option>
+                        </select>
+                        {% endif %}
                     </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Email:</label>
+                        <input type="text" class="form-control" id="email_{{user_data.id}}" name="email_{{user_data.id}}" value="{{user_data.email}}">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Phone No:</label>
+                        <input type="text" class="form-control" id="phone_no_{{user_data.id}}" name="phone_no_{{user_data.id}}" value="{{user_data.phone_no}}">
+                    </div>
+                    <br/>
+                    <div class="form-group">
+                        <input type="checkbox" id="userid_confirm_{{ user_data.id }}" name="userid_confirm" class="checkbox" value="{{ user_data.id }}" style="margin-left: 20%;" onClick="disable_button_confirm(this)"/> Check the box to confirm the action.
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success" id="confirm_button_{{ user_data.id }}" formaction="{% url 'usermanagement' operation='update'%}" disabled="disabled">Save changes</button>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="modal fade" id="userview_{{user_data.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="border-color: transparent; border-radius: 10px;">
+                <div class="modal-header" style="background-color: #e87639; border-radius: 10px 10px 0 0;">
+                    <h5 class="modal-title" id="header_{{user_data.id}}" style="color: #ffffff">{{user_data.first_name}}'s profile </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        {% if user_data.path_profile_pic is not None %}
+                        <a href="#" data-toggle="modal" data-target="#userview_{{user_data.id}}"><img src="{% static user_data.path_profile_pic %}" id="view_profile_pic" class="avatar" alt="Avatar"></a>
+                        {% else %}
+                        <a href="#" data-toggle="modal" data-target="#userview_{{user_data.id}}"><img src="{% static 'img/user.png' %}" id="view_profile_pic" class="avatar" alt="Avatar"></a>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">First name:</label>
+                        <input type="text" class="form-control" id="first_name_{{user_data.id}}" name="first_name_{{user_data.id}}"value="{{user_data.first_name}}" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Last name:</label>
+                        <input type="text" class="form-control" id="last_name_{{user_data.id}}" name="last_name_{{user_data.id}}" value="{{user_data.last_name}}" readonly="readonly">
+                    </div>
 
-
+                    <div class="form-group">
+                        <label class="col-form-label">Date of birth:</label>
+                        <input type="text" class="form-control" id="date_of_birth_{{user_data.id}}" name="date_of_birth_{{user_data.id}}" value="{{user_data.date_of_birth}}" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Gender:</label>
+                        <input type="text" class="form-control" id="gender{{user_data.id}}" name="gender_{{user_data.id}}" value="{{user_data.gender }}" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Email:</label>
+                        <input type="text" class="form-control" id="email_{{user_data.id}}" name="email_{{user_data.id}}" value="{{user_data.email}}" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Phone No:</label>
+                        <input type="text" class="form-control" id="phone_no_{{user_data.id}}" name="phone_no_{{user_data.id}}" value="{{user_data.phone_no}}" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Create Date:</label>
+                        <input type="text" class="form-control" id="create_date_{{user_data.id}}" name="create_date_{{user_data.id}}" value="{{user_data.created_date}}" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Create Time:</label>
+                        <input type="text" class="form-control" id="create_time_{{user_data.id}}" name="create_time_{{user_data.id}}" value="{{user_data.created_time}}" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Update Date:</label>
+                        <input type="text" class="form-control" id="update_date_{{user_data.id}}" name="update_date_{{user_data.id}}" value="{{user_data.updated_date}}" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Update Time:</label>
+                        <input type="text" class="form-control" id="update_time_{{user_data.id}}" name="update_time_{{user_data.id}}" value="{{user_data.updated_time}}" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Update By:</label>
+                        <input type="text" class="form-control" id="update_by_{{user_data.id}}" name="update_by_{{user_data.id}}" value="{{user_data.updated_by}}" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Suspended date:</label>
+                        <input type="text" class="form-control" id="suspended_date_{{user_data.id}}" name="suspended_date_{{user_data.id}}" value="{{user_data.suspended_date}}" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Suspended Time:</label>
+                        <input type="text" class="form-control" id="suspended_time_{{user_data.id}}" name="suspended_time_{{user_data.id}}" value="{{user_data.suspended_time}}" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Suspended By:</label>
+                        <input type="text" class="form-control" id="suspended_by_{{user_data.id}}" name="suspended_by_{{user_data.id}}" value="{{user_data.suspended_by}}" readonly="readonly">
+                    </div>
+                    <br/>
+                </div>
+        </div>
+    </div>
+    </div>
     </tr>
     <tr>
         {% endfor %}
