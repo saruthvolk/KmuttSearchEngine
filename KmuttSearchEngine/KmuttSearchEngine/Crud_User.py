@@ -61,7 +61,7 @@ def update_user_profile(request,id):
 		user.last_name = last_name
 		user.date_of_birth = date_of_birth
 		user.gender = gender
-		user.updated_by = request.user.id
+		user.updated_by
 		user.email = email
 		user.phone_no = phone_no
 		user.updated_date = current_time

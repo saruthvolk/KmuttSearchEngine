@@ -17,13 +17,15 @@
         font-family: 'Prompt', sans-serif;
     }
 
-    .table-responsive { margin: 30px 0; }
+    .table-responsive { margin: 30px -9%;
+        width: initial;
+    }
 
     .table-wrapper {
         background: #fff;
         border-radius: 3px;
         box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
-        min-width: 1000px;
+        width: 1300px;
         padding: 20px 25px;
     }
 
@@ -259,7 +261,7 @@
         width: 150px; 
         height: 150px; 
         border-radius: 50% 50% 50% 50%;
-        margin-left: 35%;
+        margin-left: 39%;
         border: solid 4px #1a4d6a;
     }
 
@@ -335,6 +337,7 @@
     <tr>
         <th>ID</th>
         <th>Name</th>
+        <th>Username</th>
         <th>Date Created</th>
         <th>Role</th>
         <th>Status</th>
@@ -345,14 +348,15 @@
     <tbody>
     <tr>
         {% for user_data in query %}
-        <td>{{user_data.id}}</td>
-        <td>
-            {% if user_data.path_profile_pic is None %}
-            <a href="#" data-toggle="modal" data-target="#userview_{{user_data.id}}"><img src="{% static 'img/user.png' %}" class="avatar" alt="Avatar"> {{user_data.first_name}} {{user_data.last_name}} </a>
-            {% else %}
-            <a href="#" data-toggle="modal" data-target="#userview_{{user_data.id}}"><img src="{% static user_data.path_profile_pic %}" class="avatar" alt="Avatar"> {{user_data.first_name}} {{user_data.last_name}} </a>
-            {% endif %}
-        </td>
+    <td><b>{{user_data.id}}</b></td>
+    <td>
+        {% if user_data.path_profile_pic is None %}
+        <a href="#" data-toggle="modal" data-target="#userview_{{user_data.id}}"><img src="{% static 'img/user.png' %}" class="avatar" alt="Avatar"> {{user_data.first_name}} {{user_data.last_name}} </a>
+        {% else %}
+        <a href="#" data-toggle="modal" data-target="#userview_{{user_data.id}}"><img src="{% static user_data.path_profile_pic %}" class="avatar" alt="Avatar"> {{user_data.first_name}} {{user_data.last_name}} </a>
+        {% endif %}
+    </td>
+    <td>{{user_data.username}}</td>
         <td>{{user_data.created_date}}</td>
         <td>{{user_data.role_code}}</td>
         {% if user_data.is_active is False %}
@@ -421,7 +425,7 @@
 
     <div class="modal fade" id="userinfo_{{user_data.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content" style="border-color: transparent; border-radius: 10px;">
+            <div class="modal-content" style="border-color: transparent; border-radius: 10px; width: 120%; margin-left: -11%;">
                 <div class="modal-header" style="background-color: #e87639; border-radius: 10px 10px 0 0;">
                     <h5 class="modal-title" id="header_{{user_data.id}}" style="color: #ffffff">Edit {{user_data.first_name}}'s profile </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -474,7 +478,7 @@
                     </div>
                     <br/>
                     <div class="form-group">
-                        <input type="checkbox" id="userid_confirm_{{ user_data.id }}" name="userid_confirm" class="checkbox" value="{{ user_data.id }}" style="margin-left: 20%;" onClick="disable_button_confirm(this)"/> Check the box to confirm the action.
+                        <input type="checkbox" id="userid_confirm_{{ user_data.id }}" name="userid_confirm" class="checkbox" value="{{ user_data.id }}" style="margin-left: 28%;" onClick="disable_button_confirm(this)"/> Check the box to confirm the action.
                     </div>
                 </div>
 
@@ -486,8 +490,8 @@
         </div>
     </div>
     <div class="modal fade" id="userview_{{user_data.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content" style="border-color: transparent; border-radius: 10px;">
+        <div class="modal-dialog" role="document" style="width: 500px">
+            <div class="modal-content" style="border-color: transparent; border-radius: 10px;  width: 140%; margin-left: -21%;">
                 <div class="modal-header" style="background-color: #e87639; border-radius: 10px 10px 0 0;">
                     <h5 class="modal-title" id="header_{{user_data.id}}" style="color: #ffffff">{{user_data.first_name}}'s profile </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -502,24 +506,27 @@
                         <a href="#" data-toggle="modal" data-target="#userview_{{user_data.id}}"><img src="{% static 'img/user.png' %}" id="view_profile_pic" class="avatar" alt="Avatar"></a>
                         {% endif %}
                     </div>
-                    <div class="form-group">
+                    <div class="form-row">
+                        <div class="col">
                         <label class="col-form-label">First name:</label>
                         <input type="text" class="form-control" id="first_name_{{user_data.id}}" name="first_name_{{user_data.id}}"value="{{user_data.first_name}}" readonly="readonly">
-                    </div>
-                    <div class="form-group">
+                        </div>
+                        <div class="col">
                         <label class="col-form-label">Last name:</label>
                         <input type="text" class="form-control" id="last_name_{{user_data.id}}" name="last_name_{{user_data.id}}" value="{{user_data.last_name}}" readonly="readonly">
                     </div>
-
-                    <div class="form-group">
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
                         <label class="col-form-label">Date of birth:</label>
                         <input type="text" class="form-control" id="date_of_birth_{{user_data.id}}" name="date_of_birth_{{user_data.id}}" value="{{user_data.date_of_birth}}" readonly="readonly">
+                         </div>
+                        <div class="col">
+                            <label class="col-form-label">Gender:</label>
+                            <input type="text" class="form-control" id="gender{{user_data.id}}" name="gender_{{user_data.id}}" value="{{user_data.gender }}" readonly="readonly">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-form-label">Gender:</label>
-                        <input type="text" class="form-control" id="gender{{user_data.id}}" name="gender_{{user_data.id}}" value="{{user_data.gender }}" readonly="readonly">
-                    </div>
-                    <div class="form-group">
+                        <div class="form-group">
                         <label class="col-form-label">Email:</label>
                         <input type="text" class="form-control" id="email_{{user_data.id}}" name="email_{{user_data.id}}" value="{{user_data.email}}" readonly="readonly">
                     </div>
@@ -527,37 +534,43 @@
                         <label class="col-form-label">Phone No:</label>
                         <input type="text" class="form-control" id="phone_no_{{user_data.id}}" name="phone_no_{{user_data.id}}" value="{{user_data.phone_no}}" readonly="readonly">
                     </div>
-                    <div class="form-group">
+                    <div class="form-row">
+                        <div class="col">
                         <label class="col-form-label">Create Date:</label>
                         <input type="text" class="form-control" id="create_date_{{user_data.id}}" name="create_date_{{user_data.id}}" value="{{user_data.created_date}}" readonly="readonly">
+                        </div>
+                        <div class="col">
+                            <label class="col-form-label">Create Time:</label>
+                            <input type="text" class="form-control" id="create_time_{{user_data.id}}" name="create_time_{{user_data.id}}" value="{{user_data.created_time}}" readonly="readonly">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-form-label">Create Time:</label>
-                        <input type="text" class="form-control" id="create_time_{{user_data.id}}" name="create_time_{{user_data.id}}" value="{{user_data.created_time}}" readonly="readonly">
-                    </div>
-                    <div class="form-group">
+                    <div class="form-row">
+                        <div class="col">
                         <label class="col-form-label">Update Date:</label>
                         <input type="text" class="form-control" id="update_date_{{user_data.id}}" name="update_date_{{user_data.id}}" value="{{user_data.updated_date}}" readonly="readonly">
-                    </div>
-                    <div class="form-group">
+                        </div>
+                        <div class="col">
                         <label class="col-form-label">Update Time:</label>
                         <input type="text" class="form-control" id="update_time_{{user_data.id}}" name="update_time_{{user_data.id}}" value="{{user_data.updated_time}}" readonly="readonly">
+                        </div>
+                        <div class="col">
+                            <label class="col-form-label">Update By:</label>
+                            <input type="text" class="form-control" id="update_by_{{user_data.id}}" name="update_by_{{user_data.id}}" value="{{user_data.updated_by}}" readonly="readonly">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-form-label">Update By:</label>
-                        <input type="text" class="form-control" id="update_by_{{user_data.id}}" name="update_by_{{user_data.id}}" value="{{user_data.updated_by}}" readonly="readonly">
-                    </div>
-                    <div class="form-group">
+                    <div class="form-row">
+                        <div class="col">
                         <label class="col-form-label">Suspended date:</label>
                         <input type="text" class="form-control" id="suspended_date_{{user_data.id}}" name="suspended_date_{{user_data.id}}" value="{{user_data.suspended_date}}" readonly="readonly">
-                    </div>
-                    <div class="form-group">
+                        </div>
+                        <div class="col">
                         <label class="col-form-label">Suspended Time:</label>
                         <input type="text" class="form-control" id="suspended_time_{{user_data.id}}" name="suspended_time_{{user_data.id}}" value="{{user_data.suspended_time}}" readonly="readonly">
-                    </div>
-                    <div class="form-group">
-                        <label class="col-form-label">Suspended By:</label>
-                        <input type="text" class="form-control" id="suspended_by_{{user_data.id}}" name="suspended_by_{{user_data.id}}" value="{{user_data.suspended_by}}" readonly="readonly">
+                        </div>
+                        <div class="col">
+                            <label class="col-form-label">Suspended By:</label>
+                            <input type="text" class="form-control" id="suspended_by_{{user_data.id}}" name="suspended_by_{{user_data.id}}" value="{{user_data.suspended_by}}" readonly="readonly">
+                        </div>
                     </div>
                     <br/>
                 </div>
