@@ -265,6 +265,17 @@
         border: solid 4px #1a4d6a;
     }
 
+    #Error {
+        background-color: #ffcccb;
+        border: 2px;
+        border-color: #ffcccb;
+        border-radius: 10px;
+        border-style: solid;
+        color: red;
+        height: 60px;
+        margin-bottom: 15px;
+        padding: 1em;
+    }
 </style>
 <script>
     $(document).ready(function() {
@@ -306,6 +317,10 @@
             $(`#activate_button_${id}`).attr("disabled", "disabled");
         }
     };
+
+    function shake() {
+        $("#Error").effect("shake");
+    }
 
 </script>
 </head>
@@ -432,36 +447,44 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                {% if error %}
+                <div style="text-transform: capitalize;" id="Error">
+                    <p><i class="fas fa-exclamation-triangle" style="margin-right: 10px;"></i> {{error}}</p>
+                    <script type="text/javascript">
+                        shake();
+                    </script>
+                </div>
+                {% endif %}
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="col-form-label">First name:</label>
-                        <input type="text" class="form-control" id="first_name_{{user_data.id}}" name="first_name_{{user_data.id}}"value="{{user_data.first_name}}">
+                        <input type="text" class="form-control" id="first_name_{{user_data.id}}" name="first_name_edit_{{user_data.id}}"value="{{user_data.first_name}}">
                     </div>
                     <div class="form-group">
                         <label class="col-form-label">Last name:</label>
-                        <input type="text" class="form-control" id="last_name_{{user_data.id}}" name="last_name_{{user_data.id}}" value="{{user_data.last_name}}">
+                        <input type="text" class="form-control" id="last_name_{{user_data.id}}" name="last_name_edit_{{user_data.id}}" value="{{user_data.last_name}}">
                     </div>
 
                     <div class="form-group">
                         <label class="col-form-label">Date of birth:</label>
-                        <input type="date" class="form-control" id="date_of_birth_{{user_data.id}}" name="date_of_birth_{{user_data.id}}" value="{{user_data.date_of_birth|date:'Y-m-d'}}">
+                        <input type="date" class="form-control" id="date_of_birth_{{user_data.id}}" name="date_of_birth_edit_{{user_data.id}}" value="{{user_data.date_of_birth|date:'Y-m-d'}}">
                     </div>
                     <div class="form-group">
                         <label class="col-form-label">Gender:</label>
                         {% if user_data.gender == 'Male' %}
-                        <select id="gender_{{user_data.id}}" name="gender_{{user_data.id}}" class="form-control">
+                        <select id="gender_{{user_data.id}}" name="gender_edit_{{user_data.id}}" class="form-control">
                             <option value="Male" selected="selected">Male</option>
                             <option value="Female">Female</option>
                             <option value="Other">Other</option>
                         </select>
                         {% elif user_data.gender == 'Female' %}
-                        <select id="gender_{{user_data.id}}" name="gender_{{user_data.id}}" class="form-control">
+                        <select id="gender_{{user_data.id}}" name="gender_edit_{{user_data.id}}" class="form-control">
                             <option value="Male">Male</option>
                             <option value="Female" selected="selected">Female</option>
                             <option value="Other">Other</option>
                         </select>
                         {% else %}
-                        <select id="gender_{{user_data.id}}" name="gender_{{user_data.id}}" class="form-control">
+                        <select id="gender_{{user_data.id}}" name="gender_edit_{{user_data.id}}" class="form-control">
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Other" selected="selected">Other</option>
@@ -470,11 +493,11 @@
                     </div>
                     <div class="form-group">
                         <label class="col-form-label">Email:</label>
-                        <input type="text" class="form-control" id="email_{{user_data.id}}" name="email_{{user_data.id}}" value="{{user_data.email}}">
+                        <input type="text" class="form-control" id="email_{{user_data.id}}" name="email_edit_{{user_data.id}}" value="{{user_data.email}}">
                     </div>
                     <div class="form-group">
                         <label class="col-form-label">Phone No:</label>
-                        <input type="text" class="form-control" id="phone_no_{{user_data.id}}" name="phone_no_{{user_data.id}}" value="{{user_data.phone_no}}">
+                        <input type="text" class="form-control" id="phone_no_{{user_data.id}}" name="phone_no_edit_{{user_data.id}}" value="{{user_data.phone_no}}">
                     </div>
                     <br/>
                     <div class="form-group">
@@ -536,12 +559,16 @@
                     </div>
                     <div class="form-row">
                         <div class="col">
-                        <label class="col-form-label">Create Date:</label>
-                        <input type="text" class="form-control" id="create_date_{{user_data.id}}" name="create_date_{{user_data.id}}" value="{{user_data.created_date}}" readonly="readonly">
+                            <label class="col-form-label">Create Date:</label>
+                            <input type="text" class="form-control" id="create_date_{{user_data.id}}" name="create_date_{{user_data.id}}" value="{{user_data.created_date}}" readonly="readonly">
                         </div>
                         <div class="col">
                             <label class="col-form-label">Create Time:</label>
                             <input type="text" class="form-control" id="create_time_{{user_data.id}}" name="create_time_{{user_data.id}}" value="{{user_data.created_time}}" readonly="readonly">
+                        </div>
+                        <div class="col">
+                            <label class="col-form-label">Create By:</label>
+                            <input type="text" class="form-control" id="create_by_{{user_data.id}}" name="create_by_{{user_data.id}}" value="{{user_data.created_by}}" readonly="readonly">
                         </div>
                     </div>
                     <div class="form-row">

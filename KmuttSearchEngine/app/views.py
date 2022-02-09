@@ -384,6 +384,9 @@ def profile(request):
 
 def register(request):
 	current_time = datetime.datetime.now().replace(microsecond=0)
+	validate_eng = re.compile("^[a-zA-Z]+$")
+	validate_thai = re.compile("^[\u0E00-\u0E7F]+$")
+
 	if request.method == "POST" :
 
 		if  (request.POST.get('username') and request.POST.get('password') and request.POST.get('first_name') and request.POST.get('last_name') and request.POST.get('email') and 
@@ -395,6 +398,7 @@ def register(request):
 			firstname = request.POST.get('first_name')
 			lastname = request.POST.get('last_name')
 			phone_no = request.POST.get('phone_no')
+			department = request.POST.get('department')
 
 			if userinfo.objects.filter(username=username1).exists():
 				context = {"error":"Username already exist."}
@@ -405,12 +409,15 @@ def register(request):
 			elif not re.fullmatch(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$',password1):
 				context = {"error":"Invalide password format"}
 				return render(request,'app/register.html',context)
-			elif not firstname.isalpha():
+			elif not validate_eng.search(firstname) and not validate_thai.search(firstname):
 				context = {"error":"Firstname can conatain only alphabets."}
-			elif not lastname.isalpha():
+				return render(request,'app/register.html',context)
+			elif not validate_eng.search(lastname) and not validate_thai.search(lastname):
 				context = {"error":"Lastname can conatain only alphabets."}
+				return render(request,'app/register.html',context)
 			elif phone_no.isalpha():
 				context = {"error":"Phone number can conatain only numbers."}
+				return render(request,'app/register.html',context)
 
 			if userinfo.objects.filter(email=email1).exists():
 				context = {"error":"Email already exist"}
@@ -441,15 +448,16 @@ def register(request):
 			saverecord.first_name = request.POST.get('first_name')
 			saverecord.last_name = request.POST.get('last_name')
 			saverecord.email = request.POST.get('email')
-			saverecord.created_by = 1 #waiting for user function
-			saverecord.updated_by = 1 #waiting for user function
+			saverecord.created_by = request.user.id
+			saverecord.updated_by = request.user.id
+			saverecord.suspended_by = None
 			saverecord.is_active = True
 			saverecord.updated_date = current_time
 			saverecord.updated_time = current_time
 			saverecord.created_date = current_time
 			saverecord.created_time = current_time
 			saverecord.last_login = current_time
-			saverecord.role_code = 2 #waiting for user function
+			saverecord.role_code = department
 			saverecord.save()
 
 			return redirect('user')

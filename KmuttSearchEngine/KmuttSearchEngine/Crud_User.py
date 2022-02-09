@@ -6,7 +6,7 @@ from KmuttSearchEngine.Query import *
 
 class Result:
   code = ''
-  context = ''
+  context = {}
   query = ''
 
 def update_status_User(request,id):
@@ -43,12 +43,12 @@ def update_user_profile(request,id):
 	if (request.POST.get('first_name_'+str(id)) and request.POST.get('last_name_'+str(id)) and request.POST.get('date_of_birth_'+str(id)) 
 		and request.POST.get('gender_'+str(id)) and request.POST.get('email_'+str(id)) and request.POST.get('phone_no_'+str(id))):
 
-		first_name = request.POST.get('first_name_'+str(id))
-		last_name = request.POST.get('last_name_'+str(id))
-		date_of_birth = request.POST.get('date_of_birth_'+str(id))
-		gender = request.POST.get('gender_'+str(id))
-		email = request.POST.get('email_'+str(id))
-		phone_no = request.POST.get('phone_no_'+str(id))
+		first_name = request.POST.get('first_name_edit_'+str(id))
+		last_name = request.POST.get('last_name_edit_'+str(id))
+		date_of_birth = request.POST.get('date_of_birth_edit_'+str(id))
+		gender = request.POST.get('gender_edit_'+str(id))
+		email = request.POST.get('email_edit_'+str(id))
+		phone_no = request.POST.get('phone_no_edit_'+str(id))
 
 	else:
 		Result.code = 404
