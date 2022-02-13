@@ -49,7 +49,7 @@
     .login {
         background-color: #fff;
         border-radius: 20px;
-        height: 550px;
+        height: fit-content;
         margin-left: auto;
         margin-right: auto;
         padding: 15px;
@@ -202,8 +202,12 @@
 
     #logo {
         fill: #e87639;
-        height: 24%;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        height: 140px;
     }
+
 
     #Error {
         background-color: #ffcccb;
@@ -277,8 +281,8 @@
                         </label>
                         <label class="form-check-label" for="exampleCheck1">Remember me</label>
 
-                        <label class="forgot-password" data-toggle="modal" data-target="#forgotpassword">
-                            <a href="#">Forgot Password?</a>
+                        <label class="forgot-password">
+                            <a href="{% url 'reset_password' %}">Forgot Password?</a>
                         </label>
 
                     </div>
@@ -289,22 +293,7 @@
                 </form>
                 <!-- End Loging form -->
 
-                <!-- Modal -->
-                <div class="modal fade" id="forgotpassword" tabindex="-1" role="dialog" aria-labelledby="forgotpasswordTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="forgotpasswordTitle">Notice</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                โปรดติดต่อเจ้าหน้าที่ที่ดูเเลเว็บไซต์
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>

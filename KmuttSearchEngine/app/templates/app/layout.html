@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load i18n %}
 {% load static %}
 <head>
     <meta charset="utf-8"/>
@@ -116,37 +117,31 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav" style="margin-right: 14%;">
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{% url 'home' %}">{% translate "Home" %} <span class="sr-only">(current)</span></a>
             </li>
             {% if request.user.role_code == 1 %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'admin' %}">Admin Panel</a>
+                <a class="nav-link" href="{% url 'admin' %}">{% translate "Admin" %}</a>
             </li>
             {% else %}
             <li class="nav-item">
-                <a class="nav-link" href="#">My Requests</a>
+                <a class="nav-link" href="#">{% translate "My Requests" %}</a>
             </li>
             {% endif %}
-            <li class="nav-item dropdown" hidden="true">
+            <li class="nav-item dropdown" hidden>
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Dropdown
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
+
             </li>
         </ul>
-
-
-        <div class="col-lg-4 col-xl-5 col-sm-8 col-md-4" style="margin-left: -210px; text-align: center;">
+        
+        <div class="col-lg-4 col-xl-5 col-sm-8 col-md-4" style="text-align: center; position:sticky;">
             <form action="{% url 'search' %}" class="search-wrap">
                 <div class="input-group w-100">
-                    <input type="text" class="form-control search-form" style="width: 55%;" placeholder="Search">
+                    <input type="text" class="form-control search-form" placeholder={% translate "Search" %} style="margin-left: -14px">
                     <div class="input-group-append">
                         <button class="btn btn-primary search-button" type="submit">
                             <i class="fa fa-search"></i>
@@ -157,13 +152,27 @@
         </div>
 
         <div class="navbar-nav ml-auto">
+            
+            {% get_current_language as LANGUAGE_CODE %}
+            {% get_available_languages as LANGUAGES %}
+            {% get_language_info_list for LANGUAGES as languages %}
+            <li class="nav-item dropdown" style="margin-top: 10px;">
+                <a class="nav-link dropdown-toggle" href="#" id="lang_change" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-transform: uppercase;">
+                    {{ LANGUAGE_CODE }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="lang_change">
+                    <a class="dropdown-item" href="/en/"> English</a>
+                    <a class="dropdown-item" href="/th/"> ไทย</a>
+                </div>
+            </li>
+
             <a href="#" class="nav-item nav-link notifications">
                 <i class="fas fa-bell fa-lg" style="margin-top: 15px;"></i><span class="badge">1</span>
             </a>
             <div class="nav-item dropdown" style="margin-right: -30%">
                 <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action"><img src="{% static request.user.path_profile_pic %}" id="profile_pic" class="avatar" alt="Avatar"> {{request.user.username}} <b class="caret"></b></a>
                 <div class="dropdown-menu">
-                    <a href="{% url 'profile' %}" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
+                    <a href="{% url 'profile' operation='view' %}" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
                     <a href="#" class="dropdown-item"><i class="far fa-clipboard"></i> Requests</a>
                     <div class="dropdown-divider"></div>
                     <a href="/logout" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a>

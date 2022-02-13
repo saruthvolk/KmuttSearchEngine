@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'tinymce',
     'fontawesomefree',
+    'crispy_forms',
     "filebrowser",
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -135,3 +137,12 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'kmutt.knowledgecenter@gmail.com'
 EMAIL_HOST_PASSWORD = 'Aa985401790!'
 
+from django.utils.translation import gettext_lazy as _
+LANGUAGES_CODE = 'en'
+
+LANGUAGES = (
+    ('en',_('English')),
+    ('th',_('Thai')),
+    )
+
+LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale/'),)

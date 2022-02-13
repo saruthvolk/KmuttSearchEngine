@@ -1,10 +1,7 @@
 {% extends "app/layout.html" %}
-
-
 {% block content %}
-
 {% load static %}
-
+{% load i18n %}
 <head>
 
 <script>
@@ -236,13 +233,13 @@
 </head>
 <body>
 <div class="jumbotron" id="search">
-    <h1 style="margin-top: 140px;">How can we help you ?</h1>
-    <p class="lead">Type the question you want to ask </p>
+    <h1 style="margin-top: 140px;">{% translate "How can we help you ?" %}</h1>
+    <p class="lead">{% translate "Type the question you want to ask" %} </p>
 
     <form action="{% url 'search' %}" class="form-inline" method="POST">
         {% csrf_token %}
         <br/><br/><br/>
-        <input name="search" id="search_input" tpye="text" class="form-control col-lg-offset-3 col-lg-6" placeholder="Search here....." autocomplete="off">
+        <input name="search" id="search_input" tpye="text" class="form-control col-lg-offset-3 col-lg-6" placeholder="{% translate "Search here....." %}" autocomplete="off">
         <button id="search-button" type="submit" class="btn btn-primary">
             <i class="fas fa-search"></i>
         </button>
@@ -254,18 +251,18 @@
     <a href="{% url 'Crud_QA' operation='View' id='0' %}" class="col-sm-4" id="Viewquestion">
         <div>
             <i class="far fa-question-circle fa-3x" style="color: #f37a3b; margin-bottom: 30px; margin-top: 30px;"></i>
-            <h4 style="">View Questions</h4>
+            <h4 style="">{% translate "View Questions" %}</h4>
             <br/>
-            <p style="color: #262626; margin-left: auto; margin-right: auto; width: 10vw;">View all question in our knowledge base. </p>
+            <p style="color: #262626; margin-left: auto; margin-right: auto; width: 10vw;">{% translate "View all question in our knowledge base." %} </p>
             <br/>
         </div>
     </a>
     <a href="{% url 'about' %}" class="col-sm-4" id="FAQs">
         <div >
             <i class="far fa-comments fa-3x" style="color: #f37a3b; margin-bottom: 30px; margin-top: 30px;"></i>
-            <h4 style="" id="faqs">FAQs</h4>
+            <h4 style="" id="faqs">{% translate "FAQs" %}</h4>
             <br/>
-            <p style="color: #262626; margin-left: auto; margin-right: auto; width: 13vw;">View the most asked questions in our knowledge base. </p>
+            <p style="color: #262626; margin-left: auto; margin-right: auto; width: 13vw;">{% translate "View the most asked questions in our knowledge base." %} </p>
             <br/>
         </div>
     </a>
@@ -273,9 +270,9 @@
     <a href="{% url 'about' %}" class="col-sm-4" id="recent_update">
         <div >
             <i class="fas fa-edit fa-3x" style="color: #f37a3b; margin-bottom: 30px; margin-top: 30px;"></i>
-            <h4 style="" id="update">Recent Updates</h4>
+            <h4 style="" id="update">{% translate "Recent Updates" %}</h4>
             <br/>
-            <p style="color: #262626; margin-left: auto; margin-right: auto; width: 13vw;">Check for the latest update of the question in our knowledge base. </p>
+            <p style="color: #262626; margin-left: auto; margin-right: auto; width: 13vw;">{% translate "Check for the latest update of the question in our knowledge base." %} </p>
             <br/>
         </div>
     </a>
@@ -283,20 +280,32 @@
 </div>
 <br/><br/><br/>
 
-<h4>Feature Questions</h4>
+<h4>{% translate "Feature Questions" %}</h4>
 
+{% get_current_language as LANGUAGE_CODE %}
 <div class="jumbotron" id="feature_question">
     <div id="question">
         {% for questions in feature_question %}
         <br/>
+        {% if LANGUAGE_CODE == 'th' %}
         <p id="update1"> {{ questions.updated_date }} </p>
         <a id="question1" href="{% url 'question' id=questions.id %}">
             <div class="numberCircle"> {{ forloop.counter }} </div>
             <h5 style="font-weight: bold" id="question1"> {{ questions.question }} </h5>
-            <p id="update1" style="float: left"> Views: {{ questions.view_count }} </p>
+            <p id="update1" style="float: left"> {% translate "Views" %}: {{ questions.view_count }} </p>
             <br/>
         </a>
         <hr/>
+        {% elif LANGUAGE_CODE == 'en' %}
+        <p id="update1"> {{ questions.updated_date }} </p>
+        <a id="question1" href="{% url 'question' id=questions.id %}">
+            <div class="numberCircle"> {{ forloop.counter }} </div>
+            <h5 style="font-weight: bold" id="question1"> {{ questions.question_en }} </h5>
+            <p id="update1" style="float: left"> {% translate "Views" %}: {{ questions.view_count }} </p>
+            <br/>
+        </a>
+        <hr/>
+        {% endif %}
         {% endfor %}
     </div>
 </div>

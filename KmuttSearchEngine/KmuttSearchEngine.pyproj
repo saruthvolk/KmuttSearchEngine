@@ -71,6 +71,9 @@
     <Folder Include="app\templates\" />
     <Folder Include="app\templates\app\" />
     <Folder Include="KmuttSearchEngine\" />
+    <Folder Include="locale\" />
+    <Folder Include="locale\en\" />
+    <Folder Include="locale\th\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\templates\app\Admin.html" />

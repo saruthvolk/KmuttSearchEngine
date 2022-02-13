@@ -72,3 +72,39 @@ def update_user_profile(request,id):
 	Result.query = queryDb_User_All()
 
 	return Result
+
+def edit_user_profile (request):
+
+	current_time = datetime.datetime.now().replace(microsecond=0)
+	if (request.POST.get('first_name_edit') and request.POST.get('last_name_edit') and request.POST.get('email_edit') 
+		and request.POST.get('gender_edit') and request.POST.get('date_of_birth_edit') and request.POST.get('dep_profile_edit') and request.POST.get('phone_no_edit')):
+
+		first_name = request.POST.get('first_name_edit')
+		last_name = request.POST.get('last_name_edit')
+		date_of_birth = request.POST.get('date_of_birth_edit')
+		gender = request.POST.get('gender_edit')
+		email = request.POST.get('email_edit')
+		phone_no = request.POST.get('phone_no_edit')
+
+	else:
+		Result.code = 404
+		return Result
+
+	query = userinfo.objects.filter(id=request.user.id)
+
+	for user in query:
+		user.first_name = first_name
+		user.last_name = last_name
+		user.date_of_birth = date_of_birth
+		user.gender = gender
+		user.updated_by
+		user.email = email
+		user.phone_no = phone_no
+		user.updated_date = current_time
+		user.updated_time = current_time
+		user.save()
+
+	Result.code = 200
+	Result.query = queryDb_User_All()
+
+	return Result

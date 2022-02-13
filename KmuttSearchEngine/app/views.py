@@ -22,6 +22,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
+from django.utils.translation import gettext as _
+from django.utils.translation import get_language, activate, gettext
 import json
 
 class Search_result:
@@ -171,7 +173,6 @@ def question(request,id):
 		{
 			'title':'Question Detail',
 			'query': result,
-			'year':datetime.now().year,
 		}
 	)
 
@@ -366,21 +367,27 @@ def user(request):
 		}
 	)
 
-def profile(request):
+def profile(request,operation):
 
 	assert isinstance(request, HttpRequest)
 	
 	user_query = queryDb_User(request.user.id)
 
-	return render(
-		request,
-		'app/profile.html',
-		{
-			'title':'My Profile',
-			'message':'Your application description page.',
-			'query':user_query
-		}
-	)
+	
+	if operation == 'view':
+		return render(request,'app/profile.html',{'title':'My Profile','query':user_query,'operation':operation})
+	elif operation == 'edit':
+		return render(request,'app/profile.html',{'title':'My Profile','query':user_query,'operation':operation})
+	elif operation == 'update':
+		if request.method == 'POST':
+			result = edit_user_profile(request)
+			if result.code is 200:
+				return redirect('profile',operation='view')
+		else:
+			operation = 'view'
+			return render(request,'app/profile.html',{'title':'My Profile','query':user_query,'operation':operation})
+	else:
+		return render(request,'app/profile.html',{'title':'My Profile','query':user_query,'operation':operation})
 
 def register(request):
 	current_time = datetime.datetime.now().replace(microsecond=0)
@@ -400,6 +407,8 @@ def register(request):
 			phone_no = request.POST.get('phone_no')
 			department = request.POST.get('department')
 
+			print(len(phone_no))
+
 			if userinfo.objects.filter(username=username1).exists():
 				context = {"error":"Username already exist."}
 				return render(request,'app/register.html',context)
@@ -415,8 +424,8 @@ def register(request):
 			elif not validate_eng.search(lastname) and not validate_thai.search(lastname):
 				context = {"error":"Lastname can conatain only alphabets."}
 				return render(request,'app/register.html',context)
-			elif phone_no.isalpha():
-				context = {"error":"Phone number can conatain only numbers."}
+			elif not phone_no.isdecimal() or int(len(phone_no)) is not 10:
+				context = {"error":"Invalid phone number"}
 				return render(request,'app/register.html',context)
 
 			if userinfo.objects.filter(email=email1).exists():
