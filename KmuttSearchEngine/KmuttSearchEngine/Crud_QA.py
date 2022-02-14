@@ -3,8 +3,6 @@ from django.http import HttpRequest
 from app.models import questionanswer
 from app.models import edit_questionanswer
 from KmuttSearchEngine.Query import queryDb_QA_All
-from KmuttSearchEngine.SearchEngine import stopwords1
-from KmuttSearchEngine.SearchEngine import tokenized
 
 class Result:
   code = ''

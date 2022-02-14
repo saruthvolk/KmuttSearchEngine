@@ -1,23 +1,23 @@
 {% extends "app/layout.html" %}
-
+{% load i18n %}
 {% block content %}
 
 <h3>{{ message }}</h3>
 
 <br/><br/>
 <div class="jumbotron">
-    <h1>Admin panel</h1>
+    <h1>{% translate "Admin panel" %}</h1>
     <br/>
-    <label for="operation">Choose operation:</label>
+    <label for="operation">{% translate "Choose operation:" %}</label>
     <select name="operation" id="operation" onchange="location = this.value;">
-        <option value="">Choose option</option>
+        <option value="">{% translate "Choose option" %}</option>
         <option value="{% url 'Crud_QA' operation='Add' id='0' %}" href="{% url 'Crud_QA' operation='Add' id='0' %}">Add</option>
         <option value="{% url 'Crud_QA' operation='View' id='0' %}" href="{% url 'Crud_QA' operation='View' id='0' %}">View</option>
     </select>
     <br/>
     <br/>
     <a href="{% url 'user' %}" class="btn btn-primary">
-        <i class="material-icons"></i> <span>Usermanagement</span>
+        <i class="material-icons"></i> <span>{% translate "Usermanagement" %}</span>
     </a>
 </div>
 

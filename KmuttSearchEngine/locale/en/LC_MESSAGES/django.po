@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-13 23:39+0700\n"
+"POT-Creation-Date: 2022-02-14 20:01+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,6 +24,249 @@ msgstr ""
 
 #: .\KmuttSearchEngine\settings.py:145
 msgid "Thai"
+msgstr ""
+
+#: .\app\templates\app\Admin.html:9
+msgid "Admin panel"
+msgstr ""
+
+#: .\app\templates\app\Admin.html:11
+msgid "Choose operation:"
+msgstr ""
+
+#: .\app\templates\app\Admin.html:13
+msgid "Choose option"
+msgstr ""
+
+#: .\app\templates\app\Admin.html:20
+msgid "Usermanagement"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:339
+msgid "User <b>Management</b>"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:343
+msgid "Add New User"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:346
+msgid "Export to Excel"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:354
+msgid "ID"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:355
+#: .\env\Lib\site-packages\grappelli\templates\admin\constance\includes\results_list.html:8
+msgid "Name"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:356
+msgid "Username"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:357
+msgid "Date Created"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:358
+#: .\app\templates\app\profile.html:98 .\app\templates\app\profile.html:143
+msgid "Role"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:359
+msgid "Status"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:360
+msgid "Last Login"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:361
+#: .\env\Lib\site-packages\grappelli\templates\admin\object_history.html:28
+msgid "Action"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:379
+msgid "Suspended"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:381
+msgid "Active"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:405
+#: .\app\templates\app\Usermanagement.html:427
+msgid "Confirm your process ?"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:408
+msgid "Do you really want to suspend"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:408
+msgid "account? The process cannot be undone."
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:410
+#: .\app\templates\app\Usermanagement.html:432
+msgid "Check the box to confirm the action."
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:413
+#: .\app\templates\app\Usermanagement.html:435
+#: .\env\Lib\site-packages\grappelli\templates\admin\delete_confirmation.html:55
+#: .\env\Lib\site-packages\grappelli\templates\admin\delete_selected_confirmation.html:58
+msgid "Cancel"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:414
+msgid "Suspend"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:430
+msgid "Do you really want to unsuspended"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:430
+msgid "account?"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:436
+msgid "Unsuspended"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:446
+#: .\app\templates\app\profile.html:72
+msgid "Edit"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:446
+msgid "profile"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:461
+#: .\app\templates\app\Usermanagement.html:535
+msgid "First name:"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:465
+#: .\app\templates\app\Usermanagement.html:539
+msgid "Last name:"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:470
+#: .\app\templates\app\Usermanagement.html:545
+msgid "Date of birth:"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:474
+#: .\app\templates\app\Usermanagement.html:549
+msgid "Gender:"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:477
+#: .\app\templates\app\Usermanagement.html:483
+#: .\app\templates\app\Usermanagement.html:489
+#: .\app\templates\app\profile.html:121 .\app\templates\app\profile.html:127
+#: .\app\templates\app\profile.html:133
+msgid "Male"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:478
+#: .\app\templates\app\Usermanagement.html:484
+#: .\app\templates\app\Usermanagement.html:490
+#: .\app\templates\app\profile.html:122 .\app\templates\app\profile.html:128
+#: .\app\templates\app\profile.html:134
+msgid "Female"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:479
+#: .\app\templates\app\Usermanagement.html:485
+#: .\app\templates\app\Usermanagement.html:491
+#: .\app\templates\app\profile.html:123 .\app\templates\app\profile.html:129
+#: .\app\templates\app\profile.html:135
+msgid "Other"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:496
+#: .\app\templates\app\Usermanagement.html:554
+msgid "Email:"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:500
+#: .\app\templates\app\Usermanagement.html:558
+msgid "Phone No:"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:510
+msgid "Close"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:511
+msgid "Save changes"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:563
+msgid "Create Date:"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:567
+msgid "Create Time:"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:571
+msgid "Create By:"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:577
+msgid "Update Date:"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:581
+msgid "Update Time:"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:585
+msgid "Update By:"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:591
+msgid "Suspended date:"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:595
+msgid "Suspended Time:"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:599
+msgid "Suspended By:"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:617
+msgid "Showing"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:617
+msgid "out of"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:617
+msgid "entries"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:626
+#: .\app\templates\app\Usermanagement.html:631
+#: .\app\templates\app\Usermanagement.html:632
+msgid "Previous"
+msgstr ""
+
+#: .\app\templates\app\Usermanagement.html:650
+#: .\app\templates\app\Usermanagement.html:657
+#: .\app\templates\app\Usermanagement.html:658
+msgid "Next"
 msgstr ""
 
 #: .\app\templates\app\index.html:236
@@ -66,7 +309,7 @@ msgstr ""
 msgid "Feature Questions"
 msgstr ""
 
-#: .\app\templates\app\index.html:293
+#: .\app\templates\app\index.html:295 .\app\templates\app\index.html:304
 msgid "Views"
 msgstr ""
 
@@ -118,6 +361,103 @@ msgstr ""
 
 #: .\app\templates\app\layout.html:144
 msgid "Search"
+msgstr ""
+
+#: .\app\templates\app\profile.html:75
+msgid "My Profile"
+msgstr ""
+
+#: .\app\templates\app\profile.html:81
+msgid "First name"
+msgstr ""
+
+#: .\app\templates\app\profile.html:84 .\app\templates\app\profile.html:110
+msgid "Surname"
+msgstr ""
+
+#: .\app\templates\app\profile.html:89 .\app\templates\app\profile.html:115
+msgid "E-mail"
+msgstr ""
+
+#: .\app\templates\app\profile.html:92 .\app\templates\app\profile.html:118
+msgid "Gender"
+msgstr ""
+
+#: .\app\templates\app\profile.html:95 .\app\templates\app\profile.html:140
+msgid "Birthday Date"
+msgstr ""
+
+#: .\app\templates\app\profile.html:101 .\app\templates\app\profile.html:146
+msgid "Phone No"
+msgstr ""
+
+#: .\app\templates\app\profile.html:107
+msgid "First Name"
+msgstr ""
+
+#: .\app\templates\app\profile.html:153
+msgid "Save Profile"
+msgstr ""
+
+#: .\app\templates\password_reset.html:272
+msgid "Forgot your password?"
+msgstr ""
+
+#: .\app\templates\password_reset.html:274
+msgid ""
+"Don't worry! Enter your email below and we'll email you with instructions on "
+"how to reset your password."
+msgstr ""
+
+#: .\app\templates\password_reset_done.html:272
+msgid "Password reset complete"
+msgstr ""
+
+#: .\app\templates\password_reset_done.html:274
+#: .\env\Lib\site-packages\grappelli\templates\registration\password_reset_complete.html:16
+msgid "Your password has been set. You may go ahead and log in now."
+msgstr ""
+
+#: .\app\templates\password_reset_form.html:297
+msgid "Resetting password"
+msgstr ""
+
+#: .\app\templates\password_reset_form.html:299
+msgid "Your password must contain at least 8 characters."
+msgstr ""
+
+#: .\app\templates\password_reset_form.html:300
+msgid "Your password cannot be a commonly used password."
+msgstr ""
+
+#: .\app\templates\password_reset_form.html:301
+msgid "Your password cannot be entirely numeric."
+msgstr ""
+
+#: .\app\templates\password_reset_form.html:305
+#: .\env\Lib\site-packages\grappelli\templates\registration\password_reset_confirm.html:21
+msgid "New password:"
+msgstr ""
+
+#: .\app\templates\password_reset_form.html:310
+#: .\env\Lib\site-packages\grappelli\templates\registration\password_reset_confirm.html:26
+msgid "Confirm password:"
+msgstr ""
+
+#: .\app\templates\password_reset_form.html:315
+msgid "Confirm"
+msgstr ""
+
+#: .\app\templates\password_reset_sent.html:287
+msgid ""
+"We’ve emailed you instructions for setting your password, if an account "
+"exists with the email you entered. You should receive them shortly."
+msgstr ""
+
+#: .\app\templates\password_reset_sent.html:289
+msgid ""
+"If you don’t receive an email, please make sure you’ve entered the address "
+"you registered with, and <b>check your spam folder."
 msgstr ""
 
 #: .\env\Lib\site-packages\_pytest\config\argparsing.py:445
@@ -1910,10 +2250,6 @@ msgstr ""
 msgid "Remove from sorting"
 msgstr ""
 
-#: .\env\Lib\site-packages\grappelli\templates\admin\constance\includes\results_list.html:8
-msgid "Name"
-msgstr ""
-
 #: .\env\Lib\site-packages\grappelli\templates\admin\constance\includes\results_list.html:13
 msgid "Default"
 msgstr ""
@@ -1971,11 +2307,6 @@ msgstr ""
 msgid ""
 "Are you sure you want to delete the %(object_name)s \"%(escaped_object)s\"? "
 "All of the following related items will be deleted:"
-msgstr ""
-
-#: .\env\Lib\site-packages\grappelli\templates\admin\delete_confirmation.html:55
-#: .\env\Lib\site-packages\grappelli\templates\admin\delete_selected_confirmation.html:58
-msgid "Cancel"
 msgstr ""
 
 #: .\env\Lib\site-packages\grappelli\templates\admin\delete_confirmation.html:56
@@ -2094,10 +2425,6 @@ msgstr ""
 #: .\env\Lib\site-packages\grappelli\templates\admin\object_history.html:27
 #: .\env\Lib\site-packages\grappelli\templates\reversion\object_history.html:14
 msgid "User"
-msgstr ""
-
-#: .\env\Lib\site-packages\grappelli\templates\admin\object_history.html:28
-msgid "Action"
 msgstr ""
 
 #: .\env\Lib\site-packages\grappelli\templates\admin\object_history.html:34
@@ -2270,22 +2597,10 @@ msgstr ""
 msgid "Change my password"
 msgstr ""
 
-#: .\env\Lib\site-packages\grappelli\templates\registration\password_reset_complete.html:16
-msgid "Your password has been set. You may go ahead and log in now."
-msgstr ""
-
 #: .\env\Lib\site-packages\grappelli\templates\registration\password_reset_confirm.html:18
 msgid ""
 "Please enter your new password twice so we can verify you typed it in "
 "correctly."
-msgstr ""
-
-#: .\env\Lib\site-packages\grappelli\templates\registration\password_reset_confirm.html:21
-msgid "New password:"
-msgstr ""
-
-#: .\env\Lib\site-packages\grappelli\templates\registration\password_reset_confirm.html:26
-msgid "Confirm password:"
 msgstr ""
 
 #: .\env\Lib\site-packages\grappelli\templates\registration\password_reset_confirm.html:47
