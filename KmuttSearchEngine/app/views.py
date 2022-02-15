@@ -491,8 +491,10 @@ def register(request):
 def requestmanagement(request,operation):
 
     if operation == 'add':
-        print ("lol")
-        result = request_add(request)
+        return render(request, 'app/requestadd.html')
+
+    elif operation == 'update':
+        result = request_update(request)
         if result.code is 200:
             return redirect('home')
         else:

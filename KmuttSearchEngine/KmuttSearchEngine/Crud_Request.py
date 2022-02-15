@@ -8,7 +8,7 @@ class Result:
   context = {}
   query = ''
 
-def request_add (request):
+def request_update (request):
     current_time = datetime.datetime.now().replace(microsecond=0)
     if request.method == "POST":
         if  (request.POST.get('question') and request.POST.get('answer')) or (request.POST.get('question_en') 
