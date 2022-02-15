@@ -1,5 +1,5 @@
 {% extends "app/layout.html" %}
-
+{% load i18n %}
 {% block content %}
 <style>
     #submit, #delete {
@@ -28,7 +28,7 @@
 <br/><br/><br/>
 <center>
     <br/>
-    <h1>View form</h1>
+    <h1>{% translate "View question" %}</h1>
     <div class="form-group">
         <input type="checkbox" onclick="toggle(this);"/>Check all?<br/>
         {% for questionanswer in query %}

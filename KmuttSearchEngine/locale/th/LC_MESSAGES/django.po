@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-14 20:01+0700\n"
+"POT-Creation-Date: 2022-02-15 14:07+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -112,6 +112,7 @@ msgstr "? การกระทำนี้ไม่สามารถแก้�
 
 #: .\app\templates\app\Usermanagement.html:410
 #: .\app\templates\app\Usermanagement.html:432
+#: .\app\templates\app\Usermanagement.html:505
 msgid "Check the box to confirm the action."
 msgstr "เช็คที่ช่องด้านข้างเพื่อยืนยันกระบวนการนี้"
 
@@ -205,7 +206,7 @@ msgstr "เบอร์โทรศัพมือถือ:"
 msgid "Close"
 msgstr "ปิด"
 
-#: .\app\templafpp\Usermanagement.html:511
+#: .\app\templates\app\Usermanagement.html:511
 msgid "Save changes"
 msgstr "บันทึก"
 
@@ -268,6 +269,10 @@ msgstr "ก่อนหน้า"
 #: .\app\templates\app\Usermanagement.html:658
 msgid "Next"
 msgstr "ถัดไป"
+
+#: .\app\templates\app\Viewquestion.html:31
+msgid "View question"
+msgstr "คำถามทั้งหมด"
 
 #: .\app\templates\app\index.html:236
 msgid "How can we help you ?"
@@ -362,6 +367,18 @@ msgstr "คำร้อง"
 #: .\app\templates\app\layout.html:144
 msgid "Search"
 msgstr "ค้นหา"
+
+#: .\app\templates\app\layout.html:175
+msgid "Profile"
+msgstr "โปรไฟล์"
+
+#: .\app\templates\app\layout.html:176
+msgid "Requests"
+msgstr "คำร้อง"
+
+#: .\app\templates\app\layout.html:178
+msgid "Logout"
+msgstr "ออกจากระบบ"
 
 #: .\app\templates\app\profile.html:75
 msgid "My Profile"
