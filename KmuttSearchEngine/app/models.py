@@ -96,7 +96,7 @@ class user_role (models.Model):
       db_table="user_role"
 
 class QArequest (models.Model):
-    id = models.AutoField(primary_key=True)
+    request_id = models.AutoField(primary_key=True)
     question = models.CharField(max_length = 1000)
     answer = models.CharField(max_length = 1000)
     question_en = models.CharField(max_length = 1000)

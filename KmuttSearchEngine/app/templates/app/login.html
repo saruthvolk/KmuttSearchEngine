@@ -1,10 +1,11 @@
 ﻿<!doctype html>
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'app/scripts/jquery-ui.min.css' %}"/>
-<script src="{% static 'app/scripts/jquery-3.6.0.min.js' %}"></script>
-<script src="{% static 'app/scripts/bootstrap.min.js' %}"></script>
-<script src="{% static 'app/scripts/jquery-ui.min.js' %}"></script>
-<script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/scripts/jquery-ui.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}"/>
+    <script src="{% static 'app/scripts/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'app/scripts/bootstrap.min.js' %}"></script>
+    <script src="{% static 'app/scripts/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
 <style>
     body {
         -webkit-font-smoothing: antialiased;
@@ -84,7 +85,6 @@
     .form-group input {
         background-color: #F0F0F0;
         border: none;
-        margin: auto;
         border-radius: 50px;
         color: #465347 !important;
         font-size: 17px;
@@ -228,6 +228,25 @@
         $("#Error").effect("shake");
     }
 
+    const togglePassword = document
+            .querySelector('#togglePassword');
+  
+        const password = document.querySelector('#password');
+  
+        togglePassword.addEventListener('click', () => {
+  
+            // Toggle the type attribute using
+            // getAttribure() method
+            const type = password
+                .getAttribute('type') === 'password' ?
+                'text' : 'password';
+                  
+            password.setAttribute('type', type);
+  
+            // Toggle the eye and bi-eye icon
+            this.classList.toggle('bi-eye');
+        });
+
 </script>
 <html lang="en">
 <head>
@@ -269,13 +288,14 @@
                     </div>
                     {% endif %}
                     <div class="form-group">
-                        <input type="text" name="username"  id="username" class="form-control"  aria-describedby="emailHelp" placeholder="Enter username">
-                            </div>
-                    <div class="form-group" >
-                        <input type="password" name="password"  id="password" class="form-control"  placeholder="Password">
-                        <button type ="button" style="position:relative;top:-40px; right:-170px; border:none;" onclick="if (password.type == 'text') password.type = 'password';
-                                         else password.type = 'text';"><i class="fa fa-eye"></i></button>
-                        </div>
+                        <input type="text" name="username" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username">
+                    </div>
+                    <div class="form-group" id="show_hide_password">
+                        <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">                        
+                        <div class="input-group-addon" style="position: relative; margin-top: -37px; margin-left: 350px;">
+                            <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                          </div>
+                    </div>
 
                     <div class="form-check">
                         <label class="switch">
