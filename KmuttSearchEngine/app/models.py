@@ -94,3 +94,20 @@ class user_role (models.Model):
 
     class Meta:
       db_table="user_role"
+
+class QArequest (models.Model):
+    id = models.AutoField(primary_key=True)
+    question = models.CharField(max_length = 1000)
+    answer = models.CharField(max_length = 1000)
+    question_en = models.CharField(max_length = 1000)
+    answer_en = models.CharField(max_length = 1000)
+    status_id = models.IntegerField()
+    created_date = models.DateTimeField(default=now, editable=True)
+    request_type = models.CharField(max_length = 1000)
+    department_id = models.IntegerField()
+    user_id = models.IntegerField()
+    question_id =  models.IntegerField()
+    remark = models.CharField(max_length = 1000)
+
+    class Meta:
+      db_table="request"

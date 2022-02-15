@@ -81,6 +81,7 @@
     <Content Include="app\templates\app\Editquestion.html" />
     <Content Include="app\templates\app\profile.html" />
     <Content Include="app\templates\app\question.html" />
+    <Content Include="app\templates\app\requestadd.html" />
     <Content Include="app\templates\app\search.html" />
     <Content Include="app\templates\app\Usermanagement.html" />
     <Content Include="app\templates\app\Viewquestion.html" />

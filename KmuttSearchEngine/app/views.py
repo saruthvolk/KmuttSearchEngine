@@ -12,7 +12,7 @@ from KmuttSearchEngine.SearchEngine import train_dictionary
 from KmuttSearchEngine.Crud_QA import *
 from KmuttSearchEngine.Crud_User import *
 from KmuttSearchEngine.Query import *
-from app.models import questionanswer, userinfo
+from app.models import questionanswer, userinfo, QArequest
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 from django.http import JsonResponse
@@ -485,3 +485,29 @@ def register(request):
             return redirect('register')
     else:
         return render(request, 'app/register.html')
+
+
+def requestadd(request):
+    current_time = datetime.datetime.now().replace(microsecond=0)
+    if request.method == "POST":
+        if  (request.POST.get('question') and request.POST.get('answer')) or (request.POST.get('question_en') and request.POST.get('answer_en')) and request.POST.get('department_id') and request.POST.get('remark'):
+            saverecord = QArequest()
+            saverecord.question = request.POST.get('question')
+            saverecord.answer = request.POST.get('answer')
+            saverecord.question_en = request.POST.get('question_en')
+            saverecord.answer_en = request.POST.get('answer_en')
+            saverecord.user_id = request.user.id
+            saverecord.status_id = '1'
+            saverecord.request_type = "add"
+            saverecord.department_id = request.POST.get('department_id')
+            saverecord.remark = request.POST.get('remark')
+            saverecord.created_date = current_time
+            question_id = None
+            saverecord.save()
+
+            return redirect('home')
+        else:
+
+            return redirect('requestadd')
+    else:
+        return render(request, 'app/requestadd.html')

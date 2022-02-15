@@ -64,6 +64,7 @@ urlpatterns += i18n_patterns (
     path('logout/', views.signout, name='signout'),
     path('database/', admin.site.urls),
     path('register/', views.register, name='register'),
+    path('requestadd/', views.requestadd, name='requestadd'),
 
     path('reset_password/',
      auth_views.PasswordResetView.as_view(template_name="password_reset.html"),

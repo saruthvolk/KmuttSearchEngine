@@ -1,0 +1,117 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<script src="https://cdn.tiny.cloud/1/lkp5p0w1fk12lr4trywat44qle2pxarpedhgjkdxxmsohyl2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        editor_selector: "editor",
+        mode: "textareas", // change this value according to your HTML
+        images_upload_url: '/upload_image/', // Image upload address in Django route
+        height: 500,
+        branding:false,
+        menubar: false,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount'
+        ],
+        toolbar: 'undo redo | formatselect | ' +
+            'bold italic backcolor | alignleft aligncenter ' +
+            'alignright alignjustify | bullist numlist outdent indent | ' +
+            'code image | ' +
+            'removeformat',
+
+        init_instance_callback: function(editor) {
+            var editorH = editor.editorContainer.offsetHeight;
+            $('#editor')
+            .css({
+                'position': 'absolute',
+                'height': editorH
+            })
+            .show();
+        },
+        setup: function (editor) {
+                editor.on('change', function () {
+                editor.save();
+                });
+        }
+    });
+
+    tinymce.init({
+        editor_selector: "editor_en",
+        mode: "textareas", // change this value according to your HTML
+        images_upload_url: '/upload_image/', // Image upload address in Django route
+        height: 500,
+        branding:false,
+        menubar: false,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount'
+        ],
+        toolbar: 'undo redo | formatselect | ' +
+            'bold italic backcolor | alignleft aligncenter ' +
+            'alignright alignjustify | bullist numlist outdent indent | ' +
+            'code image | ' +
+            'removeformat',
+
+        init_instance_callback: function(editor) {
+            var editorH = editor.editorContainer.offsetHeight;
+
+            $('#editor1')
+            .css({
+                'position': 'absolute',
+                'height': editorH
+            })
+            .show();
+        },
+        setup: function (editor) {
+            editor.on('change', function () {
+            editor.save();
+        });
+    }
+    });
+
+</script>
+<head>
+    <meta charset="utf-8"/>
+    <title> CRUD operations </title>
+</head>
+<body>
+<br/><br/><br/>
+<h1>Insert form</h1>
+<div class="form-group">
+    <form method="POST" class="was-validated">
+        {% csrf_token %}
+
+        <label for="Question">Question</label>
+        <input type="text" placeholder="enter question " name="question" class="form-control is-valid" required/>
+
+        <label for="Answer">Answer (optional)</label>
+        <span style="white-space: pre-line">
+            <textarea name = "answer" id="editor" class="editor"></textarea>
+        </span>
+
+        <label for="Question">Question English</label>
+        <input type="text" placeholder="enter questionEN " name="question_en" class="form-control is-valid" required/>
+
+        <label for="Question">Answer English (optional)</label>
+        <span style="white-space: pre-line">
+            <textarea name = "answer_en" id="editor1" class="editor_en"></textarea>
+        </span>
+
+        <label for="Question">Department ID</label>
+        <select class="form-control" name="department_id">
+            <option name="department_id" value="1">(1) CPE</option>
+        </select>
+
+        <label for="Remark">Remark</label>
+        <input type="text" placeholder="enter remark " name="remark" class="form-control is-valid" required/>
+
+        <br/>
+        <input type="submit" name="submit" id="submit" />
+    </form>
+</div>
+</body>
+
+{% endblock %}
