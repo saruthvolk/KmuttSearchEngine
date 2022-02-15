@@ -172,10 +172,10 @@
             <div class="nav-item dropdown" style="margin-right: -30%">
                 <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action"><img src="{% static request.user.path_profile_pic %}" id="profile_pic" class="avatar" alt="Avatar"> {{request.user.username}} <b class="caret"></b></a>
                 <div class="dropdown-menu">
-                    <a href="{% url 'profile' operation='view' %}" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
-                    <a href="#" class="dropdown-item"><i class="far fa-clipboard"></i> Requests</a>
+                    <a href="{% url 'profile' operation='view' %}" class="dropdown-item"><i class="fas fa-user"></i> {% translate "Profile" %}</a>
+                    <a href="#" class="dropdown-item"><i class="far fa-clipboard"></i> {% translate "Requests" %}</a>
                     <div class="dropdown-divider"></div>
-                    <a href="/logout" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a href="/logout" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> {% translate "Logout" %}</a>
                 </div>
             </div>
         </div>
