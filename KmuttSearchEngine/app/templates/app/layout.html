@@ -117,8 +117,8 @@
             },
             success: function (response) { 
                 let html_data = '<a class="dropdown-item" href="#" value=""></a';
-                response.user_id.forEach(function (data) {
-                    html_data += `<a class="dropdown-item" href="#" value="${data}"><b>Request ${response.type}</b> </br> Requested by: ${data}</a>
+                response.user_id.forEach(function iterate(data,index) {
+                    html_data += `<a class="dropdown-item" href="#" value="${data}">Request ${response.type[index]} </br> Requested by: ${data}</a>
                     <div class="dropdown-divider"></div>`
                 });
 
@@ -143,7 +143,7 @@
             success: function (response) { 
                 let html_data = '<a class="dropdown-item" href="#" value=""></a';
                 response.user_id.forEach(function iterate(data,index) {
-                    html_data += `<a class="dropdown-item" href="#" value="${data}"><b>Request ${response.type[index]}</b> </br> Requested by: ${data}</a>
+                    html_data += `<a class="dropdown-item" href="#" value="${data}">Request ${response.type[index]} </br> Requested by: ${data}</a>
                     <div class="dropdown-divider"></div>`
                 });
 
