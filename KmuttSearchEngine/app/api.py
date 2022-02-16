@@ -12,6 +12,6 @@ def get_notification(request):
             query.user_id[count] = user_query.username
 
         length = len(query.request_id)
-        return JsonResponse({'user_id':query.user_id,'question':query.question, 'length':length},safe=False)
+        return JsonResponse({'user_id':query.user_id,'question':query.question,'type':query.request_type,'length':length},safe=False)
     else:
         return JsonResponse("Error",safe=False)

@@ -104,11 +104,12 @@
             position: absolute;
             transform: translateX(-50%);
         }
+
     </style>
 
 <script>
         get_notification = function(val) {
-            $.ajax({                       // initialize an AJAX request
+            $.ajax({
             type: "POST",
             url: "{% url 'get_notification' %}",
             data : {
@@ -117,8 +118,10 @@
             success: function (response) { 
                 let html_data = '<a class="dropdown-item" href="#" value=""></a';
                 response.user_id.forEach(function (data) {
-                    html_data += `<a class="dropdown-item" href="#" value="${data}">${data}</a>`
+                    html_data += `<a class="dropdown-item" href="#" value="${data}"><b>Request ${response.type}</b> </br> Requested by: ${data}</a>
+                    <div class="dropdown-divider"></div>`
                 });
+
                 badge = `${response.length}`
                 $("#notification_info").html(html_data);
                 $(".badge").html(badge);
@@ -127,11 +130,11 @@
 
         }
         $(function(){
-    setInterval(get_notification, 60000);
+    setInterval(get_notification, 180000);
 });
 
         get_notification_click = function(val) {
-        $.ajax({                       // initialize an AJAX request
+        $.ajax({
             type: "POST",
             url: "{% url 'get_notification' %}",
             data : {
@@ -139,9 +142,11 @@
             },
             success: function (response) { 
                 let html_data = '<a class="dropdown-item" href="#" value=""></a';
-                response.user_id.forEach(function (data) {
-                    html_data += `<a class="dropdown-item" href="#" value="${data}">${data}</a>`
+                response.user_id.forEach(function iterate(data,index) {
+                    html_data += `<a class="dropdown-item" href="#" value="${data}"><b>Request ${response.type[index]}</b> </br> Requested by: ${data}</a>
+                    <div class="dropdown-divider"></div>`
                 });
+
                 badge = `${response.length}`
                 $("#notification_info").html(html_data);
                 $(".badge").html(badge);
@@ -214,9 +219,9 @@
             <script>get_notification(this)</script>
             <li class="nav-item dropdown" >
             <a href="#" class="nav-link dropdown" id="notification" name="notification" onclick="get_notification_click()" role="button" data-toggle="dropdown">
-                <i class="fas fa-bell fa-lg" style="margin-top: 15px;"></i><span class="badge"></span>
+                <i class="fas fa-bell fa-lg" style="margin-top: 12px; margin-left: 5px; margin-right: -7px;"></i><span class="badge"></span>
             </a>
-            <div class="dropdown-menu" aria-labelledby="notification" id="notification_info">
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notification" id="notification_info">
                 <a class="dropdown-item" href="#"></a>
             </div>
             </li>
