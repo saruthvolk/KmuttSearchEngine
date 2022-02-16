@@ -239,12 +239,12 @@ def upload_image(request):
 def Crud_QA(request, operation, id):
 
     if operation == "Add":
-
         result = Add_QA(request)
+        department = queryDb_department()
         if result.code == 200:
             return render(request, 'app/index.html')
         else:
-            return render(request, 'app/CRUDquestion.html')
+            return render(request, 'app/CRUDquestion.html',{'department':department})
 
     elif operation == "View":
 
@@ -491,7 +491,9 @@ def register(request):
 def requestmanagement(request,operation):
 
     if operation == 'add':
-        return render(request, 'app/requestadd.html')
+        department = queryDb_department()
+
+        return render(request, 'app/requestadd.html',{'department':department})
 
     elif operation == 'update':
         result = request_update(request)

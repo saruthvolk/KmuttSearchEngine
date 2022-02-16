@@ -78,33 +78,36 @@
     <title> CRUD operations </title>
 </head>
 <body>
-<br/><br/><br/>
-<h1>Insert form</h1>
+<br/><br/><br/><br/>
+<h2 style="text-align: center;">Request Add Question</h2>
 <div class="form-group">
     <form method="POST" class="was-validated" action="{% url 'request' operation='update' %}">
         {% csrf_token %}
 
-        <label for="Question">Question</label>
+        <label for="Question">Question:</label>
         <input type="text" placeholder="enter question " name="question" class="form-control is-valid" required/>
-
-        <label for="Answer">Answer (optional)</label>
+        <br/>
+        <label for="Answer">Answer (optional): </label>
         <span style="white-space: pre-line">
             <textarea name = "answer" id="editor" class="editor"></textarea>
         </span>
 
-        <label for="Question">Question English</label>
+        <label for="Question">Question English:</label>
         <input type="text" placeholder="enter questionEN " name="question_en" class="form-control is-valid" required/>
-
-        <label for="Question">Answer English (optional)</label>
+        <br/>
+        <label for="Question">Answer English (optional): </label>
         <span style="white-space: pre-line">
             <textarea name = "answer_en" id="editor1" class="editor_en"></textarea>
         </span>
 
-        <label for="Question">Department ID</label>
+        <label for="Question">Department ID: </label>
         <select class="form-control" name="department_id">
-            <option name="department_id" value="1">(1) CPE</option>
+            {% for dep in department %}
+            <option name="department_id" value="1">({{dep.department_id}}) {{dep.department_name}}</option>
+            {% endfor %}
         </select>
 
+        </br>
         <label for="Remark">Remark</label>
         <input type="text" placeholder="enter remark " name="remark" class="form-control is-valid" required/>
 

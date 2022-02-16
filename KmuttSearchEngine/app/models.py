@@ -108,6 +108,20 @@ class QArequest (models.Model):
     user_id = models.IntegerField()
     question_id =  models.IntegerField()
     remark = models.CharField(max_length = 1000)
-
+    created_time = models.DateTimeField(default=None, editable=True)
+    updated_date = models.DateTimeField(default=None, editable=True)
+    updated_time = models.DateTimeField(default=None, editable=True)
+    updated_by = models.CharField(max_length = 1000)
+    rejected_date = models.DateTimeField(default=None, editable=True)
+    rejected_time = models.DateTimeField(default=None, editable=True)
+    rejected_by = models.CharField(max_length = 1000)
+ 
     class Meta:
       db_table="request"
+
+class department (models.Model):
+    department_id = models.AutoField(primary_key=True)
+    department_name = models.CharField(max_length = 1000)
+
+    class Meta:
+      db_table="department"

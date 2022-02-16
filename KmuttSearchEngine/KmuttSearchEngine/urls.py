@@ -6,6 +6,7 @@ from datetime import datetime
 from django.urls import path
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from app import api
 from app import forms, views
 from django.conf.urls import include
 from django.conf.urls.i18n import i18n_patterns
@@ -28,6 +29,7 @@ urlpatterns = [
     path('logout/', views.signout, name='signout'),
     path('database/', admin.site.urls),
     path('register/', views.register, name='register'),
+    path('request/<operation>', views.requestmanagement, name='request'),
 
     path('reset_password/',
      auth_views.PasswordResetView.as_view(template_name="password_reset.html"),
@@ -65,6 +67,7 @@ urlpatterns += i18n_patterns (
     path('database/', admin.site.urls),
     path('register/', views.register, name='register'),
     path('request/<operation>', views.requestmanagement, name='request'),
+    path('get_notification/', api.get_notification, name='get_notification'),
 
     path('reset_password/',
      auth_views.PasswordResetView.as_view(template_name="password_reset.html"),

@@ -1,9 +1,7 @@
 from datetime import datetime
 from django.shortcuts import render
-from django.http import HttpRequest
 from app.models import *
 from django.http import HttpRequest
-
 
 class questionanswerDto:
 
@@ -59,6 +57,52 @@ class UserDto:
     role_code =[]
     gender =[]
     date_of_birth = []
+
+class departmentDto:
+     department_id = []
+     department_name = []
+
+class QArequestDto:
+
+    request_id = []
+    question = []
+    answer = []
+    question_en = []
+    answer_en = []
+    status_id = []
+    created_date = []
+    request_type = []
+    department_id = []
+    user_id = []
+    question_id =  []
+    remark = []
+    created_time = []
+    updated_date = []
+    updated_time = []
+    updated_by = []
+    rejected_date = []
+    rejected_time = []
+    rejected_by = []
+    def reset():
+          QArequestDto.request_id = []
+          QArequestDto.question = []
+          QArequestDto.answer = []
+          QArequestDto.question_en = []
+          QArequestDto.answer_en = []
+          QArequestDto.status_id = []
+          QArequestDto.created_date = []
+          QArequestDto.request_type = []
+          QArequestDto.department_id = []
+          QArequestDto.user_id = []
+          QArequestDto.question_id =  []
+          QArequestDto.remark = []
+          QArequestDto.created_time = []
+          QArequestDto.updated_date = []
+          QArequestDto.updated_time = []
+          QArequestDto.updated_by = []
+          QArequestDto.rejected_date = []
+          QArequestDto.rejected_time = []
+          QArequestDto.rejected_by = []
 
 def queryDb_QA():
 
@@ -136,3 +180,41 @@ def queryDb_User(id):
        user.role_code = role.role_name
 
    return query
+
+def queryDb_department():
+     try:
+          query = list(department.objects.all()) 
+     except:
+          query = "Error"
+     
+     return query
+
+def queryDb_request():
+     try:
+          QArequestDto.reset()
+          query = list(QArequest.objects.all()) 
+          for noti in query:
+               QArequestDto.request_id.append(noti.request_id)
+               QArequestDto.question.append(noti.question)
+               QArequestDto.answer.append(noti.answer)
+               QArequestDto.question_en.append(noti.question_en)
+               QArequestDto.answer_en.append(noti.answer_en)
+               QArequestDto.status_id.append(noti.status_id)
+               QArequestDto.created_date.append(noti.created_date)
+               QArequestDto.request_type.append(noti.request_type)
+               QArequestDto.department_id.append(noti.department_id)
+               QArequestDto.user_id.append(noti.user_id)
+               QArequestDto.question_id.append(noti.question_id)
+               QArequestDto.remark.append(noti.remark)
+               QArequestDto.created_time.append(noti.created_time)
+               QArequestDto.updated_date.append(noti.updated_date)
+               QArequestDto.updated_time.append(noti.updated_time)
+               QArequestDto.updated_by.append(noti.updated_by)
+               QArequestDto.rejected_date.append(noti.rejected_date)
+               QArequestDto.rejected_time.append(noti.rejected_time)
+               QArequestDto.rejected_by.append(noti.rejected_by)
+
+     except:
+          query = "Error"
+
+     return QArequestDto
