@@ -83,6 +83,7 @@ class QArequestDto:
     rejected_date = []
     rejected_time = []
     rejected_by = []
+    path = []
     def reset():
           QArequestDto.request_id = []
           QArequestDto.question = []
@@ -103,6 +104,7 @@ class QArequestDto:
           QArequestDto.rejected_date = []
           QArequestDto.rejected_time = []
           QArequestDto.rejected_by = []
+          QArequestDto.path = []
 
 def queryDb_QA():
 
@@ -192,7 +194,7 @@ def queryDb_department():
 def queryDb_request():
      try:
           QArequestDto.reset()
-          query = list(QArequest.objects.all()) 
+          query = list(QArequest.objects.order_by('-created_date','-created_time')) 
           for noti in query:
                QArequestDto.request_id.append(noti.request_id)
                QArequestDto.question.append(noti.question)
@@ -213,6 +215,7 @@ def queryDb_request():
                QArequestDto.rejected_date.append(noti.rejected_date)
                QArequestDto.rejected_time.append(noti.rejected_time)
                QArequestDto.rejected_by.append(noti.rejected_by)
+               QArequestDto.path.append(noti.user_id)
 
      except:
           query = "Error"

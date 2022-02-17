@@ -20,10 +20,11 @@ def request_update (request):
                 saverecord.answer_en = request.POST.get('answer_en')
                 saverecord.user_id = request.user.id
                 saverecord.status_id = '1'
-                saverecord.request_type = "add"
+                saverecord.request_type = "Add"
                 saverecord.department_id = request.POST.get('department_id')
                 saverecord.remark = request.POST.get('remark')
                 saverecord.created_date = current_time
+                saverecord.created_time = current_time
                 question_id = None
                 saverecord.save()
 
