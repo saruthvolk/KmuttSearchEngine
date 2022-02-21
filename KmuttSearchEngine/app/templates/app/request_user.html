@@ -66,13 +66,18 @@
     .request_type {
         font-size: 14px;
     }
-    .edit{
+
+    .edit {
         color: #f76d00;
     }
-    .edit:hover{
+
+    .edit:hover {
         color: #bb5406
     }
-    table th { font-size: 15px; }
+
+    table th {
+        font-size: 15px;
+    }
 </style>
 
 <div class="container rounded bg-white mt-5 mb-5">
@@ -98,8 +103,8 @@
                     <h4 class="text-right"> {% translate "My Requests" %}</h4>
                 </div>
                 <hr />
-                <table class="table table-condensed table-striped">
-                    <thead>
+                <table class="table table-condensed">
+                    <thead class="thead-dark ">
                         <tr>
                             <th>Type</th>
                             <th>Status</th>
@@ -117,20 +122,22 @@
                             <td class="request_type">{{ request.created_date}} </td>
                             <td class="request_type">{{request.created_time}}</td>
                             <td> <a href="#" class="edit"><i class="material-icons">&#xe3c9;</i> </a></td>
-                            <td><button class="btn btn-link" data-toggle="collapse" data-target="#request_{{request.request_id}}"
-                                aria-expanded="true" aria-controls="collapseOne" style="float: right;">
-                                <i class="material-icons" style="margin-top: -10px; color: #266867;">&#xe5d3;</i>
-                            </button></td>
-                            <tr id="request_{{request.request_id}}" class="collapse" aria-labelledby="headingOne"data-parent="#accordion_{{request.request_id}}">
-                                   <td colspan=" 6"> 
-                                    <table class="table table-condensed table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th>Lanauge</th>
-                                        <th>Question</th>
-                                        <th>Answer</th>
-                                        <th>Remark</th>
-                                    </tr>
+                            <td><button class="btn btn-link" data-toggle="collapse"
+                                    data-target="#request_{{request.request_id}}" aria-expanded="true"
+                                    aria-controls="collapseOne" style="float: right;">
+                                    <i class="material-icons" style="margin-top: -10px; color: #266867;">&#xe5d3;</i>
+                                </button></td>
+                        <tr id="request_{{request.request_id}}" class="collapse" aria-labelledby="headingOne"
+                            data-parent="#accordion_{{request.request_id}}">
+                            <td colspan=" 6">
+                                <table class="table">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Language</th>
+                                            <th>Question</th>
+                                            <th>Answer</th>
+                                            <th>Remark</th>
+                                        </tr>
                                     </thead>
                                     <tr>
                                         <td>TH</td>
@@ -148,12 +155,12 @@
                                         {% endautoescape %}
                                         <td class="request_type">{{request.remark}}</td>
                                     </tr>
-                                   </td>
-                                </table>
-                            </tr>
-                        </tr>
-                    </tbody>
-                    {% endfor %}
+                            </td>
+                </table>
+                </tr>
+                </tr>
+                </tbody>
+                {% endfor %}
             </div>
             </table>
             {% endfor %}
@@ -161,5 +168,5 @@
     </div>
 </div>
 </div>
-    </form>
-    {% endblock %}
+</form>
+{% endblock %}
