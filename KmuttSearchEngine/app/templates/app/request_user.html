@@ -1,0 +1,165 @@
+{% extends "app/layout.html" %}
+{% load i18n %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<style>
+    body {
+        background: #e3e3e3;
+    }
+
+    .form-control:focus {
+        border-color: #BA68C8;
+        box-shadow: none;
+    }
+
+    .profile-button {
+        background: rgb(99, 39, 120);
+        border: none;
+        box-shadow: none;
+    }
+
+    .profile-button:hover {
+        background: #682773
+    }
+
+    .profile-button:focus {
+        background: #682773;
+        box-shadow: none
+    }
+
+    .profile-button:active {
+        background: #682773;
+        box-shadow: none
+    }
+
+    .back:hover {
+        color: #682773;
+        cursor: pointer
+    }
+
+    .labels {
+        font-size: 11px
+    }
+
+    .add-experience:hover {
+        background: #BA68C8;
+        border: solid 1px #BA68C8;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .col-md-12 {
+        margin-top: 10px;
+    }
+
+    #saveprofile {
+        background-color: #f76d00;
+    }
+
+    #saveprofile:active,
+    #saveprofile:hover {
+        background-color: #db6100
+    }
+
+    .request_type {
+        font-size: 14px;
+    }
+    .edit{
+        color: #f76d00;
+    }
+    .edit:hover{
+        color: #bb5406
+    }
+    table th { font-size: 15px; }
+</style>
+
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right" style="background-color: #1a4d6a; border-radius: 20px 20px 20px 20px">
+
+            {% for user_data in query %}
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img class="rounded-circle mt-5" width="150px" height="150px"
+                    src="{% static request.user.path_profile_pic %}" style="border: 4px solid #ffffff;">
+                <br />
+                <span class="font-weight-bold" style="color: #ffffff">{{ user_data.first_name }}</span>
+                <span class="" style="color: #ffffff">{{ user_data.email}}</span>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="p-3 py-5">
+                <a href="{% url 'request' operation='add'%}" class="btn btn-xs btn-success" name="Login1" value="Login"
+                    style="width: 60px; float: right; height: 35px; margin-top:10px" action="{% url 'signin' %}">
+                    <span><i class="material-icons">&#xe145;</i> {% translate "Add" %}</span>
+                </a>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right"> {% translate "My Requests" %}</h4>
+                </div>
+                <hr />
+                <table class="table table-condensed table-striped">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Created date</th>
+                            <th>Created time</th>
+                            <th>Action</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    {% for request in request_data %}
+                    <tbody>
+                        <tr id="accordion_{{request.request_id}}">
+                            <td class="request_type"><b>{{ request.request_type}}</b></td>
+                            <td class="request_type">{{ request.status_id}}</td>
+                            <td class="request_type">{{ request.created_date}} </td>
+                            <td class="request_type">{{request.created_time}}</td>
+                            <td> <a href="#" class="edit"><i class="material-icons">&#xe3c9;</i> </a></td>
+                            <td><button class="btn btn-link" data-toggle="collapse" data-target="#request_{{request.request_id}}"
+                                aria-expanded="true" aria-controls="collapseOne" style="float: right;">
+                                <i class="material-icons" style="margin-top: -10px; color: #266867;">&#xe5d3;</i>
+                            </button></td>
+                            <tr id="request_{{request.request_id}}" class="collapse" aria-labelledby="headingOne"data-parent="#accordion_{{request.request_id}}">
+                                   <td colspan=" 6"> 
+                                    <table class="table table-condensed table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Lanauge</th>
+                                        <th>Question</th>
+                                        <th>Answer</th>
+                                        <th>Remark</th>
+                                    </tr>
+                                    </thead>
+                                    <tr>
+                                        <td>TH</td>
+                                        <td class="request_type">{{request.question}}</td>
+                                        {% autoescape off %}
+                                        <td class="request_type">{{request.answer}} </td>
+                                        {% endautoescape %}
+                                        <td class="request_type">{{request.remark}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>EN</td>
+                                        <td class="request_type">{{request.question_en}}</td>
+                                        {% autoescape off %}
+                                        <td class="request_type">{{request.answer_en}} </td>
+                                        {% endautoescape %}
+                                        <td class="request_type">{{request.remark}}</td>
+                                    </tr>
+                                   </td>
+                                </table>
+                            </tr>
+                        </tr>
+                    </tbody>
+                    {% endfor %}
+            </div>
+            </table>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</div>
+    </form>
+    {% endblock %}

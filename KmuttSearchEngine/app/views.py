@@ -501,5 +501,13 @@ def requestmanagement(request,operation):
             return redirect('home')
         else:
             return render(request, 'app/requestadd.html')
+
+    elif operation == 'view_user':
+        result = queryDb_Request_user(request.user.id)
+        user_query = queryDb_User(request.user.id)
+        if result is "Error":
+            return redirect('home')
+        else:
+            return render(request, 'app/request_user.html',{'query': user_query, 'request_data': result,})
     else:
         return redirect('home')

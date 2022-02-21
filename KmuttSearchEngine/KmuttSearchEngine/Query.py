@@ -221,3 +221,12 @@ def queryDb_request():
           query = "Error"
 
      return QArequestDto
+
+def queryDb_Request_user(id):
+ 
+     try:
+          query = list(QArequest.objects.order_by('-created_date','-created_time')) 
+     except:
+          query = "Error"
+
+     return query
