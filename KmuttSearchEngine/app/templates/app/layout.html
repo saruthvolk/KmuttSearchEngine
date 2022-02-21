@@ -352,7 +352,7 @@
                     <div class="dropdown-menu">
                         <a href="{% url 'profile' operation='view' %}" class="dropdown-item"><i class="fas fa-user"></i>
                             {% translate "Profile" %}</a>
-                        <a href="#" class="dropdown-item"><i class="far fa-clipboard"></i> {% translate "Requests"%}</a>
+                        <a href="{% url 'request' operation='view_user' %}" class="dropdown-item"><i class="far fa-clipboard"></i> {% translate "Requests"%}</a>
                         <div class="dropdown-divider"></div>
                         <a href="/logout" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> {% translate "Logout" %}</a>
                     </div>
