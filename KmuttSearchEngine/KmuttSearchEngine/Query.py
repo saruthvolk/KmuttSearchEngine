@@ -230,3 +230,14 @@ def queryDb_Request_user(id):
           query = "Error"
 
      return query
+
+def queryDb_onerequest(id):
+ 
+     try:
+          query = QArequest.objects.get(request_id = id) 
+     except:
+          query = "Error"
+
+     return query
+ 
+

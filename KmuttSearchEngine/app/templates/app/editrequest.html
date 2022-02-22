@@ -1,0 +1,135 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<script src="https://cdn.tiny.cloud/1/lkp5p0w1fk12lr4trywat44qle2pxarpedhgjkdxxmsohyl2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        editor_selector: "editor",
+        mode: "textareas", // change this value according to your HTML
+        images_upload_url: '/upload_image/', // Image upload address in Django route
+        height: 500,
+        branding:false,
+        menubar: false,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount'
+        ],
+        toolbar: 'undo redo | formatselect | ' +
+            'bold italic backcolor | alignleft aligncenter ' +
+            'alignright alignjustify | bullist numlist outdent indent | ' +
+            'code image | ' +
+            'removeformat',
+
+        init_instance_callback: function(editor) {
+            var editorH = editor.editorContainer.offsetHeight;
+            $('#editor')
+            .css({
+                'position': 'absolute',
+                'height': editorH
+            })
+            .show();
+        },
+        setup: function (editor) {
+                editor.on('change', function () {
+                editor.save();
+                });
+        }
+    });
+
+    tinymce.init({
+        editor_selector: "editor_en",
+        mode: "textareas", // change this value according to your HTML
+        images_upload_url: '/upload_image/', // Image upload address in Django route
+        height: 500,
+        branding:false,
+        menubar: false,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount'
+        ],
+        toolbar: 'undo redo | formatselect | ' +
+            'bold italic backcolor | alignleft aligncenter ' +
+            'alignright alignjustify | bullist numlist outdent indent | ' +
+            'code image | ' +
+            'removeformat',
+
+        init_instance_callback: function(editor) {
+            var editorH = editor.editorContainer.offsetHeight;
+
+            $('#editor1')
+            .css({
+                'position': 'absolute',
+                'height': editorH
+            })
+            .show();
+        },
+        setup: function (editor) {
+            editor.on('change', function () {
+            editor.save();
+        });
+    }
+    });
+
+</script>
+<head>
+    <meta charset="utf-8"/>
+    <title> CRUD operations </title>
+</head>
+<body>
+<br/><br/><br/>
+<center>
+    <h1>Edit form</h1>
+
+    <input type="checkbox" onclick="toggle(this);"/>Check all?<br/>
+
+    {% for QArequest in query %}
+    <div class="id" id="{{id_list}}"></div>
+    <form method="POST" class="was-validated">
+        {% csrf_token %}
+        <table class="table table-hover">
+            <thead class="thead-dark">
+            <th scope="col" colspan="6">
+                <label type="text" name="question"> Request ID </label>
+                <label type="text" name="question_id">{{request_data.request_id}} </label>
+            </th>
+            </thead>
+            <td>Question</td>
+
+            <td colspan="6">
+                <input type="text" class="form-control is-valid" name="question" value="{{request_data.question}}" required/>
+            </td>
+            <tr>
+                <td>Answer</td>
+                <td colspan="10">
+                    <span style="white-space: pre-line">
+                        <textarea name = "answer" class="editor" id="editor{{request_data.id}}" required>{{request_data.answer}}</textarea>
+                    </span>
+                </td>
+            </tr>
+            <td >Question EN</td>
+            <td colspan="2">
+                <input type="text" class="form-control is-valid" name="question_en" value="{{request_data.question_en}}" required/>
+            </td>
+            <tr>
+                <td>Answer en</td>
+                <td colspan="6">
+                    <span style="white-space: pre-line">
+                        <textarea name = "answer_en" class="editor_en" id="editor1{{request_data.id}}" required>{{request_data.answer_en}}</textarea>
+                    </span>
+                </td>
+            </tr>
+            <td >Remark</td>
+            <td colspan="2">
+                <input type="text" class="form-control is-valid" name="question_en" value="{{request_data.remark}}" disabled/>
+            </td>
+            {% endfor %}
+        </table>
+        <button type="submit" class="btn-primary" formaction="{% url 'Crud_QA' operation='Update' id='0' %}">Save changes</button>
+        <button type="submit" class="btn-primary" formaction="{% url 'Crud_QA' operation='Remove' id='0' %}">Delete</button>
+        <br/>
+    </form>
+</center>
+</body>
+{% endblock %}

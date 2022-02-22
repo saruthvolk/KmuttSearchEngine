@@ -20,19 +20,19 @@
         box-shadow: none;
     }
 
-    .profile-button:hover {
-        background: #682773
-    }
+        .profile-button:hover {
+            background: #682773
+        }
 
-    .profile-button:focus {
-        background: #682773;
-        box-shadow: none
-    }
+        .profile-button:focus {
+            background: #682773;
+            box-shadow: none
+        }
 
-    .profile-button:active {
-        background: #682773;
-        box-shadow: none
-    }
+        .profile-button:active {
+            background: #682773;
+            box-shadow: none
+        }
 
     .back:hover {
         color: #682773;
@@ -58,10 +58,10 @@
         background-color: #f76d00;
     }
 
-    #saveprofile:active,
-    #saveprofile:hover {
-        background-color: #db6100
-    }
+        #saveprofile:active,
+        #saveprofile:hover {
+            background-color: #db6100
+        }
 
     .request_type {
         font-size: 14px;
@@ -71,12 +71,49 @@
         color: #f76d00;
     }
 
-    .edit:hover {
-        color: #bb5406
-    }
+        .edit:hover {
+            color: #bb5406
+        }
 
     table th {
         font-size: 15px;
+    }
+
+    .pagination {
+        justify-content: center;
+        font-size: 14px;
+    }
+
+    .page-item:first-child .page-link {
+        border-bottom-left-radius: 0.25rem;
+        border-top-left-radius: 0.25rem;
+        margin-left: 0;
+    }
+
+    .pagination li:last-child .page-link {
+        border-bottom-right-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
+        margin-right: 1px;
+    }
+
+    .hint-text {
+        float: left;
+        font-size: 13px;
+        margin-top: 10px;
+    }
+    .submit {
+        color: #f76d00;
+        border: transparent;
+        background: transparent;
+    }
+    .submit:focus {
+        outline: none;
+        color: #bb5406;
+        border: transparent;
+        background: transparent;
+    }
+    .submit:hover {
+        color: #bb5406;
     }
 </style>
 
@@ -84,10 +121,10 @@
     <div class="row">
         <div class="col-md-3 border-right" style="background-color: #1a4d6a; border-radius: 20px 20px 20px 20px">
 
-            {% for user_data in query %}
+            {% for user_data in user_info %}
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 <img class="rounded-circle mt-5" width="150px" height="150px"
-                    src="{% static request.user.path_profile_pic %}" style="border: 4px solid #ffffff;">
+                     src="{% static request.user.path_profile_pic %}" style="border: 4px solid #ffffff;">
                 <br />
                 <span class="font-weight-bold" style="color: #ffffff">{{ user_data.first_name }}</span>
                 <span class="" style="color: #ffffff">{{ user_data.email}}</span>
@@ -96,7 +133,7 @@
         <div class="col-md-9">
             <div class="p-3 py-5">
                 <a href="{% url 'request' operation='add'%}" class="btn btn-xs btn-success" name="Login1" value="Login"
-                    style="width: 60px; float: right; height: 35px; margin-top:10px" action="{% url 'signin' %}">
+                   style="width: 60px; float: right; height: 35px; margin-top:10px" action="{% url 'signin' %}">
                     <span><i class="material-icons">&#xe145;</i> {% translate "Add" %}</span>
                 </a>
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -114,19 +151,25 @@
                             <th></th>
                         </tr>
                     </thead>
-                    {% for request in request_data %}
+                    {% for request in query %}
                     <tbody>
                         <tr id="accordion_{{request.request_id}}">
                             <td class="request_type"><b>{{ request.request_type}}</b></td>
                             <td class="request_type">{{ request.status_id}}</td>
                             <td class="request_type">{{ request.created_date}} </td>
                             <td class="request_type">{{request.created_time}}</td>
-                            <td> <a href="#" class="edit"><i class="material-icons">&#xe3c9;</i> </a></td>
-                            <td><button class="btn btn-link" data-toggle="collapse"
-                                    data-target="#request_{{request.request_id}}" aria-expanded="true"
-                                    aria-controls="collapseOne" style="float: right;">
+                            <form action="{% url 'request' operation='edit' %}" method="POST">
+                                {% csrf_token %}
+                                <input name="request_id" id="request_id" value="{{ request.request_id}}" hidden />
+                            <td><button href="#" class="submit"><i class="material-icons">&#xe3c9;</i> </button></td>
+                            </form>
+                            <td>
+                                <button class="btn btn-link" data-toggle="collapse"
+                                        data-target="#request_{{request.request_id}}" aria-expanded="true"
+                                        aria-controls="collapseOne" style="float: right;">
                                     <i class="material-icons" style="margin-top: -10px; color: #266867;">&#xe5d3;</i>
-                                </button></td>
+                                </button>
+                            </td>
                         <tr id="request_{{request.request_id}}" class="collapse" aria-labelledby="headingOne"
                             data-parent="#accordion_{{request.request_id}}">
                             <td colspan=" 6">
@@ -164,6 +207,56 @@
             </div>
             </table>
             {% endfor %}
+            <div class="clearfix">
+                <div class="hint-text">
+                    {% translate "Showing"%} <b>{{ query.end_index }}</b> {% translate "out of" %} <b>{{ query.paginator.count }} {% translate "entries" %} </b>
+                </div>
+            </div>
+            <br />
+            <nav aria-label="Page navigation example">
+                {% if query.has_other_pages %}
+                <ul style="display: flex;" class="pagination">
+                    {% if query.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ query.previous_page_number }}">{% translate "Previous" %}</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">{% translate "Previous" %}</span>
+                            <span class="sr-only">{% translate "Previous" %}</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% for i in query.paginator.page_range %}
+                    {% if query.number == i %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+                    </li>
+                    {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ i }}" name="page">{{ i }}</a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if query.has_next %}
+                    <ul class="pagination">
+                        <li>
+                            <a class="page-link" href="?page={{ query.next_page_number }}">{% translate "Next" %}</a>
+                        </li>
+                    </ul>
+                    {% else %}
+
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">{% translate "Next" %}</span>
+                            <span class="sr-only">{% translate "Next" %}</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% endif %}
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
