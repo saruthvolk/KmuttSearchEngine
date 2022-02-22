@@ -529,6 +529,16 @@ def requestmanagement(request, operation):
             return redirect('home')
         else:
             return render(request, 'app/editrequest.html',{'query': user_query, 'request_data': result,})
+
+    elif operation == 'saveedit':
+        result = request_saveedit(request)
+        department = queryDb_department()
+        user_query = queryDb_User(request.user.id)
+
+        if result is "Error":
+            return redirect('home')
+        else:
+            return redirect('request', operation='view_user')
             
     else:
         return redirect('home')

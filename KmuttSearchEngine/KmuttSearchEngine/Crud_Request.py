@@ -32,5 +32,28 @@ def request_update (request):
 
     return Result
 
+def request_saveedit (request):
+    current_time = datetime.datetime.now().replace(microsecond=0)
+    if request.method == "POST":
+        if  (request.POST.get('question') and request.POST.get('answer')) or (request.POST.get('question_en') 
+        and request.POST.get('answer_en')) and request.POST.get('department_id') and request.POST.get('remark') and request.POST.get('request_id'): 
+                updaterecord = QArequest_edit.objects.get(request_id =  request.POST.get('request_id'))
+                updaterecord.question = request.POST.get('question')
+                updaterecord.answer = request.POST.get('answer')
+                updaterecord.question_en = request.POST.get('question_en')
+                updaterecord.answer_en = request.POST.get('answer_en')
+                updaterecord.user_id = request.user.id
+                updaterecord.status_id = '1'
+                updaterecord.request_type = "Add"
+                updaterecord.department_id = request.POST.get('department_id')
+                updaterecord.remark = request.POST.get('remark')
+                updaterecord.updated_date = current_time
+                updaterecord.updated_time = current_time
+                print(request.POST.get('request_id'))
+                print(request.POST.get('user_id'))
+                updaterecord.save()
 
-            
+        Result.code = 200
+        query = list(QArequest.objects.all())
+        Result.query = query
+    return Result

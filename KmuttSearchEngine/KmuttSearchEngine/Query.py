@@ -226,6 +226,9 @@ def queryDb_Request_user(id):
  
      try:
           query = list(QArequest.objects.filter(user_id=id).order_by('-created_date','-created_time'))
+          for item in query:
+               temp = status.objects.get(status_id=item.status_id)
+               item.status_id = temp.status_type
      except:
           query = "Error"
 

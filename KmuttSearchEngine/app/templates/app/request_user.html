@@ -110,6 +110,7 @@
         margin-left: -6.4%; 
         margin-right: auto;
     }
+}
     .row{
         margin-top: 10%;
     }
@@ -127,7 +128,9 @@
     .submit:hover {
         color: #bb5406;
     }
-}
+    th, td{
+        text-align: center;
+    }
 </style>
 
 <div class="container rounded bg-white mt-5 mb-5">
@@ -166,8 +169,8 @@
                         <tr>
                             <th>Type</th>
                             <th>Status</th>
+                            <th>Updated date</th>
                             <th>Created date</th>
-                            <th>Created time</th>
                             <th>Action</th>
                             <th></th>
                         </tr>
@@ -176,9 +179,15 @@
                     <tbody>
                         <tr id="accordion_{{request.request_id}}">
                             <td class="request_type"><b>{{ request.request_type}}</b></td>
-                            <td class="request_type">{{ request.status_id}}</td>
-                            <td class="request_type">{{ request.created_date}} </td>
-                            <td class="request_type">{{request.created_time}}</td>
+                            {% if request.status_id == "Waiting for approval" %}
+                            <td class="request_type" style="color: #f59300; font-weight: 600;">{{ request.status_id}}</td>
+                            {% elif request.status_id == "Approved" %}
+                            <td class="request_type" style="color: green; font-weight: 600;">{{ request.status_id}}</td>
+                            {% else %}
+                            <td class="request_type" style="color: #db1e1e; font-weight: 600;">{{ request.status_id}}</td>
+                            {% endif %}
+                            <td class="request_type">{{request.updated_date|date:"M. d y" }} {{request.updated_time}}</td>
+                            <td class="request_type">{{request.created_date|date:"M. d y" }}, {{request.created_time}}</td>
                             <form action="{% url 'request' operation='edit' %}" method="POST">
                                 {% csrf_token %}
                                 <input name="request_id" id="request_id" value="{{ request.request_id}}" hidden />

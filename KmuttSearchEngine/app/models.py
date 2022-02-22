@@ -118,6 +118,7 @@ class QArequest (models.Model):
  
     class Meta:
       db_table="request"
+      managed = False
 
 class department (models.Model):
     department_id = models.AutoField(primary_key=True)
@@ -125,3 +126,29 @@ class department (models.Model):
 
     class Meta:
       db_table="department"
+
+class QArequest_edit (models.Model):
+    request_id = models.AutoField(primary_key=True)
+    question = models.CharField(max_length = 1000)
+    answer = models.CharField(max_length = 1000)
+    question_en = models.CharField(max_length = 1000)
+    answer_en = models.CharField(max_length = 1000)
+    status_id = models.IntegerField()
+    request_type = models.CharField(max_length = 1000)
+    department_id = models.IntegerField()
+    user_id = models.IntegerField()
+    question_id =  models.IntegerField()
+    remark = models.CharField(max_length = 1000)
+    updated_date = models.DateTimeField(default=now, editable=True)
+    updated_time = models.DateTimeField(default=now, editable=True)
+    updated_by = models.CharField(max_length = 1000)
+ 
+    class Meta:
+      db_table="request"
+
+class status (models.Model):
+  status_id = models.AutoField(primary_key=True)
+  status_type = models.CharField(max_length = 1000)
+
+  class Meta:
+      db_table="status"

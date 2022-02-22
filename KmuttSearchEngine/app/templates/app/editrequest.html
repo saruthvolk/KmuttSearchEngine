@@ -98,6 +98,8 @@
             <td>Question</td>
 
             <td colspan="6">
+                <input type="text" name="request_id" value="{{request_data.request_id}}" hidden  </input>
+                <input type="text" name="user_id" value="{{user_query.id}}" hidden  </input>
                 <input type="text" class="form-control is-valid" name="question" value="{{request_data.question}}" required/>
             </td>
             <tr>
@@ -122,11 +124,22 @@
             </tr>
             <td >Remark</td>
             <td colspan="2">
-                <input type="text" class="form-control is-valid" name="question_en" value="{{request_data.remark}}" disabled/>
+                <input type="text" class="form-control is-valid" name="remark" value="{{request_data.remark}}"/>
             </td>
+            <tr>
+            <td colspan="2">
+            <label for="Question">Department ID: </label>
+
+            <select class="form-control" name="department_id">
+            {% for dep in department %}
+            <option name="department_id" value="1">({{dep.department_id}}) {{dep.department_name}}</option>
+            {% endfor %}
+            </select>
+            </td>
+                <tr>
             {% endfor %}
         </table>
-        <button type="submit" class="btn-primary" formaction="{% url 'Crud_QA' operation='Update' id='0' %}">Save changes</button>
+        <button type="submit" class="btn-primary" formaction="{% url 'request' operation='saveedit'%}">Save changes</button>
         <button type="submit" class="btn-primary" formaction="{% url 'Crud_QA' operation='Remove' id='0' %}">Delete</button>
         <br/>
     </form>
