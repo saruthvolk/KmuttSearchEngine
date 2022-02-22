@@ -244,7 +244,7 @@ def Crud_QA(request, operation, id):
         if result.code == 200:
             return render(request, 'app/index.html')
         else:
-            return render(request, 'app/CRUDquestion.html',{'department':department})
+            return render(request, 'app/CRUDquestion.html', {'department': department})
 
     elif operation == "View":
 
@@ -488,12 +488,12 @@ def register(request):
         return render(request, 'app/register.html')
 
 
-def requestmanagement(request,operation):
+def requestmanagement(request, operation):
 
     if operation == 'add':
         department = queryDb_department()
 
-        return render(request, 'app/requestadd.html',{'department':department})
+        return render(request, 'app/requestadd.html', {'department': department})
 
     elif operation == 'update':
         result = request_update(request)
@@ -503,11 +503,32 @@ def requestmanagement(request,operation):
             return render(request, 'app/requestadd.html')
 
     elif operation == 'view_user':
-        result = queryDb_Request_user(request.user.id)
+        request_info = queryDb_Request_user(request.user.id)
         user_query = queryDb_User(request.user.id)
+        page = request.GET.get('page', 1)
+        if page == 1:
+            request_info = queryDb_Request_user(request.user.id)
+        paginator = Paginator(request_info, 5)
+        try:
+            query1 = paginator.page(page)
+        except PageNotAnInteger:
+            query1 = paginator.page(1)
+        except EmptyPage:
+            query1 = paginator.page(paginator.num_pages)
+        if request_info is "Error":
+            return redirect('home')
+        else:
+            return render(request, 'app/request_user.html', {'user_info': user_query, 'query': query1 })
+
+    elif operation == 'edit':
+        request_id = request.POST.get('request_id')
+        result =  queryDb_onerequest(request_id)
+        user_query = queryDb_User(request.user.id)
+
         if result is "Error":
             return redirect('home')
         else:
-            return render(request, 'app/request_user.html',{'query': user_query, 'request_data': result,})
+            return render(request, 'app/editrequest.html',{'query': user_query, 'request_data': result,})
+            
     else:
         return redirect('home')

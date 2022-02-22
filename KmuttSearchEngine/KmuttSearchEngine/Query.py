@@ -225,7 +225,16 @@ def queryDb_request():
 def queryDb_Request_user(id):
  
      try:
-          query = list(QArequest.objects.order_by('-created_date','-created_time')) 
+          query = list(QArequest.objects.filter(user_id=id).order_by('-created_date','-created_time'))
+     except:
+          query = "Error"
+
+     return query
+
+def queryDb_onerequest(id):
+ 
+     try:
+          query = QArequest.objects.get(request_id = id) 
      except:
           query = "Error"
 
