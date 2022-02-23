@@ -20,19 +20,19 @@
         box-shadow: none;
     }
 
-        .profile-button:hover {
-            background: #682773
-        }
+    .profile-button:hover {
+        background: #682773
+    }
 
-        .profile-button:focus {
-            background: #682773;
-            box-shadow: none
-        }
+    .profile-button:focus {
+        background: #682773;
+        box-shadow: none
+    }
 
-        .profile-button:active {
-            background: #682773;
-            box-shadow: none
-        }
+    .profile-button:active {
+        background: #682773;
+        box-shadow: none
+    }
 
     .back:hover {
         color: #682773;
@@ -58,10 +58,10 @@
         background-color: #f76d00;
     }
 
-        #saveprofile:active,
-        #saveprofile:hover {
-            background-color: #db6100
-        }
+    #saveprofile:active,
+    #saveprofile:hover {
+        background-color: #db6100
+    }
 
     .request_type {
         font-size: 14px;
@@ -71,18 +71,14 @@
         color: #f76d00;
     }
 
-        .edit:hover {
-            color: #bb5406
-        }
+    .edit:hover {
+        color: #bb5406
+    }
 
     table th {
         font-size: 15px;
     }
-
-    .pagination {
-        justify-content: center;
-        font-size: 14px;
-    }
+    .pagination { justify-content: center; font-size: 14px;}
 
     .page-item:first-child .page-link {
         border-bottom-left-radius: 0.25rem;
@@ -101,6 +97,23 @@
         font-size: 13px;
         margin-top: 10px;
     }
+
+    .list-group-item:last-child, .list-group-item:first-child{
+        border-radius: 0px;
+    }    
+    @media only screen and (min-width: 767px)
+    {
+    .list-group{
+        font-size: 15px; 
+        width: auto; 
+        width: 112.5%; 
+        margin-left: -6.4%; 
+        margin-right: auto;
+    }
+}
+    .row{
+        margin-top: 10%;
+    }
     .submit {
         color: #f76d00;
         border: transparent;
@@ -115,25 +128,36 @@
     .submit:hover {
         color: #bb5406;
     }
+    th, td{
+        text-align: center;
+    }
 </style>
 
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
-        <div class="col-md-3 border-right" style="background-color: #1a4d6a; border-radius: 20px 20px 20px 20px">
+        <div class="col-md-3" style="background-color: #1a4d6a; border-radius: 10px 0px 0px 10px">
 
             {% for user_data in user_info %}
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 <img class="rounded-circle mt-5" width="150px" height="150px"
-                     src="{% static request.user.path_profile_pic %}" style="border: 4px solid #ffffff;">
+                    src="{% static request.user.path_profile_pic %}" style="border: 4px solid #ffffff;">
                 <br />
                 <span class="font-weight-bold" style="color: #ffffff">{{ user_data.first_name }}</span>
                 <span class="" style="color: #ffffff">{{ user_data.email}}</span>
             </div>
+
+            <div class="list-group">
+                <a href="{% url 'profile' operation='view' %}" class="list-group-item list-group-item-action">Profile</a>
+                <a href="{% url 'request' operation='view_user' %}" class="list-group-item list-group-item-action active" style="background-color: #ff8829; border-color: transparent">Request</a>
+                <a href="#" class="list-group-item list-group-item-action">Search history</a>
+                <a href="#" class="list-group-item list-group-item-action">View history</a>
+              </div>
+
         </div>
         <div class="col-md-9">
             <div class="p-3 py-5">
                 <a href="{% url 'request' operation='add'%}" class="btn btn-xs btn-success" name="Login1" value="Login"
-                   style="width: 60px; float: right; height: 35px; margin-top:10px" action="{% url 'signin' %}">
+                    style="width: 60px; float: right; height: 35px; margin-top:10px" action="{% url 'signin' %}">
                     <span><i class="material-icons">&#xe145;</i> {% translate "Add" %}</span>
                 </a>
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -145,8 +169,8 @@
                         <tr>
                             <th>Type</th>
                             <th>Status</th>
+                            <th>Updated date</th>
                             <th>Created date</th>
-                            <th>Created time</th>
                             <th>Action</th>
                             <th></th>
                         </tr>
@@ -155,21 +179,25 @@
                     <tbody>
                         <tr id="accordion_{{request.request_id}}">
                             <td class="request_type"><b>{{ request.request_type}}</b></td>
-                            <td class="request_type">{{ request.status_id}}</td>
-                            <td class="request_type">{{ request.created_date}} </td>
-                            <td class="request_type">{{request.created_time}}</td>
+                            {% if request.status_id == "Waiting for approval" %}
+                            <td class="request_type" style="color: #f59300; font-weight: 600;">{{ request.status_id}}</td>
+                            {% elif request.status_id == "Approved" %}
+                            <td class="request_type" style="color: green; font-weight: 600;">{{ request.status_id}}</td>
+                            {% else %}
+                            <td class="request_type" style="color: #db1e1e; font-weight: 600;">{{ request.status_id}}</td>
+                            {% endif %}
+                            <td class="request_type">{{request.updated_date|date:"M. d y" }} {{request.updated_time}}</td>
+                            <td class="request_type">{{request.created_date|date:"M. d y" }}, {{request.created_time}}</td>
                             <form action="{% url 'request' operation='edit' %}" method="POST">
                                 {% csrf_token %}
                                 <input name="request_id" id="request_id" value="{{ request.request_id}}" hidden />
                             <td><button href="#" class="submit"><i class="material-icons">&#xe3c9;</i> </button></td>
                             </form>
-                            <td>
-                                <button class="btn btn-link" data-toggle="collapse"
-                                        data-target="#request_{{request.request_id}}" aria-expanded="true"
-                                        aria-controls="collapseOne" style="float: right;">
+                            <td><button class="btn btn-link" data-toggle="collapse"
+                                    data-target="#request_{{request.request_id}}" aria-expanded="true"
+                                    aria-controls="collapseOne" style="float: right;">
                                     <i class="material-icons" style="margin-top: -10px; color: #266867;">&#xe5d3;</i>
-                                </button>
-                            </td>
+                                </button></td>
                         <tr id="request_{{request.request_id}}" class="collapse" aria-labelledby="headingOne"
                             data-parent="#accordion_{{request.request_id}}">
                             <td colspan=" 6">
@@ -212,7 +240,7 @@
                     {% translate "Showing"%} <b>{{ query.end_index }}</b> {% translate "out of" %} <b>{{ query.paginator.count }} {% translate "entries" %} </b>
                 </div>
             </div>
-            <br />
+            <br/>
             <nav aria-label="Page navigation example">
                 {% if query.has_other_pages %}
                 <ul style="display: flex;" class="pagination">
@@ -246,7 +274,7 @@
                         </li>
                     </ul>
                     {% else %}
-
+            
                     <li class="page-item disabled">
                         <a class="page-link" href="#" aria-label="Next">
                             <span aria-hidden="true">{% translate "Next" %}</span>
@@ -257,9 +285,9 @@
                     {% endif %}
                 </ul>
             </nav>
+            </div>
         </div>
     </div>
-</div>
 </div>
 </form>
 {% endblock %}

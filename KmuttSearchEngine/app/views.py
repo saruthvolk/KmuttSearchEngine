@@ -244,7 +244,7 @@ def Crud_QA(request, operation, id):
         if result.code == 200:
             return render(request, 'app/index.html')
         else:
-            return render(request, 'app/CRUDquestion.html',{'department':department})
+            return render(request, 'app/CRUDquestion.html', {'department': department})
 
     elif operation == "View":
 
@@ -488,12 +488,12 @@ def register(request):
         return render(request, 'app/register.html')
 
 
-def requestmanagement(request,operation):
+def requestmanagement(request, operation):
 
     if operation == 'add':
         department = queryDb_department()
 
-        return render(request, 'app/requestadd.html',{'department':department})
+        return render(request, 'app/requestadd.html', {'department': department})
 
     elif operation == 'update':
         result = request_update(request)
@@ -529,5 +529,16 @@ def requestmanagement(request,operation):
             return redirect('home')
         else:
             return render(request, 'app/editrequest.html',{'query': user_query, 'request_data': result,})
+
+    elif operation == 'saveedit':
+        result = request_saveedit(request)
+        department = queryDb_department()
+        user_query = queryDb_User(request.user.id)
+
+        if result is "Error":
+            return redirect('home')
+        else:
+            return redirect('request', operation='view_user')
+            
     else:
         return redirect('home')
