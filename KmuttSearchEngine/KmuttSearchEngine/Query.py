@@ -242,3 +242,12 @@ def queryDb_onerequest(id):
           query = "Error"
 
      return query
+
+def queryDb_onequestion(id):
+ 
+     try:
+          query = questionanswer.objects.get(id = id) 
+     except:
+          query = "Error"
+
+     return query

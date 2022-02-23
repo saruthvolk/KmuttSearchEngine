@@ -1,6 +1,7 @@
 """
 Definition of views.
 """
+from pyexpat.errors import messages
 import oskut
 import os
 import datetime
@@ -22,6 +23,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
+from django.contrib import messages
 from django.utils.translation import gettext as _
 import json
 
@@ -320,20 +322,24 @@ def usermanagement(request, operation):
         print(operation)
         if request.method == 'POST':
             id = request.POST.get('userid')
-            print(id)
             result = update_status_User(request, id)
             if result.code is 200:
+                for user in result.query:
+                    if (user.is_active == False):
+                        messages.info(request, _("Successfully suspended "  + str(user.username)  + " account's."))
+                    elif(user.is_active == True):
+                        messages.info(request, _("Successfully unsuspended "+str(user.username)+"  account's."))
                 return redirect('user')
             else:
                 return redirect('user')
 
     elif operation == 'update':
-        print(operation)
         if request.method == 'POST':
             id = request.POST.get('userid_confirm')
-            print(id)
             result = update_user_profile(request, id)
             if result.code is 200:
+                for user in result.query:
+                    messages.info(request, _("Successfully update "+str(user.username)+"  profile's."))
                 return redirect('user')
             else:
                 return redirect('user')
@@ -384,11 +390,12 @@ def profile(request, operation):
     if operation == 'view':
         return render(request, 'app/profile.html', {'title': 'My Profile', 'query': user_query, 'operation': operation})
     elif operation == 'edit':
-        return render(request, 'app/profile.html', {'title': 'My Profile', 'query': user_query, 'operation': operation})
+        return render(request, 'app/profile.html',{'title': 'My Profile', 'query': user_query, 'operation': operation})
     elif operation == 'update':
         if request.method == 'POST':
             result = edit_user_profile(request)
             if result.code is 200:
+                messages.info(request, _("Your profile has been successfully updated."))
                 return redirect('profile', operation='view')
         else:
             operation = 'view'
@@ -495,20 +502,13 @@ def requestmanagement(request, operation):
 
         return render(request, 'app/requestadd.html', {'department': department})
 
-    elif operation == 'update':
-        result = request_update(request)
-        if result.code is 200:
-            return redirect('home')
-        else:
-            return render(request, 'app/requestadd.html')
-
     elif operation == 'view_user':
         request_info = queryDb_Request_user(request.user.id)
         user_query = queryDb_User(request.user.id)
         page = request.GET.get('page', 1)
         if page == 1:
             request_info = queryDb_Request_user(request.user.id)
-        paginator = Paginator(request_info, 5)
+        paginator = Paginator(request_info, 7)
         try:
             query1 = paginator.page(page)
         except PageNotAnInteger:
@@ -519,19 +519,28 @@ def requestmanagement(request, operation):
             return redirect('home')
         else:
             return render(request, 'app/request_user.html', {'user_info': user_query, 'query': query1 })
-
+        
     elif operation == 'edit':
         request_id = request.POST.get('request_id')
         result =  queryDb_onerequest(request_id)
+        department = queryDb_department()
         user_query = queryDb_User(request.user.id)
 
         if result is "Error":
             return redirect('home')
         else:
-            return render(request, 'app/editrequest.html',{'query': user_query, 'request_data': result,})
+            return render(request, 'app/editrequest.html',{'query': user_query, 'request_data': result,'department': department})
+
+    elif operation == 'update':
+        result = request_update(request, operation)
+        if result.code is 200:
+            messages.info(request, _("Your request has been successfully created, admin will review it shortly."))
+            return redirect('request', operation='view_user',)
+        else:
+            return render(request, 'app/requestadd.html')
 
     elif operation == 'saveedit':
-        result = request_saveedit(request)
+        result = request_update(request, operation)
         department = queryDb_department()
         user_query = queryDb_User(request.user.id)
 
@@ -539,6 +548,37 @@ def requestmanagement(request, operation):
             return redirect('home')
         else:
             return redirect('request', operation='view_user')
+
+    elif operation == 'editquestion':
+        result = request_update(request, operation)
+        if result.code is "Error":
+            return redirect('home')
+        else:
+            return redirect('request', operation='view_user')
+
+    elif operation == 'delete':
+        if request.method == "POST":
+            id = request.POST.get('request_id')
+            result = request_delete(request,id)
+            if result is "Error":
+                return redirect('home')
+            else:
+                messages.info(request, "Your request has been successfully deleted.")
+                return redirect('request', operation='view_user')
+
+        if result is "Error":
+                return redirect('home')
+
+    elif operation == 'request_edit':
+        question_id = request.POST.get('question_id')
+        result = queryDb_onequestion(question_id)
+        department = queryDb_department()
+        user_query = queryDb_User(request.user.id)
+
+        if result is "Error":
+            return redirect('home')
+        else:
+            return render(request, 'app/requesteditquestion.html',{'query': user_query, 'question_data': result,'department': department})
             
     else:
         return redirect('home')

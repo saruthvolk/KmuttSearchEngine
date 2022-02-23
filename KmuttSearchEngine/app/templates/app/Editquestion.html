@@ -9,7 +9,7 @@
         mode: "textareas", // change this value according to your HTML
         images_upload_url: '/upload_image/', // Image upload address in Django route
         height: 500,
-        branding: false,
+        branding:false,
         menubar: false,
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
@@ -24,25 +24,18 @@
 
         init_instance_callback: function(editor) {
             var editorH = editor.editorContainer.offsetHeight;
-            var class_id = { { id_list|safe }
-        };
-
-    for (let i = 0; i < class_id.length; i++) {
-
-        $('#editor' + class_id[i])
+            $('#editor')
             .css({
                 'position': 'absolute',
                 'height': editorH
             })
             .show();
-    }
-    },
-    setup: function(editor) {
-        editor.on('change',
-            function() {
+        },
+        setup: function (editor) {
+                editor.on('change', function () {
                 editor.save();
-            });
-    }
+                });
+        }
     });
 
     tinymce.init({
@@ -50,7 +43,7 @@
         mode: "textareas", // change this value according to your HTML
         images_upload_url: '/upload_image/', // Image upload address in Django route
         height: 500,
-        branding: false,
+        branding:false,
         menubar: false,
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
@@ -66,23 +59,17 @@
         init_instance_callback: function(editor) {
             var editorH = editor.editorContainer.offsetHeight;
 
-            var class_id = { { id_list|safe }
-        };
-    for (let i = 0; i < class_id.length; i++) {
-
-        $('#editor1' + class_id[i])
+            $('#editor1')
             .css({
                 'position': 'absolute',
                 'height': editorH
             })
             .show();
-    }
-    },
-    setup: function(editor) {
-        editor.on('change',
-            function() {
-                editor.save();
-            });
+        },
+        setup: function (editor) {
+            editor.on('change', function () {
+            editor.save();
+        });
     }
     });
 
@@ -95,6 +82,7 @@
     }
 
 </script>
+
 
 <head>
     <meta charset="utf-8"/>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-15 14:07+0700\n"
+"POT-Creation-Date: 2022-02-22 22:29+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\KmuttSearchEngine\settings.py:144
+#: .\KmuttSearchEngine\settings.py:145
 msgid "English"
 msgstr ""
 
-#: .\KmuttSearchEngine\settings.py:145
+#: .\KmuttSearchEngine\settings.py:146
 msgid "Thai"
 msgstr ""
 
@@ -72,11 +72,12 @@ msgid "Date Created"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:358
-#: .\app\templates\app\profile.html:98 .\app\templates\app\profile.html:143
+#: .\app\templates\app\profile.html:131 .\app\templates\app\profile.html:176
 msgid "Role"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:359
+#: .\app\templates\app\request_user.html:171
 msgid "Status"
 msgstr ""
 
@@ -85,6 +86,7 @@ msgid "Last Login"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:361
+#: .\app\templates\app\request_user.html:174
 #: .\env\Lib\site-packages\grappelli\templates\admin\object_history.html:28
 msgid "Action"
 msgstr ""
@@ -140,7 +142,7 @@ msgid "Unsuspended"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:446
-#: .\app\templates\app\profile.html:72
+#: .\app\templates\app\profile.html:105
 msgid "Edit"
 msgstr ""
 
@@ -171,24 +173,24 @@ msgstr ""
 #: .\app\templates\app\Usermanagement.html:477
 #: .\app\templates\app\Usermanagement.html:483
 #: .\app\templates\app\Usermanagement.html:489
-#: .\app\templates\app\profile.html:121 .\app\templates\app\profile.html:127
-#: .\app\templates\app\profile.html:133
+#: .\app\templates\app\profile.html:154 .\app\templates\app\profile.html:160
+#: .\app\templates\app\profile.html:166
 msgid "Male"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:478
 #: .\app\templates\app\Usermanagement.html:484
 #: .\app\templates\app\Usermanagement.html:490
-#: .\app\templates\app\profile.html:122 .\app\templates\app\profile.html:128
-#: .\app\templates\app\profile.html:134
+#: .\app\templates\app\profile.html:155 .\app\templates\app\profile.html:161
+#: .\app\templates\app\profile.html:167
 msgid "Female"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:479
 #: .\app\templates\app\Usermanagement.html:485
 #: .\app\templates\app\Usermanagement.html:491
-#: .\app\templates\app\profile.html:123 .\app\templates\app\profile.html:129
-#: .\app\templates\app\profile.html:135
+#: .\app\templates\app\profile.html:156 .\app\templates\app\profile.html:162
+#: .\app\templates\app\profile.html:168
 msgid "Other"
 msgstr ""
 
@@ -247,31 +249,40 @@ msgid "Suspended By:"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:617
+#: .\app\templates\app\request_user.html:240
 msgid "Showing"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:617
+#: .\app\templates\app\request_user.html:240
 msgid "out of"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:617
+#: .\app\templates\app\request_user.html:240
 msgid "entries"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:626
 #: .\app\templates\app\Usermanagement.html:631
 #: .\app\templates\app\Usermanagement.html:632
+#: .\app\templates\app\request_user.html:249
+#: .\app\templates\app\request_user.html:254
+#: .\app\templates\app\request_user.html:255
 msgid "Previous"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:650
 #: .\app\templates\app\Usermanagement.html:657
 #: .\app\templates\app\Usermanagement.html:658
+#: .\app\templates\app\request_user.html:273
+#: .\app\templates\app\request_user.html:280
+#: .\app\templates\app\request_user.html:281
 msgid "Next"
 msgstr ""
 
 #: .\app\templates\app\Viewquestion.html:31
-msgid "View form"
+msgid "View question"
 msgstr ""
 
 #: .\app\templates\app\index.html:236
@@ -318,7 +329,7 @@ msgstr ""
 msgid "Views"
 msgstr ""
 
-#: .\app\templates\app\layout.html:122
+#: .\app\templates\app\layout.html:282
 #: .\env\Lib\site-packages\grappelli\dashboard\templates\admin\index.html:25
 #: .\env\Lib\site-packages\grappelli\templates\admin\500.html:9
 #: .\env\Lib\site-packages\grappelli\templates\admin\app_index.html:11
@@ -356,64 +367,111 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: .\app\templates\app\layout.html:126
+#: .\app\templates\app\layout.html:287
 msgid "Admin"
 msgstr ""
 
-#: .\app\templates\app\layout.html:130
+#: .\app\templates\app\layout.html:291
+#: .\app\templates\app\request_user.html:164
 msgid "My Requests"
 msgstr ""
 
-#: .\app\templates\app\layout.html:144
+#: .\app\templates\app\layout.html:306
 msgid "Search"
 msgstr ""
 
-#: .\app\templates\app\layout.html:175
+#: .\app\templates\app\layout.html:354 .\app\templates\app\profile.html:96
 msgid "Profile"
 msgstr ""
 
-#: .\app\templates\app\layout.html:176
+#: .\app\templates\app\layout.html:355
 msgid "Requests"
 msgstr ""
 
-#: .\app\templates\app\layout.html:178
+#: .\app\templates\app\layout.html:357
 msgid "Logout"
 msgstr ""
 
-#: .\app\templates\app\profile.html:75
+#: .\app\templates\app\profile.html:97
+msgid "Request"
+msgstr ""
+
+#: .\app\templates\app\profile.html:98
+msgid "Search history"
+msgstr ""
+
+#: .\app\templates\app\profile.html:99
+msgid "View history"
+msgstr ""
+
+#: .\app\templates\app\profile.html:108
 msgid "My Profile"
 msgstr ""
 
-#: .\app\templates\app\profile.html:81
+#: .\app\templates\app\profile.html:114
 msgid "First name"
 msgstr ""
 
-#: .\app\templates\app\profile.html:84 .\app\templates\app\profile.html:110
+#: .\app\templates\app\profile.html:117 .\app\templates\app\profile.html:143
 msgid "Surname"
 msgstr ""
 
-#: .\app\templates\app\profile.html:89 .\app\templates\app\profile.html:115
+#: .\app\templates\app\profile.html:122 .\app\templates\app\profile.html:148
 msgid "E-mail"
 msgstr ""
 
-#: .\app\templates\app\profile.html:92 .\app\templates\app\profile.html:118
+#: .\app\templates\app\profile.html:125 .\app\templates\app\profile.html:151
 msgid "Gender"
 msgstr ""
 
-#: .\app\templates\app\profile.html:95 .\app\templates\app\profile.html:140
+#: .\app\templates\app\profile.html:128 .\app\templates\app\profile.html:173
 msgid "Birthday Date"
 msgstr ""
 
-#: .\app\templates\app\profile.html:101 .\app\templates\app\profile.html:146
+#: .\app\templates\app\profile.html:134 .\app\templates\app\profile.html:179
 msgid "Phone No"
 msgstr ""
 
-#: .\app\templates\app\profile.html:107
+#: .\app\templates\app\profile.html:140
 msgid "First Name"
 msgstr ""
 
-#: .\app\templates\app\profile.html:153
+#: .\app\templates\app\profile.html:186
 msgid "Save Profile"
+msgstr ""
+
+#: .\app\templates\app\request_user.html:161
+#: .\env\Lib\site-packages\grappelli\dashboard\templates\grappelli\dashboard\modules\app_list.html:19
+#: .\env\Lib\site-packages\grappelli\dashboard\templates\grappelli\dashboard\modules\model_list.html:9
+#: .\env\Lib\site-packages\grappelli\templates\admin\app_index.html:30
+#: .\env\Lib\site-packages\grappelli\templates\admin\change_form.html:159
+#: .\env\Lib\site-packages\grappelli\templates\admin\index.html:44
+#: .\env\Lib\site-packages\grappelli\templates\related_widget_wrapper.html:18
+msgid "Add"
+msgstr ""
+
+#: .\app\templates\app\request_user.html:170
+msgid "Type"
+msgstr ""
+
+#: .\app\templates\app\request_user.html:172
+msgid "Last updated"
+msgstr ""
+
+#: .\app\templates\app\request_user.html:173
+msgid "Created on"
+msgstr ""
+
+#: .\app\templates\app\request_user.html:183
+msgid "Waiting for approval"
+msgstr ""
+
+#: .\app\templates\app\request_user.html:185
+msgid "Approved"
+msgstr ""
+
+#: .\app\templates\app\request_user.html:187
+msgid "Rejected"
 msgstr ""
 
 #: .\app\templates\password_reset.html:272
@@ -435,33 +493,33 @@ msgstr ""
 msgid "Your password has been set. You may go ahead and log in now."
 msgstr ""
 
-#: .\app\templates\password_reset_form.html:297
+#: .\app\templates\password_reset_form.html:294
 msgid "Resetting password"
 msgstr ""
 
-#: .\app\templates\password_reset_form.html:299
+#: .\app\templates\password_reset_form.html:296
 msgid "Your password must contain at least 8 characters."
 msgstr ""
 
-#: .\app\templates\password_reset_form.html:300
+#: .\app\templates\password_reset_form.html:297
 msgid "Your password cannot be a commonly used password."
 msgstr ""
 
-#: .\app\templates\password_reset_form.html:301
+#: .\app\templates\password_reset_form.html:298
 msgid "Your password cannot be entirely numeric."
 msgstr ""
 
-#: .\app\templates\password_reset_form.html:305
+#: .\app\templates\password_reset_form.html:302
 #: .\env\Lib\site-packages\grappelli\templates\registration\password_reset_confirm.html:21
 msgid "New password:"
 msgstr ""
 
-#: .\app\templates\password_reset_form.html:310
+#: .\app\templates\password_reset_form.html:307
 #: .\env\Lib\site-packages\grappelli\templates\registration\password_reset_confirm.html:26
 msgid "Confirm password:"
 msgstr ""
 
-#: .\app\templates\password_reset_form.html:315
+#: .\app\templates\password_reset_form.html:312
 msgid "Confirm"
 msgstr ""
 
@@ -2065,15 +2123,6 @@ msgstr ""
 
 #: .\env\Lib\site-packages\grappelli\dashboard\modules.py:356
 msgid "RSS Feed"
-msgstr ""
-
-#: .\env\Lib\site-packages\grappelli\dashboard\templates\grappelli\dashboard\modules\app_list.html:19
-#: .\env\Lib\site-packages\grappelli\dashboard\templates\grappelli\dashboard\modules\model_list.html:9
-#: .\env\Lib\site-packages\grappelli\templates\admin\app_index.html:30
-#: .\env\Lib\site-packages\grappelli\templates\admin\change_form.html:159
-#: .\env\Lib\site-packages\grappelli\templates\admin\index.html:44
-#: .\env\Lib\site-packages\grappelli\templates\related_widget_wrapper.html:18
-msgid "Add"
 msgstr ""
 
 #: .\env\Lib\site-packages\grappelli\dashboard\templates\grappelli\dashboard\modules\recent_actions.html:18
