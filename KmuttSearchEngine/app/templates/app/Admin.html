@@ -17,7 +17,10 @@
     <br/>
     <br/>
     <a href="{% url 'user' %}" class="btn btn-primary">
-        <i class="material-icons"></i> <span>{% translate "Usermanagement" %}</span>
+        <i class="material-icons"></i> <span>{% translate "User management" %}</span>
+    </a>
+    <a href="{% url 'request_admin' operation='view'%}" class="btn btn-primary">
+        <i class="material-icons"></i> <span>{% translate "Request management" %}</span>
     </a>
 </div>
 

@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.shortcuts import render
+from numpy import append
 from app.models import *
 from django.http import HttpRequest
 
@@ -177,9 +178,16 @@ def queryDb_User(id):
    
    query = userinfo.objects.filter(id=id)
 
-   for user in query:   
+   for user in query:
        role = user_role.objects.get(role_code=user.role_code)
        user.role_code = role.role_name
+
+   return query
+
+def queryDb_multi_User(id):
+
+   query = [userinfo.objects.filter(id= x).only('username','path_profile_pic') for x in id]
+   query = [data for user in query for data in user]
 
    return query
 
@@ -233,6 +241,19 @@ def queryDb_Request_user(id):
           query = "Error"
 
      return query
+
+def queryDb_request_all():
+
+     try:
+          QArequestDto.reset()
+          query = list(QArequest.objects.order_by('-created_date','-created_time'))
+          for item in query:
+               QArequestDto.user_id.append(item.user_id)
+
+     except:
+          query = "Error"
+
+     return query, QArequestDto
 
 def queryDb_onerequest(id):
  

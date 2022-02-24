@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+{% extends "app/layout.html" %}
+
+{% block content %}
+{% load static %}
+{% load i18n %}
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Bootstrap User Management Data Table</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<style>
+    body {
+        background: #f5f5f5;
+        color: #566787;
+        font-family: 'Prompt', sans-serif;
+    }
+
+    .table-responsive { margin: 30px -9%;
+        width: initial;
+    }
+
+    .table-wrapper {
+        background: #fff;
+        border-radius: 3px;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+        width: 1300px;
+        padding: 20px 25px;
+    }
+
+    .table-title {
+        background: #1c768f;
+        border-radius: 3px 3px 0 0;
+        color: #fff;
+        margin: -20px -25px 10px;
+        padding: 16px 30px;
+        padding-bottom: 15px;
+    }
+
+    .table-title h2 {
+        font-size: 24px;
+        margin: 5px 0 0;
+    }
+
+    .table-title .btn {
+        background: #fff;
+        border: none;
+        border: none;
+        border-radius: 2px;
+        color: #566787;
+        float: right;
+        font-size: 13px;
+        margin-left: 10px;
+        min-width: 50px;
+        outline: none !important;
+    }
+
+    .table-title .btn:hover, .table-title .btn:focus {
+        background: #f2f2f2;
+        color: #566787;
+    }
+
+    .table-title .btn i {
+        float: left;
+        font-size: 21px;
+        margin-right: 5px;
+    }
+
+    .table-title .btn span {
+        float: left;
+        margin-top: 2px;
+    }
+
+    table.table tr th, table.table tr td {
+        border-color: #e9e9e9;
+        padding: 12px 15px;
+        vertical-align: middle;
+    }
+
+    table.table tr th:first-child { width: 60px; }
+
+    table.table tr th:last-child { width: 100px; }
+
+    table.table-striped tbody tr:nth-of-type(odd) { background-color: #fcfcfc; }
+
+    table.table-striped.table-hover tbody tr:hover { background: #f5f5f5; }
+
+    table.table th i {
+        cursor: pointer;
+        font-size: 13px;
+        margin: 0 5px;
+    }
+
+    table.table td:last-child i {
+        font-size: 22px;
+        margin: 0 5px;
+        opacity: 0.9;
+    }
+
+    table.table td a {
+        color: #566787;
+        display: inline-block;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    table.table td a:hover { color: #2196F3; }
+
+    table.table td a.settings { color: #2196F3; }
+
+    table.table td a.delete { color: #F44336; }
+
+    table.table td i { font-size: 19px; }
+
+    table.table .avatar {
+        border-radius: 50%;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+
+    .status {
+        display: inline-block;
+        font-size: 30px;
+        line-height: 10px;
+        margin: 2px 2px 0 0;
+        vertical-align: middle;
+    }
+
+    .text-success { color: #10c469; }
+
+    .text-info { color: #62c9e8; }
+
+    .text-warning { color: #FFC107; }
+
+    .text-danger { color: #ff5b5b; }
+
+    .pagination { justify-content: center; }
+
+    .page-item.active .page-link {
+        #background-color: #e87639;
+        #border-color: #e87639;
+    }
+
+    .page-item:first-child .page-link {
+        border-bottom-left-radius: 0.25rem;
+        border-top-left-radius: 0.25rem;
+        margin-left: 0;
+    }
+
+    .pagination li:last-child .page-link {
+        border-bottom-right-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
+        margin-right: 1px;
+    }
+
+
+    .hint-text {
+        float: left;
+        font-size: 13px;
+        margin-top: 10px;
+    }
+
+    .avatar {
+        height: 55px;
+        width: 55px;
+    }
+
+    .modal-confirm .modal-content {
+        height: fit-content;
+        margin-top: 50%;
+    }
+
+    .modal-confirm {
+        color: #636363;
+        width: 450px;
+    }
+
+    .modal-confirm .modal-content {
+        border: none;
+        border-radius: 5px;
+        padding: 20px;
+    }
+
+    .modal-confirm .modal-header {
+        border-bottom: none;
+        position: relative;
+    }
+
+    .modal-confirm h4 {
+        font-size: 26px;
+        margin: 30px 0 -15px;
+        text-align: center;
+    }
+
+    .modal-confirm .form-control, .modal-confirm .btn {
+        border-radius: 3px;
+        min-height: 40px;
+    }
+
+    .modal-confirm .close {
+        position: absolute;
+        right: -5px;
+        top: -5px;
+    }
+
+    .modal-confirm .modal-footer {
+        border: none;
+        border-radius: 5px;
+        font-size: 13px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+
+    .modal-confirm .icon-box {
+        background: #ef513a;
+        border-radius: 50%;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+        color: #fff;
+        height: 95px;
+        left: 0;
+        margin: 0 auto;
+        padding: 15px;
+        position: absolute;
+        right: 0;
+        text-align: center;
+        top: -70px;
+        width: 95px;
+        z-index: 9;
+    }
+
+    .modal-confirm .icon-box i {
+        font-size: 56px;
+        position: relative;
+        top: 4px;
+    }
+
+    .modal-confirm.modal-dialog { margin-top: 80px; }
+
+    .modal-confirm .btn {
+        background: #ef513a;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        line-height: normal;
+        text-decoration: none;
+        transition: all 0.4s;
+    }
+
+    .modal-confirm .btn-secondary { background: #c1c1c1; }
+
+    .modal-confirm .btn:hover, .modal-confirm .btn:focus {
+        background: #da2c12;
+        outline: none;
+    }
+
+    .modal-confirm .btn-secondary:hover, .modal-confirm .btn-secondary:focus { background: #a8a8a8; }
+
+    #view_profile_pic {
+        width: 150px; 
+        height: 150px; 
+        border-radius: 50% 50% 50% 50%;
+        margin-left: 39%;
+        border: solid 4px #1a4d6a;
+    }
+
+    #Error {
+        background-color: #ffcccb;
+        border: 2px;
+        border-color: #ffcccb;
+        border-radius: 10px;
+        border-style: solid;
+        color: red;
+        height: 60px;
+        margin-bottom: 15px;
+        padding: 1em;
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+
+    disable_button = function(val) {
+
+        var id = $(val).attr("id").split("_")[1];
+
+        if (val.checked === true) {
+            $(`#reject_button_${id}`).removeAttr("disabled");
+        } else {
+            $(`#reject_button_${id}`).attr("disabled", "disabled");
+        }
+    };
+
+    disable_button2 = function(val) {
+
+        var id = $(val).attr("id").split("_")[1];
+  
+        if (val.checked === true) {
+            $(`#approve_button_${id}`).removeAttr("disabled");
+        } else {
+            $(`#approve_button_${id}`).attr("disabled", "disabled");
+        }
+    };
+
+    function shake() {
+        $("#Error").effect("shake");
+    }
+
+</script>
+</head>
+<body>
+<br></br>
+<br></br>
+<div class="container-xl" style="font-size: 14px;">
+<div class="table-responsive">
+<div class="table-wrapper">
+<div class="table-title">
+    <div class="row">
+        <div class="col-sm-5">
+            <h2>{% translate "Request <b>Management</b>" %}</h2>
+        </div>
+        <div class="col-sm-7">
+            <a href="{% url 'register' %}" class="btn btn-secondary">
+                <i class="material-icons">&#xE147;</i> <span>{% translate "Add New User" %}</span>
+            </a>
+            <a href="#" class="btn btn-secondary">
+                <i class="material-icons">&#xE24D;</i> <span>{% translate "Export to Excel" %}</span>
+            </a>
+        </div>
+    </div>
+</div>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th class="text-center">{% translate "Type" %}</th>
+        <th class="text-center">{% translate "Request By" %}</th>
+        <th class="text-center">{% translate "Status" %}</th>
+        <th class="text-center">{% translate "Last updated" %}</th>
+        <th>{% translate "Remark" %}</th>
+        <th class="text-center">{% translate "Action" %}</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    {% for user_data in query2 %}{% for request_data in query %} 
+    {% if forloop.counter == forloop.parentloop.counter %}
+    <td class="text-center"><b>{{request_data.request_type}}</b></td>
+    <td class="text-center">
+        {% if user_data.path_profile_pic is None %}
+        <a href="#" data-toggle="modal" data-target="#userview_{{user_data.id}}"><img src="{% static 'img/user.png' %}" class="avatar" alt="Avatar"> {{user_data.first_name}} {{user_data.last_name}} </a>
+        {% else %}
+        <a href="#" data-toggle="modal" data-target="#userview_{{user_data.id}}"><img src="{% static user_data.path_profile_pic %}" class="avatar" alt="Avatar"> {{user_data.first_name}} {{user_data.last_name}} </a>
+        {% endif %}
+    </td>
+    {% if request_data.status_id == 1 %}
+        <td class="text-center">Waiting for approval</td>
+    {% elif request_data.status_id == 2 %}
+        <td class="text-center">Approved</td>
+    {% elif request_data.status_id == 3 %}
+        <td class="text-center">Rejected</td>
+    {% endif %}
+        <td class="text-center" >{{request_data.updated_date}} {{request_data.updated_time|date:"G:i"}}
+        </td>
+        <td>{{request_data.remark}}</td>
+        <td class="text-center" colspan="1">
+            <button class="btn btn-success btn-sm" style="font-size: 13px;" data-toggle="modal" data-target="#approve_{{request_data.request_id}}">Approved</button>
+            <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#reject_{{request_data.request_id}}">Reject</button>
+        </td>
+        <td><button class="btn btn-link" data-toggle="collapse"
+            data-target="#request_{{request_data.request_id}}" aria-expanded="true"
+            aria-controls="collapseOne" style="float: right;">
+            <i class="material-icons" style="margin-top: -10px; color: #266867;">&#xe5d3;</i>
+        </button></td>
+
+        <tr id="request_{{request_data.request_id}}" class="collapse" aria-labelledby="headingOne"
+        data-parent="#request_{{request_data.request_id}}">
+        <td colspan=" 7">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>{% translate "Language" %}</th>
+                        <th>{% translate "Question" %}</th>
+                        <th>{% translate "Answer" %}</th>
+                        <th>{% translate "Remark" %}</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>TH</td>
+                    <td class="request_type">{{request_data.question}}</td>
+                    {% autoescape off %}
+                    <td class="request_type">{{request_data.answer}} </td>
+                    {% endautoescape %}
+                    <td class="request_type">{{request_data.remark}}</td>
+                </tr>
+                <tr>
+                    <td>EN</td>
+                    <td class="request_type">{{request_data.question_en}}</td>
+                    {% autoescape off %}
+                    <td class="request_type">{{request_data.answer_en}} </td>
+                    {% endautoescape %}
+                    <td class="request_type">{{request.remark}}</td>
+                </tr>
+        </td>
+    </table>
+    </tr>
+    <form method="post">
+        <div id="reject_{{request_data.request_id}}" class="modal fade">
+            <div class="modal-dialog modal-confirm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="icon-box">
+                            <i class="material-icons" style="font-size: 55px">&#xE5CD;</i>
+                        </div>
+                        <h4 class="modal-title w-100">{% translate "Confirm your process ?" %}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center">{% translate "Do you really want to reject" %} <b>{{user_data.username}}</b> {% translate "request? The process cannot be undone." %}</p>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1" >{% translate "Reasons:" %}</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" name ="reject_reason" rows="5" style="font-size: 13px;" required></textarea>
+                          </div>
+                        <input type="checkbox" id="requestid_{{ request_data.request_id }}" name="request_id" class="checkbox" value="{{ request_data.request_id }}" style="margin-left: 16%;" onClick="disable_button(this)"/> {% translate "Check the box to confirm the action." %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Cancel" %}</button>
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" id="reject_button_{{ request_data.request_id }}" formaction="{% url 'request_admin' operation='reject'%}" disabled="disabled">{% translate "Reject" %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+
+        <form method="post">
+        <div id="approve_{{request_data.request_id}}" class="modal fade">
+            <div class="modal-dialog modal-confirm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="icon-box" style="background-color: #1b9b42">
+                            <i class="material-icons" style="font-size: 55px;">&#xe5ca;</i>
+                        </div>
+                        <h4 class="modal-title w-100">{% translate "Confirm your process ?" %}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center">{% translate "Do you really want to approve" %} <b>{{user_data.username}}</b> {% translate "request?" %} </p>
+                        <br/>
+                        <input type="checkbox" id="requestid_{{ request_data.request_id }}" name="request_id" class="checkbox" value="{{ request_data.request_id }}" style="margin-left: 16%;" onClick="disable_button2(this)"/> {% translate "Check the box to confirm the action." %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Cancel" %}</button>
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success" id="approve_button_{{ request_data.request_id }}" formaction="{% url 'request_admin' operation='approve'%}" disabled="disabled" style="background-color: #1b9b42">{% translate "Approve" %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="modal fade" id="userview_{{user_data.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="width: 500px">
+            <div class="modal-content" style="border-color: transparent; border-radius: 10px;  width: 140%; margin-left: -21%;">
+                <div class="modal-header" style="background-color: #e87639; border-radius: 10px 10px 0 0;">
+                    <h5 class="modal-title" id="header_{{user_data.id}}" style="color: #ffffff">{{user_data.first_name}}'s profile </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        {% if user_data.path_profile_pic is not None %}
+                        <a href="#" data-toggle="modal" data-target="#userview_{{user_data.id}}"><img src="{% static user_data.path_profile_pic %}" id="view_profile_pic" class="avatar" alt="Avatar"></a>
+                        {% else %}
+                        <a href="#" data-toggle="modal" data-target="#userview_{{user_data.id}}"><img src="{% static 'img/user.png' %}" id="view_profile_pic" class="avatar" alt="Avatar"></a>
+                        {% endif %}
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                        <label class="col-form-label">{% translate "First name:" %}</label>
+                        <input type="text" class="form-control" id="first_name_{{user_data.id}}" name="first_name_{{user_data.id}}"value="{{user_data.first_name}}" readonly="readonly">
+                        </div>
+                        <div class="col">
+                        <label class="col-form-label">{% translate "Last name:" %}</label>
+                        <input type="text" class="form-control" id="last_name_{{user_data.id}}" name="last_name_{{user_data.id}}" value="{{user_data.last_name}}" readonly="readonly">
+                    </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                        <label class="col-form-label">{% translate "Date of birth:" %}</label>
+                        <input type="text" class="form-control" id="date_of_birth_{{user_data.id}}" name="date_of_birth_{{user_data.id}}" value="{{user_data.date_of_birth}}" readonly="readonly">
+                         </div>
+                        <div class="col">
+                            <label class="col-form-label">{% translate "Gender:" %}</label>
+                            <input type="text" class="form-control" id="gender{{user_data.id}}" name="gender_{{user_data.id}}" value="{{user_data.gender }}" readonly="readonly">
+                        </div>
+                    </div>
+                        <div class="form-group">
+                        <label class="col-form-label">{% translate "Email:" %}</label>
+                        <input type="text" class="form-control" id="email_{{user_data.id}}" name="email_{{user_data.id}}" value="{{user_data.email}}" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">{% translate "Phone No:" %}</label>
+                        <input type="text" class="form-control" id="phone_no_{{user_data.id}}" name="phone_no_{{user_data.id}}" value="{{user_data.phone_no}}" readonly="readonly">
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <label class="col-form-label">{% translate "Create Date:" %}</label>
+                            <input type="text" class="form-control" id="create_date_{{user_data.id}}" name="create_date_{{user_data.id}}" value="{{user_data.created_date}}" readonly="readonly">
+                        </div>
+                        <div class="col">
+                            <label class="col-form-label">{% translate "Create Time:" %}</label>
+                            <input type="text" class="form-control" id="create_time_{{user_data.id}}" name="create_time_{{user_data.id}}" value="{{user_data.created_time}}" readonly="readonly">
+                        </div>
+                        <div class="col">
+                            <label class="col-form-label">{% translate "Create By:" %}</label>
+                            <input type="text" class="form-control" id="create_by_{{user_data.id}}" name="create_by_{{user_data.id}}" value="{{user_data.created_by}}" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                        <label class="col-form-label">{% translate "Update Date:" %}</label>
+                        <input type="text" class="form-control" id="update_date_{{user_data.id}}" name="update_date_{{user_data.id}}" value="{{user_data.updated_date}}" readonly="readonly">
+                        </div>
+                        <div class="col">
+                        <label class="col-form-label">{% translate "Update Time:" %}</label>
+                        <input type="text" class="form-control" id="update_time_{{user_data.id}}" name="update_time_{{user_data.id}}" value="{{user_data.updated_time}}" readonly="readonly">
+                        </div>
+                        <div class="col">
+                            <label class="col-form-label">{% translate "Update By:" %}</label>
+                            <input type="text" class="form-control" id="update_by_{{user_data.id}}" name="update_by_{{user_data.id}}" value="{{user_data.updated_by}}" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                        <label class="col-form-label">{% translate "Suspended date:" %}</label>
+                        <input type="text" class="form-control" id="suspended_date_{{user_data.id}}" name="suspended_date_{{user_data.id}}" value="{{user_data.suspended_date}}" readonly="readonly">
+                        </div>
+                        <div class="col">
+                        <label class="col-form-label">{% translate "Suspended Time:" %}</label>
+                        <input type="text" class="form-control" id="suspended_time_{{user_data.id}}" name="suspended_time_{{user_data.id}}" value="{{user_data.suspended_time}}" readonly="readonly">
+                        </div>
+                        <div class="col">
+                            <label class="col-form-label">{% translate "Suspended By:" %}</label>
+                            <input type="text" class="form-control" id="suspended_by_{{user_data.id}}" name="suspended_by_{{user_data.id}}" value="{{user_data.suspended_by}}" readonly="readonly">
+                        </div>
+                    </div>
+                    <br/>
+                </div>
+        </div>
+    </div>
+    </div>
+    </tr>
+    </tbody>  
+    {% endif %}
+    {% endfor %}{% endfor %}
+</table>
+
+<div id="success_modal" name = "success_modal" class="modal fade in">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="icon-box" style="background-color: #1b9b42">
+                <i class="material-icons" style="font-size: 55px;">&#xe5ca;</i>
+                </div>
+            <h4 class="modal-title w-100 justify-content-center">{% translate "Successful" %}</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center" style="font-size: 15px;">       
+                {% for message in messages %}
+                {{message}}
+                {% endfor %} 
+                </p>
+                <br/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">{% translate "Close" %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+<script>$("#success_modal").modal()</script>
+{% endif %}
+
+<div class="clearfix">
+    <div class="hint-text">
+        {% translate "Showing"%} <b>{{ query.end_index }}</b> {% translate "out of" %} <b>{{query.paginator.count }} {% translate "entries" %} </b>
+    </div>
+</div>
+<br />
+<nav aria-label="Page navigation example">
+    {% if query.has_other_pages %}
+    <ul style="display: flex;" class="pagination">
+        {% if query.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ query.previous_page_number }}">{% translate "Previous" %}</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">{% translate "Previous" %}</span>
+                <span class="sr-only">{% translate "Previous" %}</span>
+            </a>
+        </li>
+        {% endif %}
+        {% for i in query.paginator.page_range %}
+        {% if query.number == i %}
+        <li class="page-item active">
+            <span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ i }}" name="page">{{ i }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+        {% if query.has_next %}
+        <ul class="pagination">
+            <li>
+                <a class="page-link" href="?page={{ query.next_page_number }}">{% translate "Next" %}</a>
+            </li>
+        </ul>
+        {% else %}
+
+        <li class="page-item disabled">
+            <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">{% translate "Next" %}</span>
+                <span class="sr-only">{% translate "Next" %}</span>
+            </a>
+        </li>
+        {% endif %}
+        {% endif %}
+    </ul>
+</nav>
+</div>
+</div>
+
+</body>
+{% endblock %}
+</html>

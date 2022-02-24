@@ -185,7 +185,7 @@ def question(request, id):
 
 @login_required(login_url='/login')
 def Admin(request):
-    """Renders the about page."""
+
     assert isinstance(request, HttpRequest)
     return render(
         request,
@@ -563,7 +563,7 @@ def requestmanagement(request, operation):
             if result is "Error":
                 return redirect('home')
             else:
-                messages.info(request, "Your request has been successfully deleted.")
+                messages.info(request, _("Your request has been successfully deleted."))
                 return redirect('request', operation='view_user')
 
         if result is "Error":
@@ -582,3 +582,59 @@ def requestmanagement(request, operation):
             
     else:
         return redirect('home')
+
+def request_admin(request, operation):
+
+    if operation == 'view':
+        query_request, QArequestDto = queryDb_request_all()
+        query_user = queryDb_multi_User(QArequestDto.user_id)
+
+        page = request.GET.get('page', 1)
+        if page == 1:
+            query_request, QArequestDto = queryDb_request_all()
+        paginator1 = Paginator(query_request, 7)
+        try:
+            query1 = paginator1.page(page)
+        except PageNotAnInteger:
+            query1 = paginator1.page(1)
+        except EmptyPage:
+            query1 = paginator1.page(paginator1.num_pages)
+
+        page = request.GET.get('page', 1)
+        if page == 1:
+            query_request, QArequestDto = queryDb_request_all()
+            query_user = queryDb_multi_User(QArequestDto.user_id)
+        paginator2 = Paginator(query_user, 7)
+        try:
+            query2 = paginator2.page(page)
+        except PageNotAnInteger:
+            query2 = paginator2.page(1)
+        except EmptyPage:
+            query2 = paginator2.page(paginator2.num_pages)
+
+        if query_request is "Error":
+            return redirect('home')
+        else:
+            return render(request, 'app/request_admin.html',{'query': query1,'query2':query2})
+        
+    elif operation == 'reject':
+
+        id = request.POST.get('request_id')
+        print(id)
+        reject_reason = request.POST.get('reject_reason')
+        print (reject_reason)
+        #if query_request is "Error":
+         #   return redirect('home')
+        #else:
+        messages.info(request, _("Successfully rejected the request"))
+        return redirect('request_admin', operation = "view")
+    
+    elif operation == 'approve':
+
+        id = request.POST.get('request_id')
+        print(id)
+        #if query_request is "Error":
+         #   return redirect('home')
+        #else:
+        messages.info(request, _("Successfully approved the request"))
+        return redirect('request_admin', operation = "view")
