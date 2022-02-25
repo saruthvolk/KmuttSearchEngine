@@ -66,7 +66,7 @@
     <br>
     <h1>View request</h1>
     <br>
-    {% for QArequest in query %}
+    {% for data in request_data %}
     <div class="id" id="{{id_list}}"></div>
     <form method="POST" class="was-validated">
         {% csrf_token %}
@@ -75,46 +75,46 @@
             <thead class="thead-dark">
             <th scope="col" colspan="6">
                 <label type="text" name="question"> Request ID </label>
-                <label type="text" name="question_id">{{request_data.request_id}} </label>
+                <label type="text" name="question_id">{{data.request_id}} </label>
             </th>
             </thead>
             <tr>
             <td >Remark</td>
             <td colspan="2">
-                <input type="text" class="form-control" name="remark" value="{{request_data.remark}}" readonly disabled/>
+                <input type="text" class="form-control" name="remark" value="{{data.remark}}" readonly disabled/>
             </td>
             </tr>
             <tr>
                 <td >Department</td>
                 <td colspan="2">
-                    <input type="text" class="form-control" name="remark" value="{{request_data.department_id}}" readonly disabled/>
+                    <input type="text" class="form-control" name="remark" value="{{data.department_id}}" readonly disabled/>
                 </td>
                 </tr>
 
                 <tr>
             <td>Question</td>
             <td colspan="6">
-                <input type="text" name="request_id" value="{{request_data.request_id}}" hidden  />
+                <input type="text" name="request_id" value="{{data.request_id}}" hidden  />
                 <input type="text" name="user_id" value="{{user_query.id}}" hidden />
-                <input type="text" class="form-control" name="question" value="{{request_data.question}}" readonly disabled/>
+                <input type="text" class="form-control" name="question" value="{{data.question}}" readonly disabled/>
             </td>
             <tr>
                 <td>Answer</td>
                 <td colspan="10">
                     <span style="white-space: pre-line">
-                        <textarea name = "answer" class="editor" id="editor{{request_data.id}}" readonly disabled>{{request_data.answer}}</textarea>
+                        <textarea name = "answer" class="editor" id="editor{{data.id}}" readonly disabled>{{data.answer}}</textarea>
                     </span>
                 </td>
             </tr>
             <td >Question EN</td>
             <td colspan="2">
-                <input type="text" class="form-control" name="question_en" value="{{request_data.question_en}}" readonly disabled/>
+                <input type="text" class="form-control" name="question_en" value="{{data.question_en}}" readonly disabled/>
             </td>
             <tr>
                 <td>Answer en</td>
                 <td colspan="6">
                     <span style="white-space: pre-line">
-                        <textarea name = "answer_en" class="editor_en" id="editor1{{request_data.id}}" readonly disabled>{{request_data.answer_en}}</textarea>
+                        <textarea name = "answer_en" class="editor_en" id="editor1{{request_data.id}}" readonly disabled>{{data.answer_en}}</textarea>
                     </span>
                 </td>
             </tr>

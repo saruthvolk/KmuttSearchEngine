@@ -258,10 +258,11 @@ def queryDb_request_all():
 def queryDb_onerequest(id):
  
      try:
-          query = QArequest.objects.get(request_id = id)
-          #for item in query:
-          #     temp = department.objects.get(department_id=item.department_id)
-          #     item.department_id = temp.department_name
+          query = list(QArequest.objects.filter(request_id = id))
+          for item in query:
+               print("lol")
+               temp = department.objects.get(department_id=item.department_id)
+               item.department_id = temp.department_name
      except:
           query = "Error"
 
