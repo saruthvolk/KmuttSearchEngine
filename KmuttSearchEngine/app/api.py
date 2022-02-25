@@ -7,6 +7,7 @@ import time
 def get_notification(request):
 
     if request.method == "POST":
+        user_lang = request.LANGUAGE_CODE
         query = queryDb_request()
 
         for count, id  in enumerate(query.user_id):

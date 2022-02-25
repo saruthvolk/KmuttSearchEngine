@@ -557,6 +557,7 @@ def requestmanagement(request, operation):
         if result is "Error":
             return redirect('home')
         else:
+            messages.info(request, _("Your request has been successfully edited."))
             return redirect('request', operation='view_user')
 
     elif operation == 'editquestion':

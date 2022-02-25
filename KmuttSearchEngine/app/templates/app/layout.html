@@ -43,7 +43,7 @@
             width: 45px;
         }
 
-        #profile_pic_noti{
+        #profile_pic_noti {
             background-image: url("{% static request.user.path_profile_pic %}");
             background-size: 46px 46px;
             border-color: #343a40;
@@ -54,7 +54,7 @@
             position: relative;
             width: 55px;
         }
-    
+
         #profile_menu {
             margin-right: 50%;
         }
@@ -147,13 +147,21 @@
             position: relative;
         }
 
-        #request{
+        #request_status{
+
+            margin-left:60px; 
+            font-size:15px; 
+            margin-top: -13px;
+        }
+        #request {
             font-size: 15px;
-            display: block; 
-            margin-left: 60px; 
+            display: block;
+            margin-left: 60px;
             margin-top: -35px;
         }
-        .dropdown-item:active, .dropdown-item:hover{
+
+        .dropdown-item:active,
+        .dropdown-item:hover {
             background-color: #f3f3f3;
             color: #343a40;
             border-radius: 10px;
@@ -168,31 +176,21 @@
             var seconds = nowTs - ts;
 
             // more that two days
-            if (seconds > 2 * 24 * 3600) {
-                return "a few days ago";
-            }
-            // a day
             if (seconds > 24 * 3600) {
-                return "yesterday";
+                return Math.floor(seconds / 86400) + "{% translate ' days ago' %}";
             }
-            if (seconds > 7200){
-                return Math.floor(seconds / 3600) + " hours ago";
-            }   
             if (seconds > 3600) {
-                return "a few hours ago";
-            }
-            if (seconds > 1800) {
-                return "Half an hour ago";
+                return Math.floor(seconds / 3600) + "{% translate ' hours ago' %}";
             }
             if (seconds >= 60) {
-                return Math.floor(seconds / 60) + " minutes ago";
+                return Math.floor(seconds / 60) + "{% translate ' minutes ago' %}";
             }
             if (seconds <= 59) {
-                return seconds + " seconds ago";
+                return seconds + "{% translate ' seconds ago' %}";
             }
         }
 
-        submit_form = function(val){
+        submit_form = function (val) {
             var id = $(val).attr("id").split("_")[1];
             $(`#request_id_${id}`).prop("checked", true);
             $(`#noti_${id}`).submit();
@@ -213,6 +211,35 @@
 
         }
 
+        translate_status = function (val) {
+            if (val == '1') {
+                status = '<p id="request_status" style="color: #f59300"><span style="color:black">{% translate "Status"%}:</span> {% translate "Waiting for approval"%} </p>'
+            }
+            else if (val == '2') {
+                status = '<p id="request_status" style="color: green;"><span style="color:black">{% translate "Status"%}:</span> {% translate "Approved"%} </p>'
+            }
+            else if (val == '3') {
+                status = '<p id="request_status" style="color: #db1e1e;"><span style="color:black">{% translate "Status"%}:</span> {% translate "Rejected"%} </p>'
+            }
+            return status
+        }
+
+        translate_type = function (val) {
+            if (val == 'Add') {
+                type = "{% translate 'Add' %}";
+            }
+            else if (val == 'Edit') {
+                type = "{% translate 'Edit' %}";
+            }
+            else if (val == 'Remove') {
+                type = "{% translate 'Remove' %}";
+            }
+            return type
+        }
+
+        get_status_color = function(val){
+            window.alert(val)
+        }
 
         $(function () {
             setInterval(get_notification, 180000);
@@ -228,18 +255,21 @@
                 success: function (response) {
                     let html_data = '<a class="dropdown-item" href="{% url "request" operation="view" %}" value="" hidden></a>';
                     response.user_id.forEach(function iterate(data, index) {
+                        status = translate_status(response.status[index])
+                        type = translate_type(response.type[index])
+
                         html_data += `<div class="notification">
                     <form id = "noti_${response.request_id[index]}" method="post" action = "{% url 'request' operation='view' %}">
                     {% csrf_token %}
                     <a class="dropdown-item" type = "submit" href="javascript:{}" onclick="submit_form(this)" id="noti_${response.request_id[index]}" 
                     value="${data}" style="height: 130px; margin-bottom: -28px; margin-top: -28px">
                     <img src="/static/${response.path[index]}" id="profile_pic_noti" class="avatar" alt="Avatar" style="margin-left:-10px; margin-top: 13px;">
-                    <p id="request" style="font-size:15px; margin-top: -55px;"">Request: ${response.type[index]}</p>
-                    <p style="margin-left:60px; font-size:15px; margin-top: -13px;" id="request_status">Status: ${response.status[index]}</p>
-                    <br/><p style="margin-left:60px; font-size:15px;" id="request">Requested by: ${data}</p>
+                    <p id="request" style="font-size:15px; margin-top: -55px;"">{% translate "Request"%}: ${type} </p>
+                    ${status}
+                    <br/><p style="margin-left:60px; font-size:15px;" id="request">{% translate "Requested by"%}: ${data}</p>
                     <br>
                     <input type="checkbox" name="request_id" value="${response.request_id[index]}" id="request_id_${response.request_id[index]}" hidden/>
-                    <a style="float:right; font-size:13px">${time2TimeAgo(response.time[index])}</a></a>
+                    <a style="float:right; font-size:13px; margin-left:-5px">${time2TimeAgo(response.time[index])}</a></a>
                     <br>
                     <div class="dropdown-divider"></div>
                     <br>
@@ -281,7 +311,8 @@
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'request' operation='view_user' %}">{% translate "My Requests" %}</a>
+                    <a class="nav-link" href="{% url 'request' operation='view_user' %}">{% translate "My Requests"
+                        %}</a>
                 </li>
                 {% endif %}
                 <li class="nav-item dropdown" hidden>
@@ -331,8 +362,9 @@
                             style="margin-top: 12px; margin-left: 5px; margin-right: -7px;"></i><span
                             class="badge"></span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notification" id="notification_info" style="max-height: 850px; overflow-y: auto;">
-                        <h5 style="margin-left: 10px; margin-top: 4px;">Notifications</h5>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notification" id="notification_info"
+                        style="max-height: 850px; overflow-y: auto;">
+                        <h5 style="margin-left: 10px; margin-top: 4px;">{% translate "Notifications" %}</h5>
                         <hr style="margin-bottom: 35px;">
                         <div id="notification_tab"></div>
                     </div>
@@ -345,9 +377,11 @@
                     <div class="dropdown-menu">
                         <a href="{% url 'profile' operation='view' %}" class="dropdown-item"><i class="fas fa-user"></i>
                             {% translate "Profile" %}</a>
-                        <a href="{% url 'request' operation='view_user' %}" class="dropdown-item"><i class="far fa-clipboard"></i> {% translate "Requests"%}</a>
+                        <a href="{% url 'request' operation='view_user' %}" class="dropdown-item"><i
+                                class="far fa-clipboard"></i> {% translate "Requests"%}</a>
                         <div class="dropdown-divider"></div>
-                        <a href="/logout" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> {% translate "Logout" %}</a>
+                        <a href="/logout" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> {% translate
+                            "Logout" %}</a>
                     </div>
                 </div>
             </div>
