@@ -3,6 +3,7 @@
 {% block content %}
 {% load static %}
 <!DOCTYPE html>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <style>
     @media only screen and (max-width: 767px) {
         .list-group{
@@ -65,21 +66,134 @@
     }
 
     .row{
-        margin-top: 10%;
+        margin-top: 8%;
     }   
+    .modal-confirm .modal-content {
+        height: fit-content;
+        margin-top: 50%;
+    }
+
+    .modal-confirm {
+        color: #636363;
+        width: 450px;
+    }
+
+    .modal-confirm .modal-content {
+        border: none;
+        border-radius: 5px;
+        padding: 20px;
+    }
+
+    .modal-confirm .modal-header {
+        border-bottom: none;
+        position: relative;
+    }
+
+    .modal-confirm h4 {
+        font-size: 26px;
+        margin: 30px 0 -15px;
+        text-align: center;
+    }
+
+    .modal-confirm .form-control,
+    .modal-confirm .btn {
+        border-radius: 3px;
+        min-height: 40px;
+    }
+
+    .modal-confirm .close {
+        position: absolute;
+        right: -5px;
+        top: -5px;
+    }
+
+    .modal-confirm .modal-footer {
+        border: none;
+        border-radius: 5px;
+        font-size: 13px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+
+    .modal-confirm .icon-box {
+        background: #ef513a;
+        border-radius: 50%;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+        color: #fff;
+        height: 95px;
+        left: 0;
+        margin: 0 auto;
+        padding: 15px;
+        position: absolute;
+        right: 0;
+        text-align: center;
+        top: -70px;
+        width: 95px;
+        z-index: 9;
+    }
+
+    .modal-confirm .icon-box i {
+        font-size: 56px;
+        position: relative;
+        top: 4px;
+    }
+
+    .modal-confirm.modal-dialog {
+        margin-top: 80px;
+    }
+
+    .modal-confirm .btn {
+        background: #ef513a;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        line-height: normal;
+        text-decoration: none;
+        transition: all 0.4s;
+    }
+
+    .modal-confirm .btn-secondary {
+        background: #c1c1c1;
+    }
+
+    .modal-confirm .btn:hover,
+    .modal-confirm .btn:focus {
+        background: #da2c12;
+        outline: none;
+    }
+
+    .modal-confirm .btn-secondary:hover,
+    .modal-confirm .btn-secondary:focus {
+        background: #a8a8a8;
+    }
 
     @media only screen and (min-width: 767px)
     {
-    .list-group{
-        font-size: 15px; 
-        width: auto; 
-        width: 112.5%; 
-        margin-left: -6.4%; 
-        margin-right: auto;
+        .list-group{
+            font-size: 15px; 
+            width: auto; 
+            width: 111.2%; 
+            margin-left: -5.6%; 
+            margin-right: auto;
+        }
     }
-}
-
+    @media (min-width: 1200px)
+        {
+            .container {
+            max-width: 1560px;
+            }
+        }
+    @media (min-width: 768px)
+        {
+            .col-md-3 {
+            -ms-flex: 0 0 25%;
+            flex: 0 0 25%;
+            max-width: 20%;
+            }   
+        }
 </style>
+
 <form method="POST">
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
@@ -87,7 +201,7 @@
             
             {% for user_data in query %}
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                <img class="rounded-circle mt-5" width="150px" height="150px" src="{% static request.user.path_profile_pic %}" style="border: 4px solid #ffffff;">
+                <img class="rounded-circle mt-1" width="150px" height="150px" src="{% static request.user.path_profile_pic %}" style="border: 4px solid #ffffff;">
                 <br/>
                 <span class="font-weight-bold" style="color: #ffffff">{{ user_data.first_name }}</span>
                 <span class="" style="color: #ffffff">{{ user_data.email}}</span>
@@ -99,8 +213,8 @@
                 <a href="#" class="list-group-item list-group-item-action">{% translate "View history" %}</a>
               </div>
         </div>
-        <div class="col-md-8">
-            <div class="p-3 py-5">
+        <div class="col-md-9">
+            <div class="p-3 py-5" >
                 <a href="{% url 'profile' operation='edit'%}" class="btn btn-xs btn-success" name="Login1" value="Login" style="width: 60px; float: right; height: 35px; margin-top:10px"action="{% url 'signin' %}">
                     <span>{% translate "Edit" %}</span>
                 </a>
@@ -109,6 +223,7 @@
                 </div>
                 <hr/>
                 {% if operation == 'view' %}
+                <div style="padding: 0% 5%;">
                 <div class="row mt-2">
                     <div class="col-md-6">
                         <label class="labels"><i class="fas fa-user"></i> {% translate "First name" %}</label><input type="text" class="form-control" placeholder="first name" value="{{ user_data.first_name }}" readonly="readonly">
@@ -134,7 +249,38 @@
                         <label class="labels"><i class="fas fa-phone-alt"></i> {% translate "Phone No" %}</label><input type="text" class="form-control" placeholder="enter address line 2" value="{{ user_data.phone_no}}" readonly="readonly">
                     </div>
                 </div>
+                
+                <div id="success_modal" name = "success_modal" class="modal fade in">
+                    <div class="modal-dialog modal-confirm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="icon-box" style="background-color: #1b9b42">
+                                <i class="material-icons" style="font-size: 55px;">&#xe5ca;</i>
+                                </div>
+                            <h4 class="modal-title w-100">{% translate "Successful" %}</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text-center">       
+                                {% for message in messages %}
+                                {{message}}
+                                {% endfor %} 
+                                </p>
+                                <br/>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">{% translate "Close" %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% if messages %}
+                <script>$("#success_modal").modal()</script>
+                {% endif %}
+
+            </div>
                 {% elif operation == 'edit' %}
+                <div style="padding: 0% 5%;">
                 <div class="row mt-2">
                     <div class="col-md-6">
                         <label class="labels"><i class="fas fa-user"></i> {% translate "First Name" %}</label><input type="text" class="form-control" placeholder="First name" name="first_name_edit" value="{{ user_data.first_name }}">
@@ -167,6 +313,7 @@
                             <option value="Female">{% translate "Female" %}</option>
                             <option value="Other" selected="selected">{% translate "Other" %}</option>
                         </select>
+
                         {% endif %}
                     </div>
                     <div class="col-md-12">
@@ -185,6 +332,7 @@
                     {% csrf_token %}
                     <button class="btn btn-primary profile-button" type="submit" formaction="{% url 'profile' operation='update'%}" id="saveprofile">{% translate "Save Profile" %}</button>
                 </div>
+            </div>
                 {% endif %}
             </div>
         </div>
@@ -192,5 +340,9 @@
         {% endfor %}
 </div>
 </div>
+<br>
+<br>
+<br>
+<br>
 </form>
 {% endblock %}

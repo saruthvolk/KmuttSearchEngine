@@ -80,9 +80,10 @@
 <body>
 <br/><br/><br/>
 <center>
-    <br>
     <h1>Edit form</h1>
-    <br>
+
+    <input type="checkbox" onclick="toggle(this);"/>Check all?<br/>
+
     {% for QArequest in query %}
     <div class="id" id="{{id_list}}"></div>
     <form method="POST" class="was-validated">
@@ -90,40 +91,40 @@
         <table class="table table-hover">
             <thead class="thead-dark">
             <th scope="col" colspan="6">
-                <label type="text" name="question"> Request ID </label>
-                <label type="text" name="question_id">{{request_data.request_id}} </label>
+                <label type="text" name="question"> Question ID </label>
+                <label type="text" name="question_id">{{question_data.question_id}} </label>
             </th>
             </thead>
             <td>Question</td>
 
             <td colspan="6">
-                <input type="text" name="request_id" value="{{request_data.request_id}}" hidden  />
-                <input type="text" name="user_id" value="{{user_query.id}}" hidden />
-                <input type="text" class="form-control is-valid" name="question" value="{{request_data.question}}" required/>
+                <input type="text" name="request_id" value="{{question_data.question_id}}" hidden  </input>
+                <input type="text" name="user_id" value="{{user_query.id}}" hidden  </input>
+                <input type="text" class="form-control is-valid" name="question" value="{{question_data.question}}" required/>
             </td>
             <tr>
                 <td>Answer</td>
                 <td colspan="10">
                     <span style="white-space: pre-line">
-                        <textarea name = "answer" class="editor" id="editor{{request_data.id}}" required>{{request_data.answer}}</textarea>
+                        <textarea name = "answer" class="editor" id="editor{{question_data.id}}" required>{{question_data.answer}}</textarea>
                     </span>
                 </td>
             </tr>
             <td >Question EN</td>
             <td colspan="2">
-                <input type="text" class="form-control is-valid" name="question_en" value="{{request_data.question_en}}" required/>
+                <input type="text" class="form-control is-valid" name="question_en" value="{{question_data.question_en}}" required/>
             </td>
             <tr>
                 <td>Answer en</td>
                 <td colspan="6">
                     <span style="white-space: pre-line">
-                        <textarea name = "answer_en" class="editor_en" id="editor1{{request_data.id}}" required>{{request_data.answer_en}}</textarea>
+                        <textarea name = "answer_en" class="editor_en" id="editor1{{question_data.id}}" required>{{question_data.answer_en}}</textarea>
                     </span>
                 </td>
             </tr>
             <td >Remark</td>
             <td colspan="2">
-                <input type="text" class="form-control is-valid" name="remark" value="{{request_data.remark}}"/>
+                <input type="text" class="form-control is-valid" name="remark" value="{{question_dataremark}}"/>
             </td>
             <tr>
             <td colspan="2">
@@ -136,10 +137,9 @@
             </select>
             </td>
                 <tr>
-                    <input type="text" class="form-control is-valid" name="request_type" value="{{request_data.request_type}}" hidden/>
             {% endfor %}
         </table>
-        <button type="submit" class="btn-primary" formaction="{% url 'request' operation='saveedit'%}">Save changes</button>
+        <button type="submit" class="btn-primary" formaction="{% url 'request' operation='editquestion'%}">Submit request</button>
         <button type="submit" class="btn-primary" formaction="{% url 'Crud_QA' operation='Remove' id='0' %}">Delete</button>
         <br/>
     </form>

@@ -1,6 +1,7 @@
 """
 Definition of views.
 """
+from pyexpat.errors import messages
 import oskut
 import os
 import datetime
@@ -22,6 +23,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
+from django.contrib import messages
 from django.utils.translation import gettext as _
 import json
 
@@ -183,7 +185,7 @@ def question(request, id):
 
 @login_required(login_url='/login')
 def Admin(request):
-    """Renders the about page."""
+
     assert isinstance(request, HttpRequest)
     return render(
         request,
@@ -320,20 +322,24 @@ def usermanagement(request, operation):
         print(operation)
         if request.method == 'POST':
             id = request.POST.get('userid')
-            print(id)
             result = update_status_User(request, id)
             if result.code is 200:
+                for user in result.query:
+                    if (user.is_active == False):
+                        messages.info(request, _("Successfully suspended "  + str(user.username)  + " account's."))
+                    elif(user.is_active == True):
+                        messages.info(request, _("Successfully unsuspended "+str(user.username)+"  account's."))
                 return redirect('user')
             else:
                 return redirect('user')
 
     elif operation == 'update':
-        print(operation)
         if request.method == 'POST':
             id = request.POST.get('userid_confirm')
-            print(id)
             result = update_user_profile(request, id)
             if result.code is 200:
+                for user in result.query:
+                    messages.info(request, _("Successfully update "+str(user.username)+"  profile's."))
                 return redirect('user')
             else:
                 return redirect('user')
@@ -384,11 +390,12 @@ def profile(request, operation):
     if operation == 'view':
         return render(request, 'app/profile.html', {'title': 'My Profile', 'query': user_query, 'operation': operation})
     elif operation == 'edit':
-        return render(request, 'app/profile.html', {'title': 'My Profile', 'query': user_query, 'operation': operation})
+        return render(request, 'app/profile.html',{'title': 'My Profile', 'query': user_query, 'operation': operation})
     elif operation == 'update':
         if request.method == 'POST':
             result = edit_user_profile(request)
             if result.code is 200:
+                messages.info(request, _("Your profile has been successfully updated."))
                 return redirect('profile', operation='view')
         else:
             operation = 'view'
@@ -495,12 +502,15 @@ def requestmanagement(request, operation):
 
         return render(request, 'app/requestadd.html', {'department': department})
 
-    elif operation == 'update':
-        result = request_update(request)
-        if result.code is 200:
+    elif operation == 'view':
+        request_id = request.POST.get('request_id')
+        result =  queryDb_onerequest(request_id)
+        department = queryDb_department()
+        user_query = queryDb_User(request.user.id)
+        if result is "Error":
             return redirect('home')
         else:
-            return render(request, 'app/requestadd.html')
+            return render(request, 'app/view_request.html',{'query': user_query, 'request_data': result,'department': department,'opertaion':operation})
 
     elif operation == 'view_user':
         request_info = queryDb_Request_user(request.user.id)
@@ -508,7 +518,7 @@ def requestmanagement(request, operation):
         page = request.GET.get('page', 1)
         if page == 1:
             request_info = queryDb_Request_user(request.user.id)
-        paginator = Paginator(request_info, 5)
+        paginator = Paginator(request_info, 7)
         try:
             query1 = paginator.page(page)
         except PageNotAnInteger:
@@ -519,19 +529,28 @@ def requestmanagement(request, operation):
             return redirect('home')
         else:
             return render(request, 'app/request_user.html', {'user_info': user_query, 'query': query1 })
-
+        
     elif operation == 'edit':
         request_id = request.POST.get('request_id')
         result =  queryDb_onerequest(request_id)
+        department = queryDb_department()
         user_query = queryDb_User(request.user.id)
 
         if result is "Error":
             return redirect('home')
         else:
-            return render(request, 'app/editrequest.html',{'query': user_query, 'request_data': result,})
+            return render(request, 'app/editrequest.html',{'query': user_query, 'request_data': result,'department': department})
+
+    elif operation == 'update':
+        result = request_update(request, operation)
+        if result.code is 200:
+            messages.info(request, _("Your request has been successfully created, admin will review it shortly."))
+            return redirect('request', operation='view_user',)
+        else:
+            return render(request, 'app/requestadd.html')
 
     elif operation == 'saveedit':
-        result = request_saveedit(request)
+        result = request_update(request, operation)
         department = queryDb_department()
         user_query = queryDb_User(request.user.id)
 
@@ -539,6 +558,93 @@ def requestmanagement(request, operation):
             return redirect('home')
         else:
             return redirect('request', operation='view_user')
+
+    elif operation == 'editquestion':
+        result = request_update(request, operation)
+        if result.code is "Error":
+            return redirect('home')
+        else:
+            return redirect('request', operation='view_user')
+
+    elif operation == 'delete':
+        if request.method == "POST":
+            id = request.POST.get('request_id')
+            result = request_delete(request,id)
+            if result is "Error":
+                return redirect('home')
+            else:
+                messages.info(request, _("Your request has been successfully deleted."))
+                return redirect('request', operation='view_user')
+
+        if result is "Error":
+                return redirect('home')
+
+    elif operation == 'request_edit':
+        question_id = request.POST.get('question_id')
+        result = queryDb_onequestion(question_id)
+        department = queryDb_department()
+        user_query = queryDb_User(request.user.id)
+
+        if result is "Error":
+            return redirect('home')
+        else:
+            return render(request, 'app/requesteditquestion.html',{'query': user_query, 'question_data': result,'department': department})
             
     else:
         return redirect('home')
+
+def request_admin(request, operation):
+
+    if operation == 'view':
+        query_request, QArequestDto = queryDb_request_all()
+        query_user = queryDb_multi_User(QArequestDto.user_id)
+
+        page = request.GET.get('page', 1)
+        if page == 1:
+            query_request, QArequestDto = queryDb_request_all()
+        paginator1 = Paginator(query_request, 7)
+        try:
+            query1 = paginator1.page(page)
+        except PageNotAnInteger:
+            query1 = paginator1.page(1)
+        except EmptyPage:
+            query1 = paginator1.page(paginator1.num_pages)
+
+        page = request.GET.get('page', 1)
+        if page == 1:
+            query_request, QArequestDto = queryDb_request_all()
+            query_user = queryDb_multi_User(QArequestDto.user_id)
+        paginator2 = Paginator(query_user, 7)
+        try:
+            query2 = paginator2.page(page)
+        except PageNotAnInteger:
+            query2 = paginator2.page(1)
+        except EmptyPage:
+            query2 = paginator2.page(paginator2.num_pages)
+
+        if query_request is "Error":
+            return redirect('home')
+        else:
+            return render(request, 'app/request_admin.html',{'query': query1,'query2':query2})
+        
+    elif operation == 'reject':
+
+        id = request.POST.get('request_id')
+        print(id)
+        reject_reason = request.POST.get('reject_reason')
+        print (reject_reason)
+        #if query_request is "Error":
+         #   return redirect('home')
+        #else:
+        messages.info(request, _("Successfully rejected the request"))
+        return redirect('request_admin', operation = "view")
+    
+    elif operation == 'approve':
+
+        id = request.POST.get('request_id')
+        print(id)
+        #if query_request is "Error":
+         #   return redirect('home')
+        #else:
+        messages.info(request, _("Successfully approved the request"))
+        return redirect('request_admin', operation = "view")

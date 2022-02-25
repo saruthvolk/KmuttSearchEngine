@@ -40,6 +40,10 @@
     </span>
     <p id="view">Views: {{ query.view_count }}</p>
 </div>
-<button class="btn btn-info" id="request">Request for changes</button>
 
+<form action="{% url 'request' operation='request_edit' %}" method="POST">
+    {% csrf_token %}
+    <input name="question_id" id="question_id" value="{{query.id}}" hidden />
+<td><button href="#" class="btn btn-info" id="request">Request for changes</button>
+</form>
 {% endblock %}

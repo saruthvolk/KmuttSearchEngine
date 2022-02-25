@@ -21,6 +21,6 @@ def get_notification(request):
 
         length = len(query.request_id)
         return JsonResponse({'user_id':query.user_id,'question':query.question,'date':query.created_date,'time':query.created_time,
-        'type':query.request_type,'path': query.path,'length':length},safe=False)
+        'type':query.request_type,'path': query.path,'length':length, 'status': query.status_id, 'request_id':query.request_id},safe=False)
     else:
         return JsonResponse("Error",safe=False)

@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.shortcuts import render
+from numpy import append
 from app.models import *
 from django.http import HttpRequest
 
@@ -177,9 +178,16 @@ def queryDb_User(id):
    
    query = userinfo.objects.filter(id=id)
 
-   for user in query:   
+   for user in query:
        role = user_role.objects.get(role_code=user.role_code)
        user.role_code = role.role_name
+
+   return query
+
+def queryDb_multi_User(id):
+
+   query = [userinfo.objects.filter(id= x).only('username','path_profile_pic') for x in id]
+   query = [data for user in query for data in user]
 
    return query
 
@@ -227,29 +235,43 @@ def queryDb_Request_user(id):
      try:
           query = list(QArequest.objects.filter(user_id=id).order_by('-created_date','-created_time'))
           for item in query:
-               temp = status.objects.get(status_id=item.status_id)
+               temp = status.objects.filter(status_id=item.status_id).only('status_type')
                item.status_id = temp.status_type
      except:
           query = "Error"
 
      return query
 
+def queryDb_request_all():
+
+     try:
+          QArequestDto.reset()
+          query = list(QArequest.objects.order_by('-created_date','-created_time'))
+          for item in query:
+               QArequestDto.user_id.append(item.user_id)
+
+     except:
+          query = "Error"
+
+     return query, QArequestDto
+
 def queryDb_onerequest(id):
  
      try:
-          query = QArequest.objects.get(request_id = id) 
+          query = QArequest.objects.get(request_id = id)
+          #for item in query:
+          #     temp = department.objects.get(department_id=item.department_id)
+          #     item.department_id = temp.department_name
      except:
           query = "Error"
 
      return query
 
-def queryDb_onerequest(id):
+def queryDb_onequestion(id):
  
      try:
-          query = QArequest.objects.get(request_id = id) 
+          query = questionanswer.objects.get(id = id) 
      except:
           query = "Error"
 
      return query
- 
-

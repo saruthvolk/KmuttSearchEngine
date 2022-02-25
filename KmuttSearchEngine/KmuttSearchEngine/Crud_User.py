@@ -15,7 +15,6 @@ def update_status_User(request,id):
 
 	current_time = datetime.datetime.now().replace(microsecond=0)
 
-
 	for user in query:
 
 		if (user.is_active == True):
@@ -23,17 +22,22 @@ def update_status_User(request,id):
 			user.suspended_by = request.user.id
 			user.suspended_date = current_time
 			user.suspended_time = current_time
+			user.updated_time = current_time
+			user.updated_date = current_time
+			user.updated_by = request.user.id
 			user.save()
 		else:
 			user.is_active = True
 			user.suspended_by = None
 			user.suspended_date = None
 			user.suspended_time = None
+			user.updated_time = current_time
+			user.updated_date = current_time
+			user.updated_by = request.user.id
 			user.save()
 
-
 	Result.code = 200
-	Result.query = queryDb_User_All()
+	Result.query = queryDb_User(id)
 
 	return Result
 
@@ -69,7 +73,7 @@ def update_user_profile(request,id):
 		user.save()
 
 	Result.code = 200
-	Result.query = queryDb_User_All()
+	Result.query = queryDb_User(id)
 
 	return Result
 

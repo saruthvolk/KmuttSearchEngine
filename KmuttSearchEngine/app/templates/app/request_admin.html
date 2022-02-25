@@ -288,34 +288,21 @@
 
         var id = $(val).attr("id").split("_")[1];
 
-        var sbmt = document.getElementById(`#delete_button_${id}`);
-
         if (val.checked === true) {
-            $(`#delete_button_${id}`).removeAttr("disabled");
+            $(`#reject_button_${id}`).removeAttr("disabled");
         } else {
-            $(`#delete_button_${id}`).attr("disabled", "disabled");
-        }
-    };
-
-    disable_button_confirm = function(val) {
-
-        var id = $(val).attr("id").split("_")[2];
-
-        if (val.checked === true) {
-            $(`#confirm_button_${id}`).removeAttr("disabled");
-        } else {
-            $(`#confirm_button_${id}`).attr("disabled", "disabled");
+            $(`#reject_button_${id}`).attr("disabled", "disabled");
         }
     };
 
     disable_button2 = function(val) {
 
-        var id = $(val).attr("id").split("_")[2];
-
+        var id = $(val).attr("id").split("_")[1];
+  
         if (val.checked === true) {
-            $(`#activate_button_${id}`).removeAttr("disabled");
+            $(`#approve_button_${id}`).removeAttr("disabled");
         } else {
-            $(`#activate_button_${id}`).attr("disabled", "disabled");
+            $(`#approve_button_${id}`).attr("disabled", "disabled");
         }
     };
 
@@ -328,15 +315,13 @@
 <body>
 <br></br>
 <br></br>
-<form method="POST">
-{% csrf_token %}
 <div class="container-xl" style="font-size: 14px;">
 <div class="table-responsive">
 <div class="table-wrapper">
 <div class="table-title">
     <div class="row">
         <div class="col-sm-5">
-            <h2>{% translate "User <b>Management</b>" %}</h2>
+            <h2>{% translate "Request <b>Management</b>" %}</h2>
         </div>
         <div class="col-sm-7">
             <a href="{% url 'register' %}" class="btn btn-secondary">
@@ -351,51 +336,80 @@
 <table class="table table-striped table-hover">
     <thead>
     <tr>
-        <th>{% translate "ID" %}</th>
-        <th>{% translate "Name" %}</th>
-        <th>{% translate "Username" %}</th>
-        <th>{% translate "Date Created" %}</th>
-        <th>{% translate "Role" %}</th>
-        <th>{% translate "Status" %}</th>
-        <th>{% translate "Last Login" %}</th>
-        <th>{% translate "Action" %}</th>
+        <th class="text-center">{% translate "Type" %}</th>
+        <th class="text-center">{% translate "Request By" %}</th>
+        <th class="text-center">{% translate "Status" %}</th>
+        <th class="text-center">{% translate "Last updated" %}</th>
+        <th>{% translate "Remark" %}</th>
+        <th class="text-center">{% translate "Action" %}</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        {% for user_data in query %}
-    <td><b>{{user_data.id}}</b></td>
-    <td>
+    {% for user_data in query2 %}{% for request_data in query %} 
+    {% if forloop.counter == forloop.parentloop.counter %}
+    <td class="text-center"><b>{{request_data.request_type}}</b></td>
+    <td class="text-center">
         {% if user_data.path_profile_pic is None %}
         <a href="#" data-toggle="modal" data-target="#userview_{{user_data.id}}"><img src="{% static 'img/user.png' %}" class="avatar" alt="Avatar"> {{user_data.first_name}} {{user_data.last_name}} </a>
         {% else %}
         <a href="#" data-toggle="modal" data-target="#userview_{{user_data.id}}"><img src="{% static user_data.path_profile_pic %}" class="avatar" alt="Avatar"> {{user_data.first_name}} {{user_data.last_name}} </a>
         {% endif %}
     </td>
-    <td>{{user_data.username}}</td>
-        <td>{{user_data.created_date}}</td>
-        <td>{{user_data.role_code}}</td>
-        {% if user_data.is_active is False %}
-        <td><span class="status text-danger" style="font-size: 60px; margin-bottom: 5%">&bull;</span> {% translate "Suspended" %}</td>
-        {% else %}
-        <td><span class="status text-success" style="font-size: 60px; margin-bottom: 5%">&bull;</span> {% translate "Active" %}</td>
-        {% endif %}
-        <td>{{user_data.last_login}}</td>
-        <td>
-            <a href="#" class="settings" title="Edit Profile" data-toggle="modal" data-target="#userinfo_{{user_data.id}}">
-                <i class="material-icons">&#xe3c9;</i>
-            </a>
-            {% if user_data.is_active %}
-            <a href="#" class="delete" data-toggle="modal" title="Suspend" data-target="#myModal_{{user_data.id}}">
-                <i class="material-icons ">&#xE5C9;</i>
-            </a>
-            {% else %}
-            <a href="#" class="delete" data-toggle="modal" title="Unsuspended" data-target="#myModal_active_{{user_data.id}}" style="color: #1b9b42">
-                <i class="material-icons ">&#xe86c;</i>
-            </a>
-            {% endif %}
+    {% if request_data.status_id == 1 %}
+        <td class="text-center">Waiting for approval</td>
+    {% elif request_data.status_id == 2 %}
+        <td class="text-center">Approved</td>
+    {% elif request_data.status_id == 3 %}
+        <td class="text-center">Rejected</td>
+    {% endif %}
+        <td class="text-center" >{{request_data.updated_date}} {{request_data.updated_time|date:"G:i"}}
         </td>
-        <div id="myModal_{{user_data.id}}" class="modal fade">
+        <td>{{request_data.remark}}</td>
+        <td class="text-center" colspan="1">
+            <button class="btn btn-success btn-sm" style="font-size: 13px;" data-toggle="modal" data-target="#approve_{{request_data.request_id}}">Approved</button>
+            <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#reject_{{request_data.request_id}}">Reject</button>
+        </td>
+        <td><button class="btn btn-link" data-toggle="collapse"
+            data-target="#request_{{request_data.request_id}}" aria-expanded="true"
+            aria-controls="collapseOne" style="float: right;">
+            <i class="material-icons" style="margin-top: -10px; color: #266867;">&#xe5d3;</i>
+        </button></td>
+
+        <tr id="request_{{request_data.request_id}}" class="collapse" aria-labelledby="headingOne"
+        data-parent="#request_{{request_data.request_id}}">
+        <td colspan=" 7">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>{% translate "Language" %}</th>
+                        <th>{% translate "Question" %}</th>
+                        <th>{% translate "Answer" %}</th>
+                        <th>{% translate "Remark" %}</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>TH</td>
+                    <td class="request_type">{{request_data.question}}</td>
+                    {% autoescape off %}
+                    <td class="request_type">{{request_data.answer}} </td>
+                    {% endautoescape %}
+                    <td class="request_type">{{request_data.remark}}</td>
+                </tr>
+                <tr>
+                    <td>EN</td>
+                    <td class="request_type">{{request_data.question_en}}</td>
+                    {% autoescape off %}
+                    <td class="request_type">{{request_data.answer_en}} </td>
+                    {% endautoescape %}
+                    <td class="request_type">{{request.remark}}</td>
+                </tr>
+        </td>
+    </table>
+    </tr>
+    <form method="post">
+        <div id="reject_{{request_data.request_id}}" class="modal fade">
             <div class="modal-dialog modal-confirm">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -405,19 +419,25 @@
                         <h4 class="modal-title w-100">{% translate "Confirm your process ?" %}</h4>
                     </div>
                     <div class="modal-body">
-                        <p class="text-center">{% translate "Do you really want to suspend" %} <b>{{user_data.first_name}}</b> {% translate "account? The process cannot be undone." %}</p>
-                        <br/>
-                        <input type="checkbox" id="userid_{{ user_data.id }}" name="userid" class="checkbox" value="{{ user_data.id }}" style="margin-left: 16%;" onClick="disable_button(this)"/> {% translate "Check the box to confirm the action." %}
+                        <p class="text-center">{% translate "Do you really want to reject" %} <b>{{user_data.username}}</b> {% translate "request? The process cannot be undone." %}</p>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1" >{% translate "Reasons:" %}</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" name ="reject_reason" rows="5" style="font-size: 13px;" required></textarea>
+                          </div>
+                        <input type="checkbox" id="requestid_{{ request_data.request_id }}" name="request_id" class="checkbox" value="{{ request_data.request_id }}" style="margin-left: 16%;" onClick="disable_button(this)"/> {% translate "Check the box to confirm the action." %}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Cancel" %}</button>
-                        <button type="submit" class="btn btn-danger" id="delete_button_{{ user_data.id }}" formaction="{% url 'usermanagement' operation='status'%}" disabled="disabled">{% translate "Suspend" %}</button>
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" id="reject_button_{{ request_data.request_id }}" formaction="{% url 'request_admin' operation='reject'%}" disabled="disabled">{% translate "Reject" %}</button>
                     </div>
                 </div>
             </div>
         </div>
+        </form>
 
-        <div id="myModal_active_{{user_data.id}}" class="modal fade">
+        <form method="post">
+        <div id="approve_{{request_data.request_id}}" class="modal fade">
             <div class="modal-dialog modal-confirm">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -427,92 +447,20 @@
                         <h4 class="modal-title w-100">{% translate "Confirm your process ?" %}</h4>
                     </div>
                     <div class="modal-body">
-                        <p class="text-center">{% translate "Do you really want to unsuspended" %} <b>{{user_data.first_name}}</b> {% translate "account?" %} </p>
+                        <p class="text-center">{% translate "Do you really want to approve" %} <b>{{user_data.username}}</b> {% translate "request?" %} </p>
                         <br/>
-                        <input type="checkbox" id="userid_activate_{{ user_data.id }}" name="userid" class="checkbox" value="{{ user_data.id }}" style="margin-left: 16%;" onClick="disable_button2(this)"/> {% translate "Check the box to confirm the action." %}
+                        <input type="checkbox" id="requestid_{{ request_data.request_id }}" name="request_id" class="checkbox" value="{{ request_data.request_id }}" style="margin-left: 16%;" onClick="disable_button2(this)"/> {% translate "Check the box to confirm the action." %}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Cancel" %}</button>
-                        <button type="submit" class="btn btn-success" id="activate_button_{{ user_data.id }}" formaction="{% url 'usermanagement' operation='status'%}" disabled="disabled" style="background-color: #1b9b42">{% translate "Unsuspended" %}</button>
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success" id="approve_button_{{ request_data.request_id }}" formaction="{% url 'request_admin' operation='approve'%}" disabled="disabled" style="background-color: #1b9b42">{% translate "Approve" %}</button>
                     </div>
                 </div>
             </div>
         </div>
+    </form>
 
-    <div class="modal fade" id="userinfo_{{user_data.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content" style="border-color: transparent; border-radius: 10px; width: 120%; margin-left: -11%;">
-                <div class="modal-header" style="background-color: #e87639; border-radius: 10px 10px 0 0;">
-                    <h5 class="modal-title" id="header_{{user_data.id}}" style="color: #ffffff">{% translate "Edit" %} {{user_data.first_name}}'s {% translate "profile" %} </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% if error %}
-                <div style="text-transform: capitalize;" id="Error">
-                    <p><i class="fas fa-exclamation-triangle" style="margin-right: 10px;"></i> {{error}}</p>
-                    <script type="text/javascript">
-                        shake();
-                    </script>
-                </div>
-                {% endif %}
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="col-form-label">{% translate "First name:" %}</label>
-                        <input type="text" class="form-control" id="first_name_{{user_data.id}}" name="first_name_edit_{{user_data.id}}"value="{{user_data.first_name}}">
-                    </div>
-                    <div class="form-group">
-                        <label class="col-form-label">{% translate "Last name:" %}</label>
-                        <input type="text" class="form-control" id="last_name_{{user_data.id}}" name="last_name_edit_{{user_data.id}}" value="{{user_data.last_name}}">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-form-label">{% translate "Date of birth:" %}</label>
-                        <input type="date" class="form-control" id="date_of_birth_{{user_data.id}}" name="date_of_birth_edit_{{user_data.id}}" value="{{user_data.date_of_birth|date:'Y-m-d'}}">
-                    </div>
-                    <div class="form-group">
-                        <label class="col-form-label">{% translate "Gender:" %}</label>
-                        {% if user_data.gender == 'Male' %}
-                        <select id="gender_{{user_data.id}}" name="gender_edit_{{user_data.id}}" class="form-control">
-                            <option value="Male" selected="selected">{% translate "Male" %}</option>
-                            <option value="Female">{% translate "Female" %}</option>
-                            <option value="Other">{% translate "Other" %}</option>
-                        </select>
-                        {% elif user_data.gender == 'Female' %}
-                        <select id="gender_{{user_data.id}}" name="gender_edit_{{user_data.id}}" class="form-control">
-                            <option value="Male">{% translate "Male" %}</option>
-                            <option value="Female" selected="selected">{% translate "Female" %}</option>
-                            <option value="Other">{% translate "Other" %}</option>
-                        </select>
-                        {% else %}
-                        <select id="gender_{{user_data.id}}" name="gender_edit_{{user_data.id}}" class="form-control">
-                            <option value="Male">{% translate "Male" %}</option>
-                            <option value="Female">{% translate "Female" %}</option>
-                            <option value="Other" selected="selected">{% translate "Other" %}</option>
-                        </select>
-                        {% endif %}
-                    </div>
-                    <div class="form-group">
-                        <label class="col-form-label">{% translate "Email:" %}</label>
-                        <input type="text" class="form-control" id="email_{{user_data.id}}" name="email_edit_{{user_data.id}}" value="{{user_data.email}}">
-                    </div>
-                    <div class="form-group">
-                        <label class="col-form-label">{% translate "Phone No:" %}</label>
-                        <input type="text" class="form-control" id="phone_no_{{user_data.id}}" name="phone_no_edit_{{user_data.id}}" value="{{user_data.phone_no}}">
-                    </div>
-                    <br/>
-                    <div class="form-group">
-                        <input type="checkbox" id="userid_confirm_{{ user_data.id }}" name="userid_confirm" class="checkbox" value="{{ user_data.id }}" style="margin-left: 28%;" onClick="disable_button_confirm(this)"/> {% translate "Check the box to confirm the action." %}
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Close" %}</button>
-                    <button type="submit" class="btn btn-success" id="confirm_button_{{ user_data.id }}" formaction="{% url 'usermanagement' operation='update'%}" disabled="disabled">{% translate "Save changes" %}</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="modal fade" id="userview_{{user_data.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
         <div class="modal-dialog" role="document" style="width: 500px">
             <div class="modal-content" style="border-color: transparent; border-radius: 10px;  width: 140%; margin-left: -21%;">
@@ -606,10 +554,9 @@
     </div>
     </div>
     </tr>
-    <tr>
-        {% endfor %}
-    </tr>
-    </tbody>
+    </tbody>  
+    {% endif %}
+    {% endfor %}{% endfor %}
 </table>
 
 <div id="success_modal" name = "success_modal" class="modal fade in">
@@ -642,10 +589,10 @@
 
 <div class="clearfix">
     <div class="hint-text">
-        {% translate "Showing"%} <b>{{ query.end_index }}</b> {% translate "out of" %} <b>{{ query.paginator.count }} {% translate "entries" %} </b>
+        {% translate "Showing"%} <b>{{ query.end_index }}</b> {% translate "out of" %} <b>{{query.paginator.count }} {% translate "entries" %} </b>
     </div>
 </div>
-<br/>
+<br />
 <nav aria-label="Page navigation example">
     {% if query.has_other_pages %}
     <ul style="display: flex;" class="pagination">
@@ -692,8 +639,7 @@
 </nav>
 </div>
 </div>
-</div>
-</form>
+
 </body>
 {% endblock %}
 </html>
