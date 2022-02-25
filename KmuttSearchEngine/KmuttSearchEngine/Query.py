@@ -230,13 +230,12 @@ def queryDb_request():
 
      return QArequestDto
 
+
 def queryDb_Request_user(id):
  
      try:
           query = list(QArequest.objects.filter(user_id=id).order_by('-created_date','-created_time'))
-          for item in query:
-               temp = status.objects.filter(status_id=item.status_id).only('status_type')
-               item.status_id = temp.status_type
+
      except:
           query = "Error"
 
@@ -258,10 +257,10 @@ def queryDb_request_all():
 def queryDb_onerequest(id):
  
      try:
-          query = QArequest.objects.get(request_id = id)
-          #for item in query:
-          #     temp = department.objects.get(department_id=item.department_id)
-          #     item.department_id = temp.department_name
+          query = list(QArequest.objects.filter(request_id = id))
+          for item in query:
+               temp = department.objects.get(department_id=item.department_id)
+               item.department_id = temp.department_name
      except:
           query = "Error"
 

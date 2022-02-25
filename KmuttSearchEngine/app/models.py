@@ -115,6 +115,7 @@ class QArequest (models.Model):
     rejected_date = models.DateTimeField(default=None, editable=True)
     rejected_time = models.DateTimeField(default=None, editable=True)
     rejected_by = models.CharField(max_length = 1000)
+    rejected_remark = models.CharField(max_length = 1000)
  
     class Meta:
       db_table="request"
@@ -142,6 +143,10 @@ class QArequest_edit (models.Model):
     updated_date = models.DateTimeField(default=now, editable=True)
     updated_time = models.DateTimeField(default=now, editable=True)
     updated_by = models.CharField(max_length = 1000)
+    rejected_date = models.DateTimeField(default=None, editable=True)
+    rejected_time = models.DateTimeField(default=None, editable=True)
+    rejected_by = models.CharField(max_length = 1000)
+    rejected_remark = models.CharField(max_length = 1000)
  
     class Meta:
       db_table="request"

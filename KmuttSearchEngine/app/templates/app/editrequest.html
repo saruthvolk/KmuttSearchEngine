@@ -79,70 +79,70 @@
 </head>
 <body>
 <br/><br/><br/>
-<center>
-    <br>
-    <h1>Edit form</h1>
-    <br>
-    {% for QArequest in query %}
-    <div class="id" id="{{id_list}}"></div>
-    <form method="POST" class="was-validated">
-        {% csrf_token %}
-        <table class="table table-hover">
-            <thead class="thead-dark">
-            <th scope="col" colspan="6">
-                <label type="text" name="question"> Request ID </label>
-                <label type="text" name="question_id">{{request_data.request_id}} </label>
-            </th>
-            </thead>
-            <td>Question</td>
+          <center>
+              <br>
+              <h1>Edit form</h1>
+              <br>
+              {% for request_data in request_data %}
+              <div class="id" id="{{id_list}}"></div>
+              <form method="POST" class="was-validated">
+                  {% csrf_token %}
+                  <table class="table table-hover">
+                      <thead class="thead-dark">
+                      <th scope="col" colspan="6">
+                          <label type="text" name="question"> Request ID </label>
+                          <label type="text" name="question_id">{{request_data.request_id}} </label>
+                      </th>
+                      </thead>
+                      <td>Question</td>
 
-            <td colspan="6">
-                <input type="text" name="request_id" value="{{request_data.request_id}}" hidden  />
-                <input type="text" name="user_id" value="{{user_query.id}}" hidden />
-                <input type="text" class="form-control is-valid" name="question" value="{{request_data.question}}" required/>
-            </td>
-            <tr>
-                <td>Answer</td>
-                <td colspan="10">
-                    <span style="white-space: pre-line">
-                        <textarea name = "answer" class="editor" id="editor{{request_data.id}}" required>{{request_data.answer}}</textarea>
-                    </span>
-                </td>
-            </tr>
-            <td >Question EN</td>
-            <td colspan="2">
-                <input type="text" class="form-control is-valid" name="question_en" value="{{request_data.question_en}}" required/>
-            </td>
-            <tr>
-                <td>Answer en</td>
-                <td colspan="6">
-                    <span style="white-space: pre-line">
-                        <textarea name = "answer_en" class="editor_en" id="editor1{{request_data.id}}" required>{{request_data.answer_en}}</textarea>
-                    </span>
-                </td>
-            </tr>
-            <td >Remark</td>
-            <td colspan="2">
-                <input type="text" class="form-control is-valid" name="remark" value="{{request_data.remark}}"/>
-            </td>
-            <tr>
-            <td colspan="2">
-            <label for="Question">Department ID: </label>
+                      <td colspan="6">
+                          <input type="text" name="request_id" value="{{request_data.request_id}}" hidden />
+                          <input type="text" name="user_id" value="{{user_query.id}}" hidden />
+                          <input type="text" class="form-control is-valid" name="question" value="{{request_data.question}}" required />
+                      </td>
+                      <tr>
+                          <td>Answer</td>
+                          <td colspan="10">
+                              <span style="white-space: pre-line">
+                                  <textarea name="answer" class="editor" id="editor{{request_data.id}}" required>{{request_data.answer}}</textarea>
+                              </span>
+                          </td>
+                      </tr>
+                      <td>Question EN</td>
+                      <td colspan="2">
+                          <input type="text" class="form-control is-valid" name="question_en" value="{{request_data.question_en}}" required />
+                      </td>
+                      <tr>
+                          <td>Answer en</td>
+                          <td colspan="6">
+                              <span style="white-space: pre-line">
+                                  <textarea name="answer_en" class="editor_en" id="editor1{{request_data.id}}" required>{{request_data.answer_en}}</textarea>
+                              </span>
+                          </td>
+                      </tr>
+                      <td>Remark</td>
+                      <td colspan="2">
+                          <textarea type="text" class="form-control is-valid" name="remark" style="height: 150px;" required>{{request_data.remark}}</textarea>
+                      </td>
+                      <tr>
+                          <td colspan="2">
+                              <label for="Question">Department ID: </label>
 
-            <select class="form-control" name="department_id">
-            {% for dep in department %}
-            <option name="department_id" value="1">({{dep.department_id}}) {{dep.department_name}}</option>
-            {% endfor %}
-            </select>
-            </td>
-                <tr>
-                    <input type="text" class="form-control is-valid" name="request_type" value="{{request_data.request_type}}" hidden/>
-            {% endfor %}
-        </table>
-        <button type="submit" class="btn-primary" formaction="{% url 'request' operation='saveedit'%}">Save changes</button>
-        <button type="submit" class="btn-primary" formaction="{% url 'Crud_QA' operation='Remove' id='0' %}">Delete</button>
-        <br/>
-    </form>
-</center>
+                              <select class="form-control" name="department_id">
+                                  {% for dep in department %}
+                                  <option name="department_id" value="1">({{dep.department_id}}) {{dep.department_name}}</option>
+                                  {% endfor %}
+                              </select>
+                          </td>
+                      <tr>
+                          <input type="text" class="form-control is-valid" name="request_type" value="{{request_data.request_type}}" hidden />
+                          {% endfor %}
+                  </table>
+                  <button type="submit" class="btn btn-success" formaction="{% url 'request' operation='saveedit'%}">Save changes</button>
+                  <button type="submit" class="btn btn-danger" formaction="{% url 'Crud_QA' operation='Remove' id='0' %}">Delete</button>
+                  <br />
+              </form>
+          </center>
 </body>
 {% endblock %}

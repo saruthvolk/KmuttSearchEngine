@@ -632,17 +632,21 @@ def request_admin(request, operation):
         id = request.POST.get('request_id')
         print(id)
         reject_reason = request.POST.get('reject_reason')
+        admin_id = request.user.id
         print (reject_reason)
-        #if query_request is "Error":
-         #   return redirect('home')
-        #else:
-        messages.info(request, _("Successfully rejected the request"))
-        return redirect('request_admin', operation = "view")
+        print(admin_id)
+        result = admin_reject(request,id,reject_reason,admin_id)
+        if result.code == 200:
+            messages.info(request, _("Successfully rejected the request"))
+            return redirect('request_admin', operation = "view")
+        else:
+            return redirect('home')
     
     elif operation == 'approve':
 
         id = request.POST.get('request_id')
         print(id)
+        admin_id = request.user.id
         #if query_request is "Error":
          #   return redirect('home')
         #else:

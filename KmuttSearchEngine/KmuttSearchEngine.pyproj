@@ -79,7 +79,6 @@
     <Content Include="app\templates\app\Admin.html" />
     <Content Include="app\templates\app\CRUDquestion.html" />
     <Content Include="app\templates\app\Editquestion.html" />
-    <Content Include="app\templates\app\editrequest.html" />
     <Content Include="app\templates\app\profile.html" />
     <Content Include="app\templates\app\question.html" />
     <Content Include="app\templates\app\requestadd.html" />

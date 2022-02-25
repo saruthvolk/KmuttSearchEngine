@@ -23,6 +23,7 @@ def request_update (request, operation):
                 elif operation == 'editquestion':
                     saverecord = QArequest()
                     saverecord.request_type = "Edit"
+                    saverecord.question_id = request.POST.get('question_id')
 
                 saverecord.question = request.POST.get('question')
                 saverecord.answer = request.POST.get('answer')
@@ -51,3 +52,57 @@ def request_delete (request, id):
         query = "Error"
 
     return query
+
+def admin_reject (request, id, reject_reason,admin_id):
+    try:
+        current_time = datetime.datetime.now().replace(microsecond=0)
+        saverecord = QArequest_edit.objects.get(request_id =  id)
+        saverecord.status_id = '3'
+        saverecord.rejected_date = current_time
+        saverecord.rejected_time = current_time
+        saverecord.updated_date = current_time
+        saverecord.updated_time = current_time
+        saverecord.rejected_by = admin_id
+        saverecord.rejected_remark = reject_reason
+        saverecord.save()
+        Result.code = 200
+    except:
+        Result.code = 300
+
+    print(Result.code)
+    return Result
+
+def admin_approve (request, id , admin_id):
+    current_time = datetime.datetime.now().replace(microsecond=0)
+    if request.method == "POST":
+        if  (request.POST.get('question') and request.POST.get('answer')) or (request.POST.get('question_en') 
+        and request.POST.get('answer_en')) and request.POST.get('department_id') and request.POST.get('remark'):
+
+                if operation == 'update':
+                    saverecord = QArequest()
+                    saverecord.request_type = "Add"
+                elif operation == 'saveedit':
+                    saverecord = QArequest_edit.objects.get(request_id =  request.POST.get('request_id'))
+                    saverecord.request_type = request.POST.get('request_type')
+                elif operation == 'editquestion':
+                    saverecord = QArequest()
+                    saverecord.request_type = "Edit"
+
+                saverecord.question = request.POST.get('question')
+                saverecord.answer = request.POST.get('answer')
+                saverecord.question_en = request.POST.get('question_en')
+                saverecord.answer_en = request.POST.get('answer_en')
+                saverecord.user_id = request.user.id
+                saverecord.status_id = '1'
+                saverecord.department_id = request.POST.get('department_id')
+                saverecord.remark = request.POST.get('remark')
+                saverecord.created_date = current_time
+                saverecord.created_time = current_time
+                saverecord.updated_date = current_time
+                saverecord.updated_time = current_time
+                #saverecord.question_id = None
+                saverecord.save()
+
+        Result.code = 200
+
+    return Result

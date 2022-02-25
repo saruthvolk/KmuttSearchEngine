@@ -192,6 +192,12 @@
             }
         }
 
+        submit_form = function(val){
+            var id = $(val).attr("id").split("_")[1];
+            $(`#request_id_${id}`).prop("checked", true);
+            $(`#noti_${id}`).submit();
+        }
+
         get_notification = function (val) {
             $.ajax({
                 type: "POST",
@@ -206,6 +212,8 @@
             });
 
         }
+
+
         $(function () {
             setInterval(get_notification, 180000);
         });
@@ -221,16 +229,16 @@
                     let html_data = '<a class="dropdown-item" href="{% url "request" operation="view" %}" value="" hidden></a>';
                     response.user_id.forEach(function iterate(data, index) {
                         html_data += `<div class="notification">
-                    <form id = "noti" method="post" action = "{% url 'request' operation='view' %}">
+                    <form id = "noti_${response.request_id[index]}" method="post" action = "{% url 'request' operation='view' %}">
                     {% csrf_token %}
-                    <a class="dropdown-item" type = "submit" <a href="javascript:{}" onclick="document.getElementById('noti').submit();" 
+                    <a class="dropdown-item" type = "submit" href="javascript:{}" onclick="submit_form(this)" id="noti_${response.request_id[index]}" 
                     value="${data}" style="height: 130px; margin-bottom: -28px; margin-top: -28px">
                     <img src="/static/${response.path[index]}" id="profile_pic_noti" class="avatar" alt="Avatar" style="margin-left:-10px; margin-top: 13px;">
                     <p id="request" style="font-size:15px; margin-top: -55px;"">Request: ${response.type[index]}</p>
                     <p style="margin-left:60px; font-size:15px; margin-top: -13px;" id="request_status">Status: ${response.status[index]}</p>
                     <br/><p style="margin-left:60px; font-size:15px;" id="request">Requested by: ${data}</p>
                     <br>
-                    <input type="hidden" value="${response.request_id[index]}" name="request_id" id="request_id" hidden/>
+                    <input type="checkbox" name="request_id" value="${response.request_id[index]}" id="request_id_${response.request_id[index]}" hidden/>
                     <a style="float:right; font-size:13px">${time2TimeAgo(response.time[index])}</a></a>
                     <br>
                     <div class="dropdown-divider"></div>

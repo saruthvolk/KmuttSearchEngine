@@ -326,36 +326,45 @@
                     <tbody>
                         <tr id="accordion_{{request.request_id}}">
                             <td class="request_type"><b>{{ request.request_type}}</b></td>
-                            {% if request.status_id == "Waiting for approval" %}
+                            {% if request.status_id == 1 %}
                             <td class="request_type" style="color: #f59300; font-weight: 600;">{% translate "Waiting for approval" %}</td>
-                            {% elif request.status_id == "Approved" %}
-                            <td class="request_type" style="color: green; font-weight: 600;">{% translate "Approved" %}
-                            </td>
-                            {% else %}
+                            {% elif request.status_id == 2 %}
+                            <td class="request_type" style="color: green; font-weight: 600;"> {% translate "Approved" %} </td>
+                            {% elif request.status_id == 3 %}
                             <td class="request_type" style="color: #db1e1e; font-weight: 600;">{% translate "Rejected" %}</td>
                             {% endif %}
-                            <td class="request_type">{{request.updated_date|date:"M. d y" }} {{request.updated_time}}
+                            <td class="request_type">
+                                {{request.updated_date|date:"M. d y" }} {{request.updated_time}}
                             </td>
-                            <td class="request_type">{{request.created_date|date:"M. d y" }}, {{request.created_time}}
+                            <td class="request_type">
+                                {{request.created_date|date:"M. d y" }}, {{request.created_time}}
                             </td>
+                            {% if request.status_id == 1 %}
                             <form action="{% url 'request' operation='edit' %}" method="POST">
                                 {% csrf_token %}
                                 <input name="request_id" id="request_id" value="{{ request.request_id}}" hidden />
-                                <td><button href="#" class="submit"><i class="material-icons">&#xe3c9;</i> </button>
-                                </td>
+                            <td>
+                                <button href="#" class="submit"><i class="material-icons">&#xe3c9;</i> </button>
+                            </td>
                             </form>
                             <td>
                                 <a href="#" class="delete" data-toggle="modal" title="Delete"
-                                    data-target="#delete_request">
+                                   data-target="#delete_request">
                                     <i class="material-icons" style="color:#1a4d6a">&#xe872;</i>
                                 </a>
                             </td>
-                            <td><button class="btn btn-link" data-toggle="collapse"
-                                    data-target="#request_{{request.request_id}}" aria-expanded="true"
-                                    aria-controls="collapseOne" style="float: right;">
+                            {% else %}
+                            <td></td>
+                            <td></td>
+                            {% endif %}
+                            <td>
+                                <button class="btn btn-link" data-toggle="collapse"
+                                        data-target="#request_{{request.request_id}}" aria-expanded="true"
+                                        aria-controls="collapseOne" style="float: right;">
                                     <i class="material-icons" style="margin-top: -10px; color: #266867;">&#xe5d3;</i>
-                                </button></td>
-                        <tr id="request_{{request.request_id}}" class="collapse" aria-labelledby="headingOne"
+                                </button>
+                            </td>
+<tr id="request_{{request.request_id}}" class="collapse" aria-labelledby="headingOne"
                             data-parent="#accordion_{{request.request_id}}">
                             <td colspan=" 7">
                                 <table class="table">
