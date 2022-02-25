@@ -502,6 +502,16 @@ def requestmanagement(request, operation):
 
         return render(request, 'app/requestadd.html', {'department': department})
 
+    elif operation == 'view':
+        request_id = request.POST.get('request_id')
+        result =  queryDb_onerequest(request_id)
+        department = queryDb_department()
+        user_query = queryDb_User(request.user.id)
+        if result is "Error":
+            return redirect('home')
+        else:
+            return render(request, 'app/view_request.html',{'query': user_query, 'request_data': result,'department': department,'opertaion':operation})
+
     elif operation == 'view_user':
         request_info = queryDb_Request_user(request.user.id)
         user_query = queryDb_User(request.user.id)

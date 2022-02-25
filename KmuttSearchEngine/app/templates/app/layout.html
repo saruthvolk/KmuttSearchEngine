@@ -18,7 +18,7 @@
         body {
             font-family: 'Prompt', sans-serif;
         }
-        
+
         #notification:hover {
             color: #f37a3b;
         }
@@ -151,7 +151,7 @@
             font-size: 15px;
             display: block; 
             margin-left: 60px; 
-            margin-top: -15px;
+            margin-top: -35px;
         }
         .dropdown-item:active, .dropdown-item:hover{
             background-color: #f3f3f3;
@@ -200,23 +200,7 @@
                     csrfmiddlewaretoken: '{{ csrf_token }}'
                 },
                 success: function (response) {
-                    let html_data = '<a class="dropdown-item" href="#" value="" hidden></a>';
-                    response.user_id.forEach(function iterate(data, index) {
-                        html_data += `<div class="notification">
-                    <p class="dropdown-item" href="#" value="${data}" style="height: 130px; margin-bottom: -28px; margin-top: -28px">
-                    <img src="/static/${response.path[index]}" id="profile_pic_noti" class="avatar" alt="Avatar" style="margin-left:-10px">
-                    <a id="request" style="font-size:15px; margin-top: -55px;"">Request: ${response.type[index]}</a>
-                    <br/><a style="margin-left:60px; font-size:15px;" id="request">Requested by: ${data}</a>
-                    <br>
-                    <a style="float:right; font-size:13px">${time2TimeAgo(response.time[index])}</a></p>
-                    <br>
-                    <div class="dropdown-divider"></div>
-                    <br>
-                    </div>`
-                    });
-
                     badge = `${response.length}`
-                    $("#notification_tab").html(html_data);
                     $(".badge").html(badge);
                 }
             });
@@ -234,18 +218,24 @@
                     csrfmiddlewaretoken: '{{ csrf_token }}'
                 },
                 success: function (response) {
-                    let html_data = '<a class="dropdown-item" href="#" value="" hidden></a>';
+                    let html_data = '<a class="dropdown-item" href="{% url "request" operation="view" %}" value="" hidden></a>';
                     response.user_id.forEach(function iterate(data, index) {
                         html_data += `<div class="notification">
-                    <p class="dropdown-item" href="#" value="${data}" style="height: 130px; margin-bottom: -28px; margin-top: -28px">
-                    <img src="/static/${response.path[index]}" id="profile_pic_noti" class="avatar" alt="Avatar" style="margin-left:-10px">
-                    <a id="request" style="font-size:15px; margin-top: -55px;"">Request: ${response.type[index]}</a>
-                    <br/><a style="margin-left:60px; font-size:15px;" id="request">Requested by: ${data}</a>
+                    <form id = "noti" method="post" action = "{% url 'request' operation='view' %}">
+                    {% csrf_token %}
+                    <a class="dropdown-item" type = "submit" <a href="javascript:{}" onclick="document.getElementById('noti').submit();" 
+                    value="${data}" style="height: 130px; margin-bottom: -28px; margin-top: -28px">
+                    <img src="/static/${response.path[index]}" id="profile_pic_noti" class="avatar" alt="Avatar" style="margin-left:-10px; margin-top: 13px;">
+                    <p id="request" style="font-size:15px; margin-top: -55px;"">Request: ${response.type[index]}</p>
+                    <p style="margin-left:60px; font-size:15px; margin-top: -13px;" id="request_status">Status: ${response.status[index]}</p>
+                    <br/><p style="margin-left:60px; font-size:15px;" id="request">Requested by: ${data}</p>
                     <br>
-                    <a style="float:right; font-size:13px">${time2TimeAgo(response.time[index])}</a></p>
+                    <input type="hidden" value="${response.request_id[index]}" name="request_id" id="request_id" hidden/>
+                    <a style="float:right; font-size:13px">${time2TimeAgo(response.time[index])}</a></a>
                     <br>
                     <div class="dropdown-divider"></div>
                     <br>
+                    </form>
                     </div>`
                     });
 
