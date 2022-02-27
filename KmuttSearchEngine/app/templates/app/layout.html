@@ -15,21 +15,13 @@
     <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
 
     <style>
-        body {
-            font-family: 'Prompt', sans-serif;
-        }
+        body {font-family: 'Prompt', sans-serif;}
 
-        #notification:hover {
-            color: #f37a3b;
-        }
+        #notification:hover {color: #f37a3b;}
 
-        #logo {
-            color: #f37a3b;
-        }
+        #logo {color: #f37a3b;}
 
-        #logo:hover {
-            color: aliceblue;
-        }
+        #logo:hover {color: aliceblue;}
 
         #profile_pic {
             background-image: url("{% static request.user.path_profile_pic %}");
@@ -55,17 +47,11 @@
             width: 55px;
         }
 
-        #profile_menu {
-            margin-right: 50%;
-        }
+        #profile_menu {margin-right: 50%;}
 
-        .dropdown-item:hover {
-            color: #f37a3b;
-        }
+        .dropdown-item:hover {color: #f37a3b;}
 
-        .notification {
-            position: relative;
-        }
+        .notification {position: relative;}
 
         .search-button {
             background-color: #ffffff;
@@ -78,13 +64,9 @@
             border-color: #f37a3b;
         }
 
-        .icon:hover {
-            color: #fff;
-        }
+        .icon:hover {color: #fff;}
 
-        .navbar-collapse {
-            background-color: #343a40;
-        }
+        .navbar-collapse {background-color: #343a40;}
 
         .navbar .badge {
             background: #f44336;
@@ -105,21 +87,13 @@
             position: relative;
         }
 
-        .navbar a.messages {
-            margin-right: 20px;
-        }
+        .navbar a.messages {margin-right: 20px;}
 
-        .navbar a.notifications .badge {
-            margin-left: -8px;
-        }
+        .navbar a.notifications .badge {margin-left: -8px;}
 
-        .navbar a.messages .badge {
-            margin-left: -4px;
-        }
+        .navbar a.messages .badge {margin-left: -4px;}
 
-        .search-box {
-            position: relative;
-        }
+        .search-box {position: relative;}
 
         .search-box input {
             border-radius: 3px !important;
@@ -138,21 +112,20 @@
             transform: translateX(-50%);
         }
 
-        #notification_info {
-            width: 460px;
-        }
+        #notification_info {width: 460px;}
 
         .notification {
             margin-top: auto;
             position: relative;
         }
 
-        #request_status{
+        #request_status {
 
-            margin-left:60px; 
-            font-size:15px; 
+            margin-left: 60px;
+            font-size: 15px;
             margin-top: -13px;
         }
+
         #request {
             font-size: 15px;
             display: block;
@@ -237,7 +210,7 @@
             return type
         }
 
-        get_status_color = function(val){
+        get_status_color = function (val) {
             window.alert(val)
         }
 
@@ -266,13 +239,10 @@
                     <img src="/static/${response.path[index]}" id="profile_pic_noti" class="avatar" alt="Avatar" style="margin-left:-10px; margin-top: 13px;">
                     <p id="request" style="font-size:15px; margin-top: -55px;"">{% translate "Request"%}: ${type} </p>
                     ${status}
-                    <br/><p style="margin-left:60px; font-size:15px;" id="request">{% translate "Requested by"%}: ${data}</p>
-                    <br>
+                    <br/><p style="margin-left:60px; font-size:15px;" id="request">{% translate "Requested by"%}: ${data}</p><br>
                     <input type="checkbox" name="request_id" value="${response.request_id[index]}" id="request_id_${response.request_id[index]}" hidden/>
-                    <a style="float:right; font-size:13px; padding: 0px 10px;">${time2TimeAgo(response.time[index])}</a></a>
-                    <br>
-                    <div class="dropdown-divider"></div>
-                    <br>
+                    <a style="float:right; font-size:13px; padding: 0px 10px;">${time2TimeAgo(response.time[index])}</a></a><br>
+                    <div class="dropdown-divider"></div><br>
                     </form>
                     </div>`
                     });
@@ -311,8 +281,7 @@
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'request' operation='view_user' %}">{% translate "My Requests"
-                        %}</a>
+                    <a class="nav-link" href="{% url 'request' operation='view_user' %}">{% translate "My Requests" %}</a>
                 </li>
                 {% endif %}
                 <li class="nav-item dropdown" hidden>
@@ -327,7 +296,7 @@
             <div class="col-lg-4 col-xl-5 col-sm-8 col-md-4" style="text-align: center; position:sticky;">
                 <form action="{% url 'search' %}" class="search-wrap">
                     <div class="input-group w-100">
-                        <input type="text" class="form-control search-form" placeholder={% translate "Search" %}
+                        <input type="text" class="form-control search-form" placeholder= "{% translate 'Search' %}"
                             style="margin-left: -14px">
                         <div class="input-group-append">
                             <button class="btn btn-primary search-button" type="submit">

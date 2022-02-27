@@ -1,7 +1,8 @@
 {% extends "app/layout.html" %}
 
 {% block content %}
-<script src="https://cdn.tiny.cloud/1/lkp5p0w1fk12lr4trywat44qle2pxarpedhgjkdxxmsohyl2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/lkp5p0w1fk12lr4trywat44qle2pxarpedhgjkdxxmsohyl2/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"></script>
 <script>
     tinymce.init({
         editor_selector: "editor",
@@ -56,10 +57,12 @@
     });
 
 </script>
+
 <head>
     <meta charset="utf-8" />
     <title> CRUD operations </title>
 </head>
+
 <body>
     <br /><br /><br />
     <center>
@@ -73,21 +76,23 @@
             <table class="table table-hover">
                 <col style="width:20%">
                 <thead class="thead-dark">
-                <th scope="col" colspan="6">
-                    <label type="text" name="question"> Request ID </label>
-                    <label type="text" name="question_id">{{data.request_id}} </label>
-                </th>
+                    <th scope="col" colspan="6">
+                        <label type="text" name="question"> Request ID </label>
+                        <label type="text" name="question_id">{{data.request_id}} </label>
+                    </th>
                 </thead>
                 <tr>
                     <td>Remark</td>
                     <td colspan="2">
-                        <textarea type="text" class="form-control" name="remark" readonly disabled style="height: max-content">{{data.remark}}</textarea>
+                        <textarea type="text" class="form-control" name="remark" readonly disabled
+                            style="height: max-content">{{data.remark}}</textarea>
                     </td>
                 </tr>
                 <tr>
                     <td>Department</td>
                     <td colspan="2">
-                        <input type="text" class="form-control" name="department_id" value="{{data.department_id}}" readonly disabled />
+                        <input type="text" class="form-control" name="department_id" value="{{data.department_id}}"
+                            readonly disabled />
                     </td>
                 </tr>
 
@@ -96,30 +101,35 @@
                     <td colspan="6">
                         <input type="text" name="request_id" value="{{data.request_id}}" hidden />
                         <input type="text" name="user_id" value="{{user_query.id}}" hidden />
-                        <input type="text" class="form-control" name="question" value="{{data.question}}" readonly disabled />
+                        <input type="text" class="form-control" name="question" value="{{data.question}}" readonly
+                            disabled />
                     </td>
                 <tr>
                     <td>Answer</td>
                     <td colspan="10">
                         <span style="white-space: pre-line">
-                            <textarea  name="answer" class="editor" id="editor{{data.id}}" readonly hidden>{{data.answer}}</textarea>
+                            <textarea name="answer" class="editor" id="editor{{data.id}}" readonly
+                                hidden>{{data.answer}}</textarea>
                         </span>
                     </td>
                 </tr>
                 <td>Question EN</td>
                 <td colspan="2">
-                    <input type="text" class="form-control" name="question_en" value="{{data.question_en}}" readonly disabled />
+                    <input type="text" class="form-control" name="question_en" value="{{data.question_en}}" readonly
+                        disabled />
                 </td>
                 <tr>
                     <td>Answer en</td>
                     <td colspan="6">
                         <span style="white-space: pre-line">
-                            <textarea name="answer_en" class="editor_en" id="editor1{{request_data.id}}" readonly hidden>{{data.answer_en}}</textarea>
+                            <textarea name="answer_en" class="editor_en" id="editor1{{request_data.id}}" readonly
+                                hidden>{{data.answer_en}}</textarea>
                         </span>
                     </td>
                 </tr>
 
-                <input type="text" class="form-control is-valid" name="request_type" value="{{request_data.request_type}}" hidden />
+                <input type="text" class="form-control is-valid" name="request_type"
+                    value="{{request_data.request_type}}" hidden />
                 {% endfor %}
             </table>
 

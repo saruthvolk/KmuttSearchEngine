@@ -117,12 +117,13 @@
         }
     }
 
-    @media (max-width: 992px){
-        .rounded-circle{
-        height: 120px;
-        width: 120px;
+    @media (max-width: 992px) {
+        .rounded-circle {
+            height: 120px;
+            width: 120px;
+        }
     }
-    }
+
     .row {
         margin-top: 8%;
     }
@@ -248,19 +249,23 @@
     .modal-confirm .btn-secondary:focus {
         background: #a8a8a8;
     }
-    @media (min-width: 1200px)
-    {
-    .container {
-    max-width: 1560px;
+
+    @media (min-width: 1200px) {
+        .container {
+            max-width: 1560px;
+        }
     }
-    }
-    @media (min-width: 768px)
-    {
-    .col-md-3 {
-    -ms-flex: 0 0 25%;
-    flex: 0 0 25%;
-    max-width: 20%;
-    }
+
+    @media (min-width: 768px) {
+        .col-md-3 {
+            -ms-flex: 0 0 25%;
+            flex: 0 0 25%;
+            max-width: 20%;
+        }
+
+        .row {
+            height: 640px;
+        }
     }
 </style>
 <script>
@@ -277,7 +282,7 @@
         }
     };
 </script>
-<div class="container rounded bg-white mt-5 mb-5" >
+<div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3" style="background-color: #1a4d6a; border-radius: 10px 0px 0px 10px">
 
@@ -329,9 +334,11 @@
                             {% if request.status_id == 1 %}
                             <td class="request_type" style="color: #f59300; font-weight: 600;">{% translate "Waiting for approval" %}</td>
                             {% elif request.status_id == 2 %}
-                            <td class="request_type" style="color: green; font-weight: 600;"> {% translate "Approved" %} </td>
+                            <td class="request_type" style="color: green; font-weight: 600;"> {% translate "Approved" %}
+                            </td>
                             {% elif request.status_id == 3 %}
-                            <td class="request_type" style="color: #db1e1e; font-weight: 600;">{% translate "Rejected" %}</td>
+                            <td class="request_type" style="color: #db1e1e; font-weight: 600;">{% translate "Rejected"
+                                %}</td>
                             {% endif %}
                             <td class="request_type">
                                 {{request.updated_date|date:"M. d y" }} {{request.updated_time}}
@@ -343,13 +350,13 @@
                             <form action="{% url 'request' operation='edit' %}" method="POST">
                                 {% csrf_token %}
                                 <input name="request_id" id="request_id" value="{{ request.request_id}}" hidden />
-                            <td>
-                                <button href="#" class="submit"><i class="material-icons">&#xe3c9;</i> </button>
-                            </td>
+                                <td>
+                                    <button href="#" class="submit"><i class="material-icons">&#xe3c9;</i> </button>
+                                </td>
                             </form>
                             <td>
                                 <a href="#" class="delete" data-toggle="modal" title="Delete"
-                                   data-target="#delete_request">
+                                    data-target="#delete_request">
                                     <i class="material-icons" style="color:#1a4d6a">&#xe872;</i>
                                 </a>
                             </td>
@@ -359,12 +366,12 @@
                             {% endif %}
                             <td>
                                 <button class="btn btn-link" data-toggle="collapse"
-                                        data-target="#request_{{request.request_id}}" aria-expanded="true"
-                                        aria-controls="collapseOne" style="float: right;">
+                                    data-target="#request_{{request.request_id}}" aria-expanded="true"
+                                    aria-controls="collapseOne" style="float: right;">
                                     <i class="material-icons" style="margin-top: -10px; color: #266867;">&#xe5d3;</i>
                                 </button>
                             </td>
-<tr id="request_{{request.request_id}}" class="collapse" aria-labelledby="headingOne"
+                        <tr id="request_{{request.request_id}}" class="collapse" aria-labelledby="headingOne"
                             data-parent="#accordion_{{request.request_id}}">
                             <td colspan=" 7">
                                 <table class="table">
@@ -398,39 +405,44 @@
                 </tr>
                 </tbody>
                 <form method="POST">
-                {% csrf_token %}
-                <div id="delete_request" class="modal fade">
-                    <div class="modal-dialog modal-confirm">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <div class="icon-box">
-                                    <i class="material-icons" style="font-size: 55px">&#xE5CD;</i>
+                    {% csrf_token %}
+                    <div id="delete_request" class="modal fade">
+                        <div class="modal-dialog modal-confirm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <div class="icon-box">
+                                        <i class="material-icons" style="font-size: 55px">&#xE5CD;</i>
+                                    </div>
+                                    <h4 class="modal-title w-100">{% translate "Confirm your process ?" %}</h4>
                                 </div>
-                                <h4 class="modal-title w-100">{% translate "Confirm your process ?" %}</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p class="text-center">{% translate "Do you really want to delete this request ?" %}</p>
-                                <p class="text-center"> {% translate "This process can not be undone." %}</p>
-                                <br />
-                                <input type="checkbox" id="requestid_{{request.request_id}}" name="request_id" class="checkbox"
-                                    value="{{request.request_id}}" style="margin-left: 10%;" onClick="disable_button(this)" />
-                                {% translate "Check the box to confirm the action." %}
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Cancel" %}</button>
-                                <button type="submit" class="btn btn-danger" id="delete_button_{{request.request_id}}"
-                                    formaction="{% url 'request' operation='delete'%}" disabled="disabled">{% translate "Delete" %}</button>
+                                <div class="modal-body">
+                                    <p class="text-center">{% translate "Do you really want to delete this request ?" %}
+                                    </p>
+                                    <p class="text-center"> {% translate "This process can not be undone." %}</p>
+                                    <br />
+                                    <input type="checkbox" id="requestid_{{request.request_id}}" name="request_id"
+                                        class="checkbox" value="{{request.request_id}}" style="margin-left: 10%;"
+                                        onClick="disable_button(this)" />
+                                    {% translate "Check the box to confirm the action." %}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate
+                                        "Cancel" %}</button>
+                                    <button type="submit" class="btn btn-danger"
+                                        id="delete_button_{{request.request_id}}"
+                                        formaction="{% url 'request' operation='delete'%}" disabled="disabled">{%
+                                        translate "Delete" %}</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 </form>
                 {% endfor %}
             </div>
             </table>
             {% endfor %}
 
-            <div id="success_modal" name = "success_modal" class="modal fade in">
+            <div id="success_modal" name="success_modal" class="modal fade in">
                 <div class="modal-dialog modal-confirm">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -440,15 +452,16 @@
                             <h4 class="modal-title w-100">{% translate "Successful" %}</h4>
                         </div>
                         <div class="modal-body">
-                            <p class="text-center">      
+                            <p class="text-center">
                                 {% for message in messages %}
                                 {{message}}
                                 {% endfor %}
                             </p>
-                            <br/>
+                            <br />
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">{% translate "Close" %}</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">{% translate "Close"
+                                %}</button>
                         </div>
                     </div>
                 </div>
@@ -457,10 +470,11 @@
             {% if messages %}
             <script>$("#success_modal").modal()</script>
             {% endif %}
-            
+
             <div class="clearfix">
                 <div class="hint-text">
-                    {% translate "Showing"%} <b>{{ query.end_index }}</b> {% translate "out of" %} <b>{{query.paginator.count }} {% translate "entries" %} </b>
+                    {% translate "Showing"%} <b>{{ query.end_index }}</b> {% translate "out of" %}
+                    <b>{{query.paginator.count }} {% translate "entries" %} </b>
                 </div>
             </div>
             <br />
@@ -469,7 +483,8 @@
                 <ul style="display: flex;" class="pagination">
                     {% if query.has_previous %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ query.previous_page_number }}">{% translate "Previous" %}</a>
+                        <a class="page-link" href="?page={{ query.previous_page_number }}">{% translate "Previous"
+                            %}</a>
                     </li>
                     {% else %}
                     <li class="page-item disabled">

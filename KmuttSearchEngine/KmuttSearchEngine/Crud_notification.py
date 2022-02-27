@@ -1,18 +1,21 @@
 import datetime
-from django.http import HttpRequest
 from app.models import *
 from KmuttSearchEngine.Query import *
 
+
 class Result:
-  code = ''
-  context = {}
-  query = ''
+    code = ''
+    context = {}
+    query = ''
+
 
 current_time = datetime.datetime.now().replace(microsecond=0)
 
-def update_reminder (request, id):
+
+def update_reminder(request, id):
     try:
-        query = notification_reminder.objects.filter(request_id = id, user_id = request.user.id)
+        query = notification_reminder.objects.filter(
+            request_id=id, user_id=request.user.id)
         for noti in query:
             noti.read_date = current_time
             noti.read_time = current_time
@@ -20,14 +23,15 @@ def update_reminder (request, id):
             noti.save()
     except:
         query = "Error"
-    
+
     return query
 
-def create_reminder (request, operation):
+
+def create_reminder():
 
     try:
         request_query = QArequest.objects.last()
-        user_query = userinfo.objects.filter(role_code =  1).only('id')
+        user_query = userinfo.objects.filter(role_code=1).only('id')
 
         for user_data in user_query:
             save_reminder = notification_reminder()
