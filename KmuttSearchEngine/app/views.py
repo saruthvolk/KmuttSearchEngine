@@ -13,6 +13,7 @@ from KmuttSearchEngine.SearchEngine import train_dictionary
 from KmuttSearchEngine.Crud_QA import *
 from KmuttSearchEngine.Crud_User import *
 from KmuttSearchEngine.Crud_Request import *
+from KmuttSearchEngine.Crud_notification import *
 from KmuttSearchEngine.Query import *
 from app.models import questionanswer, userinfo, QArequest
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -504,10 +505,11 @@ def requestmanagement(request, operation):
 
     elif operation == 'view':
         request_id = request.POST.get('request_id')
+        result_update = update_reminder(request, request_id)
         result =  queryDb_onerequest(request_id)
         department = queryDb_department()
         user_query = queryDb_User(request.user.id)
-        if result is "Error":
+        if (result or result_update or department or user_query) == "Error":
             return redirect('home')
         else:
             return render(request, 'app/view_request.html',{'query': user_query, 'request_data': result,'department': department,'opertaion':operation})
@@ -543,7 +545,8 @@ def requestmanagement(request, operation):
 
     elif operation == 'update':
         result = request_update(request, operation)
-        if result.code is 200:
+        result_reminder = create_reminder(request, operation)
+        if (result.code and result_reminder.code) == 200 :
             messages.info(request, _("Your request has been successfully created, admin will review it shortly."))
             return redirect('request', operation='view_user',)
         else:

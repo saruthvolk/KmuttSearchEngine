@@ -7,8 +7,7 @@ import time
 def get_notification(request):
 
     if request.method == "POST":
-        user_lang = request.LANGUAGE_CODE
-        query = queryDb_request()
+        query = queryDb_notification_reminder(request.user.id)
 
         for count, id  in enumerate(query.user_id):
             user_query = userinfo.objects.get(id=id)
@@ -23,5 +22,14 @@ def get_notification(request):
         length = len(query.request_id)
         return JsonResponse({'user_id':query.user_id,'question':query.question,'date':query.created_date,'time':query.created_time,
         'type':query.request_type,'path': query.path,'length':length, 'status': query.status_id, 'request_id':query.request_id},safe=False)
+    else:
+        return JsonResponse("Error",safe=False)
+
+def get_notification_badge(request):
+
+    if request.method == "POST":
+        query = queryDb_notification_reminder(request.user.id)
+        length = len(query.request_id)
+        return JsonResponse({'length':length},safe=False)
     else:
         return JsonResponse("Error",safe=False)

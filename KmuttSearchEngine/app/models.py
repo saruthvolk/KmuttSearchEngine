@@ -128,6 +128,17 @@ class department (models.Model):
     class Meta:
       db_table="department"
 
+class notification_reminder (models.Model):
+    reminder_id = models.AutoField(primary_key=True)
+    request_id = models.IntegerField()
+    user_id = models.IntegerField()
+    read_date =  models.DateTimeField(default=None, editable=True)
+    read_time =  models.DateTimeField(default=None, editable=True)
+    is_read = models.BooleanField()
+
+    class Meta:
+      db_table="notification_reminder"
+
 class QArequest_edit (models.Model):
     request_id = models.AutoField(primary_key=True)
     question = models.CharField(max_length = 1000)
@@ -152,8 +163,8 @@ class QArequest_edit (models.Model):
       db_table="request"
 
 class status (models.Model):
-  status_id = models.AutoField(primary_key=True)
-  status_type = models.CharField(max_length = 1000)
+    status_id = models.AutoField(primary_key=True)
+    status_type = models.CharField(max_length = 1000)
 
-  class Meta:
-      db_table="status"
+    class Meta:
+        db_table="status"

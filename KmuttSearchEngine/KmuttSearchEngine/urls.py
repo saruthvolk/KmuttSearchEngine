@@ -31,6 +31,8 @@ urlpatterns = [
     path('database/', admin.site.urls),
     path('register/', views.register, name='register'),
     path('request/<operation>', views.requestmanagement, name='request'),
+    path('get_notification/', api.get_notification, name='get_notification'),
+    path('get_notification_badge/', api.get_notification_badge, name='get_notification_bage'),
 
     path('reset_password/',
      auth_views.PasswordResetView.as_view(template_name="password_reset.html"),
@@ -70,6 +72,7 @@ urlpatterns += i18n_patterns (
     path('register/', views.register, name='register'),
     path('request/<operation>', views.requestmanagement, name='request'),
     path('get_notification/', api.get_notification, name='get_notification'),
+    path('get_notification_badge/', api.get_notification_badge, name='get_notification_badge'),
 
     path('reset_password/',
      auth_views.PasswordResetView.as_view(template_name="password_reset.html"),

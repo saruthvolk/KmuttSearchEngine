@@ -63,6 +63,20 @@ class departmentDto:
      department_id = []
      department_name = []
 
+class notification_reminderDto:
+    reminder_id = []
+    request_id = []
+    user_id = []
+    read_date =  []
+    read_time =  []
+    is_read = []
+    def reset():
+         notification_reminderDto.reminder_id = []
+         notification_reminderDto.request_id = []
+         notification_reminderDto.user_id = []
+         notification_reminderDto.read_date = []
+         notification_reminderDto.read_time = []
+         notification_reminderDto.is_read= []
 class QArequestDto:
 
     request_id = []
@@ -199,10 +213,10 @@ def queryDb_department():
      
      return query
 
-def queryDb_request():
+def queryDb_request_noti(noti_reminder):
      try:
           QArequestDto.reset()
-          query = list(QArequest.objects.order_by('-created_date','-created_time')) 
+          query = list(QArequest.objects.filter(request_id__in = noti_reminder.request_id).order_by('-created_date','-created_time')) 
           for noti in query:
                QArequestDto.request_id.append(noti.request_id)
                QArequestDto.question.append(noti.question)
@@ -270,6 +284,18 @@ def queryDb_onequestion(id):
  
      try:
           query = questionanswer.objects.get(id = id) 
+     except:
+          query = "Error"
+
+     return query
+
+def queryDb_notification_reminder(id):
+
+     try:
+          query = notification_reminder.objects.filter(user_id = id, is_read = False).only('request_id')
+          notification_reminderDto.request_id = [data.request_id for data in query]
+          query = queryDb_request_noti(notification_reminderDto)
+
      except:
           query = "Error"
 

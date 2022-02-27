@@ -199,7 +199,7 @@
         get_notification = function (val) {
             $.ajax({
                 type: "POST",
-                url: "{% url 'get_notification' %}",
+                url: "{% url 'get_notification_badge' %}",
                 data: {
                     csrfmiddlewaretoken: '{{ csrf_token }}'
                 },
@@ -269,7 +269,7 @@
                     <br/><p style="margin-left:60px; font-size:15px;" id="request">{% translate "Requested by"%}: ${data}</p>
                     <br>
                     <input type="checkbox" name="request_id" value="${response.request_id[index]}" id="request_id_${response.request_id[index]}" hidden/>
-                    <a style="float:right; font-size:13px; margin-left:-5px">${time2TimeAgo(response.time[index])}</a></a>
+                    <a style="float:right; font-size:13px; padding: 0px 10px;">${time2TimeAgo(response.time[index])}</a></a>
                     <br>
                     <div class="dropdown-divider"></div>
                     <br>
@@ -380,8 +380,7 @@
                         <a href="{% url 'request' operation='view_user' %}" class="dropdown-item"><i
                                 class="far fa-clipboard"></i> {% translate "Requests"%}</a>
                         <div class="dropdown-divider"></div>
-                        <a href="/logout" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> {% translate
-                            "Logout" %}</a>
+                        <a href="/logout" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> {% translate "Logout" %}</a>
                     </div>
                 </div>
             </div>
