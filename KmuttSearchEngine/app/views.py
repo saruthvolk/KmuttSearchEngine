@@ -573,8 +573,9 @@ def requestmanagement(request, operation):
     elif operation == 'delete':
         if request.method == "POST":
             id = request.POST.get('request_id')
-            result = request_delete(request,id)
-            if result is "Error":
+            result_delete = request_delete(request,id)
+            result_noti_delete = delete_reminder(request,id)
+            if (result_delete or result_noti_delete) is "Error":
                 return redirect('home')
             else:
                 messages.info(request, _("Your request has been successfully deleted."))
@@ -656,14 +657,14 @@ def request_admin(request, operation):
         if (result and department) is "Error":
             return redirect('home')
         else:
-            result_reminder = create_reminder(operation,id)
             return render(request, 'app/admin_approve.html',{ 'request_data': result,'department': department})
 
     elif operation == 'saveapprove':
         admin_id = request.user.id
-        result = admin_approve(request, admin_id)
-
+        request_id = request.POST.get('request_id')
+        result = admin_approve(request, admin_id, request_id)
         if result.code == 200:
+            result_reminder = create_reminder(operation,request_id)
             messages.info(request, ("Successfully approved the request"))
             return redirect('request_admin', operation='view')
         else:

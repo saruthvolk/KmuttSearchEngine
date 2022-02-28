@@ -374,7 +374,7 @@
                 {% csrf_token %}
                 <input name="request_id" id="request_id" value="{{ request_data.request_id }}" hidden />
                 <button type= "submit" class="btn btn-success btn-sm" style="font-size: 13px;" data-toggle="modal" >Approve</button>
-                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#reject_{{request_data.request_id}}">Reject</button>
+                <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#reject_{{request_data.request_id}}" style="color: #fff; font-weight: 200;">Reject</a>
             </form>
             {% endif %}
         </td>

@@ -40,8 +40,19 @@ def create_reminder(operation,id):
                 save_reminder.is_read = False
                 save_reminder.save()
 
-        elif (operation == "reject") or (operation == "approve"):
+        elif (operation == "reject") or (operation == "saveapprove"):
+
+            user_query = userinfo.objects.filter(role_code=1).only('id')
             request_query = QArequest.objects.filter(request_id = id)
+            
+            for user in user_query:
+                noti_data = notification_reminder.objects.get(request_id = id, user_id = user.id)
+                noti_data.user_id = user.id
+                noti_data.read_date = current_time
+                noti_data.read_time = current_time
+                noti_data.is_read = True
+                noti_data.save()
+
             for request in request_query:
                 save_reminder = notification_reminder()
                 save_reminder.request_id = id
@@ -74,5 +85,5 @@ def delete_reminder(request,id):
         request_query.delete()
     except:
         Result.code = "Error"
-        
+
     return Result

@@ -78,7 +78,7 @@ def admin_reject(request, id, reject_reason, admin_id):
     return Result
 
 
-def admin_approve(request, admin_id):
+def admin_approve(request, admin_id, id):
     try:
         current_time = datetime.datetime.now().replace(microsecond=0)
         if request.method == "POST":
@@ -91,7 +91,7 @@ def admin_approve(request, admin_id):
                     saverecord = questionanswer.objects.get(
                     id=request.POST.get('question_id'))
 
-                updaterecord = QArequest_edit.objects.get(request_id=request.POST.get('request_id'))
+                updaterecord = QArequest_edit.objects.get(request_id= id)
                 updaterecord.status_id = '2'
                 updaterecord.updated_date = current_time
                 updaterecord.updated_time = current_time
@@ -116,5 +116,5 @@ def admin_approve(request, admin_id):
             Result.code = 200
     except:
         Result.code = "Error"
-        
+
     return Result
