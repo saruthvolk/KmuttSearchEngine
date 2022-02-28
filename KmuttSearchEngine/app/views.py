@@ -458,8 +458,7 @@ def register(request):
                     os.mkdir(user_folder)
                 destination = open('static/img/Profile_Pic/'+str(request.POST.get(
                     'username'))+'/'+str(request.POST.get('username'))+str(img_extension), 'wb+')
-                path = ('static/img/Profile_Pic/'+str(request.POST.get('username')
-                                                      )+'/'+str(request.POST.get('username'))+str(img_extension))
+                path = ('img/Profile_Pic/'+str(request.POST.get('username'))+'/'+str(request.POST.get('username'))+str(img_extension))
                 for chunk in img.chunks():
                     print('1')
                     destination.write(chunk)
@@ -545,7 +544,7 @@ def requestmanagement(request, operation):
 
     elif operation == 'update':
         result = request_update(request, operation)
-        result_reminder = create_reminder()
+        result_reminder = create_reminder(operation,None)
         if (result.code and result_reminder.code) == 200 :
             messages.info(request, _("Your request has been successfully created, admin will review it shortly."))
             return redirect('request', operation='view_user',)
@@ -554,8 +553,8 @@ def requestmanagement(request, operation):
 
     elif operation == 'saveedit':
         result = request_update(request, operation)
-        department = queryDb_department()
-        user_query = queryDb_User(request.user.id)
+        request_id = request.POST.get('request_id')
+        result_reminder = create_reminder(operation,request_id)
 
         if result is "Error":
             return redirect('home')
@@ -565,7 +564,8 @@ def requestmanagement(request, operation):
 
     elif operation == 'editquestion':
         result = request_update(request, operation)
-        if result.code is "Error":
+        result_reminder = create_reminder(operation,None)
+        if (result.code and result_reminder.code) == "Error":
             return redirect('home')
         else:
             return redirect('request', operation='view_user')
@@ -633,26 +633,38 @@ def request_admin(request, operation):
         
     elif operation == 'reject':
 
-        id = request.POST.get('request_id')
-        print(id)
+        request_id = request.POST.get('request_id')
         reject_reason = request.POST.get('reject_reason')
         admin_id = request.user.id
-        print (reject_reason)
-        print(admin_id)
-        result = admin_reject(request,id,reject_reason,admin_id)
+        result = admin_reject(request,request_id,reject_reason,admin_id)
         if result.code == 200:
-            messages.info(request, _("Successfully rejected the request"))
-            return redirect('request_admin', operation = "view")
+            result_reminder = create_reminder(operation,request_id)
+            if result_reminder.code is "Error":
+                return redirect('home')
+            else:
+                messages.info(request, _("Successfully rejected the request"))
+                return redirect('request_admin', operation = "view")
         else:
             return redirect('home')
     
     elif operation == 'approve':
 
         id = request.POST.get('request_id')
-        print(id)
         admin_id = request.user.id
-        #if query_request is "Error":
-         #   return redirect('home')
-        #else:
-        messages.info(request, _("Successfully approved the request"))
-        return redirect('request_admin', operation = "view")
+        result = queryDb_onerequest(id)
+        department = queryDb_department()
+        if (result and department) is "Error":
+            return redirect('home')
+        else:
+            result_reminder = create_reminder(operation,id)
+            return render(request, 'app/admin_approve.html',{ 'request_data': result,'department': department})
+
+    elif operation == 'saveapprove':
+        admin_id = request.user.id
+        result = admin_approve(request, admin_id)
+
+        if result.code == 200:
+            messages.info(request, ("Successfully approved the request"))
+            return redirect('request_admin', operation='view')
+        else:
+            return redirect('home')

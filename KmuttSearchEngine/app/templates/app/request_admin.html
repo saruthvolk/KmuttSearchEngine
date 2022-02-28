@@ -370,8 +370,12 @@
         <td>{{request_data.remark}}</td>
         <td class="text-center" colspan="1" style="width: 15%;">
             {% if request_data.status_id == 1 %}
-            <button class="btn btn-success btn-sm" style="font-size: 13px;" data-toggle="modal" data-target="#approve_{{request_data.request_id}}">Approve</button>
-            <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#reject_{{request_data.request_id}}">Reject</button>
+            <form method="post" action="{% url 'request_admin' operation='approve'%}">
+                {% csrf_token %}
+                <input name="request_id" id="request_id" value="{{ request_data.request_id }}" hidden />
+                <button type= "submit" class="btn btn-success btn-sm" style="font-size: 13px;" data-toggle="modal" >Approve</button>
+                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#reject_{{request_data.request_id}}">Reject</button>
+            </form>
             {% endif %}
         </td>
         <td><button class="btn btn-link" data-toggle="collapse"

@@ -14,13 +14,13 @@ def get_notification(request):
             query.user_id[count] = user_query.username
             query.path[count] = user_query.path_profile_pic
 
-        for count,(date,time1) in enumerate(zip(query.created_date,query.created_time)):
+        for count,(date,time1) in enumerate(zip(query.updated_date,query.updated_time)):
             datem = datetime.datetime.strptime(str(date)+str(time1), "%Y-%m-%d%H:%M:%S")
             date_time = datetime.datetime(datem.year, datem.month, datem.day, datem.hour, datem.minute)
-            query.created_time[count] = time.mktime(date_time.timetuple())
+            query.updated_time[count] = time.mktime(date_time.timetuple())
 
         length = len(query.request_id)
-        return JsonResponse({'user_id':query.user_id,'question':query.question,'date':query.created_date,'time':query.created_time,
+        return JsonResponse({'user_id':query.user_id,'question':query.question,'date':query.updated_date,'time':query.updated_time,
         'type':query.request_type,'path': query.path,'length':length, 'status': query.status_id, 'request_id':query.request_id},safe=False)
     else:
         return JsonResponse("Error",safe=False)

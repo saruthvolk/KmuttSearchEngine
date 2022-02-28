@@ -84,7 +84,6 @@
 
     <input type="checkbox" onclick="toggle(this);"/>Check all?<br/>
 
-    {% for QArequest in query %}
     <div class="id" id="{{id_list}}"></div>
     <form method="POST" class="was-validated">
         {% csrf_token %}
@@ -92,13 +91,13 @@
             <thead class="thead-dark">
             <th scope="col" colspan="6">
                 <label type="text" name="question"> Question ID </label>
-                <label type="text" name="question_id">{{question_data.question_id}} </label>
+                <label type="text" name="question_id">{{question_data.id}} </label>
             </th>
             </thead>
             <td>Question</td>
 
             <td colspan="6">
-                <input type="text" name="question_id" value="{{question_data.question_id}}" hidden  </input>
+                <input type="text" name="question_id" value="{{question_data.id}}" hidden  </input>
                 <input type="text" name="user_id" value="{{user_query.id}}" hidden  </input>
                 <input type="text" class="form-control is-valid" name="question" value="{{question_data.question}}" required />
             </td>
@@ -137,7 +136,6 @@
             </select>
             </td>
                 <tr>
-            {% endfor %}
         </table>
         <button type="submit" class="btn-primary" formaction="{% url 'request' operation='editquestion'%}">Submit request</button>
         <button type="submit" class="btn-primary" formaction="{% url 'Crud_QA' operation='Remove' id='0' %}">Delete</button>
