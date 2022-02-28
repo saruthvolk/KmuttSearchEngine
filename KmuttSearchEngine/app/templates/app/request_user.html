@@ -262,9 +262,10 @@
             flex: 0 0 25%;
             max-width: 20%;
         }
-
+    }
+    @media (max-width: 768px) {
         .row {
-            height: 640px;
+            height:640px
         }
     }
 </style>
@@ -426,12 +427,10 @@
                                     {% translate "Check the box to confirm the action." %}
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate
-                                        "Cancel" %}</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Cancel" %}</button>
                                     <button type="submit" class="btn btn-danger"
                                         id="delete_button_{{request.request_id}}"
-                                        formaction="{% url 'request' operation='delete'%}" disabled="disabled">{%
-                                        translate "Delete" %}</button>
+                                        formaction="{% url 'request' operation='delete'%}" disabled="disabled">{% translate "Delete" %}</button>
                                 </div>
                             </div>
                         </div>

@@ -545,7 +545,7 @@ def requestmanagement(request, operation):
 
     elif operation == 'update':
         result = request_update(request, operation)
-        result_reminder = create_reminder(request, operation)
+        result_reminder = create_reminder()
         if (result.code and result_reminder.code) == 200 :
             messages.info(request, _("Your request has been successfully created, admin will review it shortly."))
             return redirect('request', operation='view_user',)
