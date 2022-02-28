@@ -1,8 +1,8 @@
 {% extends "app/layout.html" %}
 {% load i18n %}
 {% block content %}
-<script src="https://cdn.tiny.cloud/1/lkp5p0w1fk12lr4trywat44qle2pxarpedhgjkdxxmsohyl2/tinymce/5/tinymce.min.js"
-    referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/lkp5p0w1fk12lr4trywat44qle2pxarpedhgjkdxxmsohyl2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <style>
     .modal-confirm .modal-content {
         height: fit-content;
@@ -262,7 +262,7 @@
                         value="{{request_data.request_type}}" hidden />
                     {% endfor %}
             </table>
-            <button class="btn btn-success btn" data-toggle="modal" data-target="#approve">{% translate "Approve" %}</button>
+            <a class="btn btn-success btn" style="color: #fff; font-weight: 200;" data-toggle="modal" data-target="#approve">{% translate "Approve" %}</a>
             <button type="submit" class="btn btn-danger" id="reject_button_{{ request_data.request_id }}"
                 formaction="{% url 'request_admin' operation='reject'%}">Reject</button>
             <br />
@@ -288,8 +288,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Cancel" %}</button>
-                                <button type="submit" class="btn btn-success"
-                                    formaction="{% url 'request_admin' operation='saveapprove'%}">Approve</button>
+                                <button type="submit" class="btn btn-success" formaction="{% url 'request_admin' operation='saveapprove'%}">Approve</button>
                             </div>
                         </div>
                     </div>
