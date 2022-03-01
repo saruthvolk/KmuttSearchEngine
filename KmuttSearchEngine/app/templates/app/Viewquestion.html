@@ -45,13 +45,15 @@
 
                 </th>
                 </thead>
+                {% get_current_language as LANGUAGE_CODE %}
+                {% if LANGUAGE_CODE == "th" %}
                 <tr>
                     <td class="font-weight-bold">Question</td>
-                    <td colspan="2">
+                    <td colspan="2" style="width: 40%;">
                         <label type="text" name="question"> {{questionanswer.question}} </label>
                     </td>
-                    <td class="font-weight-bold">Answer</td>
-                    <td colspan="10">
+                    <td class="font-weight-bold" >Answer</td>
+                    <td colspan="10" style="width: 60%;">
                         <span style="white-space: pre-line;word-break:break-all">
                             {% autoescape off %}
                             {{questionanswer.answer}}
@@ -59,13 +61,14 @@
                         </span>
                     </td>
                 </tr>
+                {% else %}
                 <tr>
-                    <td class="font-weight-bold">Question EN</td>
-                    <td colspan="2">
+                    <td class="font-weight-bold">Question</td>
+                    <td colspan="2" style="width: 40%;">
                         <label type="text" name="question"> {{questionanswer.question_en}} </label>
                     </td>
-                    <td class="font-weight-bold">Answer en</td>
-                    <td colspan="6">
+                    <td class="font-weight-bold">Answer</td>
+                    <td colspan="10" style="width: 60%;">
                         <span style="white-space: pre-line;word-break:break-all">
                             {% autoescape off %}
                             {{questionanswer.answer_en}}
@@ -74,7 +77,8 @@
                     </td>
 
                 </tr>
-                {% endfor %}
+                {% endif %}
+            {% endfor %}
             </table>
             <button type="submit" class="btn-primary"> Edit</button>
             <button type="submit" class="btn-primary" formaction="{% url 'Crud_QA' operation='Remove' id='0' %}">Delete</button>
