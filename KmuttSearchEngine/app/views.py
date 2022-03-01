@@ -256,9 +256,23 @@ def Crud_QA(request, operation, id):
 
     elif operation == "View":
 
-        result = View_QA(request, id)
+        question_all = queryDb_QA_All()
+        page = request.GET.get('page', 1)
+        if page == 1:
+            question_all = queryDb_QA_All()
+        paginator = Paginator(question_all, 5)
+        try:
+            query1 = paginator.page(page)
+        except PageNotAnInteger:
+            query1 = paginator.page(1)
+        except EmptyPage:
+            query1 = paginator.page(paginator.num_pages)
+        if question_all is "Error":
+            return redirect('home')
+        else:
+            return render(request, 'app/Viewquestion.html', {'query': query1})
 
-        return render(request, 'app/Viewquestion.html', {'query': result.query})
+
 
     elif operation == "Remove":
 
