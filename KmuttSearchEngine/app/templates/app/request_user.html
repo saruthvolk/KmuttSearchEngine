@@ -308,7 +308,7 @@
                 <a href="{% url 'request' operation='view_user' %}"
                     class="list-group-item list-group-item-action active"
                     style="background-color: #ff8829; border-color: transparent">{% translate "Request" %}</a>
-                <a href="#" class="list-group-item list-group-item-action">{% translate "Search history" %}</a>
+                <a href="{% url 'search_history' operation='view' %}" class="list-group-item list-group-item-action">{% translate "Search history" %}</a>
                 <a href="#" class="list-group-item list-group-item-action">{% translate "View history" %}</a>
             </div>
 

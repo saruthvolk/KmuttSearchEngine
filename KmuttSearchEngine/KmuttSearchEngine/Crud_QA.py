@@ -1,5 +1,6 @@
 import datetime
 from django.http import HttpRequest
+from app.models import search_history
 from app.models import questionanswer
 from app.models import edit_questionanswer
 from KmuttSearchEngine.Query import queryDb_QA_All

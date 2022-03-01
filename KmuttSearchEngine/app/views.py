@@ -14,6 +14,7 @@ from KmuttSearchEngine.Crud_QA import *
 from KmuttSearchEngine.Crud_User import *
 from KmuttSearchEngine.Crud_Request import *
 from KmuttSearchEngine.Crud_notification import *
+from KmuttSearchEngine.Crud_search import *
 from KmuttSearchEngine.Query import *
 from app.models import questionanswer, userinfo, QArequest
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -107,6 +108,10 @@ def search(request):
     assert isinstance(request, HttpRequest)
 
     search = request.POST.get('search')
+    result_seach_history = create_search_history(request, search)
+
+    if result_seach_history == "Error":
+        return render(request, 'app/index.html')
 
     page = request.GET.get('page', 1)
 
@@ -667,5 +672,29 @@ def request_admin(request, operation):
             result_reminder = create_reminder(operation,request_id)
             messages.info(request, ("Successfully approved the request"))
             return redirect('request_admin', operation='view')
+        else:
+            return redirect('home')
+
+def search_history_user(request,operation):
+
+    if operation == "view":
+        user_id = request.user.id
+        query_search = view_search_history(request,user_id)
+        user_query = queryDb_User(request.user.id)
+        
+        page = request.GET.get('page', 1)
+        
+        if page == 1:
+            query_search = view_search_history(request,user_id)
+        paginator = Paginator(query_search, 7)
+        try:
+            query = paginator.page(page)
+        except PageNotAnInteger:
+            query = paginator.page(1)
+        except EmptyPage:
+            query = paginator.page(paginator.num_pages)
+
+        if (query != "Error"):
+            return render(request, 'app/search_history.html',{ 'query': query, 'user_info':user_query})
         else:
             return redirect('home')

@@ -177,3 +177,13 @@ class status (models.Model):
 
     class Meta:
         db_table = "status"
+
+class search_history (models.Model):
+    search_id = models.AutoField(primary_key=True)
+    query = models.CharField(max_length=1000)
+    created_date=models.DateTimeField(default=now, editable=True)
+    created_time = models.DateTimeField(default=now, editable=True)
+    user_id = models.IntegerField()
+
+    class Meta:
+        db_table = "search_history"
