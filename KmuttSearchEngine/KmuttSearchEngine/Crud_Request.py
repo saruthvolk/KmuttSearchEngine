@@ -40,6 +40,7 @@ def request_update(request, operation):
             saverecord.created_time = current_time
             saverecord.updated_date = current_time
             saverecord.updated_time = current_time
+            saverecord.updated_by = request.user.id
             #saverecord.question_id = None
             saverecord.save()
 
@@ -63,6 +64,7 @@ def admin_reject(request, id, reject_reason, admin_id):
         current_time = datetime.datetime.now().replace(microsecond=0)
         saverecord = QArequest_edit.objects.get(request_id=id)
         saverecord.status_id = '3'
+        saverecord.updated_by = admin_id
         saverecord.rejected_date = current_time
         saverecord.rejected_time = current_time
         saverecord.updated_date = current_time

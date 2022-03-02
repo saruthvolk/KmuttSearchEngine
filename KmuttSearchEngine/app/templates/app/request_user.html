@@ -111,8 +111,8 @@
         .list-group {
             font-size: 15px;
             width: auto;
-            width: 112.5%;
-            margin-left: -6.4%;
+            width: 111.8%;
+            margin-left: -5.9%;
             margin-right: auto;
         }
     }
@@ -308,8 +308,8 @@
                 <a href="{% url 'request' operation='view_user' %}"
                     class="list-group-item list-group-item-action active"
                     style="background-color: #ff8829; border-color: transparent">{% translate "Request" %}</a>
-                <a href="{% url 'search_history' operation='view' %}" class="list-group-item list-group-item-action">{% translate "Search history" %}</a>
-                <a href="#" class="list-group-item list-group-item-action">{% translate "View history" %}</a>
+                <a href="{% url 'history' operation='search' %}" class="list-group-item list-group-item-action">{% translate "Search history" %}</a>
+                <a href="{% url 'history' operation='view' %}" class="list-group-item list-group-item-action">{% translate "View history" %}</a>
             </div>
 
         </div>

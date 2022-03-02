@@ -18,6 +18,7 @@
     #answer { background: #f2f2f3; }
 
     #request {
+        margin-left: -5px;
         background: #f37a3b;
         border-color: #f37a3b;
     }
@@ -40,10 +41,15 @@
     </span>
     <p id="view">Views: {{ query.view_count }}</p>
 </div>
-
+<br>
+<br>
 <form action="{% url 'request' operation='request_edit' %}" method="POST">
     {% csrf_token %}
     <input name="question_id" id="question_id" value="{{query.id}}" hidden />
 <td><button href="#" class="btn btn-info" id="request">Request for changes</button>
 </form>
+<br>
+<br>
+<br>
+<br>
 {% endblock %}

@@ -348,14 +348,13 @@
     </thead>
     <tbody>
     <tr>
-    {% for user_data in query2 %}{% for request_data in query %} 
-    {% if forloop.counter == forloop.parentloop.counter %}
+    {% for request_data in query %} 
     <td class="text-center"><b>{{request_data.request_type}}</b></td>
     <td class="text-center">
-        {% if user_data.path_profile_pic is None %}
-        <a href="#" data-toggle="modal" data-target="#userview_{{user_data.id}}"><img src="{% static 'img/user.png' %}" class="avatar" alt="Avatar"> {{user_data.first_name}} {{user_data.last_name}} </a>
+        {% if request_data.user.path_profile_pic is None %}
+        <a href="#" data-toggle="modal" data-target="#userview_{{request_data.user.id}}"><img src="{% static 'img/user.png' %}" class="avatar" alt="Avatar"> {{request_data.user.first_name}} {{request_data.user.last_name}} </a>
         {% else %}
-        <a href="#" data-toggle="modal" data-target="#userview_{{user_data.id}}"><img src="{% static user_data.path_profile_pic %}" class="avatar" alt="Avatar"> {{user_data.first_name}} {{user_data.last_name}} </a>
+        <a href="#" data-toggle="modal" data-target="#userview_{{request_data.user.id}}"><img src="{% static request_data.user.path_profile_pic %}" class="avatar" alt="Avatar">{{request_data.user.first_name}} {{request_data.user.last_name}} </a>
         {% endif %}
     </td>
     {% if request_data.status_id == 1 %}
@@ -426,7 +425,7 @@
                         <h4 class="modal-title w-100">{% translate "Confirm your process ?" %}</h4>
                     </div>
                     <div class="modal-body">
-                        <p class="text-center">{% translate "Do you really want to reject" %} <b>{{user_data.username}}</b> {% translate "request? The process cannot be undone." %}</p>
+                        <p class="text-center">{% translate "Do you really want to reject" %} <b>{{request_data.user.username}}</b> {% translate "request? The process cannot be undone." %}</p>
                         <div class="form-group">
                             <label for="exampleFormControlTextarea1" >{% translate "Reasons:" %}</label>
                             <textarea class="form-control" id="exampleFormControlTextarea1" name ="reject_reason" rows="5" style="font-size: 13px;" required></textarea>
@@ -454,7 +453,7 @@
                         <h4 class="modal-title w-100">{% translate "Confirm your process ?" %}</h4>
                     </div>
                     <div class="modal-body">
-                        <p class="text-center">{% translate "Do you really want to approve" %} <b>{{user_data.username}}</b> {% translate "request?" %} </p>
+                        <p class="text-center">{% translate "Do you really want to approve" %} <b>{{request_data.user.username}}</b> {% translate "request?" %} </p>
                         <br/>
                         <input type="checkbox" id="requestid_{{ request_data.request_id }}" name="request_id" class="checkbox" value="{{ request_data.request_id }}" style="margin-left: 16%;" onClick="disable_button2(this)"/> {% translate "Check the box to confirm the action." %}
                     </div>
@@ -468,91 +467,91 @@
         </div>
     </form>
 
-    <div class="modal fade" id="userview_{{user_data.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal fade" id="userview_{{request_data.user.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
         <div class="modal-dialog" role="document" style="width: 500px">
             <div class="modal-content" style="border-color: transparent; border-radius: 10px;  width: 140%; margin-left: -21%;">
                 <div class="modal-header" style="background-color: #e87639; border-radius: 10px 10px 0 0;">
-                    <h5 class="modal-title" id="header_{{user_data.id}}" style="color: #ffffff">{{user_data.first_name}}'s profile </h5>
+                    <h5 class="modal-title" id="header_{{request_data.user.id}}" style="color: #ffffff">{{request_data.user.first_name}}'s profile </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        {% if user_data.path_profile_pic is not None %}
-                        <a href="#" data-toggle="modal" data-target="#userview_{{user_data.id}}"><img src="{% static user_data.path_profile_pic %}" id="view_profile_pic" class="avatar" alt="Avatar"></a>
+                        {% if request_data.user.path_profile_pic is not None %}
+                        <a href="#" data-toggle="modal" data-target="#userview_{{request_data.user.id}}"><img src="{% static request_data.user.path_profile_pic %}" id="view_profile_pic" class="avatar" alt="Avatar"></a>
                         {% else %}
-                        <a href="#" data-toggle="modal" data-target="#userview_{{user_data.id}}"><img src="{% static 'img/user.png' %}" id="view_profile_pic" class="avatar" alt="Avatar"></a>
+                        <a href="#" data-toggle="modal" data-target="#userview_{{request_data.user.id}}"><img src="{% static 'img/user.png' %}" id="view_profile_pic" class="avatar" alt="Avatar"></a>
                         {% endif %}
                     </div>
                     <div class="form-row">
                         <div class="col">
                         <label class="col-form-label">{% translate "First name:" %}</label>
-                        <input type="text" class="form-control" id="first_name_{{user_data.id}}" name="first_name_{{user_data.id}}"value="{{user_data.first_name}}" readonly="readonly">
+                        <input type="text" class="form-control" id="first_name_{{request_data.user.id}}" name="first_name_{{request_data.user.id}}"value="{{request_data.user.first_name}}" readonly="readonly">
                         </div>
                         <div class="col">
                         <label class="col-form-label">{% translate "Last name:" %}</label>
-                        <input type="text" class="form-control" id="last_name_{{user_data.id}}" name="last_name_{{user_data.id}}" value="{{user_data.last_name}}" readonly="readonly">
+                        <input type="text" class="form-control" id="last_name_{{request_data.user.id}}" name="last_name_{{request_data.user.id}}" value="{{request_data.user.last_name}}" readonly="readonly">
                     </div>
                     </div>
                     <div class="form-row">
                         <div class="col">
                         <label class="col-form-label">{% translate "Date of birth:" %}</label>
-                        <input type="text" class="form-control" id="date_of_birth_{{user_data.id}}" name="date_of_birth_{{user_data.id}}" value="{{user_data.date_of_birth}}" readonly="readonly">
+                        <input type="text" class="form-control" id="date_of_birth_{{request_data.user.id}}" name="date_of_birth_{{request_data.user.id}}" value="{{request_data.user.date_of_birth}}" readonly="readonly">
                          </div>
                         <div class="col">
                             <label class="col-form-label">{% translate "Gender:" %}</label>
-                            <input type="text" class="form-control" id="gender{{user_data.id}}" name="gender_{{user_data.id}}" value="{{user_data.gender }}" readonly="readonly">
+                            <input type="text" class="form-control" id="gender{{request_data.user.id}}" name="gender_{{request_data.user.id}}" value="{{request_data.user.gender }}" readonly="readonly">
                         </div>
                     </div>
                         <div class="form-group">
                         <label class="col-form-label">{% translate "Email:" %}</label>
-                        <input type="text" class="form-control" id="email_{{user_data.id}}" name="email_{{user_data.id}}" value="{{user_data.email}}" readonly="readonly">
+                        <input type="text" class="form-control" id="email_{{request_data.user.id}}" name="email_{{request_data.user.id}}" value="{{request_data.user.email}}" readonly="readonly">
                     </div>
                     <div class="form-group">
                         <label class="col-form-label">{% translate "Phone No:" %}</label>
-                        <input type="text" class="form-control" id="phone_no_{{user_data.id}}" name="phone_no_{{user_data.id}}" value="{{user_data.phone_no}}" readonly="readonly">
+                        <input type="text" class="form-control" id="phone_no_{{request_data.user.id}}" name="phone_no_{{request_data.user.id}}" value="{{request_data.user.phone_no}}" readonly="readonly">
                     </div>
                     <div class="form-row">
                         <div class="col">
                             <label class="col-form-label">{% translate "Create Date:" %}</label>
-                            <input type="text" class="form-control" id="create_date_{{user_data.id}}" name="create_date_{{user_data.id}}" value="{{user_data.created_date}}" readonly="readonly">
+                            <input type="text" class="form-control" id="create_date_{{request_data.user.id}}" name="create_date_{{request_data.user.id}}" value="{{request_data.user.created_date}}" readonly="readonly">
                         </div>
                         <div class="col">
                             <label class="col-form-label">{% translate "Create Time:" %}</label>
-                            <input type="text" class="form-control" id="create_time_{{user_data.id}}" name="create_time_{{user_data.id}}" value="{{user_data.created_time}}" readonly="readonly">
+                            <input type="text" class="form-control" id="create_time_{{request_data.user.id}}" name="create_time_{{request_data.user.id}}" value="{{request_data.user.created_time}}" readonly="readonly">
                         </div>
                         <div class="col">
                             <label class="col-form-label">{% translate "Create By:" %}</label>
-                            <input type="text" class="form-control" id="create_by_{{user_data.id}}" name="create_by_{{user_data.id}}" value="{{user_data.created_by}}" readonly="readonly">
+                            <input type="text" class="form-control" id="create_by_{{request_data.user.id}}" name="create_by_{{request_data.user.id}}" value="{{request_data.user.created_by}}" readonly="readonly">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col">
                         <label class="col-form-label">{% translate "Update Date:" %}</label>
-                        <input type="text" class="form-control" id="update_date_{{user_data.id}}" name="update_date_{{user_data.id}}" value="{{user_data.updated_date}}" readonly="readonly">
+                        <input type="text" class="form-control" id="update_date_{{request_data.user.id}}" name="update_date_{{request_data.user.id}}" value="{{request_data.user.updated_date}}" readonly="readonly">
                         </div>
                         <div class="col">
                         <label class="col-form-label">{% translate "Update Time:" %}</label>
-                        <input type="text" class="form-control" id="update_time_{{user_data.id}}" name="update_time_{{user_data.id}}" value="{{user_data.updated_time}}" readonly="readonly">
+                        <input type="text" class="form-control" id="update_time_{{request_data.user.id}}" name="update_time_{{request_data.user.id}}" value="{{request_data.user.updated_time}}" readonly="readonly">
                         </div>
                         <div class="col">
                             <label class="col-form-label">{% translate "Update By:" %}</label>
-                            <input type="text" class="form-control" id="update_by_{{user_data.id}}" name="update_by_{{user_data.id}}" value="{{user_data.updated_by}}" readonly="readonly">
+                            <input type="text" class="form-control" id="update_by_{{request_data.user.id}}" name="update_by_{{request_data.user.id}}" value="{{request_data.user.updated_by}}" readonly="readonly">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col">
                         <label class="col-form-label">{% translate "Suspended date:" %}</label>
-                        <input type="text" class="form-control" id="suspended_date_{{user_data.id}}" name="suspended_date_{{user_data.id}}" value="{{user_data.suspended_date}}" readonly="readonly">
+                        <input type="text" class="form-control" id="suspended_date_{{request_data.user.id}}" name="suspended_date_{{request_data.user.id}}" value="{{request_data.user.suspended_date}}" readonly="readonly">
                         </div>
                         <div class="col">
                         <label class="col-form-label">{% translate "Suspended Time:" %}</label>
-                        <input type="text" class="form-control" id="suspended_time_{{user_data.id}}" name="suspended_time_{{user_data.id}}" value="{{user_data.suspended_time}}" readonly="readonly">
+                        <input type="text" class="form-control" id="suspended_time_{{request_data.user.id}}" name="suspended_time_{{request_data.user.id}}" value="{{request_data.user.suspended_time}}" readonly="readonly">
                         </div>
                         <div class="col">
                             <label class="col-form-label">{% translate "Suspended By:" %}</label>
-                            <input type="text" class="form-control" id="suspended_by_{{user_data.id}}" name="suspended_by_{{user_data.id}}" value="{{user_data.suspended_by}}" readonly="readonly">
+                            <input type="text" class="form-control" id="suspended_by_{{request_data.user.id}}" name="suspended_by_{{request_data.user.id}}" value="{{request_data.user.suspended_by}}" readonly="readonly">
                         </div>
                     </div>
                     <br/>
@@ -562,8 +561,7 @@
     </div>
     </tr>
     </tbody>  
-    {% endif %}
-    {% endfor %}{% endfor %}
+    {% endfor %}
 </table>
 
 <div id="success_modal" name = "success_modal" class="modal fade in">

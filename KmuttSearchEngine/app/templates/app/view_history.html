@@ -14,6 +14,9 @@
         box-shadow: none;
     }
 
+    #question:hover{
+        color:#f76d00
+    }
     .profile-button {
         background: rgb(99, 39, 120);
         border: none;
@@ -63,7 +66,7 @@
         background-color: #db6100
     }
 
-    .request_type {
+    .request_type, .text-left {
         font-size: 14px;
     }
 
@@ -128,6 +131,10 @@
         margin-top: 8%;
     }
 
+    #question{
+        color:black
+    }
+
     th,
     td {
         text-align: center;
@@ -146,7 +153,7 @@
             max-width: 20%;
         }
         .row {
-            height:640px
+            height:fit-content;
         }
     }
     @media (max-width: 768px) {
@@ -171,7 +178,7 @@
 </script>
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
-        <div class="col-md-3" style="background-color: #1a4d6a; border-radius: 10px 0px 0px 10px">
+        <div class="col-md-3" style="background-color: #1a4d6a; border-radius: 10px 0px 0px 10px; min-height: 640px;">
 
             {% for user_data in user_info %}
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
@@ -192,36 +199,48 @@
             <div class="list-group">
                 <a href="{% url 'profile' operation='view' %}" class="list-group-item list-group-item-action">{% translate "Profile" %}</a>
                 <a href="{% url 'request' operation='view_user' %}" class="list-group-item list-group-item-action">{% translate "Request" %}</a>
-                <a href="{% url 'history' operation='search' %}" class="list-group-item list-group-item-action active"
-                style="background-color: #ff8829; border-color: transparent">{% translate "Search history" %}</a>
-                <a href="{% url 'history' operation='view' %}" class="list-group-item list-group-item-action">{% translate "View history" %}</a>
+                <a href="{% url 'history' operation='search' %}" class="list-group-item list-group-item-action">{% translate "Search history" %}</a>
+                <a href="{% url 'history' operation='view' %}" class="list-group-item list-group-item-action active" 
+                style="background-color: #ff8829; border-color: transparent">{% translate "View history" %}</a>
             </div>
 
         </div>
         <div class="col-md-9">
             <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right"> {% translate "My Search" %}</h4>
+                    <h4 class="text-right"> {% translate "My viewed question" %}</h4>
                 </div>
                 <hr />
-                <table class="table table-condensed">
+                <table class="table table-condensed table-hover">
                     <thead class="thead-dark ">
                         <tr>
-                            <th>{% translate "Search" %}</th>
-                            <th>{% translate "Search Date" %}</th>
-                            <th>{% translate "Search Time" %}</th>
-                            <th></th>
+                            <th>No.</th>
+                            <th>{% translate "View" %}</th>
+                            <th>{% translate "Viewed Date" %}</th>
+                            <th>{% translate "Viewed Time" %}</th>
                         </tr>
                     </thead>
-                    {% for search in query %}
+                    {% for view in query %}
                     <tbody>
-                        <tr id="accordion_{{request.request_id}}">
-                            <td class="request_type"><b>{{ search.query}}</b></td>
+                        <tr id="accordion">
+                            <td class="request_type" style="width: 8%;"> 
+                                <b>{{ forloop.counter }}</b>
+                            </td>
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% if LANGUAGE_CODE == 'th' %}
+                            <td class="text-left" href=>
+                                <a href="{% url 'question' id=view.question.id %}" id="question"><b>{{ view.question.question}}</b></a>
+                            </td>
+                            {% elif LANGUAGE_CODE == 'en' %}
+                            <td class="text-left" style="width: 50%;">
+                                <a href="{% url 'question' id=view.question.id %}" id="question"><b>{{ view.question.question_en}}</b></a>
+                            </td>
+                            {% endif %}
                             <td class="request_type">
-                                {{request.updated_date|date:"M. d y" }} {{search.created_date}}
+                                {{view.view_date}}
                             </td>
                             <td class="request_type">
-                                {{request.created_date|date:"M. d y" }} {{search.created_time}}
+                                {{view.view_time}}
                             </td>
                         </tr>
                     </tbody>
@@ -242,8 +261,7 @@
                 <ul style="display: flex;" class="pagination">
                     {% if query.has_previous %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ query.previous_page_number }}">{% translate "Previous"
-                            %}</a>
+                        <a class="page-link" href="?page={{ query.previous_page_number }}">{% translate "Previous"%}</a>
                     </li>
                     {% else %}
                     <li class="page-item disabled">

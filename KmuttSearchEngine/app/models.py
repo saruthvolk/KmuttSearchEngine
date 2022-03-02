@@ -2,6 +2,7 @@
 Definition of models.
 """
 
+from tkinter import CASCADE
 from django.db import models
 import datetime
 from django.contrib.auth.models import User
@@ -99,6 +100,12 @@ class user_role (models.Model):
     class Meta:
         db_table = "user_role"
 
+class department (models.Model):
+    department_id = models.AutoField(primary_key=True)
+    department_name = models.CharField(max_length=1000)
+
+    class Meta:
+        db_table = "department"
 
 class QArequest (models.Model):
     request_id = models.AutoField(primary_key=True)
@@ -109,32 +116,23 @@ class QArequest (models.Model):
     status_id = models.IntegerField()
     created_date = models.DateTimeField(default=now, editable=True)
     request_type = models.CharField(max_length=1000)
-    department_id = models.IntegerField()
-    user_id = models.IntegerField()
+    department = models.ForeignKey(department, on_delete=models.CASCADE)
+    user = models.ForeignKey(userinfo, on_delete=models.CASCADE)
     question_id = models.IntegerField()
     remark = models.CharField(max_length=1000)
     created_time = models.DateTimeField(default=None, editable=True)
     updated_date = models.DateTimeField(default=None, editable=True)
     updated_time = models.DateTimeField(default=None, editable=True)
-    updated_by = models.CharField(max_length=1000)
+    updated_by = models.IntegerField()
     rejected_date = models.DateTimeField(default=None, editable=True)
     rejected_time = models.DateTimeField(default=None, editable=True)
-    rejected_by = models.CharField(max_length=1000)
+    rejected_by = models.IntegerField()
     rejected_remark = models.CharField(max_length=1000)
 
     class Meta:
         db_table = "request"
         managed = False
-
-
-class department (models.Model):
-    department_id = models.AutoField(primary_key=True)
-    department_name = models.CharField(max_length=1000)
-
-    class Meta:
-        db_table = "department"
-
-
+    
 class notification_reminder (models.Model):
     reminder_id = models.AutoField(primary_key=True)
     request_id = models.IntegerField()
@@ -161,10 +159,10 @@ class QArequest_edit (models.Model):
     remark = models.CharField(max_length=1000)
     updated_date = models.DateTimeField(default=now, editable=True)
     updated_time = models.DateTimeField(default=now, editable=True)
-    updated_by = models.CharField(max_length=1000)
+    updated_by = models.IntegerField()
     rejected_date = models.DateTimeField(default=None, editable=True)
     rejected_time = models.DateTimeField(default=None, editable=True)
-    rejected_by = models.CharField(max_length=1000)
+    rejected_by = models.IntegerField()
     rejected_remark = models.CharField(max_length=1000)
 
     class Meta:
@@ -187,3 +185,13 @@ class search_history (models.Model):
 
     class Meta:
         db_table = "search_history"
+
+class view_history (models.Model):
+    view_id = models.AutoField(primary_key=True)
+    question = models.ForeignKey(questionanswer,on_delete=models.CASCADE)
+    view_date=models.DateTimeField(default=now, editable=True)
+    view_time = models.DateTimeField(default=now, editable=True)
+    user = models.ForeignKey(userinfo,on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = "view_history"

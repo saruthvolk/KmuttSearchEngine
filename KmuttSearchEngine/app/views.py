@@ -178,16 +178,16 @@ def question(request, id):
     result.save(update_fields=["view_count"])
 
     #================ Query ==================#
-    result = questionanswer.objects.get(id=id)
-    return render(
-        request,
-        'app/question.html',
-        {
-            'title': 'Question Detail',
-            'query': result,
-        }
-    )
-
+    try:
+        result = questionanswer.objects.get(id=id)
+        result_create_view = create_view_history(request,id)
+    except:
+        result = "Error"
+    
+    if (result != "Error"):
+        return render(request,'app/question.html',{'query': result,})
+    else:
+        return redirect('home')
 
 @login_required(login_url='/login')
 def Admin(request):
@@ -620,12 +620,11 @@ def requestmanagement(request, operation):
 def request_admin(request, operation):
 
     if operation == 'view':
-        query_request, QArequestDto = queryDb_request_all()
-        query_user = queryDb_multi_User(QArequestDto.user_id)
+        query_request = queryDb_request_all()
 
         page = request.GET.get('page', 1)
         if page == 1:
-            query_request, QArequestDto = queryDb_request_all()
+            query_request = queryDb_request_all()
         paginator1 = Paginator(query_request, 7)
         try:
             query1 = paginator1.page(page)
@@ -634,22 +633,10 @@ def request_admin(request, operation):
         except EmptyPage:
             query1 = paginator1.page(paginator1.num_pages)
 
-        page = request.GET.get('page', 1)
-        if page == 1:
-            query_request, QArequestDto = queryDb_request_all()
-            query_user = queryDb_multi_User(QArequestDto.user_id)
-        paginator2 = Paginator(query_user, 7)
-        try:
-            query2 = paginator2.page(page)
-        except PageNotAnInteger:
-            query2 = paginator2.page(1)
-        except EmptyPage:
-            query2 = paginator2.page(paginator2.num_pages)
-
         if query_request is "Error":
             return redirect('home')
         else:
-            return render(request, 'app/request_admin.html',{'query': query1,'query2':query2})
+            return render(request, 'app/request_admin.html',{'query': query1})
         
     elif operation == 'reject':
 
@@ -689,15 +676,15 @@ def request_admin(request, operation):
         else:
             return redirect('home')
 
-def search_history_user(request,operation):
+def history_user(request,operation):
 
-    if operation == "view":
+    if operation == "search":
         user_id = request.user.id
         query_search = view_search_history(request,user_id)
         user_query = queryDb_User(request.user.id)
         
         page = request.GET.get('page', 1)
-        
+
         if page == 1:
             query_search = view_search_history(request,user_id)
         paginator = Paginator(query_search, 7)
@@ -710,5 +697,28 @@ def search_history_user(request,operation):
 
         if (query != "Error"):
             return render(request, 'app/search_history.html',{ 'query': query, 'user_info':user_query})
+        else:
+            return redirect('home')
+    
+    elif operation == "view":
+
+        user_id = request.user.id
+        query_view = view_view_history(request,user_id)
+        user_query = queryDb_User(request.user.id)
+        
+        page = request.GET.get('page', 1)
+
+        if page == 1:
+            query_view = view_view_history(request,user_id)
+        paginator = Paginator((query_view), 7)
+        try:
+            query = paginator.page(page)
+        except PageNotAnInteger:
+            query = paginator.page(1)
+        except EmptyPage:
+            query = paginator.page(paginator.num_pages)
+
+        if (query != "Error"):
+            return render(request, 'app/view_history.html',{ 'query': query, 'user_info':user_query})
         else:
             return redirect('home')

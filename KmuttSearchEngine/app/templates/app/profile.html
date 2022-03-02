@@ -209,8 +209,8 @@
             <div class="list-group">
                 <a href="{% url 'profile' operation='view' %}" class="list-group-item list-group-item-action active" style="background-color: #ff8829; border-color: transparent">{% translate "Profile" %}</a>
                 <a href="{% url 'request' operation='view_user' %}" class="list-group-item list-group-item-action ">{% translate "Request" %}</a>
-                <a href="{% url 'search_history' operation='view' %}" class="list-group-item list-group-item-action">{% translate "Search history" %}</a>
-                <a href="#" class="list-group-item list-group-item-action">{% translate "View history" %}</a>
+                <a href="{% url 'history' operation='search' %}" class="list-group-item list-group-item-action">{% translate "Search history" %}</a>
+                <a href="{% url 'history' operation='view' %}" class="list-group-item list-group-item-action">{% translate "View history" %}</a>
               </div>
         </div>
         <div class="col-md-9">

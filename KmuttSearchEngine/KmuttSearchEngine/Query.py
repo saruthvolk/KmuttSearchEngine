@@ -258,23 +258,19 @@ def queryDb_Request_user(id):
 def queryDb_request_all():
 
      try:
-          QArequestDto.reset()
+
           query = list(QArequest.objects.order_by('-created_date','-created_time'))
-          for item in query:
-               QArequestDto.user_id.append(item.user_id)
 
      except:
           query = "Error"
 
-     return query, QArequestDto
+     return query
 
 def queryDb_onerequest(id):
  
      try:
           query = list(QArequest.objects.filter(request_id = id))
-          for item in query:
-               temp = department.objects.get(department_id=item.department_id)
-               item.department_id = temp.department_name
+
      except:
           query = "Error"
 
