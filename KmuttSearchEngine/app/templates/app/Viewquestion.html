@@ -31,6 +31,8 @@
         border-radius: 0px;
     }
 
+
+
     @media only screen and (min-width: 767px) {
         .list-group {
             font-size: 15px;
@@ -52,11 +54,33 @@
         background-color: #f37a3b;
         border-color: #f37a3b;
         float: right;
+        cursor: pointer;
     }
 
     #submit { margin-right: 10px }
 </style>
 <script>
+       disable_button = function(val) {
+
+        var id = $(val).attr("id").split("_")[1];
+
+        if (val.checked === true) {
+            $(`#delete_button_${id}`).removeAttr("disabled");
+        } else {
+            $(`#delete_button_${id}`).attr("disabled", "disabled");
+        }
+    };
+
+    disable_button2 = function(val) {
+
+        var id = $(val).attr("id").split("_")[1];
+  
+        if (val.checked === true) {
+            $(`#approve_button_${id}`).removeAttr("disabled");
+        } else {
+            $(`#approve_button_${id}`).attr("disabled", "disabled");
+        }
+    };
     function toggle(source) {
         var checkboxes = document.querySelectorAll('input[type="checkbox"]');
         for (var i = 0; i < checkboxes.length; i++) {
@@ -86,11 +110,68 @@
                     <input type="checkbox" name="id_check" id="id_check" value="{{questionanswer.id}}"/>
                     <label type="text" name="question"class="font-weight-bold"> Quesion</label>
                     <label type="text" name="question_id">{{questionanswer.id}} </label>
-                    <button type="submit" class="btn btn-primary btn-sm" href="{% url 'Crud_QA' operation='Remove' id=questionanswer.id %}" id="delete">Delete</button>
-                    <button type="submit" class="btn btn-primary btn-sm" id="submit"> Edit </button>
+                    <a class="btn btn-danger btn-sm" data-toggle="modal" id="delete" data-target="#delete_{{questionanswer.id}}">Delete</a>
+                    <a class="btn btn-danger btn-sm" data-toggle="modal" id="submit" data-target="#edit_{{questionanswer.id}}">Edit</a>
 
                 </th>
                 </thead>
+
+                <div id="delete_{{questionanswer.id}}" class="modal fade">
+                        <div class="modal-dialog modal-confirm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <div class="icon-box">
+                                        <i class="material-icons" style="font-size: 55px">&#xE5CD;</i>
+                                    </div>
+                                    <h4 class="modal-title w-100">{% translate "Confirm your process ?" %}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="text-center">{% translate "Do you really want to delete this question ?" %} {{questionanswer.id}}
+                                    </p>
+                                    <p class="text-center"> {% translate "This process can not be undone." %}</p>
+                                    <br />
+                                    <input type="checkbox" id="questionanswer_{{questionanswer.id}}" name="id_check"
+                                        class="checkbox" value="{{questionanswer.id}}" style="margin-left: 10%;"
+                                        onClick="disable_button(this)" />
+                                    {% translate "Check the box to confirm the action." %}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Cancel" %}</button>
+                                    <button type="submit" class="btn btn-danger"
+                                        id="delete_button_{{questionanswer.id}}"
+                                        formaction="{% url 'Crud_QA' operation='Remove' id=questionanswer.id%}" disabled="disabled">{% translate "Delete" %}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <div id="edit_{{questionanswer.id}}" class="modal fade">
+                        <div class="modal-dialog modal-confirm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <div class="icon-box">
+                                        <i class="material-icons" style="font-size: 55px">&#xE5CD;</i>
+                                    </div>
+                                    <h4 class="modal-title w-100">{% translate "Confirm your process ?" %}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="text-center">{% translate "Do you go and edit this question ?" %} {{questionanswer.id}}
+                                    </p>
+                                    <br />
+                                    <input type="checkbox" id="questionanswer_{{questionanswer.id}}" name="id_check"
+                                        class="checkbox" value="{{questionanswer.id}}" style="margin-left: 10%;"
+                                        onClick="disable_button2(this)" />
+                                    {% translate "Check the box to confirm the action." %}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Cancel" %}</button>
+                                    <button type="submit" class="btn btn-success"
+                                        id="approve_button_{{questionanswer.id}}"
+                                        formaction="{% url 'Crud_QA' operation='Edit' id=questionanswer.id%}" disabled="disabled">{% translate "Edit" %}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 {% get_current_language as LANGUAGE_CODE %}
                 {% if LANGUAGE_CODE == "th" %}
                 <tr>
@@ -126,13 +207,41 @@
                 {% endif %}
             {% endfor %}
             </table>
-            <button type="submit" class="btn btn-success"> Edit</button>
-            <button type="submit" class="btn btn-danger" formaction="{% url 'Crud_QA' operation='Remove' id='0' %}">Delete</button>
+            <button type="submit" class="btn btn-success"> Edit Multiple</button>
+            <button type="submit" class="btn btn-danger" formaction="{% url 'Crud_QA' operation='Remove' id='0' %}">Delete Multiple</button>
         </form>
     </div>
     <br/>
 </center>
 </body>
+
+<div id="success_modal" name = "success_modal" class="modal fade in">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="icon-box" style="background-color: #1b9b42">
+                <i class="material-icons" style="font-size: 55px;">&#xe5ca;</i>
+                </div>
+            <h4 class="modal-title w-100 justify-content-center">{% translate "Successful" %}</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center" style="font-size: 15px;">       
+                {% for message in messages %}
+                {{message}}
+                {% endfor %} 
+                </p>
+                <br/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">{% translate "Close" %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+<script>$("#success_modal").modal()</script>
+{% endif %}
 
             <div class="clearfix">
                 <div class="hint-text">

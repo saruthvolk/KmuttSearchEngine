@@ -13,6 +13,7 @@
     <script src="{% static 'app/scripts/bootstrap.min.js' %}"></script>
     <script src="{% static 'app/scripts/jquery-ui.min.js' %}"></script>
     <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <style>
         body {font-family: 'Prompt', sans-serif;}
@@ -136,8 +137,14 @@
         .dropdown-item:active,
         .dropdown-item:hover {
             background-color: #f3f3f3;
-            color: #343a40;
+            color: #2e2e2e ;
             border-radius: 10px;
+        }
+        .navbar-collapse {
+            background-color: #2e2e2e ;
+        }
+        .bg-dark{
+            background-color:#2e2e2e !important;
         }
     </style>
 
@@ -262,7 +269,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar fixed-top navbar-dark bg-dark justify-content-between"
-        style="background-color: #f76d00; height: 65px;">
+        style="background-color: #f76d00;">
         <a class="navbar-brand" href="{% url 'home' %}" style="font-weight: bold;" id="logo">KMUTT-Knowledgebase</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

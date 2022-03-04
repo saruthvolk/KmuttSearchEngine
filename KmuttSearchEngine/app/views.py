@@ -243,6 +243,35 @@ def upload_image(request):
         })
     return JsonResponse({'detail': "Wrong request"})
 
+def user_question_view(request, operation):
+    
+    query_department = queryDb_department()
+
+    if operation == "question":
+        query_question = queryDb_QA_All()
+    elif operation == "faq":
+        query_question = queryDb_QA_All()
+    elif operation == "recent_update":
+        query_question = queryDb_QA_All()
+    page = request.GET.get('page', 1)
+    if page == 1:
+        if operation == "question":
+            query_question = queryDb_QA_All()
+        elif operation == "faq":
+            query_question = queryDb_QA_All()
+        elif operation == "recent_update":
+            query_question = queryDb_QA_All()
+    paginator = Paginator(query_question, 7)
+    try:
+        query = paginator.page(page)
+    except PageNotAnInteger:
+        query = paginator.page(1)
+    except EmptyPage:
+        query = paginator.page(paginator.num_pages)
+    if query != "Error":
+        return render(request, 'app/user_question_view.html',{'query':query,'operation':operation,'department':query_department,})
+    else:
+        return render(request, 'app/index.html')
 
 def Crud_QA(request, operation, id):
 

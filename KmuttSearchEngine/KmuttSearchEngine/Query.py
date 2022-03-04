@@ -163,7 +163,10 @@ def queryDb_QA_All():
         status = []
         view_count = []
  
-   query = list(questionanswer.objects.all())  
+   try:
+     query = list(questionanswer.objects.all())  
+   except:
+     query = "Error"
 
    return query
 

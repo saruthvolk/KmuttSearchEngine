@@ -102,9 +102,9 @@
 
     #search {
         background-image: url("{% static 'img/bg.png' %}");
-        background-position: 0px -410px;
+        background-position: 0px -572px;
         color: aliceblue;
-        Height: 600px;
+        Height:  357px;
         margin-left: -40%;
         margin-right: -40%;
         position: relative;
@@ -229,17 +229,76 @@
         width: 30px;
         ;
     }
+    .row{
+        margin-top: 5%;
+        margin-left: 25px;
+    }
+    .pagination {
+        justify-content: center;
+        font-size: 14px;
+    }
+    .sidebar {
+  position: relative;
+  float: left;
+  top: 358px;
+  bottom: 0;
+  margin-left: -36%;
+  margin-top:-35.2%;
+  left: 0;
+  width: 310px;
+  height: calc(100vh + 330px);
+  z-index: 600;
+}
+
+#sidebarMenu{
+    background-color:#363636;
+}
+@media (max-width: 991.98px) {
+  .sidebar {
+    width: 100%;
+  }
+}
+.sidebar .active {
+  width: 310px;
+  height: 80px;
+  margin-left: -16px;
+  background-color: #f37a3b;
+  border-color: #f37a3b;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
+
+.sidebar-sticky {
+  position: relative;
+  top: 0;
+  padding-top: 0.5rem;
+  overflow-x: hidden;
+  background-color: #262626;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+
+.list-group-item{
+    width: 314px;
+    margin-left: -20px;
+}
+#department{
+    background-color: #fbf8f8;
+    width: 330px;
+    height: 58px;
+}
+#department:hover{
+    background-color: #f0eeee;
+}
 </style>
 </head>
 <body>
 <div class="jumbotron" id="search">
-    <h1 style="margin-top: 140px;">{% translate "How can we help you ?" %}</h1>
+    <h1 style="margin-top: 58px;">{% translate "How can we help you ?" %}</h1>
     <p class="lead">{% translate "Type the question you want to ask" %} </p>
 
     <form action="{% url 'search' %}" class="form-inline" method="POST">
         {% csrf_token %}
         <br/><br/><br/>
-        <input name="search" id="search_input" tpye="text" class="form-control col-lg-offset-3 col-lg-6" placeholder="{% translate "Search here....." %}" autocomplete="off">
+        <input name="search" id="search_input" tpye="text" class="form-control col-lg-offset-3 col-lg-5" placeholder="{% translate "Search here....." %}" autocomplete="off">
         <button id="search-button" type="submit" class="btn btn-primary">
             <i class="fas fa-search"></i>
         </button>
@@ -247,61 +306,74 @@
 </div>
 <p></p>
 
+
+<nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse">
+        <div class="position-sticky">
+            <div class="list-group list-group-flush mx-3" style="background-color:#ccc;" id="list-tab" role="tablist">
+                <h4 class="list-group-item list-group-item-action py-4 ripple" style="background-color: #2e2e2e; color: #ccc;">Menu</h4>
+            </div>
+          <div class="list-group list-group-flush mx-3">
+            {% if operation == "question" %}
+            <a href="#department_toggle" class="list-group-item list-group-item-action py-4 ripple {% if operation == 'question' %}active{% endif %}" 
+            data-toggle="collapse" data-parent="#sidebarMenu" id="all_question">
+                <i class="fas fa-question-circle"></i>
+              <span>{% translate "All Questions" %} <i class="fa fa-caret-down"></i></span>
+            </a>
+            {% else %}
+            <a href="#department_toggle" class="list-group-item list-group-item-action py-4 ripple {% if operation == 'question' %}active{% endif %}" 
+            id="all_question" onclick="window.location.href= '{% url 'view' operation='question' %}'">
+                <i class="fas fa-question-circle"></i>
+              <span>{% translate "All Questions" %} <i class="fa fa-caret-down"></i></span>
+            </a>
+            {% endif %}
+            <div class="collapse " id="department_toggle" style="width: 354px; margin-left: -16px;">
+                {% for dep in department %}
+                    <a href="#" class="list-group-item list-group-item-action" data-parent="#SubMenu1" id="department" >&emsp;{{dep.department_name}}</a>
+                {% endfor %}
+                </div>
+            <a href="{% url 'view' operation='faq' %}" class="list-group-item list-group-item-action py-4 ripple {% if operation == 'faq' %}active{% endif %}" aria-current="true" >
+                <i class="fas fa-comments"></i>
+                <span>{% translate "FAQs" %}</span>
+              </a>
+            <a href="{% url 'view' operation='recent_update' %}" class="list-group-item list-group-item-action py-4 ripple {% if operation == 'recent_update' %}active{% endif %}" 
+            aria-current="true">
+                <i class="fas fa-edit"></i>
+                <span>{% translate "Recent update" %}</span>
+            </a>
+          </div>
+        </div>
+</nav>
+
+{% get_current_language as LANGUAGE_CODE %} 
 <div class="row">
-    <a href="{% url 'view' operation='question' %}" class="col-sm-4" id="Viewquestion">
-        <div>
-            <i class="far fa-question-circle fa-3x" style="color: #f37a3b; margin-bottom: 30px; margin-top: 30px;"></i>
-            <h4 style="">{% translate "View Questions" %}</h4>
-            <br/>
-            <p style="color: #262626; margin-left: auto; margin-right: auto; width: 10vw;">{% translate "View all question in our knowledge base." %} </p>
-            <br/>
-        </div>
-    </a>
-    <a href="{% url 'view' operation='faq' %}" class="col-sm-4" id="FAQs">
-        <div >
-            <i class="far fa-comments fa-3x" style="color: #f37a3b; margin-bottom: 30px; margin-top: 30px;"></i>
-            <h4 style="" id="faqs">{% translate "FAQs" %}</h4>
-            <br/>
-            <p style="color: #262626; margin-left: auto; margin-right: auto; width: 13vw;">{% translate "View the most asked questions in our knowledge base." %} </p>
-            <br/>
-        </div>
-    </a>
-
-    <a href="{% url 'view' operation='recent_update' %}" class="col-sm-4" id="recent_update">
-        <div >
-            <i class="fas fa-edit fa-3x" style="color: #f37a3b; margin-bottom: 30px; margin-top: 30px;"></i>
-            <h4 id="update">{% translate "Recent Updates" %}</h4>
-            <br/>
-            <p style="color: #262626; margin-left: auto; margin-right: auto; width: 13vw;">{% translate "Check for the latest update of the question in our knowledge base." %} </p>
-            <br/>
-        </div>
-    </a>
-
-</div>
-<br/><br/><br/>
-
-<h4>{% translate "Feature Questions" %}</h4>
-
-{% get_current_language as LANGUAGE_CODE %}
-<div class="jumbotron" id="feature_question">
+    {% if operation == "question" %} 
+    <h4><b>{% translate "All Questions" %}</b></h4>
+    {% elif operation == "faq" %}
+    <h4><b>{% translate "FAQs" %}</b></h4>
+    {% elif operation == "recent_update" %}
+    <h4><b>{% translate "Recent Update" %}</b></h4>
+    {% endif %}
+    <br><br>
+<br>
+<div class="jumbotron" id="feature_question" style="width: 1100px;">
     <div id="question">
-        {% for questions in feature_question %}
+        {% for question in query %}
         <br/>
         {% if LANGUAGE_CODE == 'th' %}
-        <p id="update1"> {{ questions.updated_date }} </p>
-        <a id="question1" href="{% url 'question' id=questions.id %}">
+        <p id="update1"> {{ question.updated_date }} </p>
+        <a id="question1" href="{% url 'question' id=question.id %}">
             <div class="numberCircle"> {{ forloop.counter }} </div>
-            <h5 style="font-weight: bold" id="question1"> {{ questions.question }} </h5>
+            <h5 style="font-weight: bold" id="question1"> {{ question.question }} </h5>
             <p id="update1" style="float: left"> {% translate "Views" %}: {{ questions.view_count }} </p>
             <br/>
         </a>
         <hr/>
         {% elif LANGUAGE_CODE == 'en' %}
-        <p id="update1"> {{ questions.updated_date }} </p>
-        <a id="question1" href="{% url 'question' id=questions.id %}">
+        <p id="update1"> {{ question.updated_date }} </p>
+        <a id="question1" href="{% url 'question' id=question.id %}">
             <div class="numberCircle"> {{ forloop.counter }} </div>
-            <h5 style="font-weight: bold" id="question1"> {{ questions.question_en }} </h5>
-            <p id="update1" style="float: left"> {% translate "Views" %}: {{ questions.view_count }} </p>
+            <h5 style="font-weight: bold" id="question1"> {{ question.question_en }} </h5>
+            <p id="update1" style="float: left"> {% translate "Views" %}: {{ question.view_count }} </p>
             <br/>
         </a>
         <hr/>
@@ -309,5 +381,43 @@
         {% endfor %}
     </div>
 </div>
+</div>
+
+<div class="clearfix">
+    <div class="hint-text">
+        {% translate "Showing"%} <b>{{ query.end_index }}</b> {% translate "out of" %}
+        <b>{{query.paginator.count }} {% translate "entries" %} </b>
+    </div>
+</div>
+<br />
+
+<nav aria-label="Page navigation" style="">   <ul class="pagination">
+{% if query.has_previous %}
+<li class="page-item">
+<a class="page-link" href="?page=1" aria-label="Previous">
+<span aria-hidden="true">&laquo;</span>
+<span class="sr-only">begin</span>
+</a>
+</li>   {% endif %}
+
+{% for n in query.paginator.page_range %}
+{% if query.number == n %}
+<li class="page-item active">
+<span class="page-link">{{ n }}<span class="sr-only">(current)</span></span>
+</li>
+{% elif n > query.number|add:'-5' and n < query.number|add:'5' %}
+<li class="page-item"><a class="page-link" href="?page={{ n }}">{{ n }}</a></li>
+{% endif %}
+{% endfor %}
+
+{% if query.has_next %}
+<li class="page-item">
+<a class="page-link" href="?page={{ query.paginator.num_pages }}" aria-label="Next">
+<span aria-hidden="true">&raquo;</span>
+<span class="sr-only">end</span>
+</a>
+</li>
+{% endif %}   </ul> </nav>
+<br><br>
 </body>
 {% endblock %}
