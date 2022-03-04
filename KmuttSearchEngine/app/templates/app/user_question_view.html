@@ -176,7 +176,7 @@
 
     #question1, #question {
         color: #212529;
-        font-size: 1.00rem;
+        font-size: 16px;
         text-decoration: none;
     }
 
@@ -209,6 +209,7 @@
         color: #727272;
         float: right;
         font-size: 0.9rem;
+        margin-left: 1.5%
     }
 
     #question { margin-top: -3%; }
@@ -223,15 +224,20 @@
         float: left;
         font-size: 1.0rem;
         font-weight: bold;
-        line-height: 25px;
+        line-height: 22px;
+        margin-left: -25px;
         margin-right: 1.5%;
         text-align: center;
-        width: 30px;
+        width: 25px;
+        height: 25px;
         ;
+    }
+    td{
+        vertical-align: top;
     }
     .row{
         margin-top: 5%;
-        margin-left: 25px;
+        padding: 0px 15px
     }
     .pagination {
         justify-content: center;
@@ -306,45 +312,74 @@
 </div>
 <p></p>
 
-
 <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse">
+    <div class="position-sticky">
+        <div class="list-group list-group-flush mx-3" style="background-color:#ccc;" id="list-tab" role="tablist">
+            <h5 class="list-group-item list-group-item-action py-4 ripple" style="background-color: #2e2e2e; color: #ccc;">Menu</h5>
+        </div>
+      <div class="list-group list-group-flush mx-3">
+        {% if operation == "question" %}
+        <a href="#department_toggle" class="list-group-item list-group-item-action py-4 ripple {% if operation == 'question' %}active{% endif %}" 
+        data-toggle="collapse" data-parent="#sidebarMenu" id="all_question">
+            <i class="fas fa-question-circle"></i>
+            <span style="font-size: 15px;">{% translate "All Questions" %} <i class="fa fa-caret-down"></i></span>
+        </a>
+        {% else %}
+        <a href="#department_toggle" class="list-group-item list-group-item-action py-4 ripple {% if operation == 'question' %}active{% endif %}" 
+        id="all_question" onclick="window.location.href= '{% url 'view' operation='question' %}'">
+            <i class="fas fa-question-circle"></i>
+            <span style="font-size: 15px;">{% translate "All Questions" %} <i class="fa fa-caret-down"></i></span>
+        </a>
+        {% endif %}
+        <div class="collapse " id="department_toggle" style="width: 354px; margin-left: -16px;">
+            {% for dep in department %}
+                <a href="#" class="list-group-item list-group-item-action" data-parent="#SubMenu1" id="department" >&emsp;{{dep.department_name}}</a>
+            {% endfor %}
+            </div>
+        <a href="{% url 'view' operation='faq' %}" class="list-group-item list-group-item-action py-4 ripple {% if operation == 'faq' %}active{% endif %}" aria-current="true" >
+            <i class="fas fa-comments"></i>
+            <span style="font-size: 15px;">{% translate "FAQs" %}</span>
+          </a>
+        <a href="{% url 'view' operation='recent_update' %}" class="list-group-item list-group-item-action py-4 ripple {% if operation == 'recent_update' %}active{% endif %}" 
+        aria-current="true">
+            <i class="fas fa-edit"></i>
+            <span style="font-size: 15px;">{% translate "Recent update" %}</span>
+        </a>
+      </div>
+    </div>
+</nav>
+{% get_current_language as LANGUAGE_CODE %} 
+<nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse" style="float:right; margin-right: -36%;">
         <div class="position-sticky">
             <div class="list-group list-group-flush mx-3" style="background-color:#ccc;" id="list-tab" role="tablist">
-                <h4 class="list-group-item list-group-item-action py-4 ripple" style="background-color: #2e2e2e; color: #ccc;">Menu</h4>
+                <h5 class="list-group-item list-group-item-action py-4 ripple" style="background-color: #2e2e2e; color: #ccc; margin-left: -15px;">Recent View</h5  >
             </div>
           <div class="list-group list-group-flush mx-3">
-            {% if operation == "question" %}
-            <a href="#department_toggle" class="list-group-item list-group-item-action py-4 ripple {% if operation == 'question' %}active{% endif %}" 
-            data-toggle="collapse" data-parent="#sidebarMenu" id="all_question">
-                <i class="fas fa-question-circle"></i>
-              <span>{% translate "All Questions" %} <i class="fa fa-caret-down"></i></span>
-            </a>
-            {% else %}
-            <a href="#department_toggle" class="list-group-item list-group-item-action py-4 ripple {% if operation == 'question' %}active{% endif %}" 
-            id="all_question" onclick="window.location.href= '{% url 'view' operation='question' %}'">
-                <i class="fas fa-question-circle"></i>
-              <span>{% translate "All Questions" %} <i class="fa fa-caret-down"></i></span>
-            </a>
-            {% endif %}
-            <div class="collapse " id="department_toggle" style="width: 354px; margin-left: -16px;">
-                {% for dep in department %}
-                    <a href="#" class="list-group-item list-group-item-action" data-parent="#SubMenu1" id="department" >&emsp;{{dep.department_name}}</a>
+            <div class="jumbotron" id="feature_question" style="width: 300px; margin-left: -12px;">
+                <div id = recent_view style="margin-top:-45px">
+                {% for view in recent_view%}
+                <table>
+                <td style="width: 6%;">
+                    <div class="numberCircle" style="font-size: 13.5px; vertical-align: top;"> {{ forloop.counter }} </div> 
+                </td>
+                <td>
+                    {% if LANGUAGE_CODE == "th" %}
+                    <a style="font-size: 14.5px;" href="{% url 'question' id=view.question.id %}" id="question1">{{ view.question.question }}</a>
+                </td>
+                <td style="text-align: left;">
+                    {% elif LANGUAGE_CODE == "en" %}
+                    <a style="font-size: 14.5px;" href="{% url 'question' id=view.question.id %}" id="question1">{{ view.question.question_en }}</a>
+                    {% endif %}
+                </td>
+            </table>
+                    <hr>
                 {% endfor %}
-                </div>
-            <a href="{% url 'view' operation='faq' %}" class="list-group-item list-group-item-action py-4 ripple {% if operation == 'faq' %}active{% endif %}" aria-current="true" >
-                <i class="fas fa-comments"></i>
-                <span>{% translate "FAQs" %}</span>
-              </a>
-            <a href="{% url 'view' operation='recent_update' %}" class="list-group-item list-group-item-action py-4 ripple {% if operation == 'recent_update' %}active{% endif %}" 
-            aria-current="true">
-                <i class="fas fa-edit"></i>
-                <span>{% translate "Recent update" %}</span>
-            </a>
+            </div>
+            </div>
           </div>
         </div>
 </nav>
 
-{% get_current_language as LANGUAGE_CODE %} 
 <div class="row">
     {% if operation == "question" %} 
     <h4><b>{% translate "All Questions" %}</b></h4>
@@ -384,7 +419,7 @@
 </div>
 
 <div class="clearfix">
-    <div class="hint-text">
+    <div class="hint-text" style="font-size: 15px;">
         {% translate "Showing"%} <b>{{ query.end_index }}</b> {% translate "out of" %}
         <b>{{query.paginator.count }} {% translate "entries" %} </b>
     </div>

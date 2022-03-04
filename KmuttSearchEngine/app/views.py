@@ -245,7 +245,9 @@ def upload_image(request):
 
 def user_question_view(request, operation):
     
+    user_id = request.user.id
     query_department = queryDb_department()
+    query_view = view_view_history(request,user_id)[:5]
 
     if operation == "question":
         query_question = queryDb_QA_All()
@@ -269,7 +271,7 @@ def user_question_view(request, operation):
     except EmptyPage:
         query = paginator.page(paginator.num_pages)
     if query != "Error":
-        return render(request, 'app/user_question_view.html',{'query':query,'operation':operation,'department':query_department,})
+        return render(request, 'app/user_question_view.html',{'query':query,'operation':operation,'department':query_department,'recent_view':query_view})
     else:
         return render(request, 'app/index.html')
 
