@@ -242,8 +242,7 @@
                 <ul style="display: flex;" class="pagination">
                     {% if query.has_previous %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ query.previous_page_number }}">{% translate "Previous"
-                            %}</a>
+                        <a class="page-link" href="?page={{ query.previous_page_number }}">{% translate "Previous"%}</a>
                     </li>
                     {% else %}
                     <li class="page-item disabled">

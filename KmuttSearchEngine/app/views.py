@@ -109,6 +109,9 @@ def search(request):
 
     search = request.POST.get('search')
     result_seach_history = create_search_history(request, search)
+    query = queryDb_QA()
+    question = query.question
+    json_question = json.dumps(question)
 
     if result_seach_history == "Error":
         return render(request, 'app/index.html')
@@ -146,10 +149,12 @@ def search(request):
 
     if Search_result.Correct is not None:
         check = 1
-        return render(request, 'app/search.html', {'Correct': Search_result.Correct, 'Question': pre_search, 'query': query1, 'Percentage': query2, 'length': length})
+        return render(request, 'app/search.html', {'Correct': Search_result.Correct, 'Question': pre_search, 
+        'query': query1, 'Percentage': query2, 'length': length,'question':json_question})
     else:
         check = 0
-        return render(request, 'app/search.html', {'Question': pre_search, 'query': query1, 'Question': pre_search, 'Percentage': query2, 'length': length})
+        return render(request, 'app/search.html', {'Question': pre_search, 'query': query1, 'Question': pre_search, 
+        'Percentage': query2, 'length': length,'question':json_question})
 
 
 @login_required(login_url='/login')

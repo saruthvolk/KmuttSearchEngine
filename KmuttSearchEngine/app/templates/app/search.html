@@ -1,161 +1,454 @@
 {% extends "app/layout.html" %}
-
 {% block content %}
-<script>
+{% load static %}
+{% load i18n %}
 
-</script>
-<style>
-    body { font-family: 'Varela Round', sans-serif; }
+<head>
+    <script>
+        $(function () {
 
-    #question1, #question {
-        color: #212529;
-        font-size: 1.05rem;
-        text-decoration: none;
-    }
+            var question = {{ question| safe }};
 
-    #question:hover { color: #f37a3b; }
+        $("#search_input").autocomplete({
+            maxResults: 10,
+            source: function (request, response) {
+                var results = $.ui.autocomplete.filter(question, request.term);
+                response(results.slice(0, this.options.maxResults));
+            },
+            minLength: 2
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            var txt = String(item.value).replace(new RegExp(this.term, "gi"), "<span class='highlight'>$&</span>");
+            return $("<li></li>")
+                .data("ui-autocomplete-item", item)
+                .append("<a>" + txt + "</a>")
+                .appendTo(ul);
+        };
+    });
 
-    #question1:hover { color: #f37a3b; }
+        jQuery.ui.autocomplete.prototype._resizeMenu = function () {
+            var ul = this.menu.element;
+            ul.outerWidth(this.element.outerWidth());
+        };
 
-    #result { background: #e9ecef; }
+        onChange = "window.location.href=this.value";
 
-    #warn {
-        font-size: 1.1rem;
-        line-height: 45px;
-        margin-top: -4%;
-    }
+    </script>
 
-    .card-header {
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-        background: #f2f2f3;
-        border-color: #f2f2f3;
-        border-radius: 10px;
-        display: -webkit-box;
-        font-size: 0.95rem;
-        max-height: 80px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+        }
 
-    #update {
-        color: #727272;
-        font-size: 0.9rem;
-    }
-</style>
+        .highlight {
+            color: #e87639;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .ui-autocomplete {
+            -moz-background-clip: padding;
+            -moz-border-radius: 5px;
+            -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            -webkit-background-clip: padding-box;
+            -webkit-border-radius: 5px;
+            -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            background-clip: padding-box;
+            background-color: #ffffff;
+            *border-bottom-width: 2px;
+            border-color: #ccc;
+            border-color: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            *border-right-width: 2px;
+            border-style: solid;
+            border-width: 1px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            display: none;
+            float: left;
+            left: 0;
+            line-height: 28px;
+            list-style: none;
+            margin: 0 0 10px 25px;
+            min-width: 160px;
+            padding: 4px 0;
+            position: absolute;
+            top: 100%;
+            z-index: 1000;
+        }
+
+        .ui-menu-item>a.ui-corner-all {
+            clear: both;
+            color: #555555;
+            display: block;
+            font-weight: normal;
+            line-height: 18px;
+            padding: 3px 15px;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .ui-menu-item .ui-menu-item-wrapper:hover,
+        .ui-menu-item-wrapper.ui-state-active {
+            background: #dedede;
+            border-color: rgba(0, 0, 0, 0);
+            border-radius: 5px;
+            color: #262626 !important;
+            display: block;
+            text-decoration: none;
+        }
+
+        .ui-menu-item-wrapper {
+            display: block;
+        }
+
+        .ui-autocomplete>li {
+            padding: 2px 10px;
+        }
+
+
+        #search {
+            background-image: url(/static/img/search_back.jpg);
+            background-position: -609px -2431px;
+            color: aliceblue;
+            Height: 357px;
+            filter: brightness(1);
+            margin-left: -40%;
+            margin-right: -35.7%;
+            position: relative;
+            text-align: center;
+            border-radius: 0px;
+        }
+
+        #search_input {
+            margin-left: auto;
+            height:43px;
+        }
+
+        #search-button {
+            background-color: #e87639;
+            border-color: #e87639;
+            margin-right: auto;
+            height:43px;
+            width: 43px;
+        }
+
+        #Viewquestion {
+            background-color: #f7f7f9;
+            border: 2px solid #f7f7f9;
+            border-radius: 6px;
+            border-radius: 20px;
+            color: #262626;
+            margin-left: -40px;
+            margin-top: -150px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        #FAQs {
+            background-color: #f7f7f9;
+            border: 2px solid #f7f7f9;
+            border-radius: 6px;
+            border-radius: 20px;
+            color: #262626;
+            margin-left: 30px;
+            margin-top: -150px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        #recent_update {
+            background-color: #f7f7f9;
+            border: 2px solid #f7f7f9;
+            border-radius: 6px;
+            border-radius: 20px;
+            color: #262626;
+            margin-left: 30px;
+            margin-right: -40px;
+            margin-top: -150px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        #FAQs:hover {
+            border: 2px solid #f37a3b;
+            color: #f37a3b;
+            text-decoration: none;
+        }
+
+        #Viewquestion:hover {
+            border: 2px solid #f37a3b;
+            color: #f37a3b;
+            text-decoration: none;
+        }
+
+        #question1,
+        #question {
+            color: #212529;
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+
+
+        #result {
+            background: #e9ecef;
+        }
+
+        #warn {
+            font-size: 1.0rem;
+            line-height: 45px;
+            margin-top: -4%;
+        }
+
+        .card-header {
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            background: #f2f2f3;
+            border-color: #f2f2f3;
+            border-radius: 10px;
+            display: -webkit-box;
+            font-size: 0.95rem;
+            max-height: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        #update1 {
+            color: #727272;
+            float: right;
+            font-size: 0.9rem;
+            margin-left: 1.5%
+        }
+
+        #question {
+            margin-top: -3%;
+        }
+
+        #feature_question {
+            background: #f7f7f9;
+            margin-left: -9%;
+            margin-right: auto;
+            justify-content: center;
+            width: 115%;
+        }
+
+        .numberCircle {
+            background: #f37a3b;
+            border: 2px solid #f37a3b;
+            border-radius: 50%;
+            color: #f2f2f3;
+            float: left;
+            font-size: 1.0rem;
+            font-weight: bold;
+            line-height: 22px;
+            margin-left: -25px;
+            margin-right: 1.5%;
+            text-align: center;
+            width: 25px;
+            height: 25px;
+            ;
+        }
+
+        td {
+            vertical-align: top;
+        }
+
+        .row {
+            margin-top: 5%;
+            padding: 0px 15px
+        }
+
+        .pagination {
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .sidebar {
+            position: relative;
+            float: left;
+            top: 298px;
+            bottom: 0;
+            margin-left: -36%;
+            margin-top: -35.2%;
+            left: 0;
+            width: 310px;
+            height: calc(100vh + 330px);
+            z-index: 600;
+        }
+
+        #sidebarMenu {
+            background-color: #363636;
+        }
+
+        @media (max-width: 991.98px) {
+            .sidebar {
+                width: 100%;
+            }
+        }
+
+        .sidebar .active {
+            width: 310px;
+            height: 80px;
+            margin-left: -16px;
+            background-color: #f37a3b;
+            border-color: #f37a3b;
+            box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+        }
+
+        .sidebar-sticky {
+            position: relative;
+            top: 0;
+            padding-top: 0.5rem;
+            overflow-x: hidden;
+            background-color: #262626;
+            overflow-y: auto;
+            /* Scrollable contents if viewport is shorter than content. */
+        }
+
+        .list-group-item {
+            width: 314px;
+            margin-left: -20px;
+        }
+
+        #department {
+            background-color: #fbf8f8;
+            width: 330px;
+            height: 58px;
+        }
+
+        #department:hover {
+            background-color: #f0eeee;
+        }
+
+        #question1,
+        #question {
+            color: #212529;
+            font-size: 1.05rem;
+            text-decoration: none;
+        }
+
+        #question1:hover {
+            color: #f37a3b;
+        }
+        .bottom-right {
+            bottom: 0;
+            right: 0;
+        }
+        #request_question{
+            bottom: 0; 
+            right: 0; 
+            position:fixed; 
+            background-color: #ec7e23;
+            color:#ffffff;
+            font-size: 16px;
+            border-radius: 4em;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            border-color: transparent;
+        }
+    </style>
+</head>
 
 <body>
-<div class="jumbotron">
-    <h1>Search</h1>
-    <p class="lead">Type anything to search</p>
-    <form action="{% url 'search' %}" class="form-inline" method="POST">
-        {% csrf_token %}
-        <input name="search" type="text" class="form-control col-lg-offset-3 col-lg-6" id="search" value="{{ Question }}">
-        <button type="submit" class="btn-primary"> Search</button>
-    </form>
-</div>
 
-<h4>Found {{ length|length }} results related to your question.</h4>
-<div class="jumbotron" id="result">
+    <div class="jumbotron" id="search">
+        <h1 style="margin-top: 58px;">{% translate "How can we help you ?" %}</h1>
+        <p class="lead">{% translate "Type the question you want to ask" %} </p>
 
+        <form action="{% url 'search' %}" class="form-inline" method="POST">
+            {% csrf_token %}
+            <br /><br /><br />
+            <input name="search" id="search_input" tpye="text" class="form-control col-lg-offset-3 col-lg-5"
+                placeholder="{% translate " Search here....." %}" autocomplete="off" value="{{ Question }}">
+            <button id="search-button" type="submit" class="btn btn-primary" >
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+    </div>
+    
+    <a class="btn btn-warning" id="request_question" href="{% url 'request' operation='add'%}"> 
+        <i class="fas fa-plus"></i> {% translate "Request Add Question" %} 
+    </a>
+
+    <h4 style="margin-left: -9%;">Found {{ length|length }} results related to your question.</h4>
+    <br>
     {% if Correct is not None %}
-    <p class="lead" id="warn">It look like you have a wrong spelling</p>
-    <br/>
+    <br>
+    <p class="lead" id="warn" style="margin-left: -64px;">It look like you have a wrong spelling</p>
+    <br />
     <form action="{% url 'search' %}" class="form-inline" method="POST">
         {% csrf_token %}
-        <p class="lead" name="search" id="warn">Do you want to search again with: <input type="submit" class="btn btn-link" name="search" value="{{Correct}}"/></p>
+        <p class="lead" name="search" id="warn">Do you want to search again with: <input type="submit"
+                class="btn btn-link" name="search" value="{{Correct}}" /></p>
     </form>
-    <br/>
-    {% for result in query %}{% for percen in Percentage %}
-    {% if forloop.counter == forloop.parentloop.counter %}
-
-    <a id="question1" href="{% url 'question' id=result.id %}">
-        <h5 style="font-weight: bold" id="question1">{{ result.question }} [{{percen}}%] </h5>
-    </a>
-
-    <div class="card-header" id="question{{ result.id }}">
-        <span id="answer">
-            {% autoescape off %}
-            {{result.answer}}
-            {% endautoescape %}
-        </span>
-    </div>
-    <br/>
-    <p id="update">Last update: {{ result.updated_date }}</p>
-    <hr/>
-    <br/>
-
-    {% endif %}
-    {% endfor %}{% endfor %}
-    {% else %}
-
-    {% for result in query %}{% for percen in Percentage %}
-    {% if forloop.counter == forloop.parentloop.counter %}
-
-    <a id="question1" href="{% url 'question' id=result.id %}">
-        <h5 style="font-size: 1.05rem; font-weight: bold;"> {{ result.question }} [{{percen}}%] </h5>
-    </a>
-
-    <div class="card-header" id="question1{{ result.id }}">
-        <span id="answer">
-            {% autoescape off %}
-            {{result.answer}}
-            {% endautoescape %}
-        </span>
-    </div>
-    <br/>
-    <p id="update">Last update: {{ result.updated_date }}</p>
-    <hr/>
-    <br/>
-    {% endif %}
-    {% endfor %}{% endfor %}
     {% endif %}
 
-</div>
-<nav aria-label="Page navigation example">
-    {% if query.has_other_pages %}
-    <ul style="display: flex; justify-content: center;" class="pagination">
-        {% if query.has_previous %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ query.previous_page_number }}">Previous</a>
-        </li>
-        {% else %}
-        <li class="page-item disabled">
-            <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">Previous</span>
-                <span class="sr-only">Previous</span>
+    <table>
+        <td>
+    <div class="jumbotron" id="feature_question">
+        <div id="question">
+            {% for result in query %}{% for percen in Percentage %}
+            {% if forloop.counter == forloop.parentloop.counter %}
+
+            <a id="question1" href="{% url 'question' id=result.id %}">
+                <h5 style="font-weight: bold" id="question1">{{ result.question }} [{{percen}}%] </h5>
             </a>
-        </li>
-        {% endif %}
-        {% for i in query.paginator.page_range %}
-        {% if query.number == i %}
-        <li class="page-item active">
-            <span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
-        </li>
-        {% else %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ i }}" name="page">{{ i }}</a>
-        </li>
-        {% endif %}
-        {% endfor %}
-        {% if query.has_next %}
+
+            <div class="card-header" id="question{{ result.id }}">
+                <span id="answer">
+                    {% autoescape off %}
+                    {{result.answer}}
+                    {% endautoescape %}
+                </span>
+            </div>
+            <br />
+            <p id="update">Last update: {{ result.updated_date }}</p>
+            <hr />
+            <br />
+            {% endif %}
+            {% endfor %}{% endfor %}
+        </div>
+    </div>
+    </td>
+    </table>
+
+    <div class="clearfix">
+        <div class="hint-text" style="font-size: 15px; margin-left: -9%;">
+            {% translate "Showing"%} <b>{{ query.end_index }}</b> {% translate "out of" %}
+            <b>{{query.paginator.count }} {% translate "entries" %} </b>
+        </div>
+    </div>
+    <br />
+    
+    <nav aria-label="Page navigation" style="">
         <ul class="pagination">
-            <li>
-                <a class="page-link" href="?page={{ query.next_page_number }}">Next</a>
-            </li>
-        </ul>
-        {% else %}
+            {% if query.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">begin</span>
+                </a>
+            </li> {% endif %}
 
-        <li class="page-item disabled">
-            <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">Next</span>
-                <span class="sr-only">Next</span>
-            </a>
-        </li>
-        {% endif %}
-        {% endif %}
-    </ul>
-</nav>
-<br></br>
+            {% for n in query.paginator.page_range %}
+            {% if query.number == n %}
+            <li class="page-item active">
+                <span class="page-link">{{ n }}<span class="sr-only">(current)</span></span>
+            </li>
+            {% elif n > query.number|add:'-5' and n < query.number|add:'5' %} <li class="page-item"><a class="page-link"
+                    href="?page={{ n }}">{{ n }}</a></li>
+                {% endif %}
+                {% endfor %}
+
+                {% if query.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ query.paginator.num_pages }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">end</span>
+                    </a>
+                </li>
+                {% endif %}
+        </ul>
+    </nav>
+    <br><br>
 </body>
 {% endblock %}

@@ -270,7 +270,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar fixed-top navbar-dark bg-dark justify-content-between"
         style="background-color: #f76d00;">
-        <a class="navbar-brand" href="{% url 'home' %}" style="font-weight: bold;" id="logo">KMUTT-Knowledgebase</a>
+        <a class="navbar-brand" href="{% url 'home' %}" style="font-weight: bold;" id="logo">KMUTT Information-Center</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -343,6 +343,7 @@
                         <h5 style="margin-left: 10px; margin-top: 4px;">{% translate "Notifications" %}</h5>
                         <hr style="margin-bottom: 35px;">
                         <div id="notification_tab"></div>
+                        <a href="{% url 'request' operation='view_user' %}" style="margin-left: 160px; margin-top: -20px;">View all requests</a>
                     </div>
                 </li>
                 
@@ -375,7 +376,7 @@
         {% block content %}{% endblock %}
         <hr />
         <footer>
-            <p>&copy; {{ year }} Kmutt-Knowledge base</p>
+            <p>&copy; {{ year }} KMUTT Information-Center</p>
         </footer>
     </div>
 

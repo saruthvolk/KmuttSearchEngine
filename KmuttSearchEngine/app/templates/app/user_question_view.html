@@ -111,13 +111,18 @@
         text-align: center;
     }
 
-    #search_input { margin-left: auto; }
+    #search_input {
+            margin-left: auto;
+            height:43px;
+        }
 
-    #search-button {
-        background-color: #e87639;
-        border-color: #e87639;
-        margin-right: auto;
-    }
+        #search-button {
+            background-color: #e87639;
+            border-color: #e87639;
+            margin-right: auto;
+            height:43px;
+            width: 43px;
+        }
 
     #Viewquestion {
         background-color: #f7f7f9;
@@ -384,7 +389,7 @@
     {% if operation == "question" %} 
     <h4><b>{% translate "All Questions" %}</b></h4>
     {% elif operation == "faq" %}
-    <h4><b>{% translate "FAQs" %}</b></h4>
+    <h4><b>{% translate "Frequently Asked Questions" %}</b></h4>
     {% elif operation == "recent_update" %}
     <h4><b>{% translate "Recent Update" %}</b></h4>
     {% endif %}

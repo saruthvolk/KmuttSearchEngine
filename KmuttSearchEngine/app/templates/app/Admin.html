@@ -2,26 +2,75 @@
 {% load i18n %}
 {% block content %}
 
+<style>
+    .btn-light {
+        background-color: #f7f7f9;
+        border-radius: 20px;
+        color: #262626;
+        margin-left: 40px;
+        text-align: center;
+        transition: border-color 0.3s;
+        width: 290px;
+        height:300px
+    }
+    .btn-light:hover {
+        background-color: #f7f7f9;
+        border: 2px solid #f37a3b;
+        color: #f37a3b;
+        text-decoration: none;
+    }
+
+</style>
 <h3>{{ message }}</h3>
 
 <br/><br/>
-<div class="jumbotron">
-    <h1>{% translate "Admin panel" %}</h1>
-    <br/>
-    <label for="operation">{% translate "Choose operation:" %}</label>
-    <select name="operation" id="operation" onchange="location = this.value;">
-        <option value="">{% translate "Choose option" %}</option>
-        <option value="{% url 'Crud_QA' operation='Add' id='0' %}" href="{% url 'Crud_QA' operation='Add' id='0' %}">Add</option>
-        <option value="{% url 'Crud_QA' operation='View' id='0' %}" href="{% url 'Crud_QA' operation='View' id='0' %}">View</option>
-    </select>
-    <br/>
-    <br/>
-    <a href="{% url 'user' %}" class="btn btn-primary">
-        <i class="material-icons"></i> <span>{% translate "User management" %}</span>
-    </a>
-    <a href="{% url 'request_admin' operation='view'%}" class="btn btn-primary">
-        <i class="material-icons"></i> <span>{% translate "Request management" %}</span>
-    </a>
+<div class="jumbotron" style="margin-top: 50px;">
+    <h2 style="margin-top:-35px">{% translate "Admin Tools" %}</h2>
+    <hr><br/><br/>
+    <table>
+        <td>
+        <form action="{% url 'Crud_QA' operation='View' id='0' %}" method="post">
+        {% csrf_token %}
+        <button class="btn btn-light">
+            <div>
+                <i class="far fa-question-circle fa-3x" style="color: #f37a3b; margin-bottom: 30px; margin-top: 30px;"></i>
+                <h5>{% translate "Questions Management" %}</h5>
+                <br/>
+                <p style="color: #262626; margin-left: auto; margin-right: auto; width: 10vw;">{% translate "Manage all of the questions in the knowledge base." %} </p>
+                <br/>
+            </div>
+        </button>
+        </form>
+    </td>
+    <td>
+        <form action="{% url 'request_admin' operation='view' %}" method="post">
+        {% csrf_token %}
+        <button class="btn btn-light">
+            <div>
+                <i class="far fa-clipboard fa-3x" style="color: #f37a3b; margin-bottom: 30px; margin-top: 30px;"></i>
+                <h5>{% translate "Requests Management" %}</h5>
+                <br/>
+                <p style="color: #262626; margin-left: auto; margin-right: auto; width: 10vw;">{% translate "Manage all of the requests from users." %} </p>
+                <br/>
+            </div>
+        </button>
+        </form>
+    </td>
+    <td>
+        <form action="{% url 'user' %}" method="post">
+        {% csrf_token %}
+        <button class="btn btn-light">
+            <div>
+                <i class="far fa-user fa-3x" style="color: #f37a3b; margin-bottom: 30px; margin-top: 30px;"></i>
+                <h5>{% translate "Users Management" %}</h5>
+                <br/>
+                <p style="color: #262626; margin-left: auto; margin-right: auto; width: 10vw;">{% translate "Manages all of the users in the system." %} </p>
+                <br/>
+            </div>
+        </button>
+        </form>
+    </td>
+    </table>
 </div>
-
+<br><br><br><br><br><br><br><br><br><br><br>
 {% endblock %}
