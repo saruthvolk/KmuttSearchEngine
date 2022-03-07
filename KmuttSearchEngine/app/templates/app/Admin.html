@@ -10,8 +10,8 @@
         margin-left: 40px;
         text-align: center;
         transition: border-color 0.3s;
-        width: 290px;
-        height:300px
+        width: 15vw;
+        height:28vh
     }
     .btn-light:hover {
         background-color: #f7f7f9;
@@ -27,11 +27,11 @@
 <div class="jumbotron" style="margin-top: 50px;">
     <h2 style="margin-top:-35px">{% translate "Admin Tools" %}</h2>
     <hr><br/><br/>
-    <table>
+    <table style="margin-left: auto; margin-right: auto;">
         <td>
         <form action="{% url 'Crud_QA' operation='View' id='0' %}" method="post">
         {% csrf_token %}
-        <button class="btn btn-light">
+        <button class="btn btn-light" style="margin-left: 0px;">
             <div>
                 <i class="far fa-question-circle fa-3x" style="color: #f37a3b; margin-bottom: 30px; margin-top: 30px;"></i>
                 <h5>{% translate "Questions Management" %}</h5>

@@ -228,7 +228,7 @@
             margin-left: -9%;
             margin-right: auto;
             justify-content: center;
-            width: 115%;
+            width: 70vw;
         }
 
         .numberCircle {
@@ -345,6 +345,9 @@
             margin-bottom: 20px;
             border-color: transparent;
         }
+        #request_question:hover{
+        background-color: #db7623;
+        }
     </style>
 </head>
 
@@ -373,11 +376,11 @@
     <br>
     {% if Correct is not None %}
     <br>
-    <p class="lead" id="warn" style="margin-left: -64px;">It look like you have a wrong spelling</p>
+    <p class="lead" id="warn" style="margin-left: -9%;">It look like you have a wrong spelling</p>
     <br />
     <form action="{% url 'search' %}" class="form-inline" method="POST">
         {% csrf_token %}
-        <p class="lead" name="search" id="warn">Do you want to search again with: <input type="submit"
+        <p class="lead" name="search" id="warn" style="margin-left: -9%;">Do you want to search again with: <input type="submit"
                 class="btn btn-link" name="search" value="{{Correct}}" /></p>
     </form>
     {% endif %}
@@ -419,7 +422,7 @@
     </div>
     <br />
     
-    <nav aria-label="Page navigation" style="">
+    <nav aria-label="Page navigation">
         <ul class="pagination">
             {% if query.has_previous %}
             <li class="page-item">

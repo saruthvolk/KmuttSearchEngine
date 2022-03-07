@@ -36,7 +36,7 @@
 </script>
 
 <style>
-    body { font-family: 'Prompt', sans-serif; }
+    body { font-family: 'Prompt', sans-serif;}
 
     .highlight {
         color: #e87639;
@@ -232,6 +232,21 @@
         width: 30px;
         ;
     }
+    #request_question{
+            bottom: 0; 
+            right: 0; 
+            position:fixed; 
+            background-color: #ec7e23;
+            color:#ffffff;
+            font-size: 16px;
+            border-radius: 4em;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            border-color: transparent;
+        }
+    #request_question:hover{
+        background-color: #db7623;
+    }
 </style>
 </head>
 <body>
@@ -249,6 +264,10 @@
     </form>
 </div>
 <p></p>
+
+<a class="btn btn-warning" id="request_question" href="{% url 'request' operation='add'%}"> 
+    <i class="fas fa-plus"></i> {% translate "Request Add Question" %} 
+</a>
 
 <div class="row">
     <a href="{% url 'view' operation='question' %}" class="col-sm-4" id="Viewquestion">
