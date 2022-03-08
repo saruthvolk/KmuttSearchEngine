@@ -78,42 +78,76 @@
     <title> CRUD operations </title>
 </head>
 <body>
-<br/><br/><br/><br/>
+<br/><br/><br/><br/><br>
 <h2 style="text-align: center;">Request Add Question</h2>
+<br>
 <div class="form-group">
-    <form method="POST" class="was-validated" action="{% url 'request' operation='update' %}">
-        {% csrf_token %}
+           <form method="POST" class="was-validated">
+            {% csrf_token %}
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <th scope="col" colspan="6">
+                        <label type="text" name="question"></label>
+                        <label type="text" name="question_id"></label>
+                    </th>
+                </thead>
+                <td>Question:</td>
 
-        <label for="Question">Question:</label>
-        <input type="text" placeholder="enter question " name="question" class="form-control is-valid" required/>
-        <br/>
-        <label for="Answer">Answer (optional): </label>
-        <span style="white-space: pre-line">
-            <textarea name = "answer" id="editor" class="editor"></textarea>
-        </span>
-
-        <label for="Question">Question English:</label>
-        <input type="text" placeholder="enter questionEN " name="question_en" class="form-control is-valid" required/>
-        <br/>
-        <label for="Question">Answer English (optional): </label>
-        <span style="white-space: pre-line">
-            <textarea name = "answer_en" id="editor1" class="editor_en"></textarea>
-        </span>
-
-        <label for="Question">Department ID: </label>
-        <select class="form-control" name="department_id">
-            {% for dep in department %}
-            <option name="department_id" value="1">({{dep.department_id}}) {{dep.department_name}}</option>
-            {% endfor %}
-        </select>
-
-        </br>
-        <label for="Remark">Remark</label>
-        <input type="text" placeholder="enter remark " name="remark" class="form-control is-valid" required/>
-
-        <br/>
-        <input type="submit" name="submit" id="submit" />
-    </form>
+                <td colspan="6">
+                    <input type="text" name="request_id" value="{{request_data.request_id}}" hidden />
+                    <input type="text" name="user_id" value="{{user_query.id}}" hidden />
+                    <input type="text" class="form-control is-valid" name="question" value="{{request_data.question}}"
+                        required />
+                </td>
+                <tr>
+                    <td>Answer (optional):</td>
+                    <td colspan="10">
+                        <span style="white-space: pre-line">
+                            <textarea name="answer" class="editor" id="editor{{request_data.id}}"
+                                required></textarea>
+                        </span>
+                    </td>
+                </tr>
+                <td>Question English:</td>
+                <td colspan="2">
+                    <input type="text" class="form-control is-valid" name="question_en"
+                        value="{{request_data.question_en}}" required />
+                </td>
+                <tr>
+                    <td>Answer English (optional):</td>
+                    <td colspan="6">
+                        <span style="white-space: pre-line">
+                            <textarea name="answer_en" class="editor_en" id="editor1{{request_data.id}}"
+                                required></textarea>
+                        </span>
+                    </td>
+                </tr>
+                <td>Remark</td>
+                <td colspan="2">
+                    <textarea type="text" class="form-control is-valid" name="remark" style="height: 150px;"
+                        required></textarea>
+                </td>
+                <tr>
+                    <td colspan="2">
+                        <label for="Question">Department ID: </label>
+                        <td>
+                        <select class="form-control" name="department_id">
+                            {% for dep in department %}
+                            <option name="department_id" value="1">({{dep.department_id}}) {{dep.department_name}}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        </td>
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <div style="margin-left: 40%; margin-right: auto;">
+            <button type="submit" class="btn btn-success" formaction="{% url 'request' operation='update'%}"> Create Request</button>
+            <button type="submit" class="btn btn-danger" formaction="{% url 'request' operation='view' %}">Cancel</button>
+            </div>
+            <br /><br>
+        </form>
 </div>
 </body>
 

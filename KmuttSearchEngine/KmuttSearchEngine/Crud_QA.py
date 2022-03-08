@@ -1,5 +1,6 @@
 import datetime
 from django.http import HttpRequest
+from torch import save
 from app.models import search_history
 from app.models import questionanswer
 from app.models import edit_questionanswer
@@ -32,18 +33,18 @@ def Add_QA(request):
 			saverecord.created_time = current_time
 			saverecord.save()
 
-			Result.code == 200
-			Result.message == 'Successful'
+			Result.code = 200
+			Result.message = 'Successful'
 
 			return Result
 		else:
-			Result.code == 300
-			Result.message == 'Successful'
+			Result.code = 300
+			Result.message = 'Successful'
 
 			return Result
 	else:
-		Result.code == 400
-		Result.message == 'Error'
+		Result.code = 400
+		Result.message = 'Error'
 		return Result
 
 def View_QA(reuqest,id):
@@ -88,7 +89,7 @@ def Update_QA(request,id):
 			answer = request.POST.getlist('answer')
 			question_en = request.POST.getlist('question_en')
 			answer_en = request.POST.getlist('answer_en')
-			saverecord.updated_by = 1 #waiting for user function
+			department = request.POST.getlist('department_id')
 		
 		current_time = datetime.datetime.now().replace(microsecond=0) 
 		for i in range(len(id)):
@@ -99,7 +100,8 @@ def Update_QA(request,id):
 			saverecord.answer = answer[i]
 			saverecord.question_en = question_en[i]
 			saverecord.answer_en = answer_en[i]
-			saverecord.updated_by = 1 #waiting for user function
+			saverecord.department_id = department[i]
+			saverecord.updated_by = request.user.id
 			saverecord.updated_date = current_time
 			saverecord.updated_time = current_time
 			saverecord.save()

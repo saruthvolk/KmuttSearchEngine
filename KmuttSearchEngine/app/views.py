@@ -286,7 +286,8 @@ def Crud_QA(request, operation, id):
         result = Add_QA(request)
         department = queryDb_department()
         if result.code == 200:
-            return render(request, 'app/index.html')
+            messages.info(request, _("Successfully added the question(s)"))
+            return redirect('Crud_QA', operation = "View",id ='0')
         else:
             return render(request, 'app/CRUDquestion.html', {'department': department})
 
@@ -308,8 +309,6 @@ def Crud_QA(request, operation, id):
         else:
             return render(request, 'app/Viewquestion.html', {'query': query1})
 
-
-
     elif operation == "Remove":
 
         if request.method == 'POST':
@@ -320,10 +319,11 @@ def Crud_QA(request, operation, id):
         if result.code == 200:
             return render(request, 'app/index.html')
         else:
-            return render(request, 'app/Viewquestion.html', {'query': result.query})
+            messages.info(request, _("Successfully removed the question(s)"))
+            return redirect('Crud_QA', operation = "View" , id='0')
 
     elif operation == "Edit":
-
+        department = queryDb_department()
         if request.method == 'POST':
             id = request.POST.getlist('id_check')
 
@@ -333,7 +333,7 @@ def Crud_QA(request, operation, id):
             return render(request, 'app/index.html')
         else:
             json_id = json.dumps(id)
-            return render(request, 'app/Editquestion.html', {'query': result.query, 'id_list': json_id})
+            return render(request, 'app/Editquestion.html', {'query': result.query, 'id_list': json_id, 'department': department})
 
     elif operation == "Update":
 
@@ -345,7 +345,8 @@ def Crud_QA(request, operation, id):
         if result.code == 200:
             return render(request, 'app/index.html')
         else:
-            return render(request, 'app/Viewquestion.html', {'query': result.query})
+            messages.info(request, _("Successfully edited the question(s)"))
+            return redirect('Crud_QA', operation = "View" , id='0')
 
 
 def signin(request):

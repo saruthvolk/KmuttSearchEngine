@@ -36,24 +36,13 @@ class questionanswer (models.Model):
         db_table = "questionanswer"
         ordering = ('id',)
 
-
-class edit_questionanswer (models.Model):
-
-    id = models.AutoField(primary_key=True)
-    question = models.CharField(max_length=1000)
-    answer = models.CharField(max_length=1000)
-    question_en = models.CharField(max_length=1000)
-    answer_en = models.CharField(max_length=1000)
-    updated_date = models.DateTimeField(default=now, editable=True)
-    updated_time = models.DateTimeField(default=now, editable=True)
-    #question_sw = models.CharField(max_length = 1000)
-    #question_tokenized = models.CharField(max_length = 1000)
+class department (models.Model):
+    department_id = models.AutoField(primary_key=True)
+    department_name = models.CharField(max_length=1000)
 
     class Meta:
-        db_table = "questionanswer"
-        managed = False
-        ordering = ('id',)
-
+        db_table = "department"
+    
 
 class userinfo(AbstractBaseUser):
 
@@ -91,6 +80,24 @@ class userinfo(AbstractBaseUser):
         managed = False
         ordering = ('id',)
 
+class edit_questionanswer (models.Model):
+
+    id = models.AutoField(primary_key=True)
+    question = models.CharField(max_length=1000)
+    answer = models.CharField(max_length=1000)
+    question_en = models.CharField(max_length=1000)
+    answer_en = models.CharField(max_length=1000)
+    updated_date = models.DateTimeField(default=now, editable=True)
+    updated_time = models.DateTimeField(default=now, editable=True)
+    department = models.ForeignKey(department, on_delete=models.CASCADE)
+    updated_by = models.IntegerField()
+    #question_sw = models.CharField(max_length = 1000)
+    #question_tokenized = models.CharField(max_length = 1000)
+
+    class Meta:
+        db_table = "questionanswer"
+        managed = False
+        ordering = ('id',)
 
 class user_role (models.Model):
 
@@ -99,13 +106,6 @@ class user_role (models.Model):
 
     class Meta:
         db_table = "user_role"
-
-class department (models.Model):
-    department_id = models.AutoField(primary_key=True)
-    department_name = models.CharField(max_length=1000)
-
-    class Meta:
-        db_table = "department"
 
 class QArequest (models.Model):
     request_id = models.AutoField(primary_key=True)

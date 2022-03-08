@@ -1,5 +1,5 @@
 {% extends "app/layout.html" %}
-
+{% load i18n %}
 {% block content %}
 <script src="https://cdn.tiny.cloud/1/lkp5p0w1fk12lr4trywat44qle2pxarpedhgjkdxxmsohyl2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
@@ -9,7 +9,7 @@
         mode: "textareas", // change this value according to your HTML
         images_upload_url: '/upload_image/', // Image upload address in Django route
         height: 500,
-        branding:false,
+        branding: false,
         menubar: false,
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
@@ -22,19 +22,19 @@
             'code image | ' +
             'removeformat',
 
-        init_instance_callback: function(editor) {
+        init_instance_callback: function (editor) {
             var editorH = editor.editorContainer.offsetHeight;
             $('#editor')
-            .css({
-                'position': 'absolute',
-                'height': editorH
-            })
-            .show();
+                .css({
+                    'position': 'absolute',
+                    'height': editorH
+                })
+                .show();
         },
         setup: function (editor) {
-                editor.on('change', function () {
+            editor.on('change', function () {
                 editor.save();
-                });
+            });
         }
     });
 
@@ -43,7 +43,7 @@
         mode: "textareas", // change this value according to your HTML
         images_upload_url: '/upload_image/', // Image upload address in Django route
         height: 500,
-        branding:false,
+        branding: false,
         menubar: false,
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
@@ -56,21 +56,21 @@
             'code image | ' +
             'removeformat',
 
-        init_instance_callback: function(editor) {
+        init_instance_callback: function (editor) {
             var editorH = editor.editorContainer.offsetHeight;
 
             $('#editor1')
-            .css({
-                'position': 'absolute',
-                'height': editorH
-            })
-            .show();
+                .css({
+                    'position': 'absolute',
+                    'height': editorH
+                })
+                .show();
         },
         setup: function (editor) {
             editor.on('change', function () {
-            editor.save();
-        });
-    }
+                editor.save();
+            });
+        }
     });
 
     function toggle(source) {
@@ -81,64 +81,165 @@
         }
     }
 
+    disable_button = function (val) {
+
+        var id = $(val).attr("id").split("_")[1];
+
+        if (val.checked === true) {
+            $(`#delete_button_${id}`).removeAttr("disabled");
+        } else {
+            $(`#delete_button_${id}`).attr("disabled", "disabled");
+        }
+    };
+
+    disable_button2 = function (val) {
+
+        var id = $(val).attr("id").split("_")[1];
+
+        if (val.checked === true) {
+            $(`#approve_button_${id}`).removeAttr("disabled");
+        } else {
+            $(`#approve_button_${id}`).attr("disabled", "disabled");
+        }
+    };
+
 </script>
 
 
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <title> CRUD operations </title>
 </head>
 <body>
-<br/><br/><br/>
-<center>
-    <h1>Edit form</h1>
-
-    <input type="checkbox" onclick="toggle(this);"/>Check all?<br/>
-
-    {% for questionanswer in query %}
-    <div class="id" id="{{id_list}}"></div>
-    <form method="POST" class="was-validated">
-        {% csrf_token %}
-        <table class="table table-hover">
-            <thead class="thead-dark">
-            <th scope="col" colspan="6">
-                <input type="checkbox" name="id_check" id="id_check" value="{{questionanswer.id}}"/>
-                <label type="text" name="question"> Quesion ID </label>
-                <label type="text" name="question_id">{{questionanswer.id}} </label>
-            </th>
-            </thead>
-            <td>Question</td>
-
-            <td colspan="6">
-                <input type="text" class="form-control is-valid" name="question" value="{{questionanswer.question}}" required/>
-            </td>
-            <tr>
-                <td>Answer</td>
-                <td colspan="10">
-                    <span style="white-space: pre-line">
-                        <textarea name = "answer" class="editor" id="editor{{questionanswer.id}}" required>{{questionanswer.answer}}</textarea>
-                    </span>
-                </td>
-            </tr>
-            <td >Question EN</td>
-            <td colspan="2">
-                <input type="text" class="form-control is-valid" name="question_en" value="{{questionanswer.question_en}}" required/>
-            </td>
-            <tr>
-                <td>Answer en</td>
-                <td colspan="6">
-                    <span style="white-space: pre-line">
-                        <textarea name = "answer_en" class="editor_en" id="editor1{{questionanswer.id}}" required>{{questionanswer.answer_en}}</textarea>
-                    </span>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-        <button type="submit" class="btn-primary" formaction="{% url 'Crud_QA' operation='Update' id='0' %}">Save</button>
-        <button type="submit" class="btn-primary" formaction="{% url 'Crud_QA' operation='Remove' id='0' %}">Delete</button>
+    <br /><br /><br/>
+    <center>
+        <br/><br/>
+        <h1>Edit form</h1>
         <br/>
-    </form>
-</center>
+        {% for questionanswer in query %}
+        <div class="id" id="{{id_list}}"></div>
+        <form method="POST" class="was-validated">
+            {% csrf_token %}
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                <th scope="col" colspan="6">
+                    <input type="text" name="id_check" id="id_check" value="{{questionanswer.id}}" hidden/>
+                    <label type="text" name="question"> Quesion ID </label>
+                    <label type="text" name="question_id">{{questionanswer.id}} </label>
+                </th>
+                </thead>
+                <td>Question</td>
+
+                <td colspan="6">
+                    <input type="text" class="form-control is-valid" name="question" value="{{questionanswer.question}}" required />
+                </td>
+                <tr>
+                    <td>Answer</td>
+                    <td colspan="10">
+                        <span style="white-space: pre-line">
+                            <textarea name="answer" class="editor" id="editor{{questionanswer.id}}" required>{{questionanswer.answer}}</textarea>
+                        </span>
+                    </td>
+                </tr>
+                <td>Question EN</td>
+                <td colspan="2">
+                    <input type="text" class="form-control is-valid" name="question_en" value="{{questionanswer.question_en}}" required />
+                </td>
+                <tr>
+                    <td>Answer en</td>
+                    <td colspan="6">
+                        <span style="white-space: pre-line">
+                            <textarea name="answer_en" class="editor_en" id="editor1{{questionanswer.id}}" required>{{questionanswer.answer_en}}</textarea>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <label for="Question">Department ID: </label>
+                    <td>
+                        <select class="form-control" name="department_id">
+                            {% for dep in department %}
+                            <option name="department_{{dep.department_id}}" value="{{dep.department_id}}" 
+                            {% if dep.department_id == questionanswer.department_id %}selected="selected"{% endif %}>
+                            {{dep.department_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    </td>
+                <tr>
+
+                <div id="delete" class="modal fade">
+                    <div class="modal-dialog modal-confirm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="icon-box">
+                                    <i class="material-icons" style="font-size: 55px">&#xE5CD;</i>
+                                </div>
+                                <h4 class="modal-title w-100">{% translate "Confirm your process ?" %}</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text-center">
+                                    {% translate "Do you really want to delete all the selected question ?" %} 
+                                </p>
+                                <p class="text-center"> {% translate "This process can not be undone." %}</p>
+                                <br />
+                                <input type="checkbox" id="questionanswer_{{questionanswer.id}}"
+                                       class="checkbox" value="{{questionanswer.id}}" style="margin-left: 10%;"
+                                       onClick="disable_button(this)" />
+                                {% translate "Check the box to confirm the action." %}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Cancel" %}</button>
+                                <button type="submit" class="btn btn-danger"
+                                        id="delete_button_{{questionanswer.id}}"
+                                        formaction="{% url 'Crud_QA' operation='Remove' id=questionanswer.id%}" disabled="disabled">
+                                    {% translate "Delete" %}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="save" class="modal fade">
+                    <div class="modal-dialog modal-confirm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="icon-box" style="background-color: #1b9b42">
+                                    <i class="material-icons" style="font-size: 55px">&#xe5ca;</i>
+                                </div>
+                                <h4 class="modal-title w-100">{% translate "Confirm your process ?" %}</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text-center">
+                                    {% translate "Do you want to save all the edited question ?" %}
+                                </p>
+                                <br />
+                                <input type="checkbox" id="questionanswer_{{questionanswer.id}}"
+                                       class="checkbox" value="{{questionanswer.id}}" style="margin-left: 10%;"
+                                       onClick="disable_button2(this)" />
+                                {% translate "Check the box to confirm the action." %}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Cancel" %}</button>
+                                <button type="submit" class="btn btn-success"
+                                        id="approve_button_{{questionanswer.id}}"
+                                        style="background-color: #1b9b42"
+                                        formaction="{% url 'Crud_QA' operation='Update' id=questionanswer.id%}" disabled="disabled">
+                                    {% translate "Save" %}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </table>
+            <a class="btn btn-success" data-toggle="modal" id="delete" data-target="#save" style="color: aliceblue;">{% translate "Save" %}</a>
+            <a class="btn btn-danger" data-toggle="modal" id="submit" data-target="#delete" style="color: aliceblue;">{% translate "Delete" %}</a>
+            <a type="button" class="btn btn-secondary" href="{% url 'Crud_QA' operation='View' id='0' %}" style="color: aliceblue;">{% translate "Cancel" %}</a>
+
+            <br />
+        </form>
+    </center>
 </body>
 
 {% endblock %}

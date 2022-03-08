@@ -97,7 +97,7 @@
                         <label type="text" name="question_id">{{request_data.request_id}} </label>
                     </th>
                 </thead>
-                <td>Question</td>
+                <td>Question:</td>
 
                 <td colspan="6">
                     <input type="text" name="request_id" value="{{request_data.request_id}}" hidden />
@@ -106,7 +106,7 @@
                         required />
                 </td>
                 <tr>
-                    <td>Answer</td>
+                    <td>Answer:</td>
                     <td colspan="10">
                         <span style="white-space: pre-line">
                             <textarea name="answer" class="editor" id="editor{{request_data.id}}"
@@ -114,13 +114,13 @@
                         </span>
                     </td>
                 </tr>
-                <td>Question EN</td>
+                <td>Question English:</td>
                 <td colspan="2">
                     <input type="text" class="form-control is-valid" name="question_en"
                         value="{{request_data.question_en}}" required />
                 </td>
                 <tr>
-                    <td>Answer en</td>
+                    <td>Answer English:</td>
                     <td colspan="6">
                         <span style="white-space: pre-line">
                             <textarea name="answer_en" class="editor_en" id="editor1{{request_data.id}}"
@@ -128,32 +128,35 @@
                         </span>
                     </td>
                 </tr>
-                <td>Remark</td>
+                <td>Remark:</td>
                 <td colspan="2">
                     <textarea type="text" class="form-control is-valid" name="remark" style="height: 150px;"
                         required>{{request_data.remark}}</textarea>
                 </td>
+                
                 <tr>
                     <td colspan="2">
-                        <label for="Question">Department ID: </label>
-
+                        <label for="Question">Department: </label>
+                        <td>
                         <select class="form-control" name="department_id">
                             {% for dep in department %}
-                            <option name="department_id" value="1">({{dep.department_id}}) {{dep.department_name}}
+                            <option name="department_id" value="{{dep.department_id}}">({{dep.department_id}}) {{dep.department_name}}
                             </option>
                             {% endfor %}
                         </select>
+                        </td>
                     </td>
                 <tr>
                     <input type="text" class="form-control is-valid" name="request_type"
                         value="{{request_data.request_type}}" hidden />
                     {% endfor %}
             </table>
+            <br><br>
             <button type="submit" class="btn btn-success" formaction="{% url 'request' operation='saveedit'%}">Save
                 changes</button>
             <button type="submit" class="btn btn-danger"
                 formaction="{% url 'Crud_QA' operation='Remove' id='0' %}">Delete</button>
-            <br />
+            <br /><br>
         </form>
     </center>
 </body>

@@ -1,9 +1,10 @@
 {% extends "app/layout.html" %}
 {% load i18n %}
 {% block content %}
-<style>
 
-        .pagination {
+
+<style>
+    .pagination {
         justify-content: center;
         font-size: 14px;
     }
@@ -50,17 +51,83 @@
         }
     }
 
-    #submit, #delete {
+    #submit,
+    #delete {
         background-color: #f37a3b;
         border-color: #f37a3b;
         float: right;
         cursor: pointer;
     }
 
-    #submit { margin-right: 10px }
+    #submit {
+        margin-right: 10px
+    }
+
+    #question_edit,
+    #question_delete,
+    #select_multiple,
+    #check_all,
+    #add_question {
+        bottom: 0;
+        right: 0;
+        position: fixed;
+        background-color: #ec7e23;
+        color: #ffffff;
+        font-size: 0.95em;
+        border-radius: 4em;
+        margin-right: 20px;
+        margin-bottom: 155px;
+        width: 200px;
+        border-color: transparent;
+    }
+
+    #question_edit{
+        background-color: rgb(3, 102, 0);
+    }
+    #question_delete {
+        margin-bottom: 110px;
+        background-color: rgb(145, 1, 1);
+    }
+
+    #select_multiple {
+        margin-bottom: 65px;
+        outline: none;
+    }
+
+    #check_all {
+        margin-bottom: 200px;
+        background-color: rgb(3, 83, 136);
+    }
+
+    #add_question {
+        margin-bottom: 20px;
+        background-color: forestgreen;
+    }
 </style>
 <script>
-       disable_button = function(val) {
+
+    function myFunction() {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        var x = document.querySelectorAll('[id^="menu_"]');
+        var y = document.querySelectorAll('[id^="menu1_"]');
+        var z = document.getElementById('checkall');
+        for (var i = 0; i < x.length; i++) {
+            if (x[i].style.display === "none") {
+                x[i].style.display = "inline";
+                y[i].style.display = "none";
+                z.style.display = "inline";
+            } else {
+                x[i].style.display = "none";
+                y[i].style.display = "inline";
+                z.style.display = "none";
+                for (var j = 0; j < checkboxes.length; j++) {
+                    checkboxes[j].checked = false;
+                }
+                document.getElementById("check_all").innerHTML = '<i class="far fa-square"></i> {% translate "Check All" %}'
+            }
+        }
+    }
+    disable_button = function (val) {
 
         var id = $(val).attr("id").split("_")[1];
 
@@ -71,52 +138,80 @@
         }
     };
 
-    disable_button2 = function(val) {
+    disable_button2 = function (val) {
 
         var id = $(val).attr("id").split("_")[1];
-  
+
         if (val.checked === true) {
             $(`#approve_button_${id}`).removeAttr("disabled");
         } else {
             $(`#approve_button_${id}`).attr("disabled", "disabled");
         }
     };
-    function toggle(source) {
+    var isChecked = false;
+    function checkAll() {
+        var a = document.getElementById("check_all")
         var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        for (var i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i] != source)
-                checkboxes[i].checked = source.checked;
+        if (isChecked) {
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].type == 'checkbox') {
+                    checkboxes[i].checked = false;
+                }
+            }
+        } else {
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].type == 'checkbox') {
+                    checkboxes[i].checked = true;
+
+                }
+            }
         }
+        isChecked = !isChecked;
+        a.innerHTML = isChecked ? '<i class="fas fa-check-square"></i> {% translate "Uncheck All" %}' : '<i class="far fa-square"></i> {% translate "Check All" %}';
     }
+
 </script>
+
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <title> CRUD operations </title>
 
 </head>
+
 <body>
-<br/><br/><br/>
-<center>
-    <br/>
-    <h1>{% translate "View question" %}</h1>
-    <div class="form-group">
-        <input type="checkbox" onclick="toggle(this);"/>Check all?<br/>
-        {% for questionanswer in query %}
-        <form action="{% url 'Crud_QA' operation='Edit' id='0' %}" method="POST">
-            {% csrf_token %}
-            <table class="table table-hover">
-                <thead class="thead-dark">
-                <th scope="col" colspan="6">
-                    <input type="checkbox" name="id_check" id="id_check" value="{{questionanswer.id}}"/>
-                    <label type="text" name="question"class="font-weight-bold"> Quesion</label>
-                    <label type="text" name="question_id">{{questionanswer.id}} </label>
-                    <a class="btn btn-danger btn-sm" data-toggle="modal" id="delete" data-target="#delete_{{questionanswer.id}}">Delete</a>
-                    <a class="btn btn-danger btn-sm" data-toggle="modal" id="submit" data-target="#edit_{{questionanswer.id}}">Edit</a>
+    <br /><br /><br />
+    <center>
+        <br/><br>
+        <h1>{% translate "View question" %}</h1>
+        <br>
+        <div class="form-group">
+            <button class="btn btn-warning" id="select_multiple" onclick="myFunction();"> <i class="fas fa-check-square"></i> Select Multiple</button>
+            <div style="display:none;" id="checkall">
+                <button class="btn btn-warning" id="check_all" onclick="checkAll(this)" ;>
+                    <i class="far fa-square"></i> {% translate "Check All" %}
+                </button>
+            </div>
+            {% for questionanswer in query %}
+            <form action="{% url 'Crud_QA' operation='Edit' id='0' %}" method="POST">
+                {% csrf_token %}
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <th scope="col" colspan="6">
+                            <div style="display:none;" id="menu_{{questionanswer.id}}">
+                                <input class="checkthis" type="checkbox" name="id_check" id="id_check"
+                                    value="{{questionanswer.id}}" style="transform: scale(1.1)"/>
+                            </div>
+                            <label type="text" name="question" class="font-weight-bold"> Question</label>
+                            <label type="text" name="question_id">{{questionanswer.id}} </label>
+                            <div style="display:inline;" id="menu1_{{questionanswer.id}}">
+                                <a class="btn btn-danger btn-sm" data-toggle="modal" id="delete"
+                                    data-target="#delete_{{questionanswer.id}}">Delete</a>
+                                    <a class="btn btn-danger btn-sm" id="submit" href='{% url "Crud_QA" operation="Edit" id=questionanswer.id%}'>Edit</a>
+                            </div>
+                        </th>
+                    </thead>
 
-                </th>
-                </thead>
-
-                <div id="delete_{{questionanswer.id}}" class="modal fade">
+                    <div id="delete_{{questionanswer.id}}" class="modal fade">
                         <div class="modal-dialog modal-confirm">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -126,7 +221,7 @@
                                     <h4 class="modal-title w-100">{% translate "Confirm your process ?" %}</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <p class="text-center">{% translate "Do you really want to delete this question ?" %} {{questionanswer.id}}
+                                    <p class="text-center">{% translate "Do you really want to delete this question ?"%}
                                     </p>
                                     <p class="text-center"> {% translate "This process can not be undone." %}</p>
                                     <br />
@@ -139,98 +234,116 @@
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Cancel" %}</button>
                                     <button type="submit" class="btn btn-danger"
                                         id="delete_button_{{questionanswer.id}}"
-                                        formaction="{% url 'Crud_QA' operation='Remove' id=questionanswer.id%}" disabled="disabled">{% translate "Delete" %}</button>
+                                        formaction="{% url 'Crud_QA' operation='Remove' id=questionanswer.id%}"
+                                        disabled="disabled">{% translate "Delete" %}</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                <div id="edit_{{questionanswer.id}}" class="modal fade">
+                    <div id="edit_{{questionanswer.id}}" class="modal fade">
                         <div class="modal-dialog modal-confirm">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <div class="icon-box">
-                                        <i class="material-icons" style="font-size: 55px">&#xE5CD;</i>
+                                    <div class="icon-box" style="background-color: rgb(255, 208, 0);">
+                                        <i class="fa fa-exclamation" style="font-size: 50px; text-align: center; margin-top: 5px;"></i>
                                     </div>
                                     <h4 class="modal-title w-100">{% translate "Confirm your process ?" %}</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <p class="text-center">{% translate "Do you go and edit this question ?" %} {{questionanswer.id}}
+                                    <p class="text-center">{% translate "Do you go and edit this question ?" %}
                                     </p>
                                     <br />
                                     <input type="checkbox" id="questionanswer_{{questionanswer.id}}" name="id_check"
-                                        class="checkbox" value="{{questionanswer.id}}" style="margin-left: 10%;"
+                                        class="checkbox" value="{{questionanswer.id}}" style="margin-left: auto;margin-right: auto;"
                                         onClick="disable_button2(this)" />
                                     {% translate "Check the box to confirm the action." %}
                                 </div>
-                                <div class="modal-footer">
+                                <div class="modal-footer" style="margin-left: auto;margin-right: auto;">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Cancel" %}</button>
-                                    <button type="submit" class="btn btn-success"
+                                    <button type="submit" class="btn btn-warning"
                                         id="approve_button_{{questionanswer.id}}"
-                                        formaction="{% url 'Crud_QA' operation='Edit' id=questionanswer.id%}" disabled="disabled">{% translate "Edit" %}</button>
+                                        formaction="{% url 'Crud_QA' operation='Edit' id=questionanswer.id%}"
+                                        disabled="disabled" style="background-color: rgb(255, 208, 0);">{% translate "Edit" %}</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                {% get_current_language as LANGUAGE_CODE %}
-                {% if LANGUAGE_CODE == "th" %}
-                <tr>
-                    <td class="font-weight-bold">Question</td>
-                    <td colspan="2" style="width: 40%;">
-                        <label type="text" name="question"> {{questionanswer.question}} </label>
-                    </td>
-                    <td class="font-weight-bold" >Answer</td>
-                    <td colspan="10" style="width: 60%;">
-                        <span style="white-space: pre-line;word-break:break-all">
-                            {% autoescape off %}
-                            {{questionanswer.answer}}
-                            {% endautoescape %}
-                        </span>
-                    </td>
-                </tr>
-                {% else %}
-                <tr>
-                    <td class="font-weight-bold">Question</td>
-                    <td colspan="2" style="width: 40%;">
-                        <label type="text" name="question"> {{questionanswer.question_en}} </label>
-                    </td>
-                    <td class="font-weight-bold">Answer</td>
-                    <td colspan="10" style="width: 60%;">
-                        <span style="white-space: pre-line;word-break:break-all">
-                            {% autoescape off %}
-                            {{questionanswer.answer_en}}
-                            {% endautoescape %}
-                        </span>
-                    </td>
+                    
+                    {% get_current_language as LANGUAGE_CODE %}
+                    {% if LANGUAGE_CODE == "th" %}
+                    <tr>
+                        <td class="font-weight-bold">Question</td>
+                        <td colspan="2" style="width: 40%;">
+                            <label type="text" name="question"> {{questionanswer.question}} </label>
+                        </td>
+                        <td class="font-weight-bold">Answer</td>
+                        <td colspan="10" style="width: 60%;">
+                            <span style="white-space: pre-line;word-break:break-all">
+                                {% autoescape off %}
+                                {{questionanswer.answer}}
+                                {% endautoescape %}
+                            </span>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td class="font-weight-bold">Question</td>
+                        <td colspan="2" style="width: 40%;">
+                            <label type="text" name="question"> {{questionanswer.question_en}} </label>
+                        </td>
+                        <td class="font-weight-bold">Answer</td>
+                        <td colspan="10" style="width: 60%;">
+                            <span style="white-space: pre-line;word-break:break-all">
+                                {% autoescape off %}
+                                {{questionanswer.answer_en}}
+                                {% endautoescape %}
+                            </span>
+                        </td>
 
-                </tr>
-                {% endif %}
-            {% endfor %}
-            </table>
-            <button type="submit" class="btn btn-success"> Edit Multiple</button>
-            <button type="submit" class="btn btn-danger" formaction="{% url 'Crud_QA' operation='Remove' id='0' %}">Delete Multiple</button>
-        </form>
-    </div>
-    <br/>
-</center>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </table>
+                <button class="btn btn-warning" id="add_question"
+                    formaction="{% url 'Crud_QA' operation='Add' id='0'%}">
+                    <i class="fas fa-plus"></i> {% translate "Add Question" %}
+                </button>
+
+                <div style="display:none;" id="menu_">
+
+                    <button class="btn btn-warning" id="question_edit">
+                        <i class="fa fa-pen" ></i> {% translate "Edit" %}
+                    </button>
+
+                    <button class="btn btn-warning" id="question_delete"
+                        formaction="{% url 'Crud_QA' operation='Remove' id='0'%}">
+                        <i class="fas fa-trash"></i> {% translate "Delete" %}
+                    </button>
+                </div>
+            </form>
+        </div>
+        <br />
+    </center>
 </body>
 
-<div id="success_modal" name = "success_modal" class="modal fade in">
+
+<div id="success_modal" name="success_modal" class="modal fade in">
     <div class="modal-dialog modal-confirm">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="icon-box" style="background-color: #1b9b42">
-                <i class="material-icons" style="font-size: 55px;">&#xe5ca;</i>
+                    <i class="material-icons" style="font-size: 55px;">&#xe5ca;</i>
                 </div>
-            <h4 class="modal-title w-100 justify-content-center">{% translate "Successful" %}</h4>
+                <h4 class="modal-title w-100 justify-content-center">{% translate "Successful" %}</h4>
             </div>
             <div class="modal-body">
-                <p class="text-center" style="font-size: 15px;">       
-                {% for message in messages %}
-                {{message}}
-                {% endfor %} 
+                <p class="text-center" style="font-size: 15px;">
+                    {% for message in messages %}
+                    {{message}}
+                    {% endfor %}
                 </p>
-                <br/>
+                <br />
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">{% translate "Close" %}</button>
@@ -239,44 +352,48 @@
     </div>
 </div>
 
+
 {% if messages %}
 <script>$("#success_modal").modal()</script>
 {% endif %}
 
-            <div class="clearfix">
-                <div class="hint-text">
-                    {% translate "Showing"%} <b>{{ query.end_index }}</b> {% translate "out of" %}
-                    <b>{{query.paginator.count }} {% translate "entries" %} </b>
-                </div>
-            </div>
-            <br />
+<div class="clearfix">
+    <div class="hint-text">
+        {% translate "Showing"%} <b>{{ query.end_index }}</b> {% translate "out of" %}
+        <b>{{query.paginator.count }} {% translate "entries" %} </b>
+    </div>
+</div>
+<br />
 
-<nav aria-label="Page navigation">   <ul class="pagination">
-{% if query.has_previous %}
-<li class="page-item">
-  <a class="page-link" href="?page=1" aria-label="Previous">
-    <span aria-hidden="true">&laquo;</span>
-    <span class="sr-only">begin</span>
-  </a>
-</li>   {% endif %}
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        {% if query.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">begin</span>
+            </a>
+        </li> {% endif %}
 
-{% for n in query.paginator.page_range %}
-  {% if query.number == n %}
-    <li class="page-item active">
-      <span class="page-link">{{ n }}<span class="sr-only">(current)</span></span>
-    </li>
-  {% elif n > query.number|add:'-5' and n < query.number|add:'5' %}
-    <li class="page-item"><a class="page-link" href="?page={{ n }}">{{ n }}</a></li>
-  {% endif %}
-{% endfor %}
+        {% for n in query.paginator.page_range %}
+        {% if query.number == n %}
+        <li class="page-item active">
+            <span class="page-link">{{ n }}<span class="sr-only">(current)</span></span>
+        </li>
+        {% elif n > query.number|add:'-5' and n < query.number|add:'5' %} <li class="page-item"><a class="page-link"
+                href="?page={{ n }}">{{ n }}</a></li>
+            {% endif %}
+            {% endfor %}
 
-{% if query.has_next %}
-  <li class="page-item">
-    <a class="page-link" href="?page={{ query.paginator.num_pages }}" aria-label="Next">
-      <span aria-hidden="true">&raquo;</span>
-      <span class="sr-only">end</span>
-    </a>
-  </li>
-  {% endif %}   </ul> </nav>
+            {% if query.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ query.paginator.num_pages }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">end</span>
+                </a>
+            </li>
+            {% endif %}
+    </ul>
+</nav>
 
 {% endblock %}
