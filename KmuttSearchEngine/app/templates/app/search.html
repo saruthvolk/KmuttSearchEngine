@@ -431,7 +431,7 @@
                     <span class="sr-only">begin</span>
                 </a>
             </li> {% endif %}
-
+    
             {% for n in query.paginator.page_range %}
             {% if query.number == n %}
             <li class="page-item active">
@@ -441,7 +441,7 @@
                     href="?page={{ n }}">{{ n }}</a></li>
                 {% endif %}
                 {% endfor %}
-
+    
                 {% if query.has_next %}
                 <li class="page-item">
                     <a class="page-link" href="?page={{ query.paginator.num_pages }}" aria-label="Next">

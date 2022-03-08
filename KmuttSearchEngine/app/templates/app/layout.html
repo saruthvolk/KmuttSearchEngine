@@ -461,6 +461,10 @@
                             {% translate "Profile" %}</a>
                         <a href="{% url 'request' operation='view_user' %}" class="dropdown-item"><i
                                 class="far fa-clipboard"></i> {% translate "Requests"%}</a>
+                        <a href="{% url 'history' operation='view' %}" class="dropdown-item">
+                            <i class="far fa-question-circle"></i> {% translate "Views"%}</a>
+                        <a href="{% url 'history' operation='search' %}" class="dropdown-item">
+                            <i class="fas fa-search"></i> {% translate "Search"%}</a>
                         <div class="dropdown-divider"></div>
                         <a href="/logout" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> {% translate "Logout" %}</a>
                     </div>
