@@ -338,7 +338,7 @@
     <thead>
         <tr>
             <th class="text-center" style="width: 3%;">{% translate "Type" %}</th>
-            <th class="text-center" style="width: 24%;">{% translate "Request By" %}</th>
+            <th class="text-center" style="width: 26%;">{% translate "Request By" %}</th>
             <th class="text-center" style="width: 14%;">{% translate "Status" %}</th>
             <th class="text-center" style="width: 11%;">{% translate "Last updated" %}</th>
             <th>{% translate "Remark" %}</th>
@@ -350,7 +350,7 @@
     <tr>
     {% for request_data in query %} 
     <td class="text-center"><b>{{request_data.request_type}}</b></td>
-    <td class="text-center">
+    <td style="padding: 0px 3vw;">
         {% if request_data.user.path_profile_pic is None %}
         <a href="#" data-toggle="modal" data-target="#userview_{{request_data.user.id}}"><img src="{% static 'img/user.png' %}" class="avatar" alt="Avatar"> {{request_data.user.first_name}} {{request_data.user.last_name}} </a>
         {% else %}
@@ -396,20 +396,20 @@
                     </tr>
                 </thead>
                 <tr>
-                    <td>TH</td>
-                    <td class="request_type">{{request_data.question}}</td>
+                    <td class="text-center">TH</td>
+                    <td class="request_type" style="width: 35%;">{{request_data.question}}</td>
                     {% autoescape off %}
-                    <td class="request_type">{{request_data.answer}} </td>
+                    <td class="request_type" style="width: 35%;">{{request_data.answer}} </td>
                     {% endautoescape %}
-                    <td class="request_type">{{request_data.remark}}</td>
+                    <td class="request_type" style="width: 30%;">{{request_data.remark}}</td>
                 </tr>
                 <tr>
-                    <td>EN</td>
-                    <td class="request_type">{{request_data.question_en}}</td>
+                    <td class="text-center">EN</td>
+                    <td class="request_type"style="width: 35%;">{{request_data.question_en}}</td>
                     {% autoescape off %}
-                    <td class="request_type">{{request_data.answer_en}} </td>
+                    <td class="request_type" style="width: 35%;">{{request_data.answer_en}} </td>
                     {% endautoescape %}
-                    <td class="request_type">{{request.remark}}</td>
+                    <td class="request_type" style="width: 30%;">{{request.remark}}</td>
                 </tr>
         </td>
     </table>

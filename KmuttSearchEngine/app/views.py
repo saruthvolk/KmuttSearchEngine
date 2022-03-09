@@ -257,17 +257,17 @@ def user_question_view(request, operation):
     if operation == "question":
         query_question = queryDb_QA_All()
     elif operation == "faq":
-        query_question = queryDb_QA_All()
+        query_question = queryDb_QA_All_FAQ()
     elif operation == "recent_update":
-        query_question = queryDb_QA_All()
+        query_question = queryDb_QA_All_Recent()
     page = request.GET.get('page', 1)
     if page == 1:
         if operation == "question":
             query_question = queryDb_QA_All()
         elif operation == "faq":
-            query_question = queryDb_QA_All()
+            query_question = queryDb_QA_All_FAQ()
         elif operation == "recent_update":
-            query_question = queryDb_QA_All()
+            query_question = queryDb_QA_All_Recent()
     paginator = Paginator(query_question, 7)
     try:
         query = paginator.page(page)

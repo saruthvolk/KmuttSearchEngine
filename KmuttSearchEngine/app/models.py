@@ -22,7 +22,7 @@ class questionanswer (models.Model):
     answer_en = models.CharField(max_length=1000)
     created_time = models.DateTimeField(default=now, editable=True)
     created_date = models.DateTimeField(default=now, editable=True)
-    user_id = models.IntegerField()
+    created_by = models.IntegerField()
     updated_date = models.DateTimeField(default=now, editable=True)
     updated_time = models.DateTimeField(default=now, editable=True)
     updated_by = models.CharField(max_length=1000)
@@ -91,8 +91,6 @@ class edit_questionanswer (models.Model):
     updated_time = models.DateTimeField(default=now, editable=True)
     department = models.ForeignKey(department, on_delete=models.CASCADE)
     updated_by = models.IntegerField()
-    #question_sw = models.CharField(max_length = 1000)
-    #question_tokenized = models.CharField(max_length = 1000)
 
     class Meta:
         db_table = "questionanswer"
@@ -117,7 +115,7 @@ class QArequest (models.Model):
     created_date = models.DateTimeField(default=now, editable=True)
     request_type = models.CharField(max_length=1000)
     department = models.ForeignKey(department, on_delete=models.CASCADE)
-    user = models.ForeignKey(userinfo, on_delete=models.CASCADE)
+    user = models.ForeignKey(userinfo, on_delete=models.CASCADE, db_column='request_by')
     question_id = models.IntegerField()
     remark = models.CharField(max_length=1000)
     created_time = models.DateTimeField(default=None, editable=True)
@@ -179,12 +177,13 @@ class status (models.Model):
 class search_history (models.Model):
     search_id = models.AutoField(primary_key=True)
     query = models.CharField(max_length=1000)
-    created_date=models.DateTimeField(default=now, editable=True)
-    created_time = models.DateTimeField(default=now, editable=True)
-    user_id = models.IntegerField()
+    search_date = models.DateTimeField(default=now, editable=True)
+    search_time = models.DateTimeField(default=now, editable=True)
+    search_by = models.IntegerField()
 
     class Meta:
         db_table = "search_history"
+        ordering = ('search_date','search_time')
 
 class view_history (models.Model):
     view_id = models.AutoField(primary_key=True)

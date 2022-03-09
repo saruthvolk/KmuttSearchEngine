@@ -14,7 +14,7 @@ class questionanswerDto:
      answer_en =[]
      created_time = []
      created_date =[]
-     user_id = []
+     created_by = []
      updated_date = []
      updated_time = []
      status = []
@@ -22,18 +22,16 @@ class questionanswerDto:
      def reset():
          questionanswerDto.id = []
          questionanswerDto.question = []
-         #questionanswerDto.question_sw = []
-         questionanswerDto.questionanswer = []
+         questionanswerDto.answer = []
          questionanswerDto.question_en = []
          questionanswerDto.answer_en =[]
          questionanswerDto.created_time = []
          questionanswerDto.created_date =[]
-         questionanswerDto.user_id = []
+         questionanswerDto.created_by = []
          questionanswerDto.updated_date = []
          questionanswerDto.updated_time = []
          questionanswerDto.status = []
          questionanswerDto.view_count = []
-         #questionanswerDto.question_tokenized = []
 
 class UserDto:
 
@@ -124,20 +122,17 @@ class QArequestDto:
 def queryDb_QA():
 
    questionanswerDto.reset()
-   print (len(questionanswerDto.question))
    query = list(questionanswer.objects.all())
 
    for result in query:
         (questionanswerDto.id).append(result.id)
         (questionanswerDto.question).append(result.question)
-        #(questionanswerDto.question_sw).append(result.question_sw)
-        #(questionanswerDto.question_tokenized).append(result.question_tokenized)
         (questionanswerDto.answer).append(result.answer)
         (questionanswerDto.question_en).append(result.question_en)
         (questionanswerDto.answer_en).append(result.answer_en)
         (questionanswerDto.created_time).append(result.created_time)
         (questionanswerDto.created_date).append(result.created_date)
-        (questionanswerDto.user_id).append(result.user_id)
+        (questionanswerDto.created_by).append(result.created_by)
         (questionanswerDto.updated_date).append(result.updated_date)
         (questionanswerDto.updated_time).append(result.updated_time)
         (questionanswerDto.status).append(result.status)
@@ -147,24 +142,26 @@ def queryDb_QA():
 
 def queryDb_QA_All():
    
-   class questionanswerDto:
-        id = []
-        question = []
-        question_sw = []
-        answer = []
-        question_en = []
-        #question_tokenized = []
-        answer_en =[]
-        created_time = []
-        created_date =[]
-        user_id = []
-        updated_date = []
-        updated_time = []
-        status = []
-        view_count = []
- 
    try:
      query = list(questionanswer.objects.all())  
+   except:
+     query = "Error"
+
+   return query
+
+def queryDb_QA_All_FAQ():
+   
+   try:
+     query = list(questionanswer.objects.all().order_by('-view_count'))  
+   except:
+     query = "Error"
+
+   return query
+
+def queryDb_QA_All_Recent():
+   
+   try:
+     query = list(questionanswer.objects.all().order_by('-updated_date','-updated_time'))  
    except:
      query = "Error"
 

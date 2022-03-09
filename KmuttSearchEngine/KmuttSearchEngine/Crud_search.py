@@ -14,17 +14,17 @@ def create_search_history(request, search):
     current_time = datetime.datetime.now().replace(microsecond=0)
 
     try:
-        if (search_history.objects.filter(user_id=request.user.id, query = search).exists()): 
+        if (search_history.objects.filter(search_by=request.user.id, query = search).exists()): 
             saverecord = search_history.objects.get(user_id=request.user.id,query = search)
-            saverecord.created_date = current_time
-            saverecord.created_time = current_time
+            saverecord.search_date = current_time
+            saverecord.search_time = current_time
             saverecord.save()
         else:
             saverecord = search_history()
             saverecord.query = search
-            saverecord.created_date = current_time
-            saverecord.created_time = current_time
-            saverecord.user_id = request.user.id
+            saverecord.search_date = current_time
+            saverecord.search_time = current_time
+            saverecord.search_by = request.user.id
             saverecord.save()
 
         Result.code = "200"
@@ -38,7 +38,7 @@ def create_search_history(request, search):
 def view_search_history (request,id):
 
     try:
-        query = list(search_history.objects.filter(user_id = id))
+        query = list(search_history.objects.filter(search_by = id).order_by('-search_date','-search_time'))
     except:
         query = "Error"
 
