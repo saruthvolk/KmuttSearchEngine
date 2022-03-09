@@ -172,7 +172,7 @@ def augment(Input):
         final = [Input]
 
     end = time.time()
-    print("Augment: " + str((end - start)))
+    #print("Augment: " + str((end - start)))
 
     return final
 
@@ -204,6 +204,7 @@ def word2vector(Query, final, tfidf_value, index_question, user_tfidf):
         value, i = 0, 0
         for word in question:
             temp = wv.word_vectorizer(word, use_mean=False)
+            #print ("tfidf: "+ str(word)+" "+"["+ str(user_tfidf.get(index_user)[i])+ "]")
             value += (user_tfidf.get(index_user)[i]) * temp
             i += 1
         wv2.append(value)
@@ -335,7 +336,7 @@ def stopwords(Query, final):
             removed_stopwords_Query.append(temp)
 
     end = time.time()
-    print("stopwords: " + str((end - start)))
+    #print("stopwords: " + str((end - start)))
 
     return removed_stopwords_Query, removed_stopwords_Final
 
@@ -396,6 +397,6 @@ def tfidf(remove_sw_query, remove_sw_final):
     del remove_sw_query[-(len(remove_sw_final)):]
 
     end = time.time()
-    print("TFIDF: " + str((end - start)))
+    #print("TFIDF: " + str((end - start)))
 
     return (get_tfidf, get_index, user_tfidf, remove_sw_query)

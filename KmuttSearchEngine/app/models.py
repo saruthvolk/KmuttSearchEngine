@@ -152,7 +152,7 @@ class QArequest_edit (models.Model):
     status_id = models.IntegerField()
     request_type = models.CharField(max_length=1000)
     department_id = models.IntegerField()
-    user_id = models.IntegerField()
+    request_by = models.IntegerField()
     question_id = models.IntegerField()
     remark = models.CharField(max_length=1000)
     updated_date = models.DateTimeField(default=now, editable=True)

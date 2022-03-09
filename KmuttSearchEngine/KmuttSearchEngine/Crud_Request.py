@@ -13,8 +13,8 @@ class Result:
 def request_update(request, operation):
     current_time = datetime.datetime.now().replace(microsecond=0)
     if request.method == "POST":
-        if (request.POST.get('question') and request.POST.get('answer')) or (request.POST.get('question_en')
-                                                                             and request.POST.get('answer_en')) and request.POST.get('department_id') and request.POST.get('remark'):
+        if (request.POST.get('question') or request.POST.get('answer')) or (request.POST.get('question_en')
+            or request.POST.get('answer_en')) and request.POST.get('department_id') and request.POST.get('remark'):
 
             if operation == 'update':
                 saverecord = QArequest()
@@ -81,10 +81,12 @@ def admin_reject(request, id, reject_reason, admin_id):
 
 
 def admin_approve(request, admin_id, id):
+
     try:
         current_time = datetime.datetime.now().replace(microsecond=0)
         if request.method == "POST":
-            if (request.POST.get('question') and request.POST.get('answer')) or (request.POST.get('question_en') and request.POST.get('answer_en')) and request.POST.get('department_id') and request.POST.get('remark'):
+            if (request.POST.get('question') and request.POST.get('answer')) or (request.POST.get('question_en') 
+            and request.POST.get('answer_en')) and request.POST.get('department_id') and request.POST.get('remark'):
 
                 if request.POST.get('request_type') == "Add":
                     saverecord = questionanswer()
@@ -102,7 +104,7 @@ def admin_approve(request, admin_id, id):
                 saverecord.answer = request.POST.get('answer')
                 saverecord.question_en = request.POST.get('question_en')
                 saverecord.answer_en = request.POST.get('answer_en')
-                saverecord.user_id = admin_id
+                saverecord.created_by = admin_id
                 saverecord.status = True
                 saverecord.department_id = request.POST.get('department_id')
                 saverecord.remark = request.POST.get('remark')

@@ -482,22 +482,22 @@ def register(request):
             print(len(phone_no))
 
             if userinfo.objects.filter(username=username1).exists():
-                context = {"error": "Username already exist."}
+                context = {"error": _("Username already exist.")}
                 return render(request, 'app/register.html', context)
             elif not username1.isalpha():
-                context = {"error": "Username can conatain only alphabets."}
+                context = {"error": _("Username can conatain only alphabets.")}
                 return render(request, 'app/register.html', context)
             elif not re.fullmatch(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$', password1):
-                context = {"error": "Invalide password format"}
+                context = {"error": _("Invalide password format")}
                 return render(request, 'app/register.html', context)
             elif not validate_eng.search(firstname) and not validate_thai.search(firstname):
-                context = {"error": "Firstname can conatain only alphabets."}
+                context = {"error": _("Firstname can conatain only alphabets.")}
                 return render(request, 'app/register.html', context)
             elif not validate_eng.search(lastname) and not validate_thai.search(lastname):
-                context = {"error": "Lastname can conatain only alphabets."}
+                context = {"error": _("Lastname can conatain only alphabets.")}
                 return render(request, 'app/register.html', context)
             elif not phone_no.isdecimal() or int(len(phone_no)) is not 10:
-                context = {"error": "Invalid phone number"}
+                context = {"error": _("Invalid phone number")}
                 return render(request, 'app/register.html', context)
 
             if userinfo.objects.filter(email=email1).exists():
@@ -520,36 +520,37 @@ def register(request):
                     destination.write(chunk)
                 destination.close()
             except:
-                path = None
+                path = "img/user.png"
 
-            saverecord.path_profile_pic = path
-            saverecord.username = request.POST.get('username')
-            saverecord.gender = request.POST.get('gender')
-            saverecord.date_of_birth = request.POST.get('date_of_birth')
-            saverecord.phone_no = request.POST.get('phone_no')
-            saverecord.password = make_password(password1)
-            saverecord.first_name = request.POST.get('first_name')
-            saverecord.last_name = request.POST.get('last_name')
-            saverecord.email = request.POST.get('email')
-            saverecord.created_by = request.user.id
-            saverecord.updated_by = request.user.id
-            saverecord.suspended_by = None
-            saverecord.is_active = True
-            saverecord.updated_date = current_time
-            saverecord.updated_time = current_time
-            saverecord.created_date = current_time
-            saverecord.created_time = current_time
-            saverecord.last_login = current_time
-            saverecord.role_code = department
-            saverecord.save()
+            try:
+                saverecord.path_profile_pic = path
+                saverecord.username = request.POST.get('username')
+                saverecord.gender = request.POST.get('gender')
+                saverecord.date_of_birth = request.POST.get('date_of_birth')
+                saverecord.phone_no = request.POST.get('phone_no')
+                saverecord.password = make_password(password1)
+                saverecord.first_name = request.POST.get('first_name')
+                saverecord.last_name = request.POST.get('last_name')
+                saverecord.email = request.POST.get('email')
+                saverecord.created_by = request.user.id
+                saverecord.updated_by = request.user.id
+                saverecord.suspended_by = None
+                saverecord.is_active = True
+                saverecord.updated_date = current_time
+                saverecord.updated_time = current_time
+                saverecord.created_date = current_time
+                saverecord.created_time = current_time
+                saverecord.last_login = current_time
+                saverecord.role_code = department
+                saverecord.save()
 
-            return redirect('user')
-        else:
-
-            return redirect('register')
+                messages.info(request, _("You has been successfully registered to the website"))
+                return redirect('user')
+            except:
+                messages.error(request, _("There was something while process your request, Please try again or contact Administrator"))
+                return redirect('user')
     else:
         return render(request, 'app/register.html')
-
 
 def requestmanagement(request, operation):
 

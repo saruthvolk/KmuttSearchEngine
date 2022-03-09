@@ -1,7 +1,8 @@
 {% extends "app/layout.html" %}
 {% load i18n %}
 {% block content %}
-<script src="https://cdn.tiny.cloud/1/lkp5p0w1fk12lr4trywat44qle2pxarpedhgjkdxxmsohyl2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/lkp5p0w1fk12lr4trywat44qle2pxarpedhgjkdxxmsohyl2/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <style>
     .modal-confirm .modal-content {
@@ -189,6 +190,17 @@
         }
     };
 
+    disable_button = function (val) {
+
+        var id = $(val).attr("id").split("_")[1];
+
+        if (val.checked === true) {
+            $(`#reject_button_${id}`).removeAttr("disabled");
+        } else {
+            $(`#reject_button_${id}`).attr("disabled", "disabled");
+        }
+    };
+
 </script>
 
 <head>
@@ -208,45 +220,46 @@
             {% csrf_token %}
             <table class="table table-hover">
                 <thead class="thead-dark">
-                <th scope="col" colspan="6">
-                    <label type="text" name="question"> Request ID </label>
-                    <label type="text" name="question_id">{{request_data.request_id}} </label>
-                </th>
+                    <th scope="col" colspan="6">
+                        <label type="text" name="question"> Request ID </label>
+                        <label type="text" name="question_id">{{request_data.request_id}} </label>
+                    </th>
                 </thead>
                 <td>Question</td>
                 <td colspan="6">
                     <input type="text" name="request_id" value="{{request_data.request_id}}" hidden />
                     <input type="text" name="user_id" value="{{request_data.user_id}}" hidden />
                     <input type="text" name="question_id" value="{{request_data.question_id}}" hidden />
-                    <input type="text" class="form-control is-valid" name="question" value="{{request_data.question}}" required />
+                    <input type="text" class="form-control is-valid" name="question" value="{{request_data.question}}"
+                        required />
                 </td>
                 <tr>
                     <td>Answer</td>
                     <td colspan="10">
                         <span style="white-space: pre-line">
                             <textarea name="answer" class="editor" id="editor{{request_data.id}}"
-                                      required>{{request_data.answer}}</textarea>
+                                required>{{request_data.answer}}</textarea>
                         </span>
                     </td>
                 </tr>
                 <td>Question EN</td>
                 <td colspan="2">
                     <input type="text" class="form-control is-valid" name="question_en"
-                           value="{{request_data.question_en}}" required />
+                        value="{{request_data.question_en}}" required />
                 </td>
                 <tr>
                     <td>Answer en</td>
                     <td colspan="6">
                         <span style="white-space: pre-line">
                             <textarea name="answer_en" class="editor_en" id="editor1{{request_data.id}}"
-                                      required>{{request_data.answer_en}}</textarea>
+                                required>{{request_data.answer_en}}</textarea>
                         </span>
                     </td>
                 </tr>
                 <td>Remark</td>
                 <td colspan="2">
                     <textarea type="text" class="form-control is-valid" name="remark" style="height: 150px;"
-                              readonly>{{request_data.remark}}</textarea>
+                        readonly>{{request_data.remark}}</textarea>
                 </td>
                 <tr>
                     <td colspan="2">
@@ -263,41 +276,76 @@
                     </td>
                 <tr>
                     <input type="text" class="form-control is-valid" name="request_type"
-                           value="{{request_data.request_type}}" hidden />
+                        value="{{request_data.request_type}}" hidden />
                     {% endfor %}
             </table>
-            <a class="btn btn-success btn" style="color:#fff ;font-weight: 200;" data-toggle="modal" data-target="#approve">{% translate "Approve" %}</a>
-            <a class="btn btn-danger" style="color:#fff ;font-weight: 200;" id="reject_button_{{ request_data.request_id }}" formaction="{% url 'request_admin' operation='reject'%}">
-                Reject
-            </a>
+            <a class="btn btn-success btn" style="color:#fff ;font-weight: 200;" data-toggle="modal"
+                data-target="#approve">{% translate "Approve" %}</a>
+            <a class="btn btn-danger" style="color:#fff ;font-weight: 200;" data-toggle="modal"
+                data-target="#reject">Reject</a>
             <br />
 
-                <div id="approve" class="modal fade">
+            <div id="approve" class="modal fade">
+                <div class="modal-dialog modal-confirm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="icon-box" style="background-color: #1b9b42">
+                                <i class="material-icons" style="font-size: 55px;">&#xe5ca;</i>
+                            </div>
+                            <h4 class="modal-title w-100">{% translate "Confirm your process ?" %}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-center">
+                                {% translate "Do you really want to approve" %}
+                                <b>{{user_data.username}}</b> {% translate "request?" %}
+                            </p>
+                            <br />
+                            <input type="checkbox" id="requestid_{{ request_data.request_id }}" class="checkbox"
+                                style="margin-left: 5%;" onClick="disable_button2(this)" /> {% translate "Check the box to confirm the action." %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Cancel" %}</button>
+                            <button type="submit" class="btn btn-success"
+                                id="approve_button_{{ request_data.request_id }}"
+                                formaction="{% url 'request_admin' operation='saveapprove'%}"
+                                disabled="disabled">Approve</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div id="reject" class="modal fade">
                     <div class="modal-dialog modal-confirm">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <div class="icon-box" style="background-color: #1b9b42">
-                                    <i class="material-icons" style="font-size: 55px;">&#xe5ca;</i>
+                                <div class="icon-box">
+                                    <i class="material-icons" style="font-size: 55px">&#xE5CD;</i>
                                 </div>
                                 <h4 class="modal-title w-100">{% translate "Confirm your process ?" %}</h4>
                             </div>
                             <div class="modal-body">
-                                <p class="text-center">
-                                    {% translate "Do you really want to approve" %}
-                                    <b>{{user_data.username}}</b> {% translate "request?" %}
-                                </p>
-                                <br />
-                                <input type="checkbox" id="requestid_{{ request_data.request_id }}" class="checkbox" style="margin-left: 5%;"
-                                onClick="disable_button2(this)" /> {% translate "Check the box to confirm the action." %}
+                                <p class="text-center">{% translate "Do you really want to reject" %}
+                                    <b>{{request_data.user.username}}</b> {% translate "request? The process cannot be undone." %}</p>
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1">{% translate "Reasons:" %}</label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" name="reject_reason"
+                                        rows="5" style="font-size: 13px;" required></textarea>
+                                </div>
+                                <input type="checkbox" id="requestid_{{ request_data.request_id }}" name="request_id"
+                                    class="checkbox" value="{{ request_data.request_id }}" style="margin-left: 6%;"
+                                    onClick="disable_button(this)" /> {% translate "Check the box to confirm the action." %}
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Cancel" %}</button>
-                                <button type="submit" class="btn btn-success" id="approve_button_{{ request_data.request_id }}" formaction="{% url 'request_admin' operation='saveapprove'%}" disabled="disabled">Approve</button>
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger"
+                                    id="reject_button_{{ request_data.request_id }}"
+                                    formaction="{% url 'request_admin' operation='reject'%}" disabled="disabled">{% translate "Reject" %}</button>
                             </div>
                         </div>
                     </div>
                 </div>
-
+        </form>
     </center>
 </body>
 {% endblock %}
