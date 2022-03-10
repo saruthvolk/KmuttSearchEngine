@@ -57,12 +57,17 @@ def View_QA(reuqest,id):
 	return (Result)
 
 def Edit_QA(request,id):
-	temp = []
-
-	temp = questionanswer.objects.filter(id__in=id)
-
-	Result.query = temp
-	Result.code = 300
+	
+	try:
+		temp = []
+		if (request.method == "POST"):
+			temp = questionanswer.objects.filter(id__in=id)
+		elif (request.method == "GET"):
+			temp = questionanswer.objects.filter(id=id)
+		Result.query = temp
+		Result.code = 300
+	except:
+		Result.code = "Error"
 
 	return (Result)
 

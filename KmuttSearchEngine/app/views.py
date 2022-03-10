@@ -326,8 +326,9 @@ def Crud_QA(request, operation, id):
         department = queryDb_department()
         if request.method == 'POST':
             id = request.POST.getlist('id_check')
-
-        result = Edit_QA(request, id)
+            result = Edit_QA(request, id)
+        elif request.method == 'GET':
+            result = Edit_QA(request, id)
 
         if result.code == 200:
             return render(request, 'app/index.html')
