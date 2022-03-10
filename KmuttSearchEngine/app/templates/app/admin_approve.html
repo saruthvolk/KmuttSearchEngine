@@ -277,7 +277,7 @@
                 <tr>
                     <input type="text" class="form-control is-valid" name="request_type"
                         value="{{request_data.request_type}}" hidden />
-                    {% endfor %}
+
             </table>
             <a class="btn btn-success btn" style="color:#fff ;font-weight: 200;" data-toggle="modal"
                 data-target="#approve">{% translate "Approve" %}</a>
@@ -313,7 +313,8 @@
                     </div>
                 </div>
             </div>
-
+        </form>
+        <form method="post">
                 <div id="reject" class="modal fade">
                     <div class="modal-dialog modal-confirm">
                         <div class="modal-content">
@@ -345,7 +346,8 @@
                         </div>
                     </div>
                 </div>
-        </form>
+            </form>
+            {% endfor %}
     </center>
 </body>
 {% endblock %}

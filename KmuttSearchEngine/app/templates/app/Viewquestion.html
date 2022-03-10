@@ -192,7 +192,7 @@
                 </button>
             </div>
             {% for questionanswer in query %}
-            <form action="{% url 'Crud_QA' operation='Edit' id='0' %}" method="POST">
+            <form action='{% url "Crud_QA" operation="Edit" id=questionanswer.id%}' method="POST">
                 {% csrf_token %}
                 <table class="table table-hover">
                     <thead class="thead-dark">

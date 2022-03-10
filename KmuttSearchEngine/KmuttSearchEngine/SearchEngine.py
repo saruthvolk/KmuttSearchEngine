@@ -208,6 +208,7 @@ def word2vector(Query, final, tfidf_value, index_question, user_tfidf):
             value += (user_tfidf.get(index_user)[i]) * temp
             i += 1
         wv2.append(value)
+        print ("tfidf: "+ str(question)+" "+"["+ str(value) + "]")
         index_user += 1
 
     for count, question in enumerate(Query):

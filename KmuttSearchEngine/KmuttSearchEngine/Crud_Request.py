@@ -60,6 +60,7 @@ def request_delete(request, id):
 
 
 def admin_reject(request, id, reject_reason, admin_id):
+    
     try:
         current_time = datetime.datetime.now().replace(microsecond=0)
         saverecord = QArequest_edit.objects.get(request_id=id)
@@ -76,7 +77,6 @@ def admin_reject(request, id, reject_reason, admin_id):
     except:
         Result.code = 300
 
-    print(Result.code)
     return Result
 
 
