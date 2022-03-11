@@ -107,24 +107,19 @@
                         </span>
                     </td>
                 </tr>
-                <td>Question English:</td>
+                <td>Question English (optional):</td>
                 <td colspan="2">
                     <input type="text" class="form-control is-valid" name="question_en"
-                        value="{{question_data.question_en}}" required />
+                        value="{{question_data.question_en}}"/>
                 </td>
                 <tr>
-                    <td>Answer English:</td>
+                    <td>Answer English (optional):</td>
                     <td colspan="6">
                         <span style="white-space: pre-line">
-                            <textarea name="answer_en" class="editor_en" id="editor1{{question_data.id}}"
-                                required>{{question_data.answer_en}}</textarea>
+                            <textarea name="answer_en" class="editor_en" id="editor1{{question_data.id}}">{{question_data.answer_en}}</textarea>
                         </span>
                     </td>
                 </tr>
-                <td>Remark:</td>
-                <td colspan="2">
-                    <input type="text" class="form-control is-valid" name="remark" value="{{question_dataremark}}" />
-                </td>
                 <tr>
                     <td colspan="2">
                         <label for="Question">Department: </label>

@@ -56,6 +56,9 @@
     #saveprofile {
         background-color: #f76d00;
     }
+    #cancel {
+        background-color: #a8a8a8;
+    }
 
     #saveprofile:active,#saveprofile:hover {
         background-color: #db6100
@@ -250,29 +253,6 @@
                     </div>
                 </div>
                 
-                <div id="success_modal" name = "success_modal" class="modal fade in">
-                    <div class="modal-dialog modal-confirm">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <div class="icon-box" style="background-color: #1b9b42">
-                                <i class="material-icons" style="font-size: 55px;">&#xe5ca;</i>
-                                </div>
-                            <h4 class="modal-title w-100">{% translate "Successful" %}</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p class="text-center">       
-                                {% for message in messages %}
-                                {{message}}
-                                {% endfor %} 
-                                </p>
-                                <br/>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">{% translate "Close" %}</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 
                 {% if messages %}
                 <script>$("#success_modal").modal()</script>
@@ -283,15 +263,15 @@
                 <div style="padding: 0% 5%;">
                 <div class="row mt-2">
                     <div class="col-md-6">
-                        <label class="labels"><i class="fas fa-user"></i> {% translate "First Name" %}</label><input type="text" class="form-control" placeholder="First name" name="first_name_edit" value="{{ user_data.first_name }}">
+                        <label class="labels"><i class="fas fa-user"></i> {% translate "First Name" %}</label><input type="text" class="form-control" placeholder="First name" name="first_name_edit" value="{{ user_data.first_name }}" required>
                     </div>
                     <div class="col-md-6">
-                        <label class="labels"><i class="fas fa-user"></i> {% translate "Surname" %}</label><input type="text" class="form-control" name="last_name_edit" value="{{ user_data.last_name }}" placeholder="Surname">
+                        <label class="labels"><i class="fas fa-user"></i> {% translate "Surname" %}</label><input type="text" class="form-control" name="last_name_edit" value="{{ user_data.last_name }}" placeholder="Surname" required>
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-12">
-                        <label class="labels"><i class="fas fa-envelope"></i> {% translate "E-mail" %}</label><input type="text" class="form-control" name="email_edit" placeholder="Enter email" value="{{ user_data.email}}">
+                        <label class="labels"><i class="fas fa-envelope"></i> {% translate "E-mail" %}</label><input type="text" class="form-control" name="email_edit" placeholder="Enter email" value="{{ user_data.email}}" required>
                     </div>
                     <div class="col-md-12">
                         <label class="labels"><i class="fas fa-venus-mars"></i> {% translate "Gender" %}</label>
@@ -317,13 +297,13 @@
                         {% endif %}
                     </div>
                     <div class="col-md-12">
-                        <label class="labels"><i class="fas fa-calendar-day"></i> {% translate "Birthday Date" %}</label><input type="date" class="form-control" name="date_of_birth_edit" value="{{user_data.date_of_birth|date:'Y-m-d'}}">
+                        <label class="labels"><i class="fas fa-calendar-day"></i> {% translate "Birthday Date" %}</label><input type="date" class="form-control" name="date_of_birth_edit" value="{{user_data.date_of_birth|date:'Y-m-d'}}" required>
                     </div>
                     <div class="col-md-12">
                         <label class="labels"><i class="fas fa-building"></i> {% translate "Role" %}</label><input type="text" class="form-control" name="dep_profile_edit" placeholder="Enter department" value="{{ user_data.role_code}}" readonly>
                     </div>
                     <div class="col-md-12">
-                        <label class="labels"><i class="fas fa-phone-alt"></i> {% translate "Phone No" %}</label><input type="text" class="form-control" name="phone_no_edit" placeholder="Enter phone no" value="{{ user_data.phone_no}}">
+                        <label class="labels"><i class="fas fa-phone-alt"></i> {% translate "Phone No" %}</label><input type="text" class="form-control" name="phone_no_edit" placeholder="Enter phone no" value="{{ user_data.phone_no}}" required>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -331,18 +311,51 @@
                 <div class="mt-5 text-center">
                     {% csrf_token %}
                     <button class="btn btn-primary profile-button" type="submit" formaction="{% url 'profile' operation='update'%}" id="saveprofile">{% translate "Save Profile" %}</button>
+                    <button class="btn btn-primary profile-button" type="submit" formaction="{% url 'profile' operation='view'%}" id="cancel">  {% translate "cancel" %}</button>
                 </div>
             </div>
                 {% endif %}
             </div>
         </div>
-               
         {% endfor %}
 </div>
+
+{% for message in messages %}
+<div id="success_modal" name="success_modal" class="modal fade in">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                {% if message.tags == "info" %}
+                <div class="icon-box" style="background-color: #1b9b42">
+                    <i class="material-icons" style="font-size: 55px;">&#xe5ca;</i>
+                </div>
+                {% else %}
+                <div class="icon-box" style="background-color: #c92a03">
+                    <i class="material-icons" style="font-size: 55px;">&#xe645;</i>
+                </div>
+                {% endif %}
+                <h4 class="modal-title w-100 justify-content-center">
+                    {% if message.tags == "info"%}{% translate "Successful" %}{% else %}{% translate "Error" %}{%endif%}
+                </h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center" style="font-size: 15px;">
+                    {{message}}
+                </p>
+                <br />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">{% translate "Close" %}</button>
+            </div>
+        </div>
+    </div>
 </div>
-<br>
-<br>
-<br>
-<br>
+{% endfor %}
+{% if messages %}
+<script>$("#success_modal").modal()</script>
+{% endif %}
+</div>
+<br><br><br><br>
 </form>
 {% endblock %}

@@ -313,6 +313,7 @@
             </div>
 
         </div>
+
         <div class="col-md-9">
             <div class="p-3 py-5">
                 <a href="{% url 'request' operation='add'%}" class="btn btn-xs btn-success" name="Login1" value="Login"
@@ -367,16 +368,38 @@
                                 </a>
                             </td>
                             {% else %}
-                            <td></td>
-                            <td></td>
+                            <td colspan="2"></td>
                             {% endif %}
                             <td>
-                                <button class="btn btn-link" data-toggle="collapse"
-                                    data-target="#request_{{request.request_id}}" aria-expanded="true"
-                                    aria-controls="collapseOne" style="float: right;">
-                                    <i class="material-icons" style="margin-top: -10px; color: #266867;">&#xe5d3;</i>
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#request_{{request.request_id}}"
+                                    aria-expanded="true" aria-controls="collapseOne" style="float: right;">
+                                    {% if request.status_id == 3 %}
+                                    <i class="material-icons" style="margin-top: -10px; color: #266867; ">&#xe5d3;</i>
+                                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" 
+                                    style="margin-top: -7px;"></span>
+                                    {% else %}
+                                    <i class="material-icons" style="margin-top: -10px; color: #266867;">
+                                        &#xe5d3;</i>
+                                    {% endif %}
                                 </button>
                             </td>
+                            {% if request.status_id == 3 %}
+                            <tr id="request_{{request.request_id}}" class="collapse" aria-labelledby="headingOne"
+                                data-parent="#accordion_{{request.request_id}}">
+                                <td colspan=" 7">
+                                    <table class="table">
+                                        <thead style="background-color: #f5b8b8;">
+                                            <tr style="text-align: left;">
+                                                <th>{% translate "Admin Remark" %}</th>
+                                            </tr>
+                                        </thead>
+                                        <tr>
+                                            <td class="request_type" style="text-align: left; width: 30%;">{{request.rejected_remark}}</td>
+                                        </tr>
+                                </td>
+                                </table>
+                            </tr>
+                            {% endif %}
                         <tr id="request_{{request.request_id}}" class="collapse" aria-labelledby="headingOne"
                             data-parent="#accordion_{{request.request_id}}">
                             <td colspan=" 7">
@@ -390,24 +413,24 @@
                                         </tr>
                                     </thead>
                                     <tr>
-                                        <td>TH</td>
-                                        <td class="request_type">{{request.question}}</td>
+                                        <td style="width: 1%;">TH</td>
+                                        <td class="request_type" style="text-align: left; width: 30%;">{{request.question}}</td>
                                         {% autoescape off %}
-                                        <td class="request_type">{{request.answer}} </td>
+                                        <td class="request_type" style="text-align: left; width: 35%;">{{request.answer}} </td>
                                         {% endautoescape %}
-                                        <td class="request_type">{{request.remark}}</td>
+                                        <td class="request_type" style="text-align: left; width: 25%;">{{request.remark}}</td>
                                     </tr>
                                     <tr>
                                         <td>EN</td>
-                                        <td class="request_type">{{request.question_en}}</td>
+                                        <td class="request_type" style="text-align: left; width: 30%;">{{request.question_en}}</td>
                                         {% autoescape off %}
-                                        <td class="request_type">{{request.answer_en}} </td>
+                                        <td class="request_type" style="text-align: left; width: 25%;">{{request.answer_en}} </td>
                                         {% endautoescape %}
-                                        <td class="request_type">{{request.remark}}</td>
+                                        <td class="request_type" style="text-align: left; width: 25%;">{{request.remark}}</td>
                                     </tr>
                             </td>
-                </table>
-                </tr>
+                            </table>
+                        </tr>
                 </tr>
                 </tbody>
                 <form method="POST">
@@ -446,20 +469,28 @@
             </table>
             {% endfor %}
 
+            {% for message in messages %}
             <div id="success_modal" name="success_modal" class="modal fade in">
                 <div class="modal-dialog modal-confirm">
                     <div class="modal-content">
                         <div class="modal-header">
+            
+                            {% if message.tags == "info" %}
                             <div class="icon-box" style="background-color: #1b9b42">
                                 <i class="material-icons" style="font-size: 55px;">&#xe5ca;</i>
+                           </div> 
+                            {% else %}
+                            <div class="icon-box" style="background-color: #c92a03">
+                                <i class="material-icons" style="font-size: 55px;">&#xe645;</i>
                             </div>
-                            <h4 class="modal-title w-100">{% translate "Successful" %}</h4>
+                            {% endif %}
+                            <h4 class="modal-title w-100 justify-content-center">
+                                {% if message.tags == "info"%}{% translate "Successful" %}{% else %}{% translate "Error" %}{% endif %}
+                            </h4>
                         </div>
                         <div class="modal-body">
-                            <p class="text-center">
-                                {% for message in messages %}
+                            <p class="text-center" style="font-size: 15px;">
                                 {{message}}
-                                {% endfor %}
                             </p>
                             <br />
                         </div>
@@ -469,6 +500,7 @@
                     </div>
                 </div>
             </div>
+            {% endfor %}
 
             {% if messages %}
             <script>$("#success_modal").modal()</script>

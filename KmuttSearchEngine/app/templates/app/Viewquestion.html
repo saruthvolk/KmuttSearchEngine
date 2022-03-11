@@ -192,7 +192,7 @@
                 </button>
             </div>
             {% for questionanswer in query %}
-            <form action='{% url "Crud_QA" operation="Edit" id=questionanswer.id%}' method="POST">
+            <form method="POST">
                 {% csrf_token %}
                 <table class="table table-hover">
                     <thead class="thead-dark">
@@ -312,7 +312,8 @@
 
                 <div style="display:none;" id="menu_">
 
-                    <button class="btn btn-warning" id="question_edit">
+                    <button class="btn btn-warning" id="question_edit"
+                    formaction="{% url 'Crud_QA' operation='Edit' id='0'%}">
                         <i class="fa fa-pen" ></i> {% translate "Edit" %}
                     </button>
 
@@ -328,20 +329,28 @@
 </body>
 
 
+{% for message in messages %}
 <div id="success_modal" name="success_modal" class="modal fade in">
     <div class="modal-dialog modal-confirm">
         <div class="modal-content">
             <div class="modal-header">
+
+                {% if message.tags == "info" %}
                 <div class="icon-box" style="background-color: #1b9b42">
                     <i class="material-icons" style="font-size: 55px;">&#xe5ca;</i>
+               </div> 
+                {% else %}
+                <div class="icon-box" style="background-color: #c92a03">
+                    <i class="material-icons" style="font-size: 55px;">&#xe645;</i>
                 </div>
-                <h4 class="modal-title w-100 justify-content-center">{% translate "Successful" %}</h4>
+                {% endif %}
+                <h4 class="modal-title w-100 justify-content-center">
+                    {% if message.tags == "info"%}{% translate "Successful" %}{% else %}{% translate "Error" %}{% endif %}
+                </h4>
             </div>
             <div class="modal-body">
                 <p class="text-center" style="font-size: 15px;">
-                    {% for message in messages %}
                     {{message}}
-                    {% endfor %}
                 </p>
                 <br />
             </div>
@@ -351,6 +360,7 @@
         </div>
     </div>
 </div>
+{% endfor %}
 
 
 {% if messages %}

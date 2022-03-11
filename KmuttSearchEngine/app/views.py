@@ -43,6 +43,8 @@ class Search_result:
     tokenized = oskut.OSKut("Process", k=1)
 
 
+error_Message = _("There was something wrong while processing your recent request, Please try again or contact Administrator")
+
 @login_required(login_url='/login')
 def home(request):
     """Renders the home page."""
@@ -305,6 +307,7 @@ def Crud_QA(request, operation, id):
         except EmptyPage:
             query1 = paginator.page(paginator.num_pages)
         if question_all is "Error":
+            messages.error(request, _(error_Message))
             return redirect('home')
         else:
             return render(request, 'app/Viewquestion.html', {'query': query1})
@@ -317,24 +320,25 @@ def Crud_QA(request, operation, id):
         result = Remove_QA(request, id)
 
         if result.code == 200:
-            return render(request, 'app/index.html')
-        else:
             messages.info(request, _("Successfully removed the question(s)"))
             return redirect('Crud_QA', operation = "View" , id='0')
+        else:
+            messages.error(request, _(error_Message))
+            return redirect('Crud_QA', operation = "View",id ='0')
 
     elif operation == "Edit":
         department = queryDb_department()
         if request.method == 'POST':
             id = request.POST.getlist('id_check')
-            result = Edit_QA(request, id)
-        elif request.method == 'GET':
-            result = Edit_QA(request, id)
+
+        result = Edit_QA(request, id)
 
         if result.code == 200:
-            return render(request, 'app/index.html')
-        else:
             json_id = json.dumps(id)
             return render(request, 'app/Editquestion.html', {'query': result.query, 'id_list': json_id, 'department': department})
+        else:
+            messages.error(request, _(error_Message))
+            return redirect('Crud_QA', operation = "View",id ='0')
 
     elif operation == "Update":
 
@@ -343,11 +347,13 @@ def Crud_QA(request, operation, id):
 
         result = Update_QA(request, id)
 
+        print(id)
         if result.code == 200:
-            return render(request, 'app/index.html')
-        else:
             messages.info(request, _("Successfully edited the question(s)"))
             return redirect('Crud_QA', operation = "View" , id='0')
+        else:
+            messages.error(request, _(error_Message))
+            return redirect('Crud_QA', operation = "View",id ='0')
 
 
 def signin(request):
@@ -389,6 +395,7 @@ def usermanagement(request, operation):
                         messages.info(request, _("Successfully unsuspended "+str(user.username)+"  account's."))
                 return redirect('user')
             else:
+                messages.error(request, _(error_Message))
                 return redirect('user')
 
     elif operation == 'update':
@@ -400,9 +407,11 @@ def usermanagement(request, operation):
                     messages.info(request, _("Successfully update "+str(user.username)+"  profile's."))
                 return redirect('user')
             else:
+                messages.error(request, _(error_Message))
                 return redirect('user')
 
     else:
+        messages.error(request, _(error_Message))
         return redirect('user')
 
 
@@ -455,10 +464,16 @@ def profile(request, operation):
             if result.code is 200:
                 messages.info(request, _("Your profile has been successfully updated."))
                 return redirect('profile', operation='view')
+            else:
+                operation = 'view'
+                messages.error(request, _(error_Message))
+                return render(request, 'app/profile.html', {'title': 'My Profile', 'query': user_query, 'operation': operation})
         else:
             operation = 'view'
+            messages.error(request, _(error_Message))
             return render(request, 'app/profile.html', {'title': 'My Profile', 'query': user_query, 'operation': operation})
     else:
+        messages.error(request, _(error_Message))
         return render(request, 'app/profile.html', {'title': 'My Profile', 'query': user_query, 'operation': operation})
 
 
@@ -486,16 +501,16 @@ def register(request):
                 context = {"error": _("Username already exist.")}
                 return render(request, 'app/register.html', context)
             elif not username1.isalpha():
-                context = {"error": _("Username can conatain only alphabets.")}
+                context = {"error": _("Username can contain only alphabets.")}
                 return render(request, 'app/register.html', context)
             elif not re.fullmatch(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$', password1):
-                context = {"error": _("Invalide password format")}
+                context = {"error": _("Invalid password format")}
                 return render(request, 'app/register.html', context)
             elif not validate_eng.search(firstname) and not validate_thai.search(firstname):
-                context = {"error": _("Firstname can conatain only alphabets.")}
+                context = {"error": _("Firstname can contain only alphabets.")}
                 return render(request, 'app/register.html', context)
             elif not validate_eng.search(lastname) and not validate_thai.search(lastname):
-                context = {"error": _("Lastname can conatain only alphabets.")}
+                context = {"error": _("Lastname can contain only alphabets.")}
                 return render(request, 'app/register.html', context)
             elif not phone_no.isdecimal() or int(len(phone_no)) is not 10:
                 context = {"error": _("Invalid phone number")}
@@ -548,7 +563,7 @@ def register(request):
                 messages.info(request, _("You has been successfully registered to the website"))
                 return redirect('user')
             except:
-                messages.error(request, _("There was something while process your request, Please try again or contact Administrator"))
+                messages.error(request, _(error_Message))
                 return redirect('user')
     else:
         return render(request, 'app/register.html')
@@ -557,7 +572,6 @@ def requestmanagement(request, operation):
 
     if operation == 'add':
         department = queryDb_department()
-
         return render(request, 'app/requestadd.html', {'department': department})
 
     elif operation == 'view':
@@ -567,6 +581,7 @@ def requestmanagement(request, operation):
         department = queryDb_department()
         user_query = queryDb_User(request.user.id)
         if (result or result_update or department or user_query) == "Error":
+            messages.error(request, _(error_Message))
             return redirect('home')
         else:
             return render(request, 'app/view_request.html',{'query': user_query, 'request_data': result,'department': department,'opertaion':operation})
@@ -584,7 +599,8 @@ def requestmanagement(request, operation):
             query1 = paginator.page(1)
         except EmptyPage:
             query1 = paginator.page(paginator.num_pages)
-        if request_info is "Error":
+        if (request_info or user_query) == "Error":
+            messages.error(request, _(error_Message))
             return redirect('home')
         else:
             return render(request, 'app/request_user.html', {'user_info': user_query, 'query': query1 })
@@ -596,36 +612,41 @@ def requestmanagement(request, operation):
         user_query = queryDb_User(request.user.id)
 
         if result is "Error":
-            return redirect('home')
+            messages.error(request, _(error_Message))
+            return redirect('request', operation='view_user')
         else:
             return render(request, 'app/editrequest.html',{'query': user_query, 'request_data': result,'department': department})
 
     elif operation == 'update':
         result = request_update(request, operation)
         result_reminder = create_reminder(operation,None)
-        if (result.code and result_reminder.code) == 200 :
+        if (result.code == 200) and (result_reminder.code == 200):
             messages.info(request, _("Your request has been successfully created, admin will review it shortly."))
             return redirect('request', operation='view_user',)
         else:
-            return render(request, 'app/requestadd.html')
+            messages.error(request, _(error_Message))
+            return redirect('request', operation='view_user')
 
     elif operation == 'saveedit':
         result = request_update(request, operation)
         request_id = request.POST.get('request_id')
         result_reminder = create_reminder(operation,request_id)
 
-        if result is "Error":
-            return redirect('home')
-        else:
+        if (result.code == 200) and (result_reminder.code == 200):
             messages.info(request, _("Your request has been successfully edited."))
+            return redirect('request', operation='view_user')
+        else:
+            messages.error(request, _(error_Message))
             return redirect('request', operation='view_user')
 
     elif operation == 'editquestion':
         result = request_update(request, operation)
         result_reminder = create_reminder(operation,None)
-        if (result.code and result_reminder.code) == "Error":
-            return redirect('home')
+        if (result.code or result_reminder.code) == "Error":
+            messages.error(request, _(error_Message))
+            return redirect('request', operation='view_user')
         else:
+            messages.info(request, _("Your request has been successfully created, admin will review it shortly."))
             return redirect('request', operation='view_user')
 
     elif operation == 'delete':
@@ -634,13 +655,15 @@ def requestmanagement(request, operation):
             result_delete = request_delete(request,id)
             result_noti_delete = delete_reminder(request,id)
             if (result_delete or result_noti_delete) is "Error":
-                return redirect('home')
+                messages.error(request, _(error_Message))
+                return redirect('request', operation='view_user')
             else:
                 messages.info(request, _("Your request has been successfully deleted."))
                 return redirect('request', operation='view_user')
 
         if result is "Error":
-                return redirect('home')
+            messages.error(request, _(error_Message))
+            return redirect('request', operation='view_user')
 
     elif operation == 'request_edit':
         question_id = request.POST.get('question_id')
@@ -648,12 +671,14 @@ def requestmanagement(request, operation):
         department = queryDb_department()
         user_query = queryDb_User(request.user.id)
 
-        if result is "Error":
+        if (result or department or user_query) == "Error":
+            messages.error(request, _(error_Message))
             return redirect('home')
         else:
             return render(request, 'app/requesteditquestion.html',{'query': user_query, 'question_data': result,'department': department})
             
     else:
+        messages.error(request, _(error_Message))
         return redirect('home')
 
 def request_admin(request, operation):
@@ -673,6 +698,7 @@ def request_admin(request, operation):
             query1 = paginator1.page(paginator1.num_pages)
 
         if query_request is "Error":
+            messages.error(request, _(error_Message))
             return redirect('home')
         else:
             return render(request, 'app/request_admin.html',{'query': query1})
@@ -713,7 +739,8 @@ def request_admin(request, operation):
             messages.info(request, ("Successfully approved the request"))
             return redirect('request_admin', operation='view')
         else:
-            return redirect('home')
+            messages.error(request, _(error_Message))
+            return redirect('request_admin', operation='view')
 
 def history_user(request,operation):
 

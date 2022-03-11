@@ -24,7 +24,7 @@
 
         init_instance_callback: function (editor) {
             var editorH = editor.editorContainer.offsetHeight;
-            $('#editor')
+            $('.editor')
                 .css({
                     'position': 'absolute',
                     'height': editorH
@@ -118,7 +118,7 @@
         <br/>
         {% for questionanswer in query %}
         <div class="id" id="{{id_list}}"></div>
-        <form method="POST" class="was-validated">
+        <form method="POST">
             {% csrf_token %}
             <table class="table table-hover">
                 <thead class="thead-dark">
@@ -136,20 +136,21 @@
                 <tr>
                     <td>Answer</td>
                     <td colspan="10">
-                        <span style="white-space: pre-line">
-                            <textarea name="answer" class="editor" id="editor{{questionanswer.id}}" required>{{questionanswer.answer}}</textarea>
+                        <span style="white-space: pre-line" >
+                            <textarea name="answer" class="editor" id="editor{{questionanswer.id}}"
+                                required>{{questionanswer.answer}}</textarea>
                         </span>
                     </td>
                 </tr>
-                <td>Question EN</td>
+                <td>Question EN (Optionall)</td>
                 <td colspan="2">
-                    <input type="text" class="form-control is-valid" name="question_en" value="{{questionanswer.question_en}}" required />
+                    <input type="text" class="form-control is-valid" name="question_en" value="{{questionanswer.question_en}}" />
                 </td>
                 <tr>
-                    <td>Answer en</td>
+                    <td>Answer en (Optional)</td>
                     <td colspan="6">
                         <span style="white-space: pre-line">
-                            <textarea name="answer_en" class="editor_en" id="editor1{{questionanswer.id}}" required>{{questionanswer.answer_en}}</textarea>
+                            <textarea name="answer_en" class="editor_en" id="editor1{{questionanswer.id}}">{{questionanswer.answer_en}}</textarea>
                         </span>
                     </td>
                 </tr>

@@ -142,7 +142,7 @@
             <br>
             <div style="margin-left: 40%; margin-right: auto;">
             <button type="submit" class="btn btn-success" formaction="{% url 'request' operation='update'%}"> Create Request</button>
-            <button type="submit" class="btn btn-danger" formaction="{% url 'request' operation='view' %}">Cancel</button>
+            <a class="btn btn-danger" href="{% url 'request' operation='view_user' %}">Cancel</a>
             </div>
             <br /><br>
         </form>

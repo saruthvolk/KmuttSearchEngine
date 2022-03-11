@@ -190,22 +190,30 @@ def queryDb_User_All():
 
 def queryDb_User(id):
    
-   query = userinfo.objects.filter(id=id)
+     try:
+          query = userinfo.objects.filter(id=id)
 
-   for user in query:
-       role = user_role.objects.get(role_code=user.role_code)
-       user.role_code = role.role_name
+          for user in query:
+               role = user_role.objects.get(role_code=user.role_code)
+               user.role_code = role.role_name
+     except:
+          query = "Error"
 
-   return query
+     return query
 
 def queryDb_multi_User(id):
 
-   query = [userinfo.objects.filter(id= x).only('username','path_profile_pic') for x in id]
-   query = [data for user in query for data in user]
+     try:
+          query = [userinfo.objects.filter(id= x).only('username','path_profile_pic') for x in id]
+          query = [data for user in query for data in user]
 
-   return query
+     except:
+          query = "Error"
+
+     return query
 
 def queryDb_department():
+
      try:
           query = list(department.objects.all()) 
      except:

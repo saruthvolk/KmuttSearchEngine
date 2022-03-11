@@ -284,7 +284,7 @@
                 },
                 success: function (response) {
                     badge = `${response.length}`
-                    $(".badge").html(badge);
+                    $("#badge_noti").html(badge);
                 }
             });
 
@@ -355,7 +355,7 @@
 
                     badge = `${response.length}`
                     $("#notification_tab").html(html_data);
-                    $(".badge").html(badge);
+                    $("#badge_noti").html(badge);
                 }
             });
         }
@@ -435,7 +435,7 @@
                         onclick="get_notification_click(this)" role="button" data-toggle="dropdown">
                         <i class="fas fa-bell fa-lg"
                             style="margin-top: 12px; margin-left: 5px; margin-right: -7px;"></i><span
-                            class="badge"></span>
+                            class="badge" id="badge_noti"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notification" id="notification_info"
                         style="max-height: 850px; overflow-y: auto;">

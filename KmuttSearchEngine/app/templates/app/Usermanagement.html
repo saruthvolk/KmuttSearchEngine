@@ -459,11 +459,11 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="col-form-label">{% translate "First name:" %}</label>
-                        <input type="text" class="form-control" id="first_name_{{user_data.id}}" name="first_name_edit_{{user_data.id}}"value="{{user_data.first_name}}">
+                        <input type="text" class="form-control" id="first_name_{{user_data.id}}" name="first_name_edit_{{user_data.id}}"value="{{user_data.first_name}}" required>
                     </div>
                     <div class="form-group">
                         <label class="col-form-label">{% translate "Last name:" %}</label>
-                        <input type="text" class="form-control" id="last_name_{{user_data.id}}" name="last_name_edit_{{user_data.id}}" value="{{user_data.last_name}}">
+                        <input required type="text" class="form-control" id="last_name_{{user_data.id}}" name="last_name_edit_{{user_data.id}}" value="{{user_data.last_name}}">
                     </div>
 
                     <div class="form-group">
@@ -494,11 +494,11 @@
                     </div>
                     <div class="form-group">
                         <label class="col-form-label">{% translate "Email:" %}</label>
-                        <input type="text" class="form-control" id="email_{{user_data.id}}" name="email_edit_{{user_data.id}}" value="{{user_data.email}}">
+                        <input required type="text" class="form-control" id="email_{{user_data.id}}" name="email_edit_{{user_data.id}}" value="{{user_data.email}}">
                     </div>
                     <div class="form-group">
                         <label class="col-form-label">{% translate "Phone No:" %}</label>
-                        <input type="text" class="form-control" id="phone_no_{{user_data.id}}" name="phone_no_edit_{{user_data.id}}" value="{{user_data.phone_no}}">
+                        <input required type="text" class="form-control" id="phone_no_{{user_data.id}}" name="phone_no_edit_{{user_data.id}}" value="{{user_data.phone_no}}">
                     </div>
                     <br/>
                     <div class="form-group">
