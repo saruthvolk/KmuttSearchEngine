@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+{% extends "app/layout.html" %}
+
+{% block content %}
+{% load static %}
+{% load i18n %}
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Bootstrap User Management Data Table</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<style>
+    body {
+        background: #f5f5f5;
+        color: #566787;
+        font-family: 'Prompt', sans-serif;
+    }
+
+    .table-responsive { margin: 30px -9%;
+        width: initial;
+    }
+
+    .table-wrapper {
+        background: #fff;
+        border-radius: 3px;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+        width: 1300px;
+        padding: 20px 25px;
+    }
+
+    .table-title {
+        background: #1c768f;
+        border-radius: 3px 3px 0 0;
+        color: #fff;
+        margin: -20px -25px 10px;
+        padding: 16px 30px;
+        padding-bottom: 15px;
+    }
+
+    .table-title h2 {
+        font-size: 24px;
+        margin: 5px 0 0;
+    }
+
+    .table-title .btn {
+        background: #fff;
+        border: none;
+        border: none;
+        border-radius: 2px;
+        color: #566787;
+        float: right;
+        font-size: 13px;
+        margin-left: 10px;
+        min-width: 50px;
+        outline: none !important;
+    }
+
+    .table-title .btn:hover, .table-title .btn:focus {
+        background: #f2f2f2;
+        color: #566787;
+    }
+
+    .table-title .btn i {
+        float: left;
+        font-size: 21px;
+        margin-right: 5px;
+    }
+
+    .table-title .btn span {
+        float: left;
+        margin-top: 2px;
+    }
+
+    table.table tr th, table.table tr td {
+        border-color: #e9e9e9;
+        padding: 12px 15px;
+        vertical-align: middle;
+    }
+
+    table.table tr th:first-child { width: 60px; }
+
+    table.table tr th:last-child { width: 100px; }
+
+    table.table-striped tbody tr:nth-of-type(odd) { background-color: #fcfcfc; }
+
+    table.table-striped.table-hover tbody tr:hover { background: #f5f5f5; }
+
+    table.table th i {
+        cursor: pointer;
+        font-size: 13px;
+        margin: 0 5px;
+    }
+
+    table.table td:last-child i {
+        font-size: 22px;
+        margin: 0 5px;
+        opacity: 0.9;
+    }
+
+    table.table td a {
+        color: #566787;
+        display: inline-block;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    table.table td a:hover { color: #2196F3; }
+
+    table.table td a.settings { color: #2196F3; }
+
+    table.table td a.delete { color: #F44336; }
+
+    table.table td i { font-size: 19px; }
+
+    table.table .avatar {
+        border-radius: 50%;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+
+    .status {
+        display: inline-block;
+        font-size: 30px;
+        line-height: 10px;
+        margin: 2px 2px 0 0;
+        vertical-align: middle;
+    }
+
+    .text-success { color: #10c469; }
+
+    .text-info { color: #62c9e8; }
+
+    .text-warning { color: #FFC107; }
+
+    .text-danger { color: #ff5b5b; }
+
+    .pagination { justify-content: center; }
+
+    .page-item.active .page-link {
+        #background-color: #e87639;
+        #border-color: #e87639;
+    }
+
+    .page-item:first-child .page-link {
+        border-bottom-left-radius: 0.25rem;
+        border-top-left-radius: 0.25rem;
+        margin-left: 0;
+    }
+
+    .pagination li:last-child .page-link {
+        border-bottom-right-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
+        margin-right: 1px;
+    }
+
+
+    .hint-text {
+        float: left;
+        font-size: 13px;
+        margin-top: 10px;
+    }
+
+    .avatar {
+        height: 55px;
+        width: 55px;
+    }
+
+    .modal-confirm .modal-content {
+        height: fit-content;
+        margin-top: 50%;
+    }
+
+    .modal-confirm {
+        color: #636363;
+        width: 450px;
+    }
+
+    .modal-confirm .modal-content {
+        border: none;
+        border-radius: 5px;
+        padding: 20px;
+    }
+
+    .modal-confirm .modal-header {
+        border-bottom: none;
+        position: relative;
+    }
+
+    .modal-confirm h4 {
+        font-size: 26px;
+        margin: 30px 0 -15px;
+        text-align: center;
+    }
+
+    .modal-confirm .form-control, .modal-confirm .btn {
+        border-radius: 3px;
+        min-height: 40px;
+    }
+
+    .modal-confirm .close {
+        position: absolute;
+        right: -5px;
+        top: -5px;
+    }
+
+    .modal-confirm .modal-footer {
+        border: none;
+        border-radius: 5px;
+        font-size: 13px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+
+    .modal-confirm .icon-box {
+        background: #ef513a;
+        border-radius: 50%;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+        color: #fff;
+        height: 95px;
+        left: 0;
+        margin: 0 auto;
+        padding: 15px;
+        position: absolute;
+        right: 0;
+        text-align: center;
+        top: -70px;
+        width: 95px;
+        z-index: 9;
+    }
+
+    .modal-confirm .icon-box i {
+        font-size: 56px;
+        position: relative;
+        top: 4px;
+    }
+
+    .modal-confirm.modal-dialog { margin-top: 80px; }
+
+    .modal-confirm .btn {
+        background: #ef513a;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        line-height: normal;
+        text-decoration: none;
+        transition: all 0.4s;
+    }
+
+    .modal-confirm .btn-secondary { background: #c1c1c1; }
+
+    .modal-confirm .btn:hover, .modal-confirm .btn:focus {
+        background: #da2c12;
+        outline: none;
+    }
+
+    .modal-confirm .btn-secondary:hover, .modal-confirm .btn-secondary:focus { background: #a8a8a8; }
+
+    #view_profile_pic {
+        width: 150px; 
+        height: 150px; 
+        border-radius: 50% 50% 50% 50%;
+        margin-left: 39%;
+        border: solid 4px #1a4d6a;
+    }
+
+    #Error {
+        background-color: #ffcccb;
+        border: 2px;
+        border-color: #ffcccb;
+        border-radius: 10px;
+        border-style: solid;
+        color: red;
+        height: 60px;
+        margin-bottom: 15px;
+        padding: 1em;
+    }
+    .delete {
+        color: #f76d00;
+        border: transparent;
+        background: transparent;
+    }
+
+    .delete:focus {
+        outline: none;
+        color: #bb5406;
+        border: transparent;
+        background: transparent;
+    }
+
+    .delete:hover {
+        color: #bb5406;
+    }
+
+</style>
+<script>
+    $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+
+    disable_button = function(val) {
+
+        var id = $(val).attr("id").split("_")[1];
+
+        if (val.checked === true) {
+            $(`#confirm_button_${id}`).removeAttr("disabled");
+        } else {
+            $(`#confirm_button_${id}`).attr("disabled", "disabled");
+        }
+    };
+
+    disable_button1 = function(val) {
+
+        var id = $(val).attr("id").split("_")[1];
+  
+        if (val.checked === true) {
+            $(`#delete_button_${id}`).removeAttr("disabled");
+        } else {
+            $(`#delete_button_${id}`).attr("disabled", "disabled");
+        }
+    };
+
+    disable_button2 = function(val) {
+
+if (val.checked === true) {
+    $(`#add_department`).removeAttr("disabled");
+} else {
+    $(`#add_department`).attr("disabled", "disabled");
+}
+};
+
+    function shake() {
+        $("#Error").effect("shake");
+    }
+
+
+</script>
+</head>
+<body>
+<br></br>
+<br></br>
+<div class="container-xl" style="font-size: 14px;">
+<div class="table-responsive">
+<div class="table-wrapper">
+<div class="table-title">
+    <div class="row">
+        <div class="col-sm-5">
+            <h2><i class="fas fa-building"></i> {% translate "Department <b>Management</b>" %}</h2>
+        </div>
+        <div class="col-sm-7">
+            <a href="#" class="btn btn-secondary" title="Add Department" data-toggle="modal" data-target="#department_add">
+                <i class="material-icons">&#xE147;</i> <span>{% translate "Add New Department" %}</span>
+            </a>
+        </div>
+    </div>
+</div>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th class="text-center" >{% translate "ID" %}</th>
+            <th class="text-center" style="width: 30%;">{% translate "Name" %}</th>
+            <th class="text-center" style="width: 40%;">{% translate "Number of Question" %}</th>
+            <th class="text-center"  style="width: 10%;" colspan="2">{% translate "Action" %}</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+    {% for department in departments %}{% for amount in departments_question %}  
+    {% if forloop.counter == forloop.parentloop.counter %}
+    <td class="text-center"><b>{{department.department_id}}</b></td>
+   
+    <td class="text-center" >{{department.department_name}} </td>
+    
+    <td class="text-center" >{{amount}}</td>
+    <td>
+        <a href="#" class="settings" title="Edit Department" data-toggle="modal" data-target="#department_{{department.department_id}}">
+            <i class="material-icons">&#xe3c9;</i>
+        </a>
+    <td>
+        <a href="#" class="delete" data-toggle="modal" title="Delete"
+            data-target="#delete_department_{{department.department_id}}">
+            <i class="material-icons">&#xe872;</i>
+        </a>
+    </td>
+    <td></td>
+</tbody>
+<form method="post">
+    {% csrf_token %}
+<div class="modal fade" id="department_{{department.department_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="border-color: transparent; border-radius: 10px; width: 120%; margin-left: -11%;">
+            <div class="modal-header" style="background-color: #e87639; border-radius: 10px 10px 0 0;">
+                <h5 class="modal-title" id="header_{{user_data.id}}" style="color: #ffffff">{% translate "Edit Department" %}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% if error %}
+            <div style="text-transform: capitalize;" id="Error">
+                <p><i class="fas fa-exclamation-triangle" style="margin-right: 10px;"></i> {{error}}</p>
+                <script type="text/javascript">
+                    shake();
+                </script>
+            </div>
+            {% endif %}
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="col-form-label">{% translate "Department Name:" %}</label>
+                    <input type="text" class="form-control" id="department_name_{{department.department_id}}" name="department_name_{{department.department_id}}"value="{{department.department_name}}" required>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">{% translate "Do you really want to changes department name ?" %}</p>
+                <input type="checkbox" id="departmentid_{{department.department_id}}" name="departmentid" class="checkbox" value="{{department.department_id}}" style="margin-left: 26%;" onClick="disable_button(this)"/> {% translate "Check the box to confirm the action." %}
+            </div>
+            <div class="modal-footer" style="justify-content: center;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Close" %}</button>
+                <button type="submit" class="btn btn-success" id="confirm_button_{{department.department_id}}" formaction="{% url 'department_admin' operation='update'%}" disabled="disabled">{% translate "Save changes" %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+
+<form method="post">
+    {% csrf_token %}
+<div class="modal fade" id="department_add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="border-color: transparent; border-radius: 10px; width: 120%; margin-left: -11%;">
+            <div class="modal-header" style="background-color: #e87639; border-radius: 10px 10px 0 0;">
+                <h5 class="modal-title" id="header_{{user_data.id}}" style="color: #ffffff">{% translate "Add Department" %}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% if error %}
+            <div style="text-transform: capitalize;" id="Error">
+                <p><i class="fas fa-exclamation-triangle" style="margin-right: 10px;"></i> {{error}}</p>
+                <script type="text/javascript">
+                    shake();
+                </script>
+            </div>
+            {% endif %}
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="col-form-label">{% translate "Department Name:" %}</label>
+                    <input type="text" class="form-control" id="department_name_{{department.department_id}}" name="department_name" placeholder="Enter new department name" required>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">{% translate "Do you really want to add department name ?" %}</p>
+                <input type="checkbox" id="departmentid_{{department.department_id}}" class="checkbox"  style="margin-left: 16%;" onClick="disable_button2(this)"/> {% translate "Check the box to confirm the action." %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Close" %}</button>
+                <button type="submit" class="btn btn-success" id="add_department" formaction="{% url 'department_admin' operation='Add'%}" disabled="disabled">{% translate "Add department" %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+
+<form method="post">
+    <div id="delete_department_{{department.department_id}}" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="icon-box">
+                        <i class="material-icons" style="font-size: 55px">&#xE5CD;</i>
+                    </div>
+                    <h4 class="modal-title w-100">{% translate "Confirm your process ?" %}</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center">{% translate "Do you really want to remove" %} <b>{{department.department_name}}</b> {% translate "department? The process cannot be undone." %}</p>
+                    <input type="checkbox" id="departmentid_{{department.department_id}}" name="departmentid" class="checkbox" value="{{department.department_id}}" style="margin-left: 16%;" onClick="disable_button1(this)"/> {% translate "Check the box to confirm the action." %}
+                </div>
+                <div class="modal-footer" style="margin-left: auto; margin-right: auto;">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Cancel" %}</button>
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger" id="delete_button_{{department.department_id}}" formaction="{% url 'department_admin' operation='delete'%}" disabled="disabled">{% translate "Delete" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endif %}
+{% endfor %}{% endfor %}
+</table>
+
+{% for message in messages %}
+<div id="success_modal" name="success_modal" class="modal fade in">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                {% if message.tags == "info" %}
+                <div class="icon-box" style="background-color: #1b9b42">
+                    <i class="material-icons" style="font-size: 55px;">&#xe5ca;</i>
+               </div> 
+                {% else %}
+                <div class="icon-box" style="background-color: #c92a03">
+                    <i class="material-icons" style="font-size: 55px;">&#xe645;</i>
+                </div>
+                {% endif %}
+                <h4 class="modal-title w-100 justify-content-center">
+                    {% if message.tags == "info"%}{% translate "Successful" %}{% else %}{% translate "Error" %}{% endif %}
+                </h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center" style="font-size: 15px;">
+                    {{message}}
+                </p>
+                <br />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">{% translate "Close" %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% if messages %}
+<script>$("#success_modal").modal()</script>
+{% endif %}
+
+<div class="clearfix">
+    <div class="hint-text">
+        {% translate "Showing"%} <b>{{ departments.end_index }}</b> {% translate "out of" %} <b>{{departments.paginator.count }} {% translate "entries" %} </b>
+    </div>
+</div>
+<br />
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        {% if departments.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">begin</span>
+            </a>
+        </li> {% endif %}
+
+        {% for n in departments.paginator.page_range %}
+        {% if departments.number == n %}
+        <li class="page-item active">
+            <span class="page-link">{{ n }}<span class="sr-only">(current)</span></span>
+        </li>
+        {% elif n > departments.number|add:'-5' and n < departments.number|add:'5' %} <li class="page-item"><a class="page-link"
+                href="?page={{ n }}">{{ n }}</a></li>
+            {% endif %}
+            {% endfor %}
+
+            {% if departments.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ departments.paginator.num_pages }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">end</span>
+                </a>
+            </li>
+            {% endif %}
+    </ul>
+</nav>
+</div>
+</div>
+
+</body>
+{% endblock %}
+</html>

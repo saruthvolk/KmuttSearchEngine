@@ -71,13 +71,10 @@ def create_view_history(request,id):
     return (Result)
 
 def view_view_history(request,id):
-
-
     try:
         query = list(view_history.objects.filter(user = id).order_by('-view_date','-view_time'))
 
     except:
         query = "Error"
-
-    print (query)
+        
     return query

@@ -158,6 +158,16 @@ def queryDb_QA_All_FAQ():
 
    return query
 
+def queryDb_QA_Dept(dept):
+
+   try:
+     query = list(questionanswer.objects.filter(department_id=dept))
+
+   except:
+     query = "Error"
+
+   return query
+
 def queryDb_QA_All_Recent():
    
    try:
@@ -269,6 +279,16 @@ def queryDb_request_all():
 
           query = list(QArequest.objects.order_by('-created_date','-created_time'))
 
+     except:
+          query = "Error"
+
+     return query
+
+def queryDb_department_question():
+
+     try:
+          id_query = list(department.objects.only('department_id'))
+          query = [questionanswer.objects.filter(department_id=id.department_id).count() for id in id_query]
      except:
           query = "Error"
 

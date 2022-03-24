@@ -73,9 +73,11 @@ urlpatterns += i18n_patterns (
     path('register/', views.register, name='register'),
     path('request/<operation>', views.requestmanagement, name='request'),
     path('view/<operation>', views.user_question_view,name='view'),
+    path('view/departments/<operation>', views.user_question_view,name='view_department'),
     path('get_notification/', api.get_notification, name='get_notification'),
     path('get_notification_badge/', api.get_notification_badge, name='get_notification_badge'),
     path('history/<operation>', views.history_user, name='history'),
+    path('admin/department/<operation>', views.department_management, name='department_admin'), 
 
     path('reset_password/',
      auth_views.PasswordResetView.as_view(template_name="password_reset.html"),

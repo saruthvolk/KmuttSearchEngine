@@ -24,10 +24,11 @@
 <h3>{{ message }}</h3>
 
 <br/><br/>
-<div class="jumbotron" style="margin-top: 50px;">
+<div class="jumbotron" style="margin-top: 50px; width: fit-content; margin-left: -5vw;">
     <h2 style="margin-top:-35px">{% translate "Admin Tools" %}</h2>
     <hr><br/><br/>
     <table style="margin-left: auto; margin-right: auto;">
+        <tr>
         <td>
         <form action="{% url 'Crud_QA' operation='View' id='0' %}" method="post">
         {% csrf_token %}
@@ -70,6 +71,21 @@
         </button>
         </form>
     </td>
+    <td>
+        <form action="{% url 'department_admin' operation='View' %}" method="post">
+        {% csrf_token %}
+        <button class="btn btn-light">
+            <div>
+                <i class="far fa-building fa-3x" style="color: #f37a3b; margin-bottom: 30px; margin-top: 30px;"></i>
+                <h5>{% translate "Department Management" %}</h5>
+                <br/>
+                <p style="color: #262626; margin-left: auto; margin-right: auto; width: 10vw;">{% translate "Manages all of the department in the system." %} </p>
+                <br/>
+            </div>
+        </button>
+        </form>
+    </td>
+</tr>
     </table>
 </div>
 <br><br><br><br><br><br><br><br><br><br><br>

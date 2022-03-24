@@ -372,7 +372,7 @@
         <i class="fas fa-plus"></i> {% translate "Request Add Question" %} 
     </a>
 
-    <h4 style="margin-left: -9%;">Found {{ length|length }} results related to your question.</h4>
+    <h4 style="margin-left: -9%;">Found {{query.paginator.count }} results related to your question.</h4>
     <br>
     {% if Correct is not None %}
     <br>

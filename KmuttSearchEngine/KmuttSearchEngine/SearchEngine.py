@@ -1,3 +1,4 @@
+import enum
 from pythainlp.word_vector import WordVector
 from pythainlp.tokenize import THAI2FIT_TOKENIZER
 from KmuttSearchEngine.Query import *
@@ -23,83 +24,79 @@ class return_Result:
 
 
 def searchengine(search, query):
+    try:
+        Query = []
+        Query_Tokenized = []
+        Position = []
+        location = []
+        percentage = []
+        temp1 = []
 
-    Query = []
-    Query_Tokenized = []
-    Position = []
-    location = []
-    percentage = []
-    temp1 = []
+        print(search)
 
-    print(search)
+        start = time.time()
 
-    start = time.time()
+        Query = query.question
 
-    Query = query.question
+        dictionary = getDictionary()
 
-    dictionary = getDictionary()
+        #======= spell check ========#
+        result = spellCheck(search, dictionary)
+        correct = result.correct
+        tokenized = result.tokenized
+        print(tokenized)
 
-    #======= spell check ========#
-    result = spellCheck(search, dictionary)
-    correct = result.correct
-    tokenized = result.tokenized
-    print(tokenized)
+        #======= augment ========#
+        augments = augment(tokenized)
 
-    #======= augment ========#
-    augments = augment(tokenized)
+        #======= remove stop words ========#
+        removed_stopwords_Query, removed_stopwords_Final = stopwords(
+            Query, augments)
 
-    #======= remove stop words ========#
-    removed_stopwords_Query, removed_stopwords_Final = stopwords(
-        Query, augments)
+        check = removed_stopwords_Final
+        if check.count(check[0]) == len(check):
+            print("All the samee")
+            removed_stopwords_Final = [check[0]]
 
-    check = removed_stopwords_Final
-    if check.count(check[0]) == len(check):
-        print("All the samee")
-        removed_stopwords_Final = [check[0]]
+        #============ TF-IDF ==============#
 
-    #============ TF-IDF ==============#
+        tfid, index_question, user_tfidf, removed_stopwords_Query = tfidf(
+            removed_stopwords_Query, removed_stopwords_Final)  # TF-IDF
 
-    tfid, index_question, user_tfidf, removed_stopwords_Query = tfidf(
-        removed_stopwords_Query, removed_stopwords_Final)  # TF-IDF
+        #======= W2V process ========#
 
-    #======= W2V process ========#
+        answer = word2vector(removed_stopwords_Query, removed_stopwords_Final, tfid, index_question, user_tfidf)
 
-    answer = word2vector(removed_stopwords_Query,
-                         removed_stopwords_Final, tfid, index_question, user_tfidf)
+        pos = {ans: answer[ans] for ans in sorted(answer,reverse=True)}
+        Position = list(pos.values())
+        del Position[-1]
+        percentage = list(pos.keys())
 
-    pos = sorted(answer, reverse=True)
-    pos = list(filter(lambda a: a != 0.0, pos))
+        query = questionanswer.objects.filter(id__in=Position)
+        query = dict([(obj.id, obj) for obj in query])
+        sorted_query = [query[id] for id in Position]
 
-    location = np.argsort(answer)[::-1]
+        return_Result.query = sorted_query
 
-    for j in range(len(pos)):
-        temp = int(location[j])
-        Position.append(temp+1)
-        temp2 = str("{:.2f}".format(pos[j]*100))
-        percentage.append(temp2)
+        end = time.time()
+        print("Total Search: " + str((end - start)))
 
-    temp1 = questionanswer.objects.filter(id__in=Position)
+        #======================================#
 
-    temp1 = dict([(obj.id, obj) for obj in temp1])
-    sorted_temp1 = [temp1[id] for id in Position]
+        if search != correct:
+            return_Result.percentage = percentage
+            return_Result.Correct = correct
+            return (return_Result)
 
-    return_Result.query = sorted_temp1
+        else:
+            return_Result.percentage = percentage
+            retry = 0
+            return_Result.Correct = None
+            return_Result.Retry = 0
+            return(return_Result)
 
-    end = time.time()
-    print("Total Search: " + str((end - start)))
-
-    #======================================#
-
-    if search != correct:
-        return_Result.percentage = percentage
-        return_Result.Correct = correct
-        return (return_Result)
-
-    else:
-        return_Result.percentage = percentage
-        retry = 0
-        return_Result.Correct = None
-        return_Result.Retry = 0
+    except:
+        return_Result.query = None
         return(return_Result)
 
 #========================= Read Dictionary from file ===========================#
@@ -182,7 +179,8 @@ def augment(Input):
 def word2vector(Query, final, tfidf_value, index_question, user_tfidf):
 
     wv = WordVector()
-    wv1, wv2, answer = [], [], []
+    wv1, wv2 = [], []
+    answer = defaultdict()
     i, j, value = 0, 0, 0
 
     start = time.time()
@@ -208,7 +206,7 @@ def word2vector(Query, final, tfidf_value, index_question, user_tfidf):
             value += (user_tfidf.get(index_user)[i]) * temp
             i += 1
         wv2.append(value)
-        print ("tfidf: "+ str(question)+" "+"["+ str(value) + "]")
+        #print ("tfidf: "+ str(question)+" "+"["+ str(value) + "]")
         index_user += 1
 
     for count, question in enumerate(Query):
@@ -237,15 +235,15 @@ def word2vector(Query, final, tfidf_value, index_question, user_tfidf):
             for test1 in wv1 for test2 in wv2]
     temp = list(list_split(temp, len(final)))
 
-    for x in temp:
+    for id,x in enumerate(temp):
         max_value = max(x)
         if max_value < 0.55:
             max_value = 0.0
-        answer.append(max_value)
+        answer[float(round(max_value*100,3))] = (id+1)
 
     # use to dect if result found is 0 #
-    if answer.count(answer[0]) == len(answer):
-        answer = [0, 0]
+    if all(value == 0 for value in answer.values()):
+        answer[1] = 0
 
     end = time.time()
     print("(volk) w2v: " + str((end - start)))

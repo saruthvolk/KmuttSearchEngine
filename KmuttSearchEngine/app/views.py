@@ -8,12 +8,14 @@ import datetime
 import re
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
+from torch import result_type
 from KmuttSearchEngine.SearchEngine import searchengine
 from KmuttSearchEngine.SearchEngine import train_dictionary
 from KmuttSearchEngine.Crud_QA import *
 from KmuttSearchEngine.Crud_User import *
 from KmuttSearchEngine.Crud_Request import *
 from KmuttSearchEngine.Crud_notification import *
+from KmuttSearchEngine.Crud_Department import *
 from KmuttSearchEngine.Crud_search import *
 from KmuttSearchEngine.Query import *
 from app.models import questionanswer, userinfo, QArequest
@@ -109,54 +111,57 @@ def search(request):
 
     assert isinstance(request, HttpRequest)
 
-    search = request.POST.get('search')
-    result_seach_history = create_search_history(request, search)
-    query = queryDb_QA()
-    question = query.question
-    json_question = json.dumps(question)
-
-    if result_seach_history == "Error":
-        return render(request, 'app/index.html')
-
-    page = request.GET.get('page', 1)
-
-    if page == 1:
-        query = queryDb_QA()
-        result = searchengine(search, query)
-        Search_result.search = search
-        Search_result.query = result.query
-        Search_result.Correct = result.Correct
-        Search_result.percentage = result.percentage
-
-    length = Search_result.percentage
-    paginator = Paginator(Search_result.query, 10)
-    paginator1 = Paginator(Search_result.percentage, 10)
-
     try:
-        query1 = paginator.page(page)
-        query2 = paginator1.page(page)
+        search = request.POST.get('search')
+        result_seach_history = create_search_history(request, search)
+        query = queryDb_QA()
+        question = query.question
+        json_question = json.dumps(question)
 
-    except PageNotAnInteger:
-        query1 = paginator.page(1)
-        query2 = paginator1.page(1)
+        if result_seach_history == "Error":
+            return render(request, 'app/index.html')
 
-    except EmptyPage:
-        query1 = paginator.page(paginator.num_pages)
-        query2 = paginator1.page(paginator1.num_pages)
+        page = request.GET.get('page', 1)
 
-    if search:
-        pre_search = search
-    else:
-        pre_search = Search_result.search
+        if page == 1:
+            query = queryDb_QA()
+            result = searchengine(search, query)
+            Search_result.search = search
+            Search_result.query = result.query
+            Search_result.Correct = result.Correct
+            Search_result.percentage = result.percentage
 
-    if Search_result.Correct is not None:
-        check = 1
-        return render(request, 'app/search.html', {'Correct': Search_result.Correct, 'Question': pre_search, 
-        'query': query1, 'Percentage': query2, 'length': length,'question':json_question})
-    else:
-        check = 0
-        return render(request, 'app/search.html', {'Question': pre_search, 'query': query1, 'Question': pre_search, 
-        'Percentage': query2, 'length': length,'question':json_question})
+        paginator = Paginator(Search_result.query, 10)
+        paginator1 = Paginator(Search_result.percentage, 10)
+
+        try:
+            query1 = paginator.page(page)
+            query2 = paginator1.page(page)
+
+        except PageNotAnInteger:
+            query1 = paginator.page(1)
+            query2 = paginator1.page(1)
+
+        except EmptyPage:
+            query1 = paginator.page(paginator.num_pages)
+            query2 = paginator1.page(paginator1.num_pages)
+
+        if search:
+            pre_search = search
+        else:
+            pre_search = Search_result.search
+
+        if Search_result.Correct is not None:
+            check = 1
+            return render(request, 'app/search.html', {'Correct': Search_result.Correct, 'Question': pre_search, 
+            'query': query1, 'Percentage': query2,'question':json_question})
+        else:
+            check = 0
+            return render(request, 'app/search.html', {'Question': pre_search, 'query': query1, 'Question': pre_search, 
+            'Percentage': query2, 'question':json_question})
+    except:
+        messages.error(request, _(error_Message))
+        return redirect('home')
 
 
 @login_required(login_url='/login')
@@ -255,6 +260,7 @@ def user_question_view(request, operation):
     user_id = request.user.id
     query_department = queryDb_department()
     query_view = view_view_history(request,user_id)[:5]
+    department_id_list = [dept.department_id for dept in query_department]
 
     if operation == "question":
         query_question = queryDb_QA_All()
@@ -262,6 +268,9 @@ def user_question_view(request, operation):
         query_question = queryDb_QA_All_FAQ()
     elif operation == "recent_update":
         query_question = queryDb_QA_All_Recent()
+    elif (operation in dept.department_id for dept in query_department):
+        query_question = queryDb_QA_Dept(operation)
+
     page = request.GET.get('page', 1)
     if page == 1:
         if operation == "question":
@@ -270,6 +279,9 @@ def user_question_view(request, operation):
             query_question = queryDb_QA_All_FAQ()
         elif operation == "recent_update":
             query_question = queryDb_QA_All_Recent()
+        elif (operation in dept.department_id for dept in query_department):
+            query_question = queryDb_QA_Dept(operation)
+
     paginator = Paginator(query_question, 7)
     try:
         query = paginator.page(page)
@@ -278,7 +290,7 @@ def user_question_view(request, operation):
     except EmptyPage:
         query = paginator.page(paginator.num_pages)
     if query != "Error":
-        return render(request, 'app/user_question_view.html',{'query':query,'operation':operation,'department':query_department,'recent_view':query_view})
+        return render(request, 'app/user_question_view.html',{'query':query,'operation':operation,'department':query_department,'recent_view':query_view, 'department_id':department_id_list})
     else:
         return render(request, 'app/index.html')
 
@@ -736,11 +748,70 @@ def request_admin(request, operation):
         result = admin_approve(request, admin_id, request_id)
         if result.code == 200:
             result_reminder = create_reminder(operation,request_id)
-            messages.info(request, ("Successfully approved the request"))
+            messages.info(request, _("Successfully approved the request"))
             return redirect('request_admin', operation='view')
         else:
             messages.error(request, _(error_Message))
             return redirect('request_admin', operation='view')
+
+def department_management (request,operation):
+    
+    if operation == "View":
+
+        query_department = queryDb_department()
+        department_question = queryDb_department_question()
+
+        page = request.GET.get('page', 1)
+        if page == 1:
+            query_department = queryDb_department()
+            department_question = queryDb_department_question()
+
+        paginator = Paginator(query_department, 7)
+        paginator1 = Paginator(department_question, 7)
+        
+        try:
+            result = paginator.page(page)
+            department_question = paginator1.page(page)
+        except PageNotAnInteger:
+            result = paginator.page(1)
+            department_question = paginator1.page(1)
+        except EmptyPage:
+            result = paginator.page(paginator.num_pages)
+            department_question = paginator1.page(paginator.num_pages)
+
+        if result != "Error":
+           return render(request, 'app/department_admin.html',{ 'departments': result, 'departments_question':department_question})
+        else:
+            messages.error(request, _(error_Message))
+            return redirect('Admin')
+
+    elif operation == "update":
+        result = update_department(request)
+        if result == "Error":
+            messages.error(request, _(error_Message))
+            return redirect('department_admin',operation="View")
+        else:
+            messages.info(request, _("Successfully updated department name"))
+            return redirect('department_admin',operation="View")
+            
+    elif operation == "delete":
+        result = delete_department(request)
+        if result == "Error":
+            messages.error(request, _(error_Message))
+            return redirect('department_admin',operation="View")
+        else:
+            messages.info(request, _("Successfully removed department"))
+            return redirect('department_admin',operation="View")
+
+    elif operation == "Add":
+        result = save_department(request)
+        if result == "Error":
+            messages.error(request, _(error_Message))
+            return redirect('department_admin',operation="View")
+        else:
+            messages.info(request, _("Successfully added department"))
+            return redirect('department_admin',operation="View")
+
 
 def history_user(request,operation):
 
