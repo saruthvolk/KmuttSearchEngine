@@ -245,6 +245,11 @@
     .modal-confirm .btn-secondary:focus {
         background: #a8a8a8;
     }
+    @media (max-width: 380px){
+        #logo{
+            font-size: 4.8vmin;
+        }
+    }
     </style>
 
     <script>
@@ -398,9 +403,10 @@
             </ul>
 
             <div class="col-lg-4 col-xl-5 col-sm-8 col-md-4" style="text-align: center; position:sticky;">
-                <form action="{% url 'search' %}" class="search-wrap">
+                <form action="{% url 'search' %}" class="search-wrap" method="post">
+                    {% csrf_token %}
                     <div class="input-group w-100">
-                        <input type="text" class="form-control search-form" placeholder= "{% translate 'Search' %}"
+                        <input type="text" class="form-control search-form" name="search" placeholder= "{% translate 'Search' %}"
                             style="margin-left: -14px">
                         <div class="input-group-append">
                             <button class="btn btn-primary search-button" type="submit">
@@ -475,13 +481,17 @@
     </nav>
 
 
-    <div class="container body-content">
+    <div class="container body-content" id="footer">
         {% block content %}{% endblock %}
-        <hr />
+
+    </div>
+    <div class="container body-content">
+        <hr/>
         <footer>
             <p>&copy; {{ year }} KMUTT Information-Center</p>
         </footer>
     </div>
+
 
     {% block scripts %}
     <script src="{% static 'app/scripts/respond.js' %}"></script>

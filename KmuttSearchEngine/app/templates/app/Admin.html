@@ -11,7 +11,7 @@
         text-align: center;
         transition: border-color 0.3s;
         width: 15vw;
-        height:28vh
+        height:30vh
     }
     .btn-light:hover {
         background-color: #f7f7f9;
@@ -20,12 +20,72 @@
         text-decoration: none;
     }
 
+    p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.5vmin;
+    }
+
+    .h5, h5 {
+    font-size: 2.1vmin;
+    }
+
+    .container {
+        max-width: none;
+    }
+    .jumbotron {
+        width:fit-content;
+        margin-top: 50px; 
+        margin-left: auto;
+        margin-right: auto; 
+        margin-bottom: 17%;
+    }
+    #menu{
+        color: #f37a3b; 
+        margin-bottom: 30px; 
+        margin-top: 30px; 
+        font-size: 2.7rem;
+    }
+    #admin_menu{
+        margin-top:-35px; 
+        font-size: 1.8rem;
+    }
+    @media (max-width: 576px){
+        td{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 10px;
+        justify-content: center;
+        }
+        .jumbotron{
+        width: auto;
+        }
+        .btn-light {
+            width: 60vw;
+            height: fit-content;
+            margin-left: 0px;
+        }
+        p{
+            width: fit-content;
+            font-size: 0.9rem;
+        }
+        .h5, h5 {
+        font-size: 1rem;
+        }
+        #admin_menu{
+        text-align: center;
+        margin-top:0px; 
+        font-size: 1.8rem;
+        }
+    }
 </style>
+
 <h3>{{ message }}</h3>
 
 <br/><br/>
-<div class="jumbotron" style="margin-top: 50px; width: fit-content; margin-left: -5vw;">
-    <h2 style="margin-top:-35px">{% translate "Admin Tools" %}</h2>
+<div class="jumbotron">
+    <h2 id="admin_menu">{% translate "Admin Tools" %}</h2>
     <hr><br/><br/>
     <table style="margin-left: auto; margin-right: auto;">
         <tr>
@@ -34,10 +94,10 @@
         {% csrf_token %}
         <button class="btn btn-light" style="margin-left: 0px;">
             <div>
-                <i class="far fa-question-circle fa-3x" style="color: #f37a3b; margin-bottom: 30px; margin-top: 30px;"></i>
+                <i class="far fa-question-circle" id="menu"></i>
                 <h5>{% translate "Questions Management" %}</h5>
                 <br/>
-                <p style="color: #262626; margin-left: auto; margin-right: auto; width: 10vw;">{% translate "Manage all of the questions in the knowledge base." %} </p>
+                <p style="color: #262626; margin-left: auto; margin-right: auto;">{% translate "Manage all of the questions in the knowledge base." %} </p>
                 <br/>
             </div>
         </button>
@@ -48,10 +108,10 @@
         {% csrf_token %}
         <button class="btn btn-light">
             <div>
-                <i class="far fa-clipboard fa-3x" style="color: #f37a3b; margin-bottom: 30px; margin-top: 30px;"></i>
+                <i class="far fa-clipboard fa-3x" id="menu"></i>
                 <h5>{% translate "Requests Management" %}</h5>
                 <br/>
-                <p style="color: #262626; margin-left: auto; margin-right: auto; width: 10vw;">{% translate "Manage all of the requests from users." %} </p>
+                <p style="color: #262626; margin-left: auto; margin-right: auto;">{% translate "Manage all of the requests from users." %} </p>
                 <br/>
             </div>
         </button>
@@ -62,10 +122,10 @@
         {% csrf_token %}
         <button class="btn btn-light">
             <div>
-                <i class="far fa-user fa-3x" style="color: #f37a3b; margin-bottom: 30px; margin-top: 30px;"></i>
+                <i class="far fa-user fa-3x" id="menu"></i>
                 <h5>{% translate "Users Management" %}</h5>
                 <br/>
-                <p style="color: #262626; margin-left: auto; margin-right: auto; width: 10vw;">{% translate "Manages all of the users in the system." %} </p>
+                <p style="color: #262626; margin-left: auto; margin-right: auto;">{% translate "Manages all of the users in the system." %} </p>
                 <br/>
             </div>
         </button>
@@ -76,10 +136,10 @@
         {% csrf_token %}
         <button class="btn btn-light">
             <div>
-                <i class="far fa-building fa-3x" style="color: #f37a3b; margin-bottom: 30px; margin-top: 30px;"></i>
+                <i class="far fa-building fa-3x" id="menu"></i>
                 <h5>{% translate "Department Management" %}</h5>
                 <br/>
-                <p style="color: #262626; margin-left: auto; margin-right: auto; width: 10vw;">{% translate "Manages all of the department in the system." %} </p>
+                <p style="color: #262626; margin-left: auto; margin-right: auto;">{% translate "Manages all of the department in the system." %} </p>
                 <br/>
             </div>
         </button>
@@ -88,5 +148,5 @@
 </tr>
     </table>
 </div>
-<br><br><br><br><br><br><br><br><br><br><br>
+
 {% endblock %}

@@ -23,7 +23,52 @@
         border-color: #f37a3b;
     }
 
+    @media (max-width: 1510px)
+    {
+        #question{
+            margin-top: 15%;
+        }
+    }
 
+
+    @media (max-width: 576px)
+    {
+        #question{
+            margin-top: 25%;
+            margin-bottom: 10%;
+        }
+        #view {
+        float: right;
+        font-size: 0.9rem;
+        }
+        #update {
+        margin-top: -20px;
+        font-size: 0.9rem;
+        }
+        #question{
+        font-size: 1.4rem;
+        }
+        #answer{
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 767px)
+    {
+        #question{
+            margin-top: 25%;
+            margin-bottom: 10%;
+        }
+        #view {
+
+        }
+        #update {
+        margin-top: -20px;
+        }
+        #question{
+
+        }
+    }
 </style>
 
 
@@ -43,11 +88,19 @@
 </div>
 <br>
 <br>
+{% if request.user.role_code == 2 %}
 <form action="{% url 'request' operation='request_edit' %}" method="POST">
     {% csrf_token %}
     <input name="question_id" id="question_id" value="{{query.id}}" hidden />
 <td><button href="#" class="btn btn-info" id="request">Request for changes</button>
 </form>
+{% elif request.user.role_code == 1 %}
+<form action="{% url 'Crud_QA' operation='Edit' id=query.id%}" method="POST">
+    {% csrf_token %}
+    <input name="id_check" id="question_id" value="{{query.id}}" hidden />
+<td><button href="#" class="btn btn-info" id="request">Edit question</button>
+</form>
+{% endif %}
 <br>
 <br>
 <br>

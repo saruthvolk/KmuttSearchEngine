@@ -6,6 +6,7 @@ from itertools import zip_longest, chain, repeat
 from KmuttSearchEngine.tfidf import *
 from app.models import questionanswer
 from pythainlp.spell import NorvigSpellChecker
+from collections import Iterable
 from pythainlp.augment import *
 import numpy as np
 import oskut
@@ -37,6 +38,7 @@ def searchengine(search, query):
         start = time.time()
 
         Query = query.question
+        Query_ID = query.id
 
         dictionary = getDictionary()
 
@@ -65,7 +67,7 @@ def searchengine(search, query):
 
         #======= W2V process ========#
 
-        answer = word2vector(removed_stopwords_Query, removed_stopwords_Final, tfid, index_question, user_tfidf)
+        answer = word2vector(removed_stopwords_Query, removed_stopwords_Final, tfid, index_question, user_tfidf,Query_ID)
 
         pos = {ans: answer[ans] for ans in sorted(answer,reverse=True)}
         Position = list(pos.values())
@@ -124,6 +126,7 @@ def spellCheck(Input, train):
 
     oskut.load_model(engine='tl-deepcut-tnhc')
     tokenized = oskut.OSKut(Input, k=100)
+    print (tokenized)
 
     #tokenized = word_tokenize(Input, engine="nlpo3")
 
@@ -131,10 +134,14 @@ def spellCheck(Input, train):
         custom_dict=train)  # Using dict from dataset train
     # checker_ttc = NorvigSpellChecker(custom_dict=ttc.word_freqs()) #Using dict from pre data train
 
-    return_result.correct = [
-        checker_dataset.correct(word) for word in tokenized]
-
-    return_result.correct = ''.join(return_result.correct)
+    #temp = [x.strip(" ") for x in tokenized if x.strip(" ")]
+    
+    return_result.correct = [checker_dataset.correct(word) if not(re.search('[a-zA-Z\s]', word)) else word for word in tokenized ]
+    
+    if len(return_result.correct) != 0:
+        return_result.correct = ''.join(return_result.correct)
+    else:
+        return_result.correct = None
 
     return_result.tokenized = tokenized
 
@@ -142,7 +149,7 @@ def spellCheck(Input, train):
     print("Spell check deepcut: " + str((end - start)))
     return return_result
 
-#========================= Create Synonyms Sentence ===========================#
+#========================= Create Synonyms Sentence ==========================#
 
 
 def augment(Input):
@@ -169,17 +176,17 @@ def augment(Input):
         final = [Input]
 
     end = time.time()
-    #print("Augment: " + str((end - start)))
+    print("Augment: " + str((end - start)))
 
     return final
 
 #========================= Word 2 Vector computation part ===========================#
 
 
-def word2vector(Query, final, tfidf_value, index_question, user_tfidf):
+def word2vector(Query, final, tfidf_value, index_question, user_tfidf,Query_ID):
 
     wv = WordVector()
-    wv1, wv2 = [], []
+    wv1, wv2, user_eng = [], [],[]
     answer = defaultdict()
     i, j, value = 0, 0, 0
 
@@ -194,19 +201,25 @@ def word2vector(Query, final, tfidf_value, index_question, user_tfidf):
         length_question[count+1] = str(length)
 
     word_list = list(chain.from_iterable(Query))
+    word_list = map(str.lower,word_list)
 
     user_question_index = next(iter(user_tfidf))
     index_user = user_question_index
 
+    
     for question in final:
         value, i = 0, 0
         for word in question:
-            temp = wv.word_vectorizer(word, use_mean=False)
+            if (re.search('[a-zA-Z]', word.lower()) and (word.lower() in word_list)):
+                user_eng.append(word.lower())
+                temp = np.full((1, 300), 1.0)
+            else:
+                temp = wv.word_vectorizer(word, use_mean=False)
             #print ("tfidf: "+ str(word)+" "+"["+ str(user_tfidf.get(index_user)[i])+ "]")
             value += (user_tfidf.get(index_user)[i]) * temp
             i += 1
         wv2.append(value)
-        #print ("tfidf: "+ str(question)+" "+"["+ str(value) + "]")
+        print ("tfidf: "+ str(question)+" "+"["+ str(value) + "]")
         index_user += 1
 
     for count, question in enumerate(Query):
@@ -219,7 +232,10 @@ def word2vector(Query, final, tfidf_value, index_question, user_tfidf):
     count = 1
 
     for _ in repeat(None, len(word_list)):
-        temp = wv.word_vectorizer(word_list[0], use_mean=False)
+        if (re.search('[a-zA-Z]', word_list[0].lower()) and (word_list[0].lower() in user_eng)):
+            temp = np.full((1, 300), 1.0)
+        else:
+            temp = wv.word_vectorizer(word_list[0], use_mean=False)
         value += (tfidf_value.get(count)[i])*temp
         i += 1
         del(word_list[0])
@@ -231,15 +247,15 @@ def word2vector(Query, final, tfidf_value, index_question, user_tfidf):
         else:
             continue
 
-    temp = [(1 - spatial.distance.cosine(test1, test2))
-            for test1 in wv1 for test2 in wv2]
-    temp = list(list_split(temp, len(final)))
+    wv_answer = [(1 - spatial.distance.cosine(v1, v2))
+            for v1 in wv1 for v2 in wv2]
+    wv_answer = list(list_split(wv_answer, len(final)))
 
-    for id,x in enumerate(temp):
-        max_value = max(x)
+    for id,wv_set in enumerate(wv_answer):
+        max_value = max(wv_set)
         if max_value < 0.55:
             max_value = 0.0
-        answer[float(round(max_value*100,3))] = (id+1)
+        answer[float(round(max_value*100,3))] = Query_ID[id]
 
     # use to dect if result found is 0 #
     if all(value == 0 for value in answer.values()):
@@ -268,30 +284,38 @@ def train_dictionary(Query):
     aug = WordNetAug()
 
     augmented = []
+    token_question = []
     train = []
 
-    for x in range(len(Query)):
-        print(x)
-        Question = re.sub('[a-zA-Z!#$()“”?/\0-9!@#$%^&*<>:;=]', '', Query[x])
+    for quest in Query:
+        Question = re.sub('[a-zA-Z!#$()“”?/\0-9!@#$%^&*<>:;=]', '', quest)
         augmented.append(Question)
 
     oskut.load_model(engine='ws-augment-60p')
-    # oskut.load_model(engine='tl-deepcut-tnhc')
+    #oskut.load_model(engine='tl-deepcut-tnhc')
 
-    for x in augmented:
+    for question in augmented:
 
-        if x is '':
-            x = 'Null'
+        if not question:
+            continue
         else:
-            token = oskut.OSKut(x, k=100)
-            for x in token:
-                train.append(x)
-                temp = aug.find_synonyms(x)
-                for x in temp:
-                    train.append(x)
+            token = oskut.OSKut(question, k=100)
+            token_question.append(token)
+    
+    flatten_token_question = list(flatten(token_question))
+    
+    for word in flatten_token_question:
+        synnonyms_word = aug.find_synonyms(word)
+        if not synnonyms_word:
+            continue
+        train.append(synnonyms_word)
+
+    train = list(flatten(train))
+
+    converter = lambda x: x.replace('_', '')
+    train = list(map(converter, train))
 
     train = list(dict.fromkeys(train))
-    check_train = 1
 
     with open('train.txt', 'w', encoding="utf-8") as f:
         for item in train:
@@ -335,7 +359,7 @@ def stopwords(Query, final):
             removed_stopwords_Query.append(temp)
 
     end = time.time()
-    #print("stopwords: " + str((end - start)))
+    print("stopwords: " + str((end - start)))
 
     return removed_stopwords_Query, removed_stopwords_Final
 
@@ -396,6 +420,14 @@ def tfidf(remove_sw_query, remove_sw_final):
     del remove_sw_query[-(len(remove_sw_final)):]
 
     end = time.time()
-    #print("TFIDF: " + str((end - start)))
+    print("TFIDF: " + str((end - start)))
 
     return (get_tfidf, get_index, user_tfidf, remove_sw_query)
+
+def flatten(lis):
+     for item in lis:
+         if isinstance(item, Iterable) and not isinstance(item, str):
+             for x in flatten(item):
+                 yield x
+         else:        
+             yield item

@@ -107,7 +107,7 @@
 
         #search {
             background-image: url(/static/img/search_back.jpg);
-            background-position: -609px -2431px;
+            background-position: 84px -2533px;
             color: aliceblue;
             Height: 357px;
             filter: brightness(1);
@@ -154,7 +154,9 @@
             text-align: center;
             transition: border-color 0.3s;
         }
-
+        #update{
+            font-size: 0.98rem;
+        }
         #recent_update {
             background-color: #f7f7f9;
             border: 2px solid #f7f7f9;
@@ -180,14 +182,11 @@
             text-decoration: none;
         }
 
-        #question1,
-        #question {
+        #question1,#question {
             color: #212529;
             font-size: 16px;
             text-decoration: none;
         }
-
-
 
         #result {
             background: #e9ecef;
@@ -196,7 +195,8 @@
         #warn {
             font-size: 1.0rem;
             line-height: 45px;
-            margin-top: -4%;
+            margin-top: -38px;
+            margin-left: 14vw;
         }
 
         .card-header {
@@ -219,18 +219,19 @@
             margin-left: 1.5%
         }
 
-        #question {
-            margin-top: -3%;
-        }
-
+        
         #feature_question {
             background: #f7f7f9;
-            margin-left: -9%;
+            margin-left: auto;
             margin-right: auto;
+            padding: 2rem 2rem;
             justify-content: center;
             width: 70vw;
         }
-
+        table{
+            margin-left: auto;
+            margin-right: auto;
+        }
         .numberCircle {
             background: #f37a3b;
             border: 2px solid #f37a3b;
@@ -293,7 +294,9 @@
             border-color: #f37a3b;
             box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
         }
-
+        .h1,h1{
+            margin-top: 58px;
+        }
         .sidebar-sticky {
             position: relative;
             top: 0;
@@ -348,19 +351,105 @@
         #request_question:hover{
         background-color: #db7623;
         }
+        #search_header{
+            margin-left: 14vw;
+        }
+        .hint-text{
+            font-size: 15px;
+            margin-left: 14vw;
+        }
+        .container {
+        max-width: none;
+        }
+        body, html{
+        overflow-x: hidden;
+        }
+        @media (max-width: 1320px){
+            #feature_question{
+                margin-left: auto;
+                margin-right: auto;
+                width: 90vw;
+            }
+            #search_header{
+            margin-left: 3%;
+            font-size: 1.35rem;
+            }
+            #search_input{
+                width:60vw;
+            }
+            .col-lg-3 {
+            flex: none;
+            max-width: none;
+            }
+            #warn {
+            margin-left: 3%;
+            margin-top:-37px
+        }
+        }
+        @media (max-width: 576px){
+            .h1,h1{
+                font-size: 6.4vmin;
+                margin-top: 74px;
+            }
+            #request_question{
+                font-size: 0.85rem;
+            }
+            #search{
+                Height: 285px;
+            }
+            #warn {
+            margin-left: 3%;
+            margin-top:-43px
+            }
+            .lead{
+                font-size: 3.7vmin;
+            }
+            #feature_question{
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .hint-text{
+                margin-left: 0px;
+            }
+            #search_header{
+            margin-left: 0px;
+            font-size: 1.3rem;
+            }
+        }
+        @media (max-width: 400px){
+            #question1, #question{
+                font-size: 4.3vmin;
+            }
+            p, #update{
+                font-size: 4.1vmin;
+            }
+            #feature_question{
+                padding: 1rem 1rem;
+            }
+            #warn{
+                font-size: 3.8vmin;
+            }
+            #search_header {
+            margin-left: 0px;
+            font-size: 1.1rem;
+            }
+            .hint-text {
+                font-size: 0.85rem;
+            }
+        }
     </style>
 </head>
 
 <body>
 
     <div class="jumbotron" id="search">
-        <h1 style="margin-top: 58px;">{% translate "How can we help you ?" %}</h1>
+        <h1>{% translate "How can we help you ?" %}</h1>
         <p class="lead">{% translate "Type the question you want to ask" %} </p>
 
         <form action="{% url 'search' %}" class="form-inline" method="POST">
             {% csrf_token %}
             <br /><br /><br />
-            <input name="search" id="search_input" tpye="text" class="form-control col-lg-offset-3 col-lg-5"
+            <input name="search" id="search_input" tpye="text" class="form-control col-lg-offset-3 col-lg-3"
                 placeholder="{% translate " Search here....." %}" autocomplete="off" value="{{ Question }}">
             <button id="search-button" type="submit" class="btn btn-primary" >
                 <i class="fas fa-search"></i>
@@ -372,15 +461,15 @@
         <i class="fas fa-plus"></i> {% translate "Request Add Question" %} 
     </a>
 
-    <h4 style="margin-left: -9%;">Found {{query.paginator.count }} results related to your question.</h4>
+    <h4 id="search_header">Found {{query.paginator.count }} results related to your question.</h4>
     <br>
     {% if Correct is not None %}
     <br>
-    <p class="lead" id="warn" style="margin-left: -9%;">It look like you have a wrong spelling</p>
+    <p class="lead" id="warn">It look like you have a wrong spelling</p>
     <br />
     <form action="{% url 'search' %}" class="form-inline" method="POST">
         {% csrf_token %}
-        <p class="lead" name="search" id="warn" style="margin-left: -9%;">Do you want to search again with: <input type="submit"
+        <p class="lead" name="search" id="warn" ">Do you want to search again with: <input type="submit"
                 class="btn btn-link" name="search" value="{{Correct}}" /></p>
     </form>
     {% endif %}
@@ -415,7 +504,7 @@
     </table>
 
     <div class="clearfix">
-        <div class="hint-text" style="font-size: 15px; margin-left: -9%;">
+        <div class="hint-text">
             {% translate "Showing"%} <b>{{ query.end_index }}</b> {% translate "out of" %}
             <b>{{query.paginator.count }} {% translate "entries" %} </b>
         </div>

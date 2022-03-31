@@ -89,6 +89,12 @@
         background-color: rgb(145, 1, 1);
     }
 
+    #question{
+        width: 38%
+    }
+    #answer{
+        width: 80%;
+    }
     #select_multiple {
         margin-bottom: 65px;
         outline: none;
@@ -102,6 +108,37 @@
     #add_question {
         margin-bottom: 20px;
         background-color: forestgreen;
+    }
+
+    @media (max-width: 767px){
+        td{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        }
+        #question{
+        width: auto;
+        font-size: 0.95rem;
+        }
+        #answer{
+            width: auto;
+            font-size: 0.9rem;
+        }
+        .h1, h1 {
+        font-size: 2.2rem;
+        }
+        .container {
+        max-width: 680px;
+        }
+        
+        .btn{
+            z-index: 999;
+        }
+        #question_edit, #question_delete, #select_multiple, #check_all, #add_question{
+            font-size: 0.9rem;
+            width: 165px;
+        }
     }
 </style>
 <script>
@@ -182,7 +219,7 @@
     <br /><br /><br />
     <center>
         <br/><br>
-        <h1>{% translate "View question" %}</h1>
+        <h1>{% translate "Question Management" %}</h1>
         <br>
         <div class="form-group">
             <button class="btn btn-warning" id="select_multiple" onclick="myFunction();"> <i class="fas fa-check-square"></i> Select Multiple</button>
@@ -274,11 +311,11 @@
                     {% if LANGUAGE_CODE == "th" %}
                     <tr>
                         <td class="font-weight-bold">Question</td>
-                        <td colspan="2" style="width: 40%;">
-                            <label type="text" name="question"> {{questionanswer.question}} </label>
+                        <td colspan="2" id="question">
+                            <label type="text"> {{questionanswer.question}} </label>
                         </td>
                         <td class="font-weight-bold">Answer</td>
-                        <td colspan="10" style="width: 60%;">
+                        <td colspan="10" id ="answer">
                             <span style="white-space: pre-line;word-break:break-all">
                                 {% autoescape off %}
                                 {{questionanswer.answer}}
@@ -289,11 +326,11 @@
                     {% else %}
                     <tr>
                         <td class="font-weight-bold">Question</td>
-                        <td colspan="2" style="width: 40%;">
-                            <label type="text" name="question"> {{questionanswer.question_en}} </label>
+                        <td colspan="2" id="question">
+                            <label type="text"> {{questionanswer.question_en}} </label>
                         </td>
                         <td class="font-weight-bold">Answer</td>
-                        <td colspan="10" style="width: 60%;">
+                        <td colspan="10" id="answer">
                             <span style="white-space: pre-line;word-break:break-all">
                                 {% autoescape off %}
                                 {{questionanswer.answer_en}}
@@ -375,7 +412,7 @@
 </div>
 <br />
 
-<nav aria-label="Page navigation">
+<nav aria-label="Page navigation" style="margin-bottom: 100px; z-index:1;">
     <ul class="pagination">
         {% if query.has_previous %}
         <li class="page-item">

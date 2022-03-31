@@ -116,6 +116,7 @@
         float: right;
         font-weight: bold;
         text-align: right;
+        margin-right: 20px;
     }
 
     .forgot-password a {
@@ -186,7 +187,6 @@
 
     @media (max-width: 500px) {
         .bg-img, .bg-color {
-            height: 50%;
             margin: 0;
             min-width: 100%;
         }
@@ -197,16 +197,27 @@
             text-align: right;
         }
 
-
+        #toggle_eye_button{
+            margin-left: -18vw;
+        }
         #login { padding-top: 50px; }
     }
 
+    @media (max-width: 435px){
+        #toggle_eye_button{
+            margin-left: -35vw;
+        }
+        p{
+            font-size: 13px;
+        }
+    }
     #logo {
         fill: #e87639;
         text-align: center;
         margin-left: auto;
         margin-right: auto;
-        height: 140px;
+        width: inherit;
+        max-width: 395px;
     }
 
 
@@ -221,6 +232,11 @@
         margin-bottom: 15px;
         padding: 1em;
     }
+    #toggle_eye_button, #toggle_eye_button:focus{
+        background-color: transparent;
+        border: none;
+        outline: none;
+    }
 </style>
 
 <script>
@@ -228,25 +244,19 @@
         $("#Error").effect("shake");
     }
 
-    const togglePassword = document
-            .querySelector('#togglePassword');
-  
-        const password = document.querySelector('#password');
-  
-        togglePassword.addEventListener('click', () => {
-  
-            // Toggle the type attribute using
-            // getAttribure() method
-            const type = password
-                .getAttribute('type') === 'password' ?
-                'text' : 'password';
-                  
-            password.setAttribute('type', type);
-  
-            // Toggle the eye and bi-eye icon
-            this.classList.toggle('bi-eye');
-        });
-
+function toggle_eye(){
+    val = document.getElementById('exampleInputPassword1')
+    if (val.type == 'text') 
+    {
+        val.type = 'password';
+        $('#eye').toggleClass("fas fa-eye-slash");
+    }
+    else 
+    {
+        val.type = 'text';
+        $('#eye').toggleClass("fas fa-eye");
+    }
+}
 </script>
 <html lang="en">
 <head>
@@ -291,10 +301,10 @@
                         <input type="text" name="username" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username">
                     </div>
                     <div class="form-group" id="show_hide_password">
-                        <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">                        
-                        <div class="input-group-addon" style="position: relative; margin-top: -37px; margin-left: 350px;">
-                            <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
-                          </div>
+                        <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">                             
+                    <div class="input-group-addon" style="position: relative; margin-top: -40px; margin-left: 350px;">
+                        <button type="button" class="btn-link" id="toggle_eye_button" onclick="toggle_eye(this)" ><i class="fas fa-eye-slash" id="eye"></i></button>
+                    </div>
                     </div>
                     <br>
                     <div class="form-check">

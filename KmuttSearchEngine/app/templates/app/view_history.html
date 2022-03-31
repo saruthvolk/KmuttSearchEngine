@@ -134,7 +134,11 @@
     #question{
         color:black
     }
-
+    #menu{
+        background-color: #1a4d6a; 
+        border-radius: 10px 0px 0px 10px; 
+        min-height: 640px;
+    }
     th,
     td {
         text-align: center;
@@ -160,6 +164,14 @@
         .row {
             height:auto;
         }
+        #menu{
+        min-height: 0px;
+        }
+    }
+    @media (max-width: 539px) {
+        .container{
+            width: fit-content;
+        }
     }
 </style>
 <script>
@@ -178,7 +190,7 @@
 </script>
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
-        <div class="col-md-3" style="background-color: #1a4d6a; border-radius: 10px 0px 0px 10px; min-height: 640px;">
+        <div class="col-md-3" id="menu">
 
             {% for user_data in user_info %}
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">

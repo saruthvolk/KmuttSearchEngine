@@ -12,6 +12,7 @@ from torch import result_type
 from KmuttSearchEngine.SearchEngine import searchengine
 from KmuttSearchEngine.SearchEngine import train_dictionary
 from KmuttSearchEngine.Crud_QA import *
+from django.core.exceptions import PermissionDenied
 from KmuttSearchEngine.Crud_User import *
 from KmuttSearchEngine.Crud_Request import *
 from KmuttSearchEngine.Crud_notification import *
@@ -203,6 +204,9 @@ def question(request, id):
 
 @login_required(login_url='/login')
 def Admin(request):
+    
+    if request.user.role_code != 1:
+        raise PermissionDenied()
 
     assert isinstance(request, HttpRequest)
     return render(
@@ -258,6 +262,9 @@ def upload_image(request):
 def user_question_view(request, operation):
     
     user_id = request.user.id
+    query = queryDb_QA()
+    question = query.question
+    json_question = json.dumps(question)
     query_department = queryDb_department()
     query_view = view_view_history(request,user_id)[:5]
     department_id_list = [dept.department_id for dept in query_department]
@@ -290,11 +297,15 @@ def user_question_view(request, operation):
     except EmptyPage:
         query = paginator.page(paginator.num_pages)
     if query != "Error":
-        return render(request, 'app/user_question_view.html',{'query':query,'operation':operation,'department':query_department,'recent_view':query_view, 'department_id':department_id_list})
+        return render(request, 'app/user_question_view.html',{'question':json_question,'query':query,
+        'operation':operation,'department':query_department,'recent_view':query_view, 'department_id':department_id_list})
     else:
         return render(request, 'app/index.html')
 
 def Crud_QA(request, operation, id):
+
+    if request.user.role_code != 1:
+        raise PermissionDenied()
 
     if operation == "Add":
         result = Add_QA(request)
@@ -394,6 +405,9 @@ def signout(request):
 
 def usermanagement(request, operation):
 
+    if request.user.role_code != 1:
+        raise PermissionDenied()
+
     if operation == 'status':
         print(operation)
         if request.method == 'POST':
@@ -428,6 +442,9 @@ def usermanagement(request, operation):
 
 
 def user(request):
+
+    if request.user.role_code != 1:
+        raise PermissionDenied()
 
     assert isinstance(request, HttpRequest)
     user_info = queryDb_User_All()
@@ -490,6 +507,10 @@ def profile(request, operation):
 
 
 def register(request):
+
+    if request.user.role_code != 1:
+        raise PermissionDenied()
+
     current_time = datetime.datetime.now().replace(microsecond=0)
     validate_eng = re.compile("^[a-zA-Z]+$")
     validate_thai = re.compile("^[\u0E00-\u0E7F]+$")
@@ -695,6 +716,9 @@ def requestmanagement(request, operation):
 
 def request_admin(request, operation):
 
+    if request.user.role_code != 1:
+        raise PermissionDenied()
+
     if operation == 'view':
         query_request = queryDb_request_all()
 
@@ -756,6 +780,9 @@ def request_admin(request, operation):
 
 def department_management (request,operation):
     
+    if request.user.role_code != 1:
+        raise PermissionDenied()
+
     if operation == "View":
 
         query_department = queryDb_department()

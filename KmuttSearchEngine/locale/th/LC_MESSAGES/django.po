@@ -535,7 +535,7 @@ msgstr "ดูคำถามที่ถามบ่อยที่สุด"
 
 #: .\app\templates\app\index.html:296
 msgid "Recent Updates"
-msgstr "อับเดตล่าสุด"
+msgstr "อัปเดตล่าสุด"
 
 #: .\app\templates\app\index.html:298
 msgid "Check for the latest update of the question in our knowledge base."

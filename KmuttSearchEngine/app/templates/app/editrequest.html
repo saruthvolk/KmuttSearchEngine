@@ -147,8 +147,9 @@
                         <td>
                         <select class="form-control" name="department_id">
                             {% for dep in department %}
-                            <option name="department_id" value="{{dep.department_id}}">({{dep.department_id}}) {{dep.department_name}}
-                            </option>
+                            <option name="department_{{dep.department_id}}" value="{{dep.department_id}}" 
+                            {% if dep.department_id == request_data.department_id %}selected="selected"{% endif %}>
+                            {{dep.department_name}}</option>
                             {% endfor %}
                         </select>
                         </td>

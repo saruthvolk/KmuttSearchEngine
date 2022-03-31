@@ -5,39 +5,35 @@
 {% load i18n %}
 <head>
 
-<script>
+    <script>
+        $(function () {
 
-    $(function () {
+            var question = {{ question| safe }};
 
-        var question = {{ question| safe}};
-
-    $("#search_input").autocomplete({
-        maxResults: 10,
-        source: function (request, response) {
-            var results = $.ui.autocomplete.filter(question, request.term);
-            response(results.slice(0, this.options.maxResults));
-        },
-        minLength: 2
-    }).data("ui-autocomplete")._renderItem = function (ul, item) {
-        var txt = String(item.value).replace(new RegExp(this.term, "gi"), "<span class='highlight'>$&</span>");
-        return $("<li></li>")
-            .data("ui-autocomplete-item", item)
-            .append("<a>" + txt + "</a>")
-            .appendTo(ul);
-    };
+        $("#search_input").autocomplete({
+            maxResults: 10,
+            source: function (request, response) {
+                var results = $.ui.autocomplete.filter(question, request.term);
+                response(results.slice(0, this.options.maxResults));
+            },
+            minLength: 2
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            var txt = String(item.value).replace(new RegExp(this.term, "gi"), "<span class='highlight'>$&</span>");
+            return $("<li></li>")
+                .data("ui-autocomplete-item", item)
+                .append("<a>" + txt + "</a>")
+                .appendTo(ul);
+        };
     });
 
-    jQuery.ui.autocomplete.prototype._resizeMenu = function () {
-        var ul = this.menu.element;
-        ul.outerWidth(this.element.outerWidth());
-    };
+        jQuery.ui.autocomplete.prototype._resizeMenu = function () {
+            var ul = this.menu.element;
+            ul.outerWidth(this.element.outerWidth());
+        };
 
-    onChange = "window.location.href=this.value";
+        onChange = "window.location.href=this.value";
 
-    $(window).on('load resize', function(){
-    $('#search').width($(this).width());
-});
-</script>
+    </script>
 
 <style>
     body {
@@ -112,7 +108,9 @@
 
     #search {
         background-image: url("{% static 'img/bg.png' %}");
-        background-position: 0px -572px;
+        background-position: center;
+        background-position-y: -573px;
+        image-rendering: pixelated;
         color: aliceblue;
         Height: 357px;
         margin-left: -40%;
@@ -122,7 +120,7 @@
     }
 
     #search_input {
-        margin-left: 29.5%;
+        margin-left: 39%;
         height: 43px;
     }
 
@@ -263,19 +261,16 @@
         margin-left: 1.5%
     }
 
-    #question {
-        margin-top: -3%;
-    }
-
     #feature_question {
         background: #f7f7f9;
         width: 60vw;
         margin-left: auto;
         margin-right: auto;
+        padding: 1.5rem 3rem;
     }
 
     .container {
-    width: 65%;
+    max-width: none;
     }
     
     .numberCircle {
@@ -308,7 +303,10 @@
         justify-content: center;
         font-size: 14px;
     }
-
+    #header{
+        margin-top: -5px; 
+        margin-left: 19%;
+    }
     .sidebar_recent {
         position: absolute;
         top: 358px;
@@ -320,6 +318,9 @@
         z-index: 600;
     }
 
+    .hint-text{
+        margin-left: 19%;
+    }
     .sidebar_menu {
         position: absolute;
         margin-top: -2px;
@@ -334,13 +335,7 @@
     #sidebarMenu {
         background-color: #363636;
     }
-
-    @media (max-width: 991.98px) {
-        .sidebar {
-            width: 100%;
-        }
-    }
-
+    
     .sidebar_menu .active {
         width: 14.2vw;
         height: 80px;
@@ -348,7 +343,92 @@
         border-color: #f37a3b;
         box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
     }
+    .list-group-item {
+        width: 14.2vw;
+        margin-left: -20px;
+    }
 
+    #department{
+        width: 15.1vw;
+    }
+    #department_toggle{
+        width: 354px; 
+        margin-left: -7.1%;
+    }
+    #recent_view_list{
+        background-color: #2e2e2e; 
+        color: #ccc; 
+        margin-left: -15px; 
+        width: 13.8vw;
+    }
+    #user_recent_view{
+        width: 13.5vw; 
+        margin-left: -12px;
+        background-color: #f7f7f7;
+    }
+    @media (max-width: 991.98px) {
+        .sidebar {
+            width: 100%;
+        }
+        #feature_question{
+            width: 90vw;
+            padding: 2rem 2rem;
+        }
+        #header{
+        margin-top: -5px; 
+        margin-left: 2%;
+        }
+        .hint-text {
+        margin-left: 1%;
+        }
+        #search_input {
+            margin-left: auto;
+            height: 43px;
+            width: 76vw;
+        }
+        #sidebarMenu{
+            display: contents;
+        }
+        #department_toggle{  
+        margin-left: 0.0%;
+        }
+        #department, #department_toggle,.sidebar_menu .active ,
+        .list-group-item, #recent_view_list,#user_recent_view{
+            width: auto;
+        }
+        #user_recent_view{
+        padding: 2rem 2.5rem;
+        }
+    }   
+    @media (max-width: 576px){
+        .h1, h1 {
+        padding: 15px;
+        font-size: 1.7rem;
+        }
+        #feature_question{
+            width: 90vw;
+            padding: 2rem 2.5rem;
+        }
+        .h4, h4 {
+        font-size: 1.4rem;
+        }
+        #question1, #question {
+        font-size: 0.9rem;
+        }
+        .numberCircle{
+        font-size: 0.85rem;
+        margin-right: 10px;
+        }
+        #request_question{
+        font-size: 0.85rem;
+        }
+        .lead{
+        font-size: 1rem;
+        }
+        #search{
+        Height: 295px;
+        }
+    }
     .sidebar-sticky {
         position: relative;
         top: 0;
@@ -359,13 +439,6 @@
         /* Scrollable contents if viewport is shorter than content. */
     }
 
-    .list-group-item {
-        width: 14.2vw;
-        margin-left: -20px;
-    }
-    #department{
-        width: 15.1vw;
-    }
     .department_list .active {
         background-color: #dddddd;
         color: #262626;
@@ -386,6 +459,7 @@
         margin: 0;
         padding: 0;
     }
+
 </style>
 </head>
 
@@ -398,7 +472,7 @@
     <form action="{% url 'search' %}" class="form-inline" method="POST">
         {% csrf_token %}
         <br/><br/><br/>
-        <input name="search" id="search_input" tpye="text" class="form-control col-lg-offset-3 col-lg-5" placeholder="{% translate "Search here....." %}" autocomplete="off">
+        <input name="search" id="search_input" tpye="text" class="form-control col-lg-offset-3 col-lg-3" placeholder="{% translate "Search here....." %}" autocomplete="off">
         <button id="search-button" type="submit" class="btn btn-primary">
             <i class="fas fa-search"></i>
         </button>
@@ -407,7 +481,7 @@
 
 <nav id="sidebarMenu" class="collapse d-lg-block sidebar_menu collapse">
     
-    <div class="position-sticky">
+    <div class="position-sticky" style="margin-bottom: 10px;">
         <div class="list-group list-group-flush mx-3" style="background-color:#ccc;" id="list-tab" role="tablist">
             <h5 class="list-group-item list-group-item-action py-4 ripple" style="background-color: #2e2e2e; color: #ccc;">Menu</h5>
         </div>
@@ -425,7 +499,7 @@
             <span style="font-size: 15px;">{% translate "All Questions" %} <i class="fa fa-caret-down"></i></span>
         </a>
         {% endif %}
-        <div class="collapse  {% if operation|in_list:department_id %} show {%endif%} " id="department_toggle" style="width: 354px; margin-left: -16px;">
+        <div class="collapse  {% if operation|in_list:department_id %} show {%endif%} " id="department_toggle">
             {% for dep in department %}
                 <div class="department_list">
                 <a href="{% url 'view_department' operation=dep.department_id %}" class="list-group-item list-group-item-action {% if operation|check:dep.department_id %}active{% endif %}" data-parent="#SubMenu1" id="department" >&emsp;{{dep.department_name}}</a>
@@ -453,12 +527,11 @@
 <nav id="sidebarMenu" class="collapse d-lg-block sidebar_recent collapse">
         <div class="position-sticky">
             <div class="list-group list-group-flush mx-3" style="background-color:#ccc;" id="list-tab" role="tablist">
-                <h5 class="list-group-item list-group-item-action py-4 ripple" 
-                style="background-color: #2e2e2e; color: #ccc; margin-left: -15px; width: 13.8vw;">Recent View</h5  >
+                <h5 class="list-group-item list-group-item-action py-4 ripple"  id="recent_view_list">Recent View</h5  >
             </div>
           <div class="list-group list-group-flush mx-3">
-            <div class="jumbotron" id="feature_question" style="width: 13.5vw; margin-left: -12px;">
-                <div id = recent_view style="margin-top:-45px">
+            <div class="jumbotron" id="user_recent_view">
+                <div id = recent_view style="margin-top:-1px;">
                 {% for view in recent_view%}
                 <table>
                 <td style="width: 6%;">
@@ -482,7 +555,7 @@
         </div>
 </nav>
 
-<div class="row" style="margin-top: -5px;">
+<div class="row" id="header" >
     {% if operation == "question" %} 
     <h4><b>{% translate "All Questions" %}</b></h4>
     {% elif operation == "faq" %}
@@ -501,7 +574,7 @@
 <br>
 
 </div>
-<div class="jumbotron" id="feature_question" style="width: 60vw;">
+<div class="jumbotron" id="feature_question">
     <div id="question">
         {% for question in query %}
         <br/>
@@ -529,7 +602,7 @@
 </div>
 
 <div class="clearfix">
-    <div class="hint-text" style="font-size: 15px; margin-left: 1%;">
+    <div class="hint-text" style="font-size: 15px;">
         {% translate "Showing"%} <b>{{ query.end_index }}</b> {% translate "out of" %}
         <b>{{query.paginator.count }} {% translate "entries" %} </b>
     </div>
