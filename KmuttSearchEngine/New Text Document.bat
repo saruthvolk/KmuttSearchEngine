@@ -1,1 +1,0 @@
-cmd /k "cd /d env\Scripts & activate & cd /d .. & cd /d ..
