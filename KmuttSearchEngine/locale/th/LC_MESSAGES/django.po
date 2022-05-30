@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-10 19:29+0700\n"
+"POT-Creation-Date: 2022-04-08 16:51+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,55 +26,136 @@ msgstr ""
 msgid "Thai"
 msgstr ""
 
-#: .\app\templates\app\Admin.html:28
-#, fuzzy
-#| msgid "Admin panel"
+#: .\app\templates\app\Admin.html:88
 msgid "Admin Tools"
 msgstr "แผงควบคุมแอดมิน"
 
-#: .\app\templates\app\Admin.html:37
-#, fuzzy
-#| msgid "Usermanagement"
+#: .\app\templates\app\Admin.html:98
 msgid "Questions Management"
-msgstr "จัดการผู้ใช้"
+msgstr "จัดการคำถาม"
 
-#: .\app\templates\app\Admin.html:39
-#, fuzzy
-#| msgid "View all question in our knowledge base."
+#: .\app\templates\app\Admin.html:100
 msgid "Manage all of the questions in the knowledge base."
-msgstr "ดูคำถามทั้งหมด"
+msgstr "จัดการบริหารคำถามทั้งหมดในคลังความรู้"
 
-#: .\app\templates\app\Admin.html:51
-#, fuzzy
-#| msgid "Usermanagement"
+#: .\app\templates\app\Admin.html:112
 msgid "Requests Management"
-msgstr "จัดการผู้ใช้"
+msgstr "จัดการคำร้อง"
 
-#: .\app\templates\app\Admin.html:53
+#: .\app\templates\app\Admin.html:114
 msgid "Manage all of the requests from users."
-msgstr ""
+msgstr "จัดการบริหารคำร้องของผู้ใช้งานทั้งหมด"
 
-#: .\app\templates\app\Admin.html:65
-#, fuzzy
-#| msgid "Usermanagement"
+#: .\app\templates\app\Admin.html:126
 msgid "Users Management"
 msgstr "จัดการผู้ใช้"
 
-#: .\app\templates\app\Admin.html:67
+#: .\app\templates\app\Admin.html:128
 msgid "Manages all of the users in the system."
-msgstr ""
+msgstr "จัดการบริหารผู้ใช้งานในระบบทั้งหมด"
+
+#: .\app\templates\app\Admin.html:140
+msgid "Department Management"
+msgstr "จัดการสำนักงาน"
+
+#: .\app\templates\app\Admin.html:142
+msgid "Manages all of the department in the system."
+msgstr "จัดการบริหารสำนักงานในระบบทั้งหมด"
+
+#: .\app\templates\app\CRUDquestion.html:82
+#: .\app\templates\app\CRUDquestion.html:139
+#: .\app\templates\app\Viewquestion.html:347
+msgid "Add Question"
+msgstr "เพิ่มคำถาม"
+
+#: .\app\templates\app\CRUDquestion.html:93
+#: .\app\templates\app\Editquestion.html:131
+#: .\app\templates\app\Viewquestion.html:241
+#: .\app\templates\app\Viewquestion.html:313
+#: .\app\templates\app\Viewquestion.html:328
+#: .\app\templates\app\editrequest.html:107
+#: .\app\templates\app\request_admin.html:390
+#: .\app\templates\app\request_user.html:423
+#: .\app\templates\app\requestadd.html:94
+#: .\app\templates\app\requesteditquestion.html:99
+#: .\app\templates\app\view_request.html:100
+msgid "Question"
+msgstr "คำถาม"
+
+#: .\app\templates\app\CRUDquestion.html:102
+#: .\app\templates\app\Editquestion.html:137
+#: .\app\templates\app\Viewquestion.html:317
+#: .\app\templates\app\Viewquestion.html:332
+#: .\app\templates\app\request_admin.html:391
+#: .\app\templates\app\request_user.html:424
+#: .\app\templates\app\requesteditquestion.html:108
+#: .\app\templates\app\view_request.html:108
+msgid "Answer"
+msgstr "คำตอบ"
+
+#: .\app\templates\app\CRUDquestion.html:110
+#: .\app\templates\app\Editquestion.html:145
+#: .\app\templates\app\editrequest.html:124
+#: .\app\templates\app\requestadd.html:110
+msgid "Question English (optional)"
+msgstr "คำถาม ภาษาอังกฤษ (ไม่บังคับ)"
+
+#: .\app\templates\app\CRUDquestion.html:116
+#: .\app\templates\app\Editquestion.html:150
+#: .\app\templates\app\editrequest.html:130
+#: .\app\templates\app\requestadd.html:116
+msgid "Answer English (optional)"
+msgstr "คำตอบ ภาษาอังกฤษ (ไม่บังคับ)"
+
+#: .\app\templates\app\CRUDquestion.html:125
+#: .\app\templates\app\Editquestion.html:159
+#: .\app\templates\app\editrequest.html:146
+#: .\app\templates\app\requestadd.html:130
+#: .\app\templates\app\requesteditquestion.html:136
+#: .\app\templates\app\view_request.html:92
+msgid "Department"
+msgstr "สำนักงาน"
+
+#: .\app\templates\app\CRUDquestion.html:141
+#: .\app\templates\app\Editquestion.html:193
+#: .\app\templates\app\Editquestion.html:224
+#: .\app\templates\app\Editquestion.html:239
+#: .\app\templates\app\Usermanagement.html:413
+#: .\app\templates\app\Usermanagement.html:435
+#: .\app\templates\app\Viewquestion.html:271
+#: .\app\templates\app\Viewquestion.html:300
+#: .\app\templates\app\admin_approve.html:307
+#: .\app\templates\app\admin_approve.html:340
+#: .\app\templates\app\department_admin.html:482
+#: .\app\templates\app\request_admin.html:433
+#: .\app\templates\app\request_admin.html:458
+#: .\app\templates\app\request_user.html:471
+#: .\env\Lib\site-packages\grappelli\templates\admin\delete_confirmation.html:55
+#: .\env\Lib\site-packages\grappelli\templates\admin\delete_selected_confirmation.html:58
+msgid "Cancel"
+msgstr "ยกเลิก"
+
+#: .\app\templates\app\Editquestion.html:117
+msgid "Edit Question"
+msgstr "เเก้ไขคำถาม"
+
+#: .\app\templates\app\Editquestion.html:127
+#: .\app\templates\app\requesteditquestion.html:95
+msgid "Question ID"
+msgstr "คำถาม หมายเลข"
 
 #: .\app\templates\app\Editquestion.html:179
 #: .\app\templates\app\Editquestion.html:211
 #: .\app\templates\app\Usermanagement.html:405
 #: .\app\templates\app\Usermanagement.html:427
-#: .\app\templates\app\Viewquestion.html:221
-#: .\app\templates\app\Viewquestion.html:251
+#: .\app\templates\app\Viewquestion.html:258
+#: .\app\templates\app\Viewquestion.html:288
 #: .\app\templates\app\admin_approve.html:295
 #: .\app\templates\app\admin_approve.html:325
+#: .\app\templates\app\department_admin.html:475
 #: .\app\templates\app\request_admin.html:422
 #: .\app\templates\app\request_admin.html:450
-#: .\app\templates\app\request_user.html:422
+#: .\app\templates\app\request_user.html:458
 msgid "Confirm your process ?"
 msgstr "คุณเเน่ใจใช่หรือไม่ ?"
 
@@ -85,8 +166,8 @@ msgid "Do you really want to delete all the selected question ?"
 msgstr "คุณต้องการจะระงับบัญชีของ"
 
 #: .\app\templates\app\Editquestion.html:185
-#: .\app\templates\app\Viewquestion.html:226
-#: .\app\templates\app\request_user.html:427
+#: .\app\templates\app\Viewquestion.html:263
+#: .\app\templates\app\request_user.html:463
 #, fuzzy
 #| msgid "account? The process cannot be undone."
 msgid "This process can not be undone."
@@ -97,38 +178,26 @@ msgstr "? การกระทำนี้ไม่สามารถแก้�
 #: .\app\templates\app\Usermanagement.html:410
 #: .\app\templates\app\Usermanagement.html:432
 #: .\app\templates\app\Usermanagement.html:505
-#: .\app\templates\app\Viewquestion.html:231
-#: .\app\templates\app\Viewquestion.html:260
+#: .\app\templates\app\Viewquestion.html:268
+#: .\app\templates\app\Viewquestion.html:297
 #: .\app\templates\app\admin_approve.html:304
 #: .\app\templates\app\admin_approve.html:337
+#: .\app\templates\app\department_admin.html:418
+#: .\app\templates\app\department_admin.html:456
+#: .\app\templates\app\department_admin.html:479
 #: .\app\templates\app\request_admin.html:430
 #: .\app\templates\app\request_admin.html:455
-#: .\app\templates\app\request_user.html:432
+#: .\app\templates\app\request_user.html:468
 msgid "Check the box to confirm the action."
 msgstr "เช็คที่ช่องด้านข้างเพื่อยืนยันกระบวนการนี้"
 
-#: .\app\templates\app\Editquestion.html:193
-#: .\app\templates\app\Editquestion.html:224
-#: .\app\templates\app\Editquestion.html:239
-#: .\app\templates\app\Usermanagement.html:413
-#: .\app\templates\app\Usermanagement.html:435
-#: .\app\templates\app\Viewquestion.html:234
-#: .\app\templates\app\Viewquestion.html:263
-#: .\app\templates\app\admin_approve.html:307
-#: .\app\templates\app\admin_approve.html:340
-#: .\app\templates\app\request_admin.html:433
-#: .\app\templates\app\request_admin.html:458
-#: .\app\templates\app\request_user.html:435
-#: .\env\Lib\site-packages\grappelli\templates\admin\delete_confirmation.html:55
-#: .\env\Lib\site-packages\grappelli\templates\admin\delete_selected_confirmation.html:58
-msgid "Cancel"
-msgstr "ยกเลิก"
-
 #: .\app\templates\app\Editquestion.html:197
 #: .\app\templates\app\Editquestion.html:238
-#: .\app\templates\app\Viewquestion.html:238
-#: .\app\templates\app\Viewquestion.html:322
-#: .\app\templates\app\request_user.html:438
+#: .\app\templates\app\Viewquestion.html:245
+#: .\app\templates\app\Viewquestion.html:275
+#: .\app\templates\app\Viewquestion.html:359
+#: .\app\templates\app\department_admin.html:484
+#: .\app\templates\app\request_user.html:474
 #: .\env\Lib\site-packages\django\forms\formsets.py:417
 #: .\env\Lib\site-packages\grappelli\templates\admin\delete_confirmation.html:19
 #: .\env\Lib\site-packages\grappelli\templates\admin\submit_line.html:7
@@ -167,10 +236,12 @@ msgid "Export to Excel"
 msgstr "ส่งออกไปยัง Excel"
 
 #: .\app\templates\app\Usermanagement.html:354
+#: .\app\templates\app\department_admin.html:363
 msgid "ID"
 msgstr "ID"
 
 #: .\app\templates\app\Usermanagement.html:355
+#: .\app\templates\app\department_admin.html:364
 #: .\env\Lib\site-packages\grappelli\templates\admin\constance\includes\results_list.html:8
 msgid "Name"
 msgstr "ชื่อ"
@@ -184,15 +255,15 @@ msgid "Date Created"
 msgstr "วันที่สร้าง"
 
 #: .\app\templates\app\Usermanagement.html:358
-#: .\app\templates\app\profile.html:249 .\app\templates\app\profile.html:326
+#: .\app\templates\app\profile.html:259 .\app\templates\app\profile.html:313
 msgid "Role"
 msgstr "ตำแหน่ง"
 
 #: .\app\templates\app\Usermanagement.html:359
-#: .\app\templates\app\layout.html:295 .\app\templates\app\layout.html:298
-#: .\app\templates\app\layout.html:301
+#: .\app\templates\app\layout.html:300 .\app\templates\app\layout.html:303
+#: .\app\templates\app\layout.html:306
 #: .\app\templates\app\request_admin.html:339
-#: .\app\templates\app\request_user.html:330
+#: .\app\templates\app\request_user.html:344
 msgid "Status"
 msgstr "สถานะ"
 
@@ -201,11 +272,12 @@ msgid "Last Login"
 msgstr "เข้าสู่ระบบครั้งล่าสุด"
 
 #: .\app\templates\app\Usermanagement.html:361
+#: .\app\templates\app\department_admin.html:366
 #: .\app\templates\app\request_admin.html:342
-#: .\app\templates\app\request_user.html:333
+#: .\app\templates\app\request_user.html:347
 #: .\env\Lib\site-packages\grappelli\templates\admin\object_history.html:28
 msgid "Action"
-msgstr "คำสั่ง"
+msgstr "เครื่องมือ"
 
 #: .\app\templates\app\Usermanagement.html:379
 msgid "Suspended"
@@ -240,9 +312,10 @@ msgid "Unsuspended"
 msgstr "ยกเลิกระงับบัญชี"
 
 #: .\app\templates\app\Usermanagement.html:446
-#: .\app\templates\app\Viewquestion.html:267
-#: .\app\templates\app\Viewquestion.html:317
-#: .\app\templates\app\layout.html:311 .\app\templates\app\profile.html:222
+#: .\app\templates\app\Viewquestion.html:246
+#: .\app\templates\app\Viewquestion.html:304
+#: .\app\templates\app\Viewquestion.html:354
+#: .\app\templates\app\layout.html:316 .\app\templates\app\profile.html:232
 msgid "Edit"
 msgstr "เเก้ไข"
 
@@ -277,24 +350,24 @@ msgstr "เพศ:"
 #: .\app\templates\app\Usermanagement.html:477
 #: .\app\templates\app\Usermanagement.html:483
 #: .\app\templates\app\Usermanagement.html:489
-#: .\app\templates\app\profile.html:303 .\app\templates\app\profile.html:309
-#: .\app\templates\app\profile.html:315
+#: .\app\templates\app\profile.html:290 .\app\templates\app\profile.html:296
+#: .\app\templates\app\profile.html:302
 msgid "Male"
 msgstr "ชาย"
 
 #: .\app\templates\app\Usermanagement.html:478
 #: .\app\templates\app\Usermanagement.html:484
 #: .\app\templates\app\Usermanagement.html:490
-#: .\app\templates\app\profile.html:304 .\app\templates\app\profile.html:310
-#: .\app\templates\app\profile.html:316
+#: .\app\templates\app\profile.html:291 .\app\templates\app\profile.html:297
+#: .\app\templates\app\profile.html:303
 msgid "Female"
 msgstr "หญิง"
 
 #: .\app\templates\app\Usermanagement.html:479
 #: .\app\templates\app\Usermanagement.html:485
 #: .\app\templates\app\Usermanagement.html:491
-#: .\app\templates\app\profile.html:305 .\app\templates\app\profile.html:311
-#: .\app\templates\app\profile.html:317
+#: .\app\templates\app\profile.html:292 .\app\templates\app\profile.html:298
+#: .\app\templates\app\profile.html:304
 msgid "Other"
 msgstr "อื่นๆ"
 
@@ -312,14 +385,18 @@ msgstr "เบอร์โทรศัพมือถือ:"
 
 #: .\app\templates\app\Usermanagement.html:510
 #: .\app\templates\app\Usermanagement.html:641
-#: .\app\templates\app\Viewquestion.html:358 .\app\templates\app\index.html:332
-#: .\app\templates\app\profile.html:274
-#: .\app\templates\app\request_admin.html:582
-#: .\app\templates\app\request_user.html:475
+#: .\app\templates\app\Viewquestion.html:395
+#: .\app\templates\app\department_admin.html:421
+#: .\app\templates\app\department_admin.html:459
+#: .\app\templates\app\department_admin.html:521
+#: .\app\templates\app\index.html:393 .\app\templates\app\profile.html:359
+#: .\app\templates\app\request_admin.html:590
+#: .\app\templates\app\request_user.html:511
 msgid "Close"
 msgstr "ปิด"
 
 #: .\app\templates\app\Usermanagement.html:511
+#: .\app\templates\app\department_admin.html:422
 msgid "Save changes"
 msgstr "บันทึก"
 
@@ -369,104 +446,100 @@ msgid "Suspended By:"
 msgstr "บัญชีถูกระงับโดย:"
 
 #: .\app\templates\app\Usermanagement.html:631
-#: .\app\templates\app\Viewquestion.html:348 .\app\templates\app\index.html:322
-#: .\app\templates\app\profile.html:263
-#: .\app\templates\app\request_admin.html:571
-#: .\app\templates\app\request_user.html:465
+#: .\app\templates\app\Viewquestion.html:385
+#: .\app\templates\app\department_admin.html:511
+#: .\app\templates\app\index.html:383 .\app\templates\app\profile.html:349
+#: .\app\templates\app\request_admin.html:580
+#: .\app\templates\app\request_user.html:501
 msgid "Successful"
-msgstr ""
+msgstr "เสร็จสมบูรญ์"
 
 #: .\app\templates\app\Usermanagement.html:631
-#: .\app\templates\app\Viewquestion.html:348 .\app\templates\app\index.html:322
-#: .\app\templates\app\request_user.html:465
+#: .\app\templates\app\Viewquestion.html:385
+#: .\app\templates\app\department_admin.html:511
+#: .\app\templates\app\index.html:383 .\app\templates\app\profile.html:349
+#: .\app\templates\app\request_admin.html:580
+#: .\app\templates\app\request_user.html:501
 msgid "Error"
-msgstr ""
+msgstr "เกิดปัญหา"
 
 #: .\app\templates\app\Usermanagement.html:655
-#: .\app\templates\app\Viewquestion.html:372
-#: .\app\templates\app\request_admin.html:594
-#: .\app\templates\app\request_user.html:488
-#: .\app\templates\app\search.html:419
-#: .\app\templates\app\search_history.html:235
-#: .\app\templates\app\user_question_view.html:517
-#: .\app\templates\app\view_history.html:254
+#: .\app\templates\app\Viewquestion.html:409
+#: .\app\templates\app\department_admin.html:534
+#: .\app\templates\app\request_admin.html:603
+#: .\app\templates\app\request_user.html:524
+#: .\app\templates\app\search.html:508
+#: .\app\templates\app\search_history.html:259
+#: .\app\templates\app\user_question_view.html:607
+#: .\app\templates\app\view_history.html:267
 msgid "Showing"
 msgstr "เเสดง"
 
 #: .\app\templates\app\Usermanagement.html:655
-#: .\app\templates\app\Viewquestion.html:372
-#: .\app\templates\app\request_admin.html:594
-#: .\app\templates\app\request_user.html:488
-#: .\app\templates\app\search.html:419
-#: .\app\templates\app\search_history.html:235
-#: .\app\templates\app\user_question_view.html:517
-#: .\app\templates\app\view_history.html:254
+#: .\app\templates\app\Viewquestion.html:409
+#: .\app\templates\app\department_admin.html:534
+#: .\app\templates\app\request_admin.html:603
+#: .\app\templates\app\request_user.html:524
+#: .\app\templates\app\search.html:508
+#: .\app\templates\app\search_history.html:259
+#: .\app\templates\app\user_question_view.html:607
+#: .\app\templates\app\view_history.html:267
 msgid "out of"
 msgstr "จาก"
 
 #: .\app\templates\app\Usermanagement.html:655
-#: .\app\templates\app\Viewquestion.html:373
-#: .\app\templates\app\request_admin.html:594
-#: .\app\templates\app\request_user.html:489
-#: .\app\templates\app\search.html:420
-#: .\app\templates\app\search_history.html:236
-#: .\app\templates\app\user_question_view.html:518
-#: .\app\templates\app\view_history.html:255
+#: .\app\templates\app\Viewquestion.html:410
+#: .\app\templates\app\department_admin.html:534
+#: .\app\templates\app\request_admin.html:603
+#: .\app\templates\app\request_user.html:525
+#: .\app\templates\app\search.html:509
+#: .\app\templates\app\search_history.html:260
+#: .\app\templates\app\user_question_view.html:608
+#: .\app\templates\app\view_history.html:268
 msgid "entries"
 msgstr "รายการ"
 
-#: .\app\templates\app\Viewquestion.html:126
-#: .\app\templates\app\Viewquestion.html:170
-#: .\app\templates\app\Viewquestion.html:191
+#: .\app\templates\app\Viewquestion.html:163
+#: .\app\templates\app\Viewquestion.html:207
+#: .\app\templates\app\Viewquestion.html:228
 msgid "Check All"
-msgstr ""
+msgstr "เลือกทั้งหมด"
 
-#: .\app\templates\app\Viewquestion.html:170
+#: .\app\templates\app\Viewquestion.html:207
 msgid "Uncheck All"
-msgstr ""
+msgstr "ยกเลิกเลือกทั้งหมด"
 
-#: .\app\templates\app\Viewquestion.html:185
-msgid "View question"
-msgstr "คำถามทั้งหมด"
+#: .\app\templates\app\Viewquestion.html:222
+msgid "Question Management"
+msgstr "จัดการคำถาม"
 
-#: .\app\templates\app\Viewquestion.html:224
-#, fuzzy
-#| msgid "Do you really want to suspend"
+#: .\app\templates\app\Viewquestion.html:225
+msgid "Select Multiple"
+msgstr "เลือกหลายข้อ"
+
+#: .\app\templates\app\Viewquestion.html:261
 msgid "Do you really want to delete this question ?"
-msgstr "คุณต้องการจะระงับบัญชีของ"
+msgstr "คุณต้องการที่จะลบคำถามนี้ ?"
 
-#: .\app\templates\app\Viewquestion.html:254
-#, fuzzy
-#| msgid "Do you really want to suspend"
+#: .\app\templates\app\Viewquestion.html:291
 msgid "Do you go and edit this question ?"
-msgstr "คุณต้องการจะระงับบัญชีของ"
-
-#: .\app\templates\app\Viewquestion.html:310
-#, fuzzy
-#| msgid "View Questions"
-msgid "Add Question"
-msgstr "ดูคำถาม"
+msgstr "คุณต้องการที่จะเเก้ไขคำถามนี้ ?"
 
 #: .\app\templates\app\admin_approve.html:283
+#: .\app\templates\app\request_admin.html:372
 #: .\app\templates\app\request_admin.html:460
-#, fuzzy
-#| msgid "Approved"
 msgid "Approve"
 msgstr "อนุมัติ"
 
 #: .\app\templates\app\admin_approve.html:299
 #: .\app\templates\app\request_admin.html:453
-#, fuzzy
-#| msgid "Do you really want to suspend"
 msgid "Do you really want to approve"
-msgstr "คุณต้องการจะระงับบัญชีของ"
+msgstr "คุณต้องการจะอนุมัตืคำร้องของ"
 
 #: .\app\templates\app\admin_approve.html:300
 #: .\app\templates\app\request_admin.html:453
-#, fuzzy
-#| msgid "Requests"
 msgid "request?"
-msgstr "คำร้อง"
+msgstr "?"
 
 #: .\app\templates\app\admin_approve.html:328
 #: .\app\templates\app\request_admin.html:425
@@ -488,106 +561,180 @@ msgid "Reasons:"
 msgstr ""
 
 #: .\app\templates\app\admin_approve.html:344
+#: .\app\templates\app\request_admin.html:373
 #: .\app\templates\app\request_admin.html:435
-#, fuzzy
-#| msgid "Rejected"
 msgid "Reject"
-msgstr "คำร้องถูกปฏิเสธ"
+msgstr "ปฏิเสธ"
 
-#: .\app\templates\app\index.html:255 .\app\templates\app\search.html:357
-#: .\app\templates\app\user_question_view.html:390
+#: .\app\templates\app\department_admin.html:351
+msgid "Department <b>Management</b>"
+msgstr "จัดการ <b>สำนักงาน</b>"
+
+#: .\app\templates\app\department_admin.html:355
+msgid "Add New Department"
+msgstr "เพิ่มสำนักงาน"
+
+#: .\app\templates\app\department_admin.html:365
+msgid "Number of Question"
+msgstr "จำนวนคำถาม"
+
+#: .\app\templates\app\department_admin.html:397
+msgid "Edit Department"
+msgstr "เเก้ไขข้อมูลสำนักงาน"
+
+#: .\app\templates\app\department_admin.html:412
+#: .\app\templates\app\department_admin.html:450
+msgid "Department Name:"
+msgstr "ชื่อสำนักงาน"
+
+#: .\app\templates\app\department_admin.html:417
+msgid "Do you really want to changes department name ?"
+msgstr "คุณต้องการจะเปลี่ยนชื่อของสำนักงานนี้ ?"
+
+#: .\app\templates\app\department_admin.html:435
+msgid "Add Department"
+msgstr "เพิ่มสำนักงาน"
+
+#: .\app\templates\app\department_admin.html:455
+msgid "Do you really want to add department name ?"
+msgstr "คุณต้องการจะเพิ่มสำนักงานนี้ ?"
+
+#: .\app\templates\app\department_admin.html:460
+msgid "Add department"
+msgstr "เพิ้มสำนักงาน"
+
+#: .\app\templates\app\department_admin.html:478
+msgid "Do you really want to remove"
+msgstr "คุณต้องการจะลบสำนักงาน"
+
+#: .\app\templates\app\department_admin.html:451
+msgid "Enter new department name"
+msgstr "กรุณาใส่ชื่อสำนักงานที่ต้องการจะเพิ่ม"
+
+#: .\app\templates\app\department_admin.html:478
+msgid "department? The process cannot be undone."
+msgstr "? การกระทำนี้ไม่สามารถแก้ไขได้"
+
+#: .\app\templates\app\editrequest.html:94
+msgid "Edit Request"
+msgstr "เเก้ไขคำร้อง"
+
+#: .\app\templates\app\editrequest.html:103
+#: .\app\templates\app\view_request.html:80
+msgid "Request ID"
+msgstr "คำร้องหมายเลข"
+
+#: .\app\templates\app\editrequest.html:116
+#: .\app\templates\app\requestadd.html:103
+msgid "Answer (optional)"
+msgstr "คำตอบ  (ไม่บังคับ)"
+
+#: .\app\templates\app\editrequest.html:138
+#: .\app\templates\app\request_admin.html:341
+#: .\app\templates\app\request_admin.html:392
+#: .\app\templates\app\request_user.html:425
+#: .\app\templates\app\requestadd.html:123
+#: .\app\templates\app\requesteditquestion.html:130
+#: .\app\templates\app\view_request.html:85
+msgid "Remark"
+msgstr "ข้อคิดเห็น"
+
+#: .\app\templates\app\index.html:316 .\app\templates\app\search.html:446
+#: .\app\templates\app\user_question_view.html:470
 msgid "How can we help you ?"
 msgstr "ให้เราช่วยอะไรคุณ ?"
 
-#: .\app\templates\app\index.html:256 .\app\templates\app\search.html:358
-#: .\app\templates\app\user_question_view.html:391
+#: .\app\templates\app\index.html:317 .\app\templates\app\search.html:447
+#: .\app\templates\app\user_question_view.html:471
 msgid "Type the question you want to ask"
 msgstr "พิมพ์คำถามที่อยากถาม"
 
-#: .\app\templates\app\index.html:261
-#: .\app\templates\app\user_question_view.html:396
+#: .\app\templates\app\index.html:322
+#: .\app\templates\app\user_question_view.html:476
 msgid "Search here....."
 msgstr "ค้นหาที่นี้......"
 
-#: .\app\templates\app\index.html:270 .\app\templates\app\search.html:372
-#: .\app\templates\app\user_question_view.html:441
-#, fuzzy
-#| msgid "Feature Questions"
-msgid "Request Add Question"
-msgstr "คำถามแนะนำ"
+msgid "Create Request"
+msgstr "สร้างคำร้อง"
 
-#: .\app\templates\app\index.html:277
+#: .\app\templates\app\index.html:331 .\app\templates\app\requestadd.html:82
+#: .\app\templates\app\search.html:461
+#: .\app\templates\app\user_question_view.html:524
+msgid "Request Add Question"
+msgstr "สร้างคำร้องเพิ่มคำถาม"
+
+#: .\app\templates\app\index.html:338
 msgid "View Questions"
 msgstr "ดูคำถาม"
 
-#: .\app\templates\app\index.html:279
+#: .\app\templates\app\index.html:340
 msgid "View all question in our knowledge base."
 msgstr "ดูคำถามทั้งหมด"
 
-#: .\app\templates\app\index.html:286
-#: .\app\templates\app\user_question_view.html:429
+#: .\app\templates\app\index.html:347
+#: .\app\templates\app\user_question_view.html:512
 msgid "FAQs"
 msgstr "คำถามที่พบบ่อย"
 
-#: .\app\templates\app\index.html:288
+#: .\app\templates\app\index.html:349
 msgid "View the most asked questions in our knowledge base."
 msgstr "ดูคำถามที่ถามบ่อยที่สุด"
 
-#: .\app\templates\app\index.html:296
+#: .\app\templates\app\index.html:357
 msgid "Recent Updates"
 msgstr "อัปเดตล่าสุด"
 
-#: .\app\templates\app\index.html:298
+#: .\app\templates\app\index.html:359
 msgid "Check for the latest update of the question in our knowledge base."
 msgstr "คำถามที่มีการอัปเดตล่าสุด"
 
-#: .\app\templates\app\index.html:339
+#: .\app\templates\app\index.html:400
 msgid "Feature Questions"
 msgstr "คำถามแนะนำ"
 
-#: .\app\templates\app\index.html:351 .\app\templates\app\index.html:360
-#: .\app\templates\app\layout.html:465
-#: .\app\templates\app\user_question_view.html:497
-#: .\app\templates\app\user_question_view.html:506
+#: .\app\templates\app\index.html:412 .\app\templates\app\index.html:421
+#: .\app\templates\app\layout.html:471 .\app\templates\app\question.html:136
+#: .\app\templates\app\user_question_view.html:587
+#: .\app\templates\app\user_question_view.html:596
 msgid "Views"
 msgstr "เข้าชม"
 
-#: .\app\templates\app\layout.html:259
+#: .\app\templates\app\layout.html:264
 msgid " days ago"
 msgstr " วันที่เเล้ว"
 
-#: .\app\templates\app\layout.html:262
+#: .\app\templates\app\layout.html:267
 msgid " hours ago"
 msgstr " ชั่วโมงที่เเล้ว"
 
-#: .\app\templates\app\layout.html:265
+#: .\app\templates\app\layout.html:270
 msgid " minutes ago"
 msgstr " นาทีที่เเล้ว"
 
-#: .\app\templates\app\layout.html:268
+#: .\app\templates\app\layout.html:273
 msgid " seconds ago"
 msgstr " วินาทีที่เเล้ว"
 
-#: .\app\templates\app\layout.html:295
+#: .\app\templates\app\layout.html:300
 #: .\app\templates\app\request_admin.html:358
-#: .\app\templates\app\request_user.html:342
+#: .\app\templates\app\request_user.html:356
 msgid "Waiting for approval"
 msgstr "รอการอนุมัติ"
 
-#: .\app\templates\app\layout.html:298
+#: .\app\templates\app\layout.html:303
 #: .\app\templates\app\request_admin.html:360
-#: .\app\templates\app\request_user.html:344
+#: .\app\templates\app\request_user.html:358
 msgid "Approved"
 msgstr "อนุมัติ"
 
-#: .\app\templates\app\layout.html:301
+#: .\app\templates\app\layout.html:306
 #: .\app\templates\app\request_admin.html:362
-#: .\app\templates\app\request_user.html:347
+#: .\app\templates\app\request_user.html:361
 msgid "Rejected"
 msgstr "คำร้องถูกปฏิเสธ"
 
-#: .\app\templates\app\layout.html:308
-#: .\app\templates\app\request_user.html:320
+#: .\app\templates\app\layout.html:313
+#: .\app\templates\app\request_user.html:334
 #: .\env\Lib\site-packages\grappelli\dashboard\templates\grappelli\dashboard\modules\app_list.html:19
 #: .\env\Lib\site-packages\grappelli\dashboard\templates\grappelli\dashboard\modules\model_list.html:9
 #: .\env\Lib\site-packages\grappelli\templates\admin\app_index.html:30
@@ -597,22 +744,22 @@ msgstr "คำร้องถูกปฏิเสธ"
 msgid "Add"
 msgstr ""
 
-#: .\app\templates\app\layout.html:314
+#: .\app\templates\app\layout.html:319
 msgid "Remove"
 msgstr ""
 
-#: .\app\templates\app\layout.html:346 .\app\templates\app\profile.html:214
-#: .\app\templates\app\request_user.html:310
-#: .\app\templates\app\search_history.html:194
-#: .\app\templates\app\view_history.html:201
+#: .\app\templates\app\layout.html:351 .\app\templates\app\profile.html:224
+#: .\app\templates\app\request_user.html:323
+#: .\app\templates\app\search_history.html:212
+#: .\app\templates\app\view_history.html:213
 msgid "Request"
 msgstr "คำร้อง"
 
-#: .\app\templates\app\layout.html:348
+#: .\app\templates\app\layout.html:353
 msgid "Requested by"
 msgstr "คำร้อง"
 
-#: .\app\templates\app\layout.html:379
+#: .\app\templates\app\layout.html:384
 #: .\env\Lib\site-packages\grappelli\dashboard\templates\admin\index.html:25
 #: .\env\Lib\site-packages\grappelli\templates\admin\500.html:9
 #: .\env\Lib\site-packages\grappelli\templates\admin\app_index.html:11
@@ -650,231 +797,231 @@ msgstr "คำร้อง"
 msgid "Home"
 msgstr "หน้าหลัก"
 
-#: .\app\templates\app\layout.html:384
+#: .\app\templates\app\layout.html:389
 msgid "Admin"
 msgstr "แอดมิน"
 
-#: .\app\templates\app\layout.html:388
-#: .\app\templates\app\request_user.html:323
+#: .\app\templates\app\layout.html:393
+#: .\app\templates\app\request_user.html:337
 msgid "My Requests"
 msgstr "คำร้อง"
 
-#: .\app\templates\app\layout.html:403 .\app\templates\app\layout.html:467
-#: .\app\templates\app\search_history.html:210
+#: .\app\templates\app\layout.html:409 .\app\templates\app\layout.html:473
+#: .\app\templates\app\search_history.html:228
 msgid "Search"
 msgstr "ค้นหา"
 
-#: .\app\templates\app\layout.html:442
+#: .\app\templates\app\layout.html:448
 msgid "Notifications"
 msgstr "การแจ้งเตือน"
 
-#: .\app\templates\app\layout.html:461 .\app\templates\app\profile.html:213
-#: .\app\templates\app\request_user.html:307
-#: .\app\templates\app\search_history.html:193
-#: .\app\templates\app\view_history.html:200
+#: .\app\templates\app\layout.html:467 .\app\templates\app\profile.html:223
+#: .\app\templates\app\request_user.html:320
+#: .\app\templates\app\search_history.html:211
+#: .\app\templates\app\view_history.html:212
 msgid "Profile"
 msgstr "โปรไฟล์"
 
-#: .\app\templates\app\layout.html:463
+#: .\app\templates\app\layout.html:469
 msgid "Requests"
 msgstr "คำร้อง"
 
-#: .\app\templates\app\layout.html:469
+#: .\app\templates\app\layout.html:475
 msgid "Logout"
 msgstr "ออกจากระบบ"
 
-#: .\app\templates\app\profile.html:215
-#: .\app\templates\app\request_user.html:311
-#: .\app\templates\app\search_history.html:196
-#: .\app\templates\app\view_history.html:202
-#, fuzzy
-#| msgid "Search here....."
-msgid "Search history"
-msgstr "ค้นหาที่นี้......"
-
-#: .\app\templates\app\profile.html:216
-#: .\app\templates\app\request_user.html:312
-#: .\app\templates\app\search_history.html:197
-#: .\app\templates\app\view_history.html:204
-#, fuzzy
-#| msgid "View question"
-msgid "View history"
-msgstr "คำถามทั้งหมด"
-
 #: .\app\templates\app\profile.html:225
+#: .\app\templates\app\request_user.html:324
+#: .\app\templates\app\search_history.html:214
+#: .\app\templates\app\view_history.html:214
+msgid "Search history"
+msgstr "ประวัติการค้นหา"
+
+#: .\app\templates\app\profile.html:226
+#: .\app\templates\app\request_user.html:325
+#: .\app\templates\app\search_history.html:215
+#: .\app\templates\app\view_history.html:216
+msgid "View history"
+msgstr "ประวัติการดูคำถาม"
+
+#: .\app\templates\app\profile.html:235
 msgid "My Profile"
 msgstr "โปรไฟล์ของฉัน"
 
-#: .\app\templates\app\profile.html:232
+#: .\app\templates\app\profile.html:242
 msgid "First name"
 msgstr "ชื่อจริง"
 
-#: .\app\templates\app\profile.html:235 .\app\templates\app\profile.html:292
+#: .\app\templates\app\profile.html:245 .\app\templates\app\profile.html:279
 msgid "Surname"
 msgstr "นามสกุล"
 
-#: .\app\templates\app\profile.html:240 .\app\templates\app\profile.html:297
+#: .\app\templates\app\profile.html:250 .\app\templates\app\profile.html:284
 msgid "E-mail"
 msgstr "อีเมล"
 
-#: .\app\templates\app\profile.html:243 .\app\templates\app\profile.html:300
+#: .\app\templates\app\profile.html:253 .\app\templates\app\profile.html:287
 msgid "Gender"
 msgstr "เพศ"
 
-#: .\app\templates\app\profile.html:246 .\app\templates\app\profile.html:323
+#: .\app\templates\app\profile.html:256 .\app\templates\app\profile.html:310
 msgid "Birthday Date"
 msgstr "วันเกิด"
 
-#: .\app\templates\app\profile.html:252 .\app\templates\app\profile.html:329
+#: .\app\templates\app\profile.html:262 .\app\templates\app\profile.html:316
 msgid "Phone No"
 msgstr "เบอร์โทรศัพมือถือ"
 
-#: .\app\templates\app\profile.html:289
+#: .\app\templates\app\profile.html:276
 msgid "First Name"
 msgstr "ชื่อจริง"
 
-#: .\app\templates\app\profile.html:336
+#: .\app\templates\app\profile.html:323
 msgid "Save Profile"
 msgstr "บันทึกโปรไฟล์"
 
-#: .\app\templates\app\profile.html:337
+#: .\app\templates\app\profile.html:324
 #, fuzzy
 #| msgid "Cancel"
 msgid "cancel"
 msgstr "ยกเลิก"
 
-#: .\app\templates\app\request_admin.html:325
+#: .\app\templates\app\question.html:145
 #, fuzzy
-#| msgid "User <b>Management</b>"
+#| msgid "Usermanagement"
+msgid "Request for changes"
+msgstr "จัดการผู้ใช้"
+
+#: .\app\templates\app\question.html:151
+msgid "Edit question"
+msgstr "เเก้ไขคำถาม"
+
+#: .\app\templates\app\question.html:156
+msgid "Recently viewed questions"
+msgstr "คำถามที่ดูล่าสุด"
+
+#: .\app\templates\app\question.html:168 .\app\templates\app\question.html:177
+msgid "Date"
+msgstr "วันที่"
+
+#: .\app\templates\app\request_admin.html:325
 msgid "Request <b>Management</b>"
-msgstr "จัดการ <b>ผู้ใช้</b>"
+msgstr "จัดการ <b>คำร้อง</b>"
 
 #: .\app\templates\app\request_admin.html:337
-#: .\app\templates\app\request_user.html:329
+#: .\app\templates\app\request_user.html:343
 msgid "Type"
-msgstr ""
+msgstr "ประเภทคำร้อง"
 
 #: .\app\templates\app\request_admin.html:338
-#, fuzzy
-#| msgid "Requests"
 msgid "Request By"
-msgstr "คำร้อง"
+msgstr "คำร้องของ"
 
 #: .\app\templates\app\request_admin.html:340
-#: .\app\templates\app\request_user.html:331
-#, fuzzy
-#| msgid "Last name:"
+#: .\app\templates\app\request_user.html:345
 msgid "Last updated"
-msgstr "นามสกุล:"
-
-#: .\app\templates\app\request_admin.html:341
-#: .\app\templates\app\request_admin.html:392
-#: .\app\templates\app\request_user.html:389
-msgid "Remark"
-msgstr ""
+msgstr "อัพเดท ล่าสุด"
 
 #: .\app\templates\app\request_admin.html:389
-#: .\app\templates\app\request_user.html:386
+#: .\app\templates\app\request_user.html:422
 msgid "Language"
-msgstr ""
+msgstr "ภาษา"
 
-#: .\app\templates\app\request_admin.html:390
-#: .\app\templates\app\request_user.html:387
-#, fuzzy
-#| msgid "View Questions"
-msgid "Question"
-msgstr "ดูคำถาม"
-
-#: .\app\templates\app\request_admin.html:391
-#: .\app\templates\app\request_user.html:388
-msgid "Answer"
-msgstr ""
-
-#: .\app\templates\app\request_user.html:332
-#, fuzzy
-#| msgid "Create By:"
+#: .\app\templates\app\request_user.html:346
 msgid "Created on"
-msgstr "สร้างบัญชีโดย:"
+msgstr "สร้างเมื่อ:"
 
-#: .\app\templates\app\request_user.html:425
+#: .\app\templates\app\request_user.html:406
+msgid "Admin Remark"
+msgstr ""
+
+#: .\app\templates\app\request_user.html:461
 #, fuzzy
 #| msgid "Do you really want to suspend"
 msgid "Do you really want to delete this request ?"
 msgstr "คุณต้องการจะระงับบัญชีของ"
 
-#: .\app\templates\app\search.html:364
+#: .\app\templates\app\requesteditquestion.html:87
+msgid "Request edit question"
+msgstr "สร้างคำร้องเพื่อเเก้ไขคำถาม"
+
+#: .\app\templates\app\requesteditquestion.html:116
+#: .\app\templates\app\view_request.html:116
+msgid "Question English"
+msgstr "คำถาม ภาษาอังกฤษ"
+
+#: .\app\templates\app\requesteditquestion.html:122
+#: .\app\templates\app\view_request.html:122
+msgid "Answer English"
+msgstr "คำตอบ ภาษาอังกฤษ"
+
+#: .\app\templates\app\search.html:453
 #, fuzzy
 #| msgid "Search here....."
 msgid " Search here....."
 msgstr "ค้นหาที่นี้......"
 
-#: .\app\templates\app\search_history.html:204
-#, fuzzy
-#| msgid "Search"
+#: .\app\templates\app\search_history.html:222
 msgid "My Search"
-msgstr "ค้นหา"
+msgstr "การค้นหาของฉัน"
 
-#: .\app\templates\app\search_history.html:211
-#, fuzzy
-#| msgid "Search"
+#: .\app\templates\app\search_history.html:229
 msgid "Search Date"
-msgstr "ค้นหา"
+msgstr "วันที่ค้นหา"
 
-#: .\app\templates\app\search_history.html:212
-#, fuzzy
-#| msgid "Search"
+#: .\app\templates\app\search_history.html:230
 msgid "Search Time"
-msgstr "ค้นหา"
+msgstr "เวลาที่ค้นหา"
 
-#: .\app\templates\app\user_question_view.html:413
-#: .\app\templates\app\user_question_view.html:419
-#: .\app\templates\app\user_question_view.html:479
-#, fuzzy
-#| msgid "View Questions"
+#: .\app\templates\app\user_question_view.html:487
+msgid "Menu"
+msgstr "เมนู"
+
+#: .\app\templates\app\user_question_view.html:494
+#: .\app\templates\app\user_question_view.html:500
+#: .\app\templates\app\user_question_view.html:561
 msgid "All Questions"
-msgstr "ดูคำถาม"
+msgstr "ดูคำถามทั้งหมด"
 
-#: .\app\templates\app\user_question_view.html:434
-#, fuzzy
-#| msgid "Recent Updates"
+#: .\app\templates\app\user_question_view.html:517
 msgid "Recent update"
-msgstr "อับเดตล่าสุด"
+msgstr "อัพเดทล่าสุด"
 
-#: .\app\templates\app\user_question_view.html:481
+#: .\app\templates\app\user_question_view.html:531
+msgid "Recent View"
+msgstr "คำถามที่ดูล่าสุด"
+
+#: .\app\templates\app\user_question_view.html:563
 #, fuzzy
 #| msgid "Feature Questions"
 msgid "Frequently Asked Questions"
 msgstr "คำถามแนะนำ"
 
-#: .\app\templates\app\user_question_view.html:483
+#: .\app\templates\app\user_question_view.html:565
 #, fuzzy
 #| msgid "Recent Updates"
 msgid "Recent Update"
 msgstr "อับเดตล่าสุด"
 
-#: .\app\templates\app\view_history.html:211
-#, fuzzy
-#| msgid "View question"
+#: .\app\templates\app\view_history.html:224
 msgid "My viewed question"
-msgstr "คำถามทั้งหมด"
+msgstr "ประวัติการดูคำถาม"
 
-#: .\app\templates\app\view_history.html:218
-#, fuzzy
-#| msgid "Views"
-msgid "View"
-msgstr "เข้าชม"
+#: .\app\templates\app\view_history.html:231
+msgid "View questions"
+msgstr "รายการ/ คำถาม"
 
-#: .\app\templates\app\view_history.html:219
-#, fuzzy
-#| msgid "Create Date:"
+#: .\app\templates\app\view_history.html:232
 msgid "Viewed Date"
-msgstr "วันที่สร้างบัญชี:"
+msgstr "วันที่ดู"
 
-#: .\app\templates\app\view_history.html:220
-#, fuzzy
-#| msgid "Suspended Time:"
+#: .\app\templates\app\view_history.html:233
 msgid "Viewed Time"
-msgstr "เวลาที่บัญชีถูกระงับ:"
+msgstr "เวลาที่ดู:"
+
+#: .\app\templates\app\view_request.html:70
+msgid "View request"
+msgstr "ดูคำร้อง"
 
 #: .\app\templates\password_reset.html:272
 msgid "Forgot your password?"
@@ -943,84 +1090,101 @@ msgstr ""
 "หากคุณไม่ได้รับอีเมล โปรดตรวจสอบให้แน่ใจว่าคุณได้ป้อนอีเมลที่คุณลงทะเบียนไว้ "
 "และ<b>ตรวจสอบโฟลเดอร์สแปมของคุณ</b>"
 
-#: .\app\views.py:46
+#: .\app\views.py:49
 msgid ""
-"There was something wrong while processing your recent request, Please try again or "
-"contact Administrator"
-msgstr "เกิดข้อผิดพลาดระหว่างการดำเนินการล่าสุด กรุณาลองอีกครั้ง หรือ ติดต่อเเอดมินถ้าปัญหายังเกิดขึ้นอยู่"
+"There was something wrong while processing your recent request, Please try "
+"again or contact Administrator"
+msgstr ""
+"เกิดข้อผิดพลาดระหว่างการดำเนินการล่าสุด กรุณาลองอีกครั้ง หรือ ติดต่อเเอดมินถ้าปัญหายังเกิดขึ้นอยู่"
 
-#: .\app\views.py:291
+#: .\app\views.py:315
 msgid "Successfully added the question(s)"
-msgstr ""
+msgstr "เพิ่มคำถามเสร็จสมบูรณ์"
 
-#: .\app\views.py:323
+#: .\app\views.py:347
 msgid "Successfully removed the question(s)"
-msgstr ""
+msgstr "ลบคำถามเสร็จสมบูรณ์"
 
-#: .\app\views.py:352
+#: .\app\views.py:376
 msgid "Successfully edited the question(s)"
-msgstr ""
+msgstr "เเก้ไขคำถามเสร็จสมบูรณ์"
 
-#: .\app\views.py:393
+#: .\app\views.py:420
 msgid "Successfully suspended "
-msgstr ""
+msgstr "ระงับบัญชีผู้ใช้งานเสร็จสมบูรณ์"
 
-#: .\app\views.py:395
+#: .\app\views.py:422
 msgid "Successfully unsuspended "
-msgstr ""
+msgstr "ยกเลิกระงับบัญชีผู้ใช้งานเสร็จสมบูรณ์"
 
-#: .\app\views.py:407
+#: .\app\views.py:434
 msgid "Successfully update "
 msgstr ""
 
-#: .\app\views.py:465
-msgid "Your profile has been successfully updated."
-msgstr ""
-
 #: .\app\views.py:495
+msgid "Your profile has been successfully updated."
+msgstr "ข้อมูลบัญชีของคุณได้รับการเเก้ไขเรียบร้อย"
+
+#: .\app\views.py:535
 msgid "Username already exist."
-msgstr ""
+msgstr "Username มีคนใช้เเล้วในระบบ"
 
-#: .\app\views.py:498
-msgid "Username can conatain only alphabets."
-msgstr ""
+#: .\app\views.py:538
+msgid "Username can contain only alphabets."
+msgstr "Username ต้องเป็นตัวหนังสือเท่านั้น"
 
-#: .\app\views.py:501
-msgid "Invalide password format"
-msgstr ""
+#: .\app\views.py:541
+msgid "Invalid password format"
+msgstr "รูปเเบบพาสเวิสผิดพลาด"
 
-#: .\app\views.py:504
-msgid "Firstname can conatain only alphabets."
-msgstr ""
+#: .\app\views.py:544
+msgid "Firstname can contain only alphabets."
+msgstr "ชื่อจริง สามารถใช้ได้เเค่ตัวหนังสือเท่านั้น"
 
-#: .\app\views.py:507
-msgid "Lastname can conatain only alphabets."
-msgstr ""
+#: .\app\views.py:547
+msgid "Lastname can contain only alphabets."
+msgstr "นามสกุล สามารถใช้ได้เเค่ตัวหนังสือเท่านั้น"
 
-#: .\app\views.py:510
+#: .\app\views.py:550
 msgid "Invalid phone number"
-msgstr ""
+msgstr "รูปเเบบเบร์โทรศัพท์ผิดพลาด"
 
-#: .\app\views.py:557
+#: .\app\views.py:597
 msgid "You has been successfully registered to the website"
-msgstr ""
+msgstr "คุณได้ทำการสมัครเป็นสมาชิกของเว็ปไซต์ทำเสร็จ"
 
-#: .\app\views.py:619
+#: .\app\views.py:658 .\app\views.py:683
 msgid ""
 "Your request has been successfully created, admin will review it shortly."
-msgstr ""
+msgstr "คุณได้ทำการสร้างคำร้องเสร็จสมบูรณ์"
 
-#: .\app\views.py:631
+#: .\app\views.py:670
 msgid "Your request has been successfully edited."
-msgstr ""
+msgstr "คำร้องของคุณได้ทำการเเก้ไขเสร็จสมบูรณ์"
 
-#: .\app\views.py:655
+#: .\app\views.py:695
 msgid "Your request has been successfully deleted."
-msgstr ""
+msgstr "คุณได้ทำการลบคำร้องของคุณเสร็จสมบูรณ์"
 
-#: .\app\views.py:707
+#: .\app\views.py:754
 msgid "Successfully rejected the request"
-msgstr ""
+msgstr "ปฏิเสธคำร้องเสร็จสมบูรณ์"
+
+#: .\app\views.py:776
+msgid "Successfully approved the request"
+msgstr "อนุมัติคำร้องเสร็จสมบูรณ์"
+
+#: .\app\views.py:822
+msgid "Successfully updated department name"
+msgstr "คุณได้เเก้ไขข้อมูลสำนักงานเสร็จสมบูรณ์"
+
+#: .\app\views.py:831
+msgid "Successfully removed department"
+msgstr "คุณได้ทำการลบข้อมูลสำนักงานเสร็จสมบูรณ์"
+
+#: .\app\views.py:840
+msgid "Successfully added department"
+msgstr "คุณได้ทำการเพิ่มสำนักงานเสร็จสมบูรณ์"
 
 #: .\env\Lib\site-packages\_pytest\config\argparsing.py:445
 #, python-format
@@ -3285,6 +3449,11 @@ msgstr ""
 #: .\env\Lib\site-packages\grappelli\views\related.py:155
 msgid "?"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Views"
+#~ msgid "View"
+#~ msgstr "เข้าชม"
 
 #~ msgid "Choose operation:"
 #~ msgstr "เลือกกระบวนการ:"

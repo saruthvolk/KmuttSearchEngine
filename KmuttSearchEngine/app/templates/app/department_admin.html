@@ -448,12 +448,12 @@ if (val.checked === true) {
             <div class="modal-body">
                 <div class="form-group">
                     <label class="col-form-label">{% translate "Department Name:" %}</label>
-                    <input type="text" class="form-control" id="department_name_{{department.department_id}}" name="department_name" placeholder="Enter new department name" required>
+                    <input type="text" class="form-control" id="department_name_{{department.department_id}}" name="department_name" placeholder="{% translate 'Enter new department name' %}" required>
                 </div>
             </div>
             <div class="modal-body">
                 <p class="text-center">{% translate "Do you really want to add department name ?" %}</p>
-                <input type="checkbox" id="departmentid_{{department.department_id}}" class="checkbox"  style="margin-left: 16%;" onClick="disable_button2(this)"/> {% translate "Check the box to confirm the action." %}
+                <input type="checkbox" id="departmentid_{{department.department_id}}" class="checkbox"  style="margin-left: 26%;" onClick="disable_button2(this)"/> {% translate "Check the box to confirm the action." %}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{% translate "Close" %}</button>

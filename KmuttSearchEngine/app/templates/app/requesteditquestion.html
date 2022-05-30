@@ -13,7 +13,7 @@
         menubar: false,
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
-            'searchreplace visualblocks code fullscreen',
+            'searchreplace visualblocks code fullscreen','autoresize',
             'insertdatetime media table paste code help wordcount'
         ],
         toolbar: 'undo redo | formatselect | ' +
@@ -47,7 +47,7 @@
         menubar: false,
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
-            'searchreplace visualblocks code fullscreen',
+            'searchreplace visualblocks code fullscreen','autoresize',
             'insertdatetime media table paste code help wordcount'
         ],
         toolbar: 'undo redo | formatselect | ' +
@@ -84,7 +84,7 @@
     <br /><br /><br />
     <center>
         <br><br>
-        <h1>Request edit question</h1>
+        <h1>{% translate "Request edit question" %}</h1>
         <br>
         <div class="id" id="{{id_list}}"></div>
         <form method="POST" class="was-validated">
@@ -92,11 +92,11 @@
             <table class="table table-hover">
                 <thead class="thead-dark">
                     <th scope="col" colspan="6">
-                        <label type="text" name="question"> Question ID </label>
+                        <label type="text" name="question"> {% translate "Question ID" %}: </label>
                         <label type="text" name="question_id">{{question_data.id}} </label>
                     </th>
                 </thead>
-                <td>Question</td>
+                <td>{% translate "Question" %}</td>
 
                 <td colspan="6">
                     <input type="text" name="question_id" value="{{question_data.id}}" hidden </input>
@@ -105,7 +105,7 @@
                         required />
                 </td>
                 <tr>
-                    <td>Answer</td>
+                    <td>{% translate "Answer" %}</td>
                     <td colspan="10">
                         <span style="white-space: pre-line">
                             <textarea name="answer" class="editor" id="editor{{question_data.id}}"
@@ -113,13 +113,13 @@
                         </span>
                     </td>
                 </tr>
-                <td>Question EN</td>
+                <td>{% translate "Question English" %}</td>
                 <td colspan="2">
                     <input type="text" class="form-control is-valid" name="question_en"
                         value="{{question_data.question_en}}" required />
                 </td>
                 <tr>
-                    <td>Answer en</td>
+                    <td>{% translate "Answer English" %}</td>
                     <td colspan="6">
                         <span style="white-space: pre-line">
                             <textarea name="answer_en" class="editor_en" id="editor1{{question_data.id}}"
@@ -127,13 +127,13 @@
                         </span>
                     </td>
                 </tr>
-                <td>Remark</td>
+                <td>{% translate "Remark" %}</td>
                 <td colspan="2">
                     <input type="text" class="form-control is-valid" name="remark" value="{{question_dataremark}}" required/>
                 </td>
                 <tr>
                     <td colspan="2">
-                        <label for="Question">Department ID: </label>
+                        <label for="Question">{% translate "Department" %}: </label>
                     <td>
                         <select class="form-control" name="department_id">
                             {% for dep in department %}

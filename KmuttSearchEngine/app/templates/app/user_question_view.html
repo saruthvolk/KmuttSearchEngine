@@ -32,7 +32,12 @@
         };
 
         onChange = "window.location.href=this.value";
-
+		
+		{% if operation == "question" %}
+		$(document).ready(function() {
+		$("#all_question").trigger('click');
+		});
+		{% endif %}
     </script>
 
 <style>
@@ -364,6 +369,7 @@
     #user_recent_view{
         width: 13.5vw; 
         margin-left: -12px;
+        padding: 2rem 2rem;
         background-color: #f7f7f7;
     }
     @media (max-width: 991.98px) {
@@ -483,7 +489,7 @@
     
     <div class="position-sticky" style="margin-bottom: 10px;">
         <div class="list-group list-group-flush mx-3" style="background-color:#ccc;" id="list-tab" role="tablist">
-            <h5 class="list-group-item list-group-item-action py-4 ripple" style="background-color: #2e2e2e; color: #ccc;">Menu</h5>
+            <h5 class="list-group-item list-group-item-action py-4 ripple" style="background-color: #2e2e2e; color: #ccc;">{% translate "Menu" %}</h5>
         </div>
       <div class="list-group list-group-flush mx-3">
         {% if operation == "question" %}
@@ -493,7 +499,7 @@
             <span style="font-size: 15px;">{% translate "All Questions" %} <i class="fa fa-caret-down"></i></span>
         </a>
         {% else %}
-        <a href="#" class="list-group-item list-group-item-action py-4 ripple {% if operation == 'question' or operation|in_list:department_id %}active{% endif %}" 
+        <a href="#" class="list-group-item list-group-item-action py-4 ripple {% if operation == 'question' or operation|in_list:department_id %}active collapsed{% endif %}" 
         id="all_question" onclick="window.location.href= '{% url 'view' operation='question' %}'">
             <i class="fas fa-question-circle"></i>
             <span style="font-size: 15px;">{% translate "All Questions" %} <i class="fa fa-caret-down"></i></span>
@@ -527,7 +533,7 @@
 <nav id="sidebarMenu" class="collapse d-lg-block sidebar_recent collapse">
         <div class="position-sticky">
             <div class="list-group list-group-flush mx-3" style="background-color:#ccc;" id="list-tab" role="tablist">
-                <h5 class="list-group-item list-group-item-action py-4 ripple"  id="recent_view_list">Recent View</h5  >
+                <h5 class="list-group-item list-group-item-action py-4 ripple"  id="recent_view_list">{% translate "Recent View" %}</h5  >
             </div>
           <div class="list-group list-group-flush mx-3">
             <div class="jumbotron" id="user_recent_view">

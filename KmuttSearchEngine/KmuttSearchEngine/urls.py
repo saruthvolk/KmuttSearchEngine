@@ -34,6 +34,7 @@ urlpatterns = [
     path('get_notification/', api.get_notification, name='get_notification'),
     path('get_notification_badge/', api.get_notification_badge, name='get_notification_bage'),
     path('history/<operation>', views.history_user, name='history'),
+    path('export/csv/<action>', views.export_excel, name='export_excel'), 
 
     path('reset_password/',
      auth_views.PasswordResetView.as_view(template_name="password_reset.html"),
@@ -78,6 +79,7 @@ urlpatterns += i18n_patterns (
     path('get_notification_badge/', api.get_notification_badge, name='get_notification_badge'),
     path('history/<operation>', views.history_user, name='history'),
     path('admin/department/<operation>', views.department_management, name='department_admin'), 
+    path('export/csv/<action>', views.export_excel, name='export_excel'), 
 
     path('reset_password/',
      auth_views.PasswordResetView.as_view(template_name="password_reset.html"),

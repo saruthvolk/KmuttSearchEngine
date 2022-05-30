@@ -33,7 +33,7 @@ def searchengine(search, query):
         percentage = []
         temp1 = []
 
-        print(search)
+        #print(search)
 
         start = time.time()
 
@@ -46,10 +46,10 @@ def searchengine(search, query):
         result = spellCheck(search, dictionary)
         correct = result.correct
         tokenized = result.tokenized
-        print(tokenized)
+        #print(tokenized)
 
         #======= augment ========#
-        augments = augment(tokenized)
+        augments = augment(search)
 
         #======= remove stop words ========#
         removed_stopwords_Query, removed_stopwords_Final = stopwords(
@@ -105,14 +105,22 @@ def searchengine(search, query):
 
 
 def getDictionary():
+    
+    word_dictionary = {}
+    
+    file = open("KmuttSearchEngine/train.txt", 'r', encoding='UTF-8')
+    file.readlines()
 
-    with open("KmuttSearchEngine/train.txt", 'r', encoding='UTF-8') as f:
-        train = f.read().splitlines()
+    for line in file:
+        print ("Data: " + line)
+        key, value = line.split()
+        word_dictionary[key] = int(value)
 
-    return train
+    print(word_dictionary)
+
+    return word_dictionary
 
 #=========================== Spell Check Part ================================#
-
 
 def spellCheck(Input, train):
 
@@ -122,22 +130,16 @@ def spellCheck(Input, train):
         tokenized = []
         correct = []
 
-    correct = ""
-
+    #tl-deepcut-tnhc
     oskut.load_model(engine='tl-deepcut-tnhc')
     tokenized = oskut.OSKut(Input, k=100)
-    print (tokenized)
 
-    #tokenized = word_tokenize(Input, engine="nlpo3")
-
-    checker_dataset = NorvigSpellChecker(
-        custom_dict=train)  # Using dict from dataset train
+    checker_dataset = NorvigSpellChecker(custom_dict=train)  # Using dict from dataset train
     # checker_ttc = NorvigSpellChecker(custom_dict=ttc.word_freqs()) #Using dict from pre data train
-
-    #temp = [x.strip(" ") for x in tokenized if x.strip(" ")]
-    
+    #tokenized = [re.sub('\W+','', word)  for word in tokenized]
     return_result.correct = [checker_dataset.correct(word) if not(re.search('[a-zA-Z\s]', word)) else word for word in tokenized ]
-    
+    print(return_result.correct)
+
     if len(return_result.correct) != 0:
         return_result.correct = ''.join(return_result.correct)
     else:
@@ -151,16 +153,15 @@ def spellCheck(Input, train):
 
 #========================= Create Synonyms Sentence ==========================#
 
-
 def augment(Input):
 
     start = time.time()
 
     aug = WordNetAug()
     final = []
-
-    Output = aug.augment(Input, postag=True, max_syn_sent=3,
-                         postag_corpus='orchid', tokenize='Tokenized')
+    
+    Output = aug.augment(Input, postag=True, max_syn_sent=3 ,postag_corpus='orchid_ud', tokenize='Default')
+    print(Output)
 
     for x in Output:
         temp = "".join(x)
@@ -172,7 +173,7 @@ def augment(Input):
     final.append(Input)
 
     if final.count(final[0]) == len(final):
-        print("All the samee")
+        #print("All the samee")
         final = [Input]
 
     end = time.time()
@@ -209,19 +210,34 @@ def word2vector(Query, final, tfidf_value, index_question, user_tfidf,Query_ID):
     
     for question in final:
         value, i = 0, 0
-        for word in question:
-            if (re.search('[a-zA-Z]', word.lower()) and (word.lower() in word_list)):
-                user_eng.append(word.lower())
-                temp = np.full((1, 300), 1.0)
-            else:
-                temp = wv.word_vectorizer(word, use_mean=False)
-            #print ("tfidf: "+ str(word)+" "+"["+ str(user_tfidf.get(index_user)[i])+ "]")
-            value += (user_tfidf.get(index_user)[i]) * temp
-            i += 1
-        wv2.append(value)
-        print ("tfidf: "+ str(question)+" "+"["+ str(value) + "]")
-        index_user += 1
-
+        if len(question) < 4:
+            for word in question:
+                if (word.lower() in word_list):
+                    user_eng.append(word.lower())
+                    temp = np.full((1, 300), 1.0)
+                    #print(user_eng)
+                else:
+                    temp = wv.word_vectorizer(word, use_mean=False)
+                #print ("tfidf: "+ str(word)+" "+"["+ str(user_tfidf.get(index_user)[i])+ "]")
+                value += (user_tfidf.get(index_user)[i]) * temp
+                i += 1
+            wv2.append(value)
+            #print ("tfidf: "+ str(question)+" "+"["+ str(value) + "]")
+            index_user += 1
+        else:
+            for word in question:
+                if (re.search('[a-zA-Z]', word.lower()) and (word.lower() in word_list)):
+                    user_eng.append(word.lower())
+                    temp = np.full((1, 300), 1.0)
+                else:
+                    temp = wv.word_vectorizer(word, use_mean=False)
+                #print ("tfidf: "+ str(word)+" "+"["+ str(user_tfidf.get(index_user)[i])+ "]")
+                value += (user_tfidf.get(index_user)[i]) * temp
+                i += 1
+            wv2.append(value)
+            #print ("tfidf: "+ str(question)+" "+"["+ str(value) + "]")
+            index_user += 1
+    
     for count, question in enumerate(Query):
         length = len(question)-1
         length_question[count+1] = str(length)
@@ -232,7 +248,7 @@ def word2vector(Query, final, tfidf_value, index_question, user_tfidf,Query_ID):
     count = 1
 
     for _ in repeat(None, len(word_list)):
-        if (re.search('[a-zA-Z]', word_list[0].lower()) and (word_list[0].lower() in user_eng)):
+        if (word_list[0].lower() in user_eng):
             temp = np.full((1, 300), 1.0)
         else:
             temp = wv.word_vectorizer(word_list[0], use_mean=False)
@@ -262,7 +278,7 @@ def word2vector(Query, final, tfidf_value, index_question, user_tfidf,Query_ID):
         answer[1] = 0
 
     end = time.time()
-    print("(volk) w2v: " + str((end - start)))
+    print("w2v: " + str((end - start)))
 
     return answer
 
@@ -278,16 +294,19 @@ def list_split(listA, n):
         yield every_chunk
 
 
-def train_dictionary(Query):
+def train_dictionary(Query_data):
 
     print("Creating Dict")
     aug = WordNetAug()
 
+    print(Query_data)
+    Question = None
+    quest = None
     augmented = []
     token_question = []
     train = []
 
-    for quest in Query:
+    for quest in Query_data:
         Question = re.sub('[a-zA-Z!#$()“”?/\0-9!@#$%^&*<>:;=]', '', quest)
         augmented.append(Question)
 
@@ -303,23 +322,21 @@ def train_dictionary(Query):
             token_question.append(token)
     
     flatten_token_question = list(flatten(token_question))
-    
+
     for word in flatten_token_question:
         synnonyms_word = aug.find_synonyms(word)
-        if not synnonyms_word:
-            continue
         train.append(synnonyms_word)
+        train.append(word)
 
     train = list(flatten(train))
 
     converter = lambda x: x.replace('_', '')
     train = list(map(converter, train))
-
-    train = list(dict.fromkeys(train))
+    train_word_count = Counter(train)
 
     with open('train.txt', 'w', encoding="utf-8") as f:
-        for item in train:
-            f.write(item+"\n")
+        for word,counter in train_word_count.items():
+            f.write(str(word)+" "+str(counter)+"\n")
     f.close()
 
     return_Result.code = 300

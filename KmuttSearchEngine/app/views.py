@@ -1,13 +1,15 @@
 """
 Definition of views.
 """
+import codecs
 from pyexpat.errors import messages
 import oskut
 import os
 import datetime
 import re
+from html.parser import HTMLParser
 from django.shortcuts import render, redirect
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from torch import result_type
 from KmuttSearchEngine.SearchEngine import searchengine
 from KmuttSearchEngine.SearchEngine import train_dictionary
@@ -31,7 +33,8 @@ from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from django.utils.translation import gettext as _
 import json
-
+import csv
+import xlwt
 
 class Search_result:
     Retry = 0
@@ -93,7 +96,6 @@ def train_dict(request):
 
     assert isinstance(request, HttpRequest)
 
-    print("Creating Dict")
     query = queryDb_QA()
     for answer in query.answer:
         (query.question).append(answer)
@@ -194,11 +196,12 @@ def question(request, id):
     try:
         result = questionanswer.objects.get(id=id)
         result_create_view = create_view_history(request,id)
+        query_view = view_view_history(request,request.user.id)[:5]
     except:
         result = "Error"
     
     if (result != "Error"):
-        return render(request,'app/question.html',{'query': result,})
+        return render(request,'app/question.html',{'query': result, 'recent_view': query_view})
     else:
         return redirect('home')
 
@@ -311,7 +314,7 @@ def Crud_QA(request, operation, id):
         result = Add_QA(request)
         department = queryDb_department()
         if result.code == 200:
-            messages.info(request, _("Successfully added the question(s)"))
+            messages.info(request, _("Successfully added the question(s)"),extra_tags='Add')
             return redirect('Crud_QA', operation = "View",id ='0')
         else:
             return render(request, 'app/CRUDquestion.html', {'department': department})
@@ -370,7 +373,6 @@ def Crud_QA(request, operation, id):
 
         result = Update_QA(request, id)
 
-        print(id)
         if result.code == 200:
             messages.info(request, _("Successfully edited the question(s)"))
             return redirect('Crud_QA', operation = "View" , id='0')
@@ -490,9 +492,17 @@ def profile(request, operation):
     elif operation == 'update':
         if request.method == 'POST':
             result = edit_user_profile(request)
+
+            print(result.context)
+            
             if result.code is 200:
                 messages.info(request, _("Your profile has been successfully updated."))
                 return redirect('profile', operation='view')
+
+            elif result.context != None:
+                messages.error(request, _(result.context))
+                return redirect('profile', operation='view')
+
             else:
                 operation = 'view'
                 messages.error(request, _(error_Message))
@@ -759,9 +769,10 @@ def request_admin(request, operation):
 
         id = request.POST.get('request_id')
         admin_id = request.user.id
+        result_update = update_reminder(request, id)
         result = queryDb_onerequest(id)
         department = queryDb_department()
-        if (result and department) is "Error":
+        if (result and department and result_update) is "Error":
             return redirect('home')
         else:
             return render(request, 'app/admin_approve.html',{ 'request_data': result,'department': department})
@@ -886,3 +897,197 @@ def history_user(request,operation):
             return render(request, 'app/view_history.html',{ 'query': query, 'user_info':user_query})
         else:
             return redirect('home')
+
+class HTMLFilter(HTMLParser):
+    text = ""
+    def handle_data(self, data):
+        self.text += data
+
+def export_excel(request,action):
+
+    rows = []
+    if action == 'request':
+        response = HttpResponse(content_type='text/csv')
+        response ['Content-Disposition'] = 'attachment; filename= User_Request_'+ \
+            str(datetime.datetime.now())+'.xls'
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet('Users Request Data')
+        row_num = 0 
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+        columns = ['Request ID','Type','Request By','Status','Created date','Last updated', 'Question TH','Answer TH','Question EN','Answer EN','Remark']
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num], font_style)
+            ws.col(0).width = 2000
+            ws.col(1).width = 2000
+            ws.col(2).width = 6000
+            ws.col(3).width = 4000
+            ws.col(4).width = 3500
+            ws.col(5).width = 3500
+            ws.col(6).width = 9000
+            ws.col(7).width = 9000
+            ws.col(8).width = 9000
+            ws.col(9).width = 9000
+            ws.col(10).width = 9000
+
+        font_style = xlwt.XFStyle()
+        font_style.alignment.wrap = 1
+
+        query_request = queryDb_request_all()
+
+        for request_info in query_request:
+            if request_info.status_id == 1:
+                request_info.status_id = _("Waiting for approval")
+            elif request_info.status_id == 2:
+                request_info.status_id = _("Approved")
+            elif request_info.status_id == 2:
+                request_info.status_id = _("Rejected")
+
+            f = HTMLFilter()
+            f.feed(request_info.answer) 
+            request_info.answer = f.text
+
+            f = HTMLFilter()
+            f.feed(request_info.answer_en) 
+            request_info.answer_en = f.text
+
+            temp =  [request_info.request_id,request_info.request_type,request_info.user.first_name + " " + request_info.user.last_name,request_info.status_id, str(request_info.created_date),
+            str(request_info.updated_date),request_info.question,request_info.answer,request_info.question_en,request_info.answer_en,request_info.remark]
+            rows.append(temp)
+        
+        for row in rows:
+            row_num += 1
+            for col_num in range(len(row)):
+                ws.write(row_num, col_num, row[col_num], font_style)
+
+        wb.save(response)
+        return response
+    
+    elif action == 'user_info':
+        response = HttpResponse(content_type='text/csv')
+        response ['Content-Disposition'] = 'attachment; filename= Userinfo_'+ \
+            str(datetime.datetime.now())+'.xls'
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet('Users Request Data')
+        row_num = 0 
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+        columns = ['User ID','First Name','Last Name','Status','Role','Date of Birth','Gender','Email', 'Phone Number','Last Login','Created Date','Created Time',
+        'Created By','Updated Date','Updated Time','Update By','Suspended Date','Suspended Time','Suspended By']
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num], font_style)
+            ws.col(0).width = 1900
+            ws.col(1).width = 3000
+            ws.col(2).width = 4200
+            ws.col(3).width = 2000
+            ws.col(4).width = 3000
+            ws.col(5).width = 3800
+            ws.col(6).width = 3000
+            ws.col(7).width = 8000
+            ws.col(8).width = 3800
+            ws.col(9).width = 3800
+            ws.col(10).width = 3800
+            ws.col(11).width = 3800
+            ws.col(12).width = 3800
+            ws.col(13).width = 3800
+            ws.col(14).width = 3800
+            ws.col(15).width = 3800
+            ws.col(16).width = 3800
+            ws.col(17).width = 3800
+            ws.col(18).width = 3800
+
+        font_style = xlwt.XFStyle()
+        font_style.alignment.wrap = 1
+
+        user_info = queryDb_User_All()
+
+        for user_data in user_info:
+
+            if user_data.is_active is False:
+                user_data.is_active = 'Suspended'
+            elif user_data.is_active is True:
+                user_data.is_active = 'Active'
+            
+            temp =  [user_data.id,user_data.first_name,user_data.last_name,user_data.is_active,user_data.role_code,str(user_data.date_of_birth),user_data.gender,str(user_data.email),"0"+ str(user_data.phone_no),
+            str(user_data.last_login),str(user_data.created_date),str(user_data.created_time),str(user_data.created_by),str(user_data.updated_date),str(user_data.updated_time),str(user_data.updated_by),
+            str(user_data.suspended_date),str(user_data.suspended_time),str(user_data.suspended_by)]
+            rows.append(temp)
+
+        for row in rows:
+            row_num += 1
+            for col_num in range(len(row)):
+                ws.write(row_num, col_num, row[col_num], font_style)
+
+        wb.save(response)
+        return response
+
+    elif action == "question":
+        response = HttpResponse(content_type='text/csv')
+        response ['Content-Disposition'] = 'attachment; filename= QA_'+ \
+            str(datetime.datetime.now())+'.xls'
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet('QA_data')
+        row_num = 0 
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+        columns = ['Quesiton ID','Department','Question TH','Answer TH','Question EN','Answer EN','Created date','Created time', 'Created By','Updated Date','Updated Time','Updated By','status','View Count']
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num], font_style)
+            ws.col(0).width = 3000
+            ws.col(1).width = 4000
+            ws.col(2).width = 9000
+            ws.col(3).width = 9000
+            ws.col(4).width = 9000
+            ws.col(5).width = 9000
+            ws.col(6).width = 3500
+            ws.col(7).width = 3500
+            ws.col(8).width = 3500
+            ws.col(9).width = 3500
+            ws.col(10).width = 3500
+            ws.col(11).width = 3500
+            ws.col(12).width = 3500
+            ws.col(13).width = 3500
+            ws.col(14).width = 3500
+
+        font_style = xlwt.XFStyle()
+        font_style.alignment.wrap = 1
+
+        query_request = queryDb_QA_All()
+
+        for QA_info in query_request:
+            department_info = department.objects.get(department_id=QA_info.department_id)
+            user_created_by = userinfo.objects.get(id=int(QA_info.created_by))
+            user_updated_by = userinfo.objects.get(id=int(QA_info.updated_by))
+
+            QA_info.created_by = user_created_by.username
+            QA_info.updated_by = user_updated_by.username
+            QA_info.department_id = department_info.department_name
+
+            if QA_info.status == 1:
+                QA_info.status = _("Active")
+
+            f = HTMLFilter()
+            f.feed(QA_info.answer) 
+            QA_info.answer = f.text
+
+            f = HTMLFilter()
+            f.feed(QA_info.answer_en) 
+            QA_info.answer_en = f.text
+
+            temp =  [QA_info.id,QA_info.department_id,QA_info.question,QA_info.answer,QA_info.question_en,QA_info.answer_en,str(QA_info.created_date),str(QA_info.created_time),QA_info.created_by,
+            str(QA_info.updated_date),str(QA_info.updated_time),QA_info.updated_by,QA_info.status,QA_info.view_count]
+            rows.append(temp)
+        
+        for row in rows:
+            row_num += 1
+            for col_num in range(len(row)):
+                ws.write(row_num, col_num, row[col_num], font_style)
+
+        wb.save(response)
+        return response
+    
+    else:
+        return redirect('home')
+
+
+

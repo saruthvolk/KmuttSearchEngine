@@ -343,7 +343,11 @@
                         type = translate_type(response.type[index])
 
                         html_data += `<div class="notification">
+                    {% if request.user.role_code == 1 %}
+                    <form id = "noti_${response.request_id[index]}" method="post" action = "{% url 'request_admin' operation='approve' %}">
+                    {% else %}
                     <form id = "noti_${response.request_id[index]}" method="post" action = "{% url 'request' operation='view' %}">
+                    {% endif %}
                     {% csrf_token %}
                     <a class="dropdown-item" type = "submit" href="javascript:{}" onclick="submit_form(this)" id="noti_${response.request_id[index]}" 
                     value="${data}" style="height: 130px; margin-bottom: -28px; margin-top: -28px">
@@ -448,7 +452,7 @@
                         <h5 style="margin-left: 10px; margin-top: 4px;">{% translate "Notifications" %}</h5>
                         <hr style="margin-bottom: 35px;">
                         <div id="notification_tab"></div>
-                        <a href="{% url 'request' operation='view_user' %}" style="margin-left: 160px; margin-top: -20px;">View all requests</a>
+                        <a href="{% url 'request' operation='view_user' %}" style="margin-left: 160px; margin-top: -20px;">{% translate "View all requests" %}</a>
                     </div>
                 </li>
                 

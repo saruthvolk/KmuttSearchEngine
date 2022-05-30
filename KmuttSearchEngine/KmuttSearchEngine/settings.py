@@ -87,7 +87,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'KmuttSearchEngine',
-        'USER': 'Admin',
+        'USER': 'postgres',
         'PASSWORD': '00000000',
         'HOST': 'localhost',
         'PORT': '5432',

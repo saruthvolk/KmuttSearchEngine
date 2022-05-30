@@ -136,7 +136,13 @@
     td {
         text-align: center;
     }
-
+    #search_history{
+        color: rgb(34, 34, 34);
+        font-size: 0.95rem;
+    }
+    #search_history:hover{
+        color:#f76d00
+    }
     @media (min-width: 1200px) {
         .container {
             max-width: 1560px;
@@ -216,7 +222,7 @@
                     <h4 class="text-right"> {% translate "My Search" %}</h4>
                 </div>
                 <hr />
-                <table class="table table-condensed">
+                <table class="table table-condensed table-hover">
                     <thead class="thead-dark ">
                         <tr>
                             <th>{% translate "Search" %}</th>
@@ -228,7 +234,13 @@
                     {% for search in query %}
                     <tbody>
                         <tr id="accordion_{{request.request_id}}">
-                            <td class="request_type"><b>{{ search.query}}</b></td>
+                            <form method="post">
+                            {% csrf_token %}
+                            <td class="request_type">
+                                <input name="search" id ='search_history'class="btn btn-link" type ="submit" 
+                                formaction="{% url 'search' %}"value = "{{ search.query}}"></input>
+                            </td>
+                            </form>
                             <td class="request_type">
                                 {{search.search_date}}
                             </td>

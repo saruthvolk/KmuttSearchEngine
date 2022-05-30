@@ -1,5 +1,5 @@
 {% extends "app/layout.html" %}
-
+{% load i18n %}
 {% block content %}
 <script src="https://cdn.tiny.cloud/1/lkp5p0w1fk12lr4trywat44qle2pxarpedhgjkdxxmsohyl2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
@@ -12,7 +12,7 @@
         menubar: false,
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
-            'searchreplace visualblocks code fullscreen',
+            'searchreplace visualblocks code fullscreen','autoresize',
             'insertdatetime media table paste code help wordcount'
         ],
         toolbar: 'undo redo | formatselect | ' +
@@ -46,7 +46,7 @@
         menubar: false,
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
-            'searchreplace visualblocks code fullscreen',
+            'searchreplace visualblocks code fullscreen','autoresize',
             'insertdatetime media table paste code help wordcount'
         ],
         toolbar: 'undo redo | formatselect | ' +
@@ -79,7 +79,7 @@
 </head>
 <body>
 <br/><br/><br/><br/><br>
-<h2 style="text-align: center;">Request Add Question</h2>
+<h2 style="text-align: center;">{% translate "Request Add Question" %}</h2>
 <br>
 <div class="form-group">
            <form method="POST" class="was-validated">
@@ -91,7 +91,7 @@
                         <label type="text" name="question_id"></label>
                     </th>
                 </thead>
-                <td>Question:</td>
+                <td>{% translate "Question" %}:</td>
 
                 <td colspan="6">
                     <input type="text" name="request_id" value="{{request_data.request_id}}" hidden />
@@ -100,34 +100,34 @@
                         required />
                 </td>
                 <tr>
-                    <td>Answer (optional):</td>
+                    <td>{% translate "Answer (optional)" %}:</td>
                     <td colspan="10">
                         <span style="white-space: pre-line">
                             <textarea name="answer" class="editor" id="editor{{request_data.id}}"></textarea>
                         </span>
                     </td>
                 </tr>
-                <td>Question English (optional):</td>
+                <td>{% translate "Question English (optional)" %}:</td>
                 <td colspan="2">
                     <input type="text" class="form-control is-valid" name="question_en"
                         value="{{request_data.question_en}}"/>
                 </td>
                 <tr>
-                    <td>Answer English (optional):</td>
+                    <td>{% translate "Answer English (optional)" %}:</td>
                     <td colspan="6">
                         <span style="white-space: pre-line">
                             <textarea name="answer_en" class="editor_en" id="editor1{{request_data.id}}"></textarea>
                         </span>
                     </td>
                 </tr>
-                <td>Remark</td>
+                <td>{% translate "Remark" %}:</td>
                 <td colspan="2">
                     <textarea type="text" class="form-control is-valid" name="remark" style="height: 150px;"
                         required></textarea>
                 </td>
                 <tr>
                     <td colspan="2">
-                        <label for="Question">Department ID: </label>
+                        <label for="Question">{% translate "Department" %}: </label>
                         <td>
                         <select class="form-control" name="department_id">
                             {% for dep in department %}
@@ -141,8 +141,8 @@
             </table>
             <br>
             <div style="margin-left: 40%; margin-right: auto;">
-            <button type="submit" class="btn btn-success" formaction="{% url 'request' operation='update'%}"> Create Request</button>
-            <a class="btn btn-danger" href="{% url 'request' operation='view_user' %}">Cancel</a>
+            <button type="submit" class="btn btn-success" formaction="{% url 'request' operation='update'%}"> {% translate "Create Request" %}</button>
+            <a class="btn btn-danger" href="{% url 'request' operation='view_user' %}">{% translate "Cancel" %}</a>
             </div>
             <br /><br>
         </form>

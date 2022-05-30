@@ -325,7 +325,7 @@
             <h2><i class="fas fa-clipboard fa-1x"></i> {% translate "Request <b>Management</b>" %}</h2>
         </div>
         <div class="col-sm-7">
-            <a href="#" class="btn btn-secondary">
+            <a href="{% url 'export_excel' action='request' %}" class="btn btn-secondary">
                 <i class="material-icons">&#xE24D;</i> <span>{% translate "Export to Excel" %}</span>
             </a>
         </div>
@@ -369,8 +369,8 @@
             <form method="post" action="{% url 'request_admin' operation='approve'%}">
                 {% csrf_token %}
                 <input name="request_id" id="request_id" value="{{ request_data.request_id }}" hidden />
-                <button type= "submit" class="btn btn-success btn-sm" style="font-size: 13px;" data-toggle="modal" >Approve</button>
-                <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#reject_{{request_data.request_id}}" style="color: #fff; font-weight: 200;">Reject</a>
+                <button type= "submit" class="btn btn-success btn-sm" style="font-size: 13px;" data-toggle="modal" >{% translate "Approve" %}</button>
+                <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#reject_{{request_data.request_id}}" style="color: #fff; font-weight: 200;">{% translate "Reject" %}</a>
             </form>
             {% endif %}
         </td>
@@ -520,7 +520,8 @@
                         </div>
                         <div class="col">
                             <label class="col-form-label">{% translate "Create By:" %}</label>
-                            <input type="text" class="form-control" id="create_by_{{request_data.user.id}}" name="create_by_{{request_data.user.id}}" value="{{request_data.user.created_by}}" readonly="readonly">
+                            <input type="text" class="form-control" id="create_by_{{request_data.user.id}}" name="create_by_{{request_data.user.id}}" value= "{{request_data.user.username}} (ID: {{request_data.user.created_by}})" readonly="readonly">
+
                         </div>
                     </div>
                     <div class="form-row">
@@ -534,7 +535,11 @@
                         </div>
                         <div class="col">
                             <label class="col-form-label">{% translate "Update By:" %}</label>
+                            {%if request.user.updated_by == None %}
                             <input type="text" class="form-control" id="update_by_{{request_data.user.id}}" name="update_by_{{request_data.user.id}}" value="{{request_data.user.updated_by}}" readonly="readonly">
+                            {% else %}
+                            <input type="text" class="form-control" id="update_by_{{request_data.user.id}}" name="update_by_{{request_data.user.id}}" value= "{{request_data.user.username}} (ID: {{request_data.user.updated_by}})" readonly="readonly">
+                            {% endif %}
                         </div>
                     </div>
                     <div class="form-row">
@@ -548,7 +553,12 @@
                         </div>
                         <div class="col">
                             <label class="col-form-label">{% translate "Suspended By:" %}</label>
+                            {{request.user.suspended_by}}
+                            {%if request.user.suspended_by == None %}
                             <input type="text" class="form-control" id="suspended_by_{{request_data.user.id}}" name="suspended_by_{{request_data.user.id}}" value="{{request_data.user.suspended_by}}" readonly="readonly">
+                            {% else %}
+                            <input type="text" class="form-control" id="suspended_by_{{request_data.user.id}}" name="suspended_by_{{request_data.user.id}}" value= "{{request_data.user.username}} (ID: {{request_data.user.suspended_by}})" readonly="readonly">
+                            {% endif %}
                         </div>
                     </div>
                     <br/>

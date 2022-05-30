@@ -12,31 +12,38 @@ class Result:
   query = ''
 
 def Add_QA(request):
+
 	assert isinstance(request, HttpRequest)
 	current_time = datetime.datetime.now().replace(microsecond=0)
 
 	try:
 		if request.method == "POST" :
 			if  (request.POST.get('question') and request.POST.get('answer')) or (request.POST.get('question_en') or request.POST.get('answer_en')) and request.POST.get('department_id'):
-				saverecord = questionanswer()
-				saverecord.question = request.POST.get('question')
-				#saverecord.question_sw = stopwords1(saverecord.question)
-				saverecord.answer = request.POST.get('answer')
-				saverecord.question_en = request.POST.get('question_en')
-				saverecord.answer_en = request.POST.get('answer_en')
-				saverecord.created_by = request.user.id
-				saverecord.updated_by = request.user.id
-				saverecord.status = True
-				saverecord.view_count = request.user.id
-				saverecord.department_id = request.POST.get('department_id')
-				saverecord.updated_date = current_time
-				saverecord.updated_time = current_time
-				saverecord.created_date = current_time
-				saverecord.created_time = current_time
-				saverecord.save()
+				question_en = request.POST.getlist('question_en')
+				question = request.POST.getlist('question')
+				answer = request.POST.getlist('answer')
+				answer_en = request.POST.getlist('answer_en')
+				department = request.POST.getlist('department_id')
 
-				Result.code = 200
-				Result.message = 'Successful'
+				for i in range(len(question)):
+					saverecord = questionanswer()
+					saverecord.question = question[i]
+					saverecord.answer = answer[i]
+					saverecord.question_en = question_en[i]
+					saverecord.answer_en = answer_en[i]
+					saverecord.created_by = request.user.id
+					saverecord.updated_by = request.user.id
+					saverecord.status = True
+					saverecord.view_count = request.user.id
+					saverecord.department_id = department[i]
+					saverecord.updated_date = current_time
+					saverecord.updated_time = current_time
+					saverecord.created_date = current_time
+					saverecord.created_time = current_time
+					saverecord.save()
+
+					Result.code = 200
+					Result.message = 'Successful'
 
 			else:
 				Result.code = 400

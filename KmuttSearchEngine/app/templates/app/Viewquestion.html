@@ -32,7 +32,11 @@
         border-radius: 0px;
     }
 
-
+    #export{
+        margin-bottom: 10px;
+        margin-left: 83%;
+        width: fit-content;
+    }
 
     @media only screen and (min-width: 767px) {
         .list-group {
@@ -42,6 +46,7 @@
             margin-left: -6.4%;
             margin-right: auto;
         }
+        
     }
 
     @media (max-width: 992px) {
@@ -109,6 +114,9 @@
         margin-bottom: 20px;
         background-color: forestgreen;
     }
+    #addmore{
+        background-color: forestgreen;
+    }
 
     @media (max-width: 767px){
         td{
@@ -116,6 +124,11 @@
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
+        }
+        #export{
+        margin-bottom: 10px;
+        margin-left: 72%;
+        width: fit-content;
         }
         #question{
         width: auto;
@@ -140,7 +153,13 @@
             width: 165px;
         }
     }
+    tr {
+    cursor: pointer;
+    }
 </style>
+<script type=text/javascript>
+
+</script>
 <script>
 
     function myFunction() {
@@ -207,6 +226,13 @@
         a.innerHTML = isChecked ? '<i class="fas fa-check-square"></i> {% translate "Uncheck All" %}' : '<i class="far fa-square"></i> {% translate "Check All" %}';
     }
 
+    $(function(){       
+    $('*[data-href]').click(function(){
+        window.location = $(this).data('href');
+        return false;
+        });
+    });
+
 </script>
 
 <head>
@@ -221,8 +247,12 @@
         <br/><br>
         <h1>{% translate "Question Management" %}</h1>
         <br>
+        
         <div class="form-group">
-            <button class="btn btn-warning" id="select_multiple" onclick="myFunction();"> <i class="fas fa-check-square"></i> Select Multiple</button>
+            <a href="{% url 'export_excel' action='question' %}" id="export" class="btn btn-success">
+                <i class="fas fa-plus"></i> {% translate "Export Questions" %}
+            </a>
+            <button class="btn btn-warning" id="select_multiple" onclick="myFunction();"> <i class="fas fa-check-square"></i> {% translate "Select Multiple" %}</button>
             <div style="display:none;" id="checkall">
                 <button class="btn btn-warning" id="check_all" onclick="checkAll(this)" ;>
                     <i class="far fa-square"></i> {% translate "Check All" %}
@@ -238,12 +268,12 @@
                                 <input class="checkthis" type="checkbox" name="id_check" id="id_check"
                                     value="{{questionanswer.id}}" style="transform: scale(1.1)"/>
                             </div>
-                            <label type="text" name="question" class="font-weight-bold"> Question</label>
+                            <label type="text" name="question" class="font-weight-bold"> {% translate "Question" %}</label>
                             <label type="text" name="question_id">{{questionanswer.id}} </label>
                             <div style="display:inline;" id="menu1_{{questionanswer.id}}">
                                 <a class="btn btn-danger btn-sm" data-toggle="modal" id="delete"
-                                    data-target="#delete_{{questionanswer.id}}">Delete</a>
-                                    <a class="btn btn-danger btn-sm" id="submit" href='{% url "Crud_QA" operation="Edit" id=questionanswer.id%}'>Edit</a>
+                                    data-target="#delete_{{questionanswer.id}}">{% translate "Delete" %}</a>
+                                    <a class="btn btn-danger btn-sm" id="submit" href='{% url "Crud_QA" operation="Edit" id=questionanswer.id%}'>{% translate "Edit" %}</a>
                             </div>
                         </th>
                     </thead>
@@ -309,12 +339,12 @@
                     
                     {% get_current_language as LANGUAGE_CODE %}
                     {% if LANGUAGE_CODE == "th" %}
-                    <tr>
-                        <td class="font-weight-bold">Question</td>
+                    <tr data-href="{% url 'question' id=questionanswer.id %}"">
+                        <td class="font-weight-bold">{% translate "Question" %}</td>
                         <td colspan="2" id="question">
                             <label type="text"> {{questionanswer.question}} </label>
                         </td>
-                        <td class="font-weight-bold">Answer</td>
+                        <td class="font-weight-bold" style="width: 7%;">{% translate "Answer" %}</td>
                         <td colspan="10" id ="answer">
                             <span style="white-space: pre-line;word-break:break-all">
                                 {% autoescape off %}
@@ -324,12 +354,12 @@
                         </td>
                     </tr>
                     {% else %}
-                    <tr>
-                        <td class="font-weight-bold">Question</td>
+                    <tr data-href="{% url 'question' id=questionanswer.id %}">
+                        <td class="font-weight-bold">{% translate "Question" %}</td>
                         <td colspan="2" id="question">
                             <label type="text"> {{questionanswer.question_en}} </label>
                         </td>
-                        <td class="font-weight-bold">Answer</td>
+                        <td class="font-weight-bold" style="width: 7%;">{% translate "Answer" %}</td>
                         <td colspan="10" id="answer">
                             <span style="white-space: pre-line;word-break:break-all">
                                 {% autoescape off %}
@@ -342,6 +372,8 @@
                     {% endif %}
                     {% endfor %}
                 </table>
+                
+                
                 <button class="btn btn-warning" id="add_question"
                     formaction="{% url 'Crud_QA' operation='Add' id='0'%}">
                     <i class="fas fa-plus"></i> {% translate "Add Question" %}
@@ -367,12 +399,13 @@
 
 
 {% for message in messages %}
+
 <div id="success_modal" name="success_modal" class="modal fade in">
     <div class="modal-dialog modal-confirm">
         <div class="modal-content">
             <div class="modal-header">
 
-                {% if message.tags == "info" %}
+                {% if message.tags == "info" or 'Add' in message.extra_tags %}
                 <div class="icon-box" style="background-color: #1b9b42">
                     <i class="material-icons" style="font-size: 55px;">&#xe5ca;</i>
                </div> 
@@ -382,7 +415,7 @@
                 </div>
                 {% endif %}
                 <h4 class="modal-title w-100 justify-content-center">
-                    {% if message.tags == "info"%}{% translate "Successful" %}{% else %}{% translate "Error" %}{% endif %}
+                    {% if message.tags == "info" or 'Add' in message.extra_tags%}{% translate "Successful" %}{% else %}{% translate "Error" %}{% endif %}
                 </h4>
             </div>
             <div class="modal-body">
@@ -391,9 +424,19 @@
                 </p>
                 <br />
             </div>
+            {% if 'Add' in message.extra_tags %}
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">{% translate "Close" %}</button>
+                <form method="POST">
+                {% csrf_token %}
+                <button  id="addmore" class="btn btn-success" formaction='{% url "Crud_QA" operation="Add" id=0%}' >{% translate "Add more" %}</button>
+                </form>
+            </div>
+            {% else %}
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">{% translate "Close" %}</button>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>

@@ -1,8 +1,9 @@
 {% extends "app/layout.html" %}
-
+{% load i18n %}
 {% block content %}
 <script src="https://cdn.tiny.cloud/1/lkp5p0w1fk12lr4trywat44qle2pxarpedhgjkdxxmsohyl2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
+    function Initiate_tinymce () {
     tinymce.init({
         editor_selector: "editor",
         mode: "textareas", // change this value according to your HTML
@@ -12,7 +13,7 @@
         menubar: false,
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
-            'searchreplace visualblocks code fullscreen',
+            'searchreplace visualblocks code fullscreen','autoresize',
             'insertdatetime media table paste code help wordcount'
         ],
         toolbar: 'undo redo | formatselect | ' +
@@ -46,7 +47,7 @@
         menubar: false,
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
-            'searchreplace visualblocks code fullscreen',
+            'searchreplace visualblocks code fullscreen','autoresize',
             'insertdatetime media table paste code help wordcount'
         ],
         toolbar: 'undo redo | formatselect | ' +
@@ -71,35 +72,62 @@
         });
     }
     });
+    }
+    Initiate_tinymce();
 
+    function scrolltoview(){
+    var goto = ($('html').height() - 1700);
+    $('html,body').animate({ scrollTop: goto}, 1000);
+    }
+    
 </script>
+<style>
+    #add_question {
+        bottom: 0;
+        right: 0;
+        position: fixed;
+        background-color: #ec7e23;
+        color: #ffffff;
+        font-size: 0.95em;
+        border-radius: 4em;
+        margin-right: 20px;
+        margin-bottom: 20px;
+        width: 200px;
+        border-color: transparent;
+    }
+
+    #add_question:active{
+        background-color: #d87523;
+    }
+</style>
 <head>
     <meta charset="utf-8"/>
     <title> CRUD operations </title>
 </head>
 <body>
 <br/><br/><br/><br/>
-<h1 style="text-align: center;">Add Question</h1>
+<h1 style="text-align: center;">{% translate "Add Question" %}</h1>
 <br/>
 <div class="form-group">
-       <form method="POST" class="was-validated">
+       <form method="POST" class="was-validated" id="addform">
+           <div class = "form-block">
             {% csrf_token %}
             <table class="table table-hover">
                 <thead class="thead-dark">
                     <th scope="col" colspan="6">
-                        <label type="text" name="question"></label>
+                        <label type="text" name="question" class="question_list" >{% translate 'Question' %} 1</label>
                     </th>
                 </thead>
-                <td>Question:</td>
+                <td>{% translate "Question" %}:</td>
 
                 <td colspan="6">
-                    <input type="text" name="question_id" value="{{question_data.id}}" hidden </input>
-                    <input type="text" name="user_id" value="{{user_query.id}}" hidden </input>
+                    <input type="text" name="question_id" value="{{question_data.id}}" hidden> </input>
+                    <input type="text" name="user_id" value="{{user_query.id}}" hidden> </input>
                     <input type="text" class="form-control is-valid" name="question" value="{{question_data.question}}"
                         required />
                 </td>
                 <tr>
-                    <td>Answer:</td>
+                    <td>{% translate "Answer" %}:</td>
                     <td colspan="10">
                         <span style="white-space: pre-line">
                             <textarea name="answer" class="editor" id="editor{{question_data.id}}"
@@ -107,22 +135,22 @@
                         </span>
                     </td>
                 </tr>
-                <td>Question English (optional):</td>
+                <td>{% translate "Question English (optional)" %}:</td>
                 <td colspan="2">
                     <input type="text" class="form-control is-valid" name="question_en"
                         value="{{question_data.question_en}}"/>
                 </td>
                 <tr>
-                    <td>Answer English (optional):</td>
+                    <td>{% translate "Answer English (optional)" %}:</td>
                     <td colspan="6">
                         <span style="white-space: pre-line">
-                            <textarea name="answer_en" class="editor_en" id="editor1{{question_data.id}}">{{question_data.answer_en}}</textarea>
+                            <textarea name="answer_en" class="editor_en" id="editor_en{{question_data.id}}">{{question_data.answer_en}}</textarea>
                         </span>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <label for="Question">Department: </label>
+                        <label for="Question">{% translate "Department" %}: </label>
                     <td>
                         <select class="form-control" name="department_id">
                             {% for dep in department %}
@@ -134,14 +162,38 @@
                     </td>
                 <tr>
             </table>
-            <br />
-            <div style="margin-left: 40%;">
-            <button type="submit" class="btn btn-success" >Add Question</button>
-            <a type="submit" class="btn btn-danger"
-                href="{% url 'Crud_QA' operation='View' id='0' %}">Cancel<a>
-            </div>
-            <br /><br /><br />
+            <input type="submit" id="submit-form" hidden/>
+            <hr>
+            <br><br>
+        </div>
         </form>
+        <script>
+            var count = 0;
+            var question_count = 2
+            var scroll = 1550
+            var template = $(".form-block").clone();
+            var form = $(".was-validated");
+            function add() {
+                var newFormBlock = template.clone();
+                newFormBlock.find('label[class="question_list"]').text("{% translate 'Question' %} " + question_count)
+                newFormBlock.find(':input').attr('id', function(i, val) {
+                return val + count;
+                });
+            form.append(newFormBlock);
+            count++;
+            question_count++;
+            Initiate_tinymce();
+            scrolltoview()
+        };
+        </script>
+        <a class="btn btn-warning" id="add_question"id="add" onclick="add()" href="#">
+        <i class="fas fa-plus"></i> {% translate "Add more Question" %}
+        </a>
+        <div style="margin-left: 40%;" id="add_menu">
+            <label class="btn btn-success" for="submit-form" tabindex="0" style="margin-bottom: 0;">{% translate "Add Question" %}</label>
+            <a type="submit" class="btn btn-danger"
+                href="{% url 'Crud_QA' operation='View' id='0' %}">{% translate "Cancel" %}<a>
+        </div>
 </div>
 </body>
 

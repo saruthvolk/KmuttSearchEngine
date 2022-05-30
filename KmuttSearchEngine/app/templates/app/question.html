@@ -1,5 +1,5 @@
 {% extends "app/layout.html" %}
-
+{% load i18n %}
 {% block content %}
 <style>
     #question {
@@ -17,12 +17,44 @@
 
     #answer { background: #f2f2f3; }
 
-    #request {
+    #request_button {
         margin-left: -5px;
         background: #f37a3b;
         border-color: #f37a3b;
     }
 
+    .numberCircle {
+        background: #f37a3b;
+        border: 2px solid #f37a3b;
+        border-radius: 50%;
+        color: #f2f2f3;
+        float: left;
+        font-size: 1.0rem;
+        font-weight: bold;
+        line-height: 22px;
+        margin-left: -25px;
+        margin-right: 1.5%;
+        text-align: center;
+        width: 25px;
+        height: 25px;
+        ;
+    }
+    #update1 {
+        color: #727272;
+        float: right;
+        font-size: 0.9rem;
+    }
+    #question1{
+        color: #212529;
+        font-size: 16px;
+        text-decoration: none;
+    }
+    #recent_view_question{
+        background-color: #f3f3f3;
+    }
+    #question1:hover {
+        color: #f37a3b;
+    }
     @media (max-width: 1510px)
     {
         #question{
@@ -51,6 +83,15 @@
         #answer{
             font-size: 0.9rem;
         }
+        .h4,h4{
+            font-size: 1.3rem;
+        }
+        #question1 {
+            font-size: 15px;
+        }
+        .numberCircle{
+            font-size: 0.85rem;
+        }
     }
 
     @media (max-width: 767px)
@@ -65,15 +106,16 @@
         #update {
         margin-top: -20px;
         }
-        #question{
-
-        }
     }
 </style>
 
-
+{% get_current_language as LANGUAGE_CODE %}
 <h3 id="question">
+    {% if LANGUAGE_CODE == 'th' %}
     <b>{{query.question}}</b>
+    {% else %}
+    <b>{{query.question_en}}</b>
+    {% endif %}
 </h3>
 
 <p id="update">Last update: {{ query.updated_date }}</p>
@@ -81,28 +123,61 @@
 <div class="jumbotron" id="answer">
     <span id="answer">
         {% autoescape off %}
+        {% if LANGUAGE_CODE == 'th' %}
         {{query.answer}}
+        {% else %}
+        {{query.answer_en}}
+        {% endif %}
         {% endautoescape %}
     </span>
-    <p id="view">Views: {{ query.view_count }}</p>
+    <p id="view">{% translate "Views" %}: {{ query.view_count }}</p>
 </div>
+
 <br>
 <br>
 {% if request.user.role_code == 2 %}
 <form action="{% url 'request' operation='request_edit' %}" method="POST">
     {% csrf_token %}
     <input name="question_id" id="question_id" value="{{query.id}}" hidden />
-<td><button href="#" class="btn btn-info" id="request">Request for changes</button>
+<td><button href="#" class="btn btn-info" id="request_button">{% translate "Request for changes" %}</button>
 </form>
 {% elif request.user.role_code == 1 %}
 <form action="{% url 'Crud_QA' operation='Edit' id=query.id%}" method="POST">
     {% csrf_token %}
     <input name="id_check" id="question_id" value="{{query.id}}" hidden />
-<td><button href="#" class="btn btn-info" id="request">Edit question</button>
+<td><button href="#" class="btn btn-info" id="request_button">{% translate "Edit question" %}</button>
 </form>
 {% endif %}
-<br>
-<br>
-<br>
-<br>
+<br><br>
+<hr><br><br>
+<h4>{% translate "Recently viewed questions" %}</h4>
+
+{% get_current_language as LANGUAGE_CODE %}
+<div class="jumbotron" id="recent_view_question">
+    <div id="question" style="margin-top: -30px; margin-bottom: 0px; padding: 0px 20px;">
+        {% for questions in recent_view %}
+        <br/>
+        {% if LANGUAGE_CODE == 'th' %}
+        <p id="update1"> {{ questions.updated_date }} </p>
+        <a id="question1" href="{% url 'question' id=questions.question_id %}">
+            <div class="numberCircle"> {{ forloop.counter }} </div>
+            <h5 style="font-weight: bold" id="question1"> {{ questions.question.question }} </h5>
+            <p id="update1" style="float: left"> {% translate "Date" %}: {{ questions.view_date }} {{ questions.view_time }} </p>
+            <br/>
+        </a>
+        <hr/>
+        {% elif LANGUAGE_CODE == 'en' %}
+        <p id="update1"> {{ questions.updated_date }} </p>
+        <a id="question1" href="{% url 'question' id=questions.question_id %}">
+            <div class="numberCircle"> {{ forloop.counter }} </div>
+            <h5 style="font-weight: bold" id="question1"> {{ questions.question.question_en }} </h5>
+            <p id="update1" style="float: left"> {% translate "Date" %}: {{ questions.view_date }} {{ questions.view_time }} </p>
+            <br/>
+        </a>
+        <hr/>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
 {% endblock %}

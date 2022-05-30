@@ -1,5 +1,5 @@
 {% extends "app/layout.html" %}
-
+{% load i18n %}
 {% block content %}
 <script src="https://cdn.tiny.cloud/1/lkp5p0w1fk12lr4trywat44qle2pxarpedhgjkdxxmsohyl2/tinymce/5/tinymce.min.js"
     referrerpolicy="origin"></script>
@@ -67,7 +67,7 @@
     <br /><br /><br />
     <center>
         <br>
-        <h1>View request</h1>
+        <h1>{% translate "View request" %}</h1>
         <br>
         {% for data in request_data %}
         <div class="id" id="{{id_list}}"></div>
@@ -77,19 +77,19 @@
                 <col style="width:20%">
                 <thead class="thead-dark">
                     <th scope="col" colspan="6">
-                        <label type="text" name="question"> Request ID </label>
+                        <label type="text" name="question"> {% translate "Request ID" %} </label>
                         <label type="text" name="question_id">{{data.request_id}} </label>
                     </th>
                 </thead>
                 <tr>
-                    <td>Remark</td>
+                    <td>{% translate "Remark" %}</td>
                     <td colspan="2">
                         <textarea type="text" class="form-control" name="remark" readonly disabled
                             style="height: max-content">{{data.remark}}</textarea>
                     </td>
                 </tr>
                 <tr>
-                    <td>Department</td>
+                    <td>{% translate "Department" %}</td>
                     <td colspan="2">
                         <input type="text" class="form-control" name="department_id" value="{{data.department.department_name}}"
                             readonly disabled />
@@ -97,7 +97,7 @@
                 </tr>
 
                 <tr>
-                    <td>Question</td>
+                    <td>{% translate "Question" %}</td>
                     <td colspan="6">
                         <input type="text" name="request_id" value="{{data.request_id}}" hidden />
                         <input type="text" name="user_id" value="{{user_query.id}}" hidden />
@@ -105,7 +105,7 @@
                             disabled />
                     </td>
                 <tr>
-                    <td>Answer</td>
+                    <td>{% translate "Answer" %}</td>
                     <td colspan="10">
                         <span style="white-space: pre-line">
                             <textarea name="answer" class="editor" id="editor{{data.id}}" readonly
@@ -113,13 +113,13 @@
                         </span>
                     </td>
                 </tr>
-                <td>Question EN</td>
+                <td>{% translate "Question English" %}</td>
                 <td colspan="2">
                     <input type="text" class="form-control" name="question_en" value="{{data.question_en}}" readonly
                         disabled />
                 </td>
                 <tr>
-                    <td>Answer en</td>
+                    <td>{% translate "Answer English" %}</td>
                     <td colspan="6">
                         <span style="white-space: pre-line">
                             <textarea name="answer_en" class="editor_en" id="editor1{{request_data.id}}" readonly

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-10 19:29+0700\n"
+"POT-Creation-Date: 2022-04-17 14:09+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,45 +26,136 @@ msgstr ""
 msgid "Thai"
 msgstr ""
 
-#: .\app\templates\app\Admin.html:28
+#: .\app\templates\app\Admin.html:88
 msgid "Admin Tools"
 msgstr ""
 
-#: .\app\templates\app\Admin.html:37
+#: .\app\templates\app\Admin.html:98
 msgid "Questions Management"
 msgstr ""
 
-#: .\app\templates\app\Admin.html:39
+#: .\app\templates\app\Admin.html:100
 msgid "Manage all of the questions in the knowledge base."
 msgstr ""
 
-#: .\app\templates\app\Admin.html:51
+#: .\app\templates\app\Admin.html:112
 msgid "Requests Management"
 msgstr ""
 
-#: .\app\templates\app\Admin.html:53
+#: .\app\templates\app\Admin.html:114
 msgid "Manage all of the requests from users."
 msgstr ""
 
-#: .\app\templates\app\Admin.html:65
+#: .\app\templates\app\Admin.html:126
 msgid "Users Management"
 msgstr ""
 
-#: .\app\templates\app\Admin.html:67
+#: .\app\templates\app\Admin.html:128
 msgid "Manages all of the users in the system."
+msgstr ""
+
+#: .\app\templates\app\Admin.html:140
+msgid "Department Management"
+msgstr ""
+
+#: .\app\templates\app\Admin.html:142
+msgid "Manages all of the department in the system."
+msgstr ""
+
+#: .\app\templates\app\CRUDquestion.html:82
+#: .\app\templates\app\CRUDquestion.html:139
+#: .\app\templates\app\Viewquestion.html:347
+msgid "Add Question"
+msgstr ""
+
+#: .\app\templates\app\CRUDquestion.html:93
+#: .\app\templates\app\Editquestion.html:131
+#: .\app\templates\app\Viewquestion.html:241
+#: .\app\templates\app\Viewquestion.html:313
+#: .\app\templates\app\Viewquestion.html:328
+#: .\app\templates\app\editrequest.html:107
+#: .\app\templates\app\request_admin.html:390
+#: .\app\templates\app\request_user.html:423
+#: .\app\templates\app\requestadd.html:94
+#: .\app\templates\app\requesteditquestion.html:99
+#: .\app\templates\app\view_request.html:100
+msgid "Question"
+msgstr ""
+
+#: .\app\templates\app\CRUDquestion.html:102
+#: .\app\templates\app\Editquestion.html:137
+#: .\app\templates\app\Viewquestion.html:317
+#: .\app\templates\app\Viewquestion.html:332
+#: .\app\templates\app\request_admin.html:391
+#: .\app\templates\app\request_user.html:424
+#: .\app\templates\app\requesteditquestion.html:108
+#: .\app\templates\app\view_request.html:108
+msgid "Answer"
+msgstr ""
+
+#: .\app\templates\app\CRUDquestion.html:110
+#: .\app\templates\app\Editquestion.html:145
+#: .\app\templates\app\editrequest.html:124
+#: .\app\templates\app\requestadd.html:110
+msgid "Question English (optional)"
+msgstr ""
+
+#: .\app\templates\app\CRUDquestion.html:116
+#: .\app\templates\app\Editquestion.html:150
+#: .\app\templates\app\editrequest.html:130
+#: .\app\templates\app\requestadd.html:116
+msgid "Answer English (optional)"
+msgstr ""
+
+#: .\app\templates\app\CRUDquestion.html:125
+#: .\app\templates\app\Editquestion.html:159
+#: .\app\templates\app\editrequest.html:146
+#: .\app\templates\app\requestadd.html:130
+#: .\app\templates\app\requesteditquestion.html:136
+#: .\app\templates\app\view_request.html:92
+msgid "Department"
+msgstr ""
+
+#: .\app\templates\app\CRUDquestion.html:141
+#: .\app\templates\app\Editquestion.html:193
+#: .\app\templates\app\Editquestion.html:224
+#: .\app\templates\app\Editquestion.html:239
+#: .\app\templates\app\Usermanagement.html:413
+#: .\app\templates\app\Usermanagement.html:435
+#: .\app\templates\app\Viewquestion.html:271
+#: .\app\templates\app\Viewquestion.html:300
+#: .\app\templates\app\admin_approve.html:307
+#: .\app\templates\app\admin_approve.html:340
+#: .\app\templates\app\department_admin.html:482
+#: .\app\templates\app\request_admin.html:433
+#: .\app\templates\app\request_admin.html:458
+#: .\app\templates\app\request_user.html:471
+#: .\env\Lib\site-packages\grappelli\templates\admin\delete_confirmation.html:55
+#: .\env\Lib\site-packages\grappelli\templates\admin\delete_selected_confirmation.html:58
+msgid "Cancel"
+msgstr ""
+
+#: .\app\templates\app\Editquestion.html:117
+msgid "Edit Question"
+msgstr ""
+
+#: .\app\templates\app\Editquestion.html:127
+#: .\app\templates\app\requesteditquestion.html:95
+msgid "Question ID"
 msgstr ""
 
 #: .\app\templates\app\Editquestion.html:179
 #: .\app\templates\app\Editquestion.html:211
 #: .\app\templates\app\Usermanagement.html:405
 #: .\app\templates\app\Usermanagement.html:427
-#: .\app\templates\app\Viewquestion.html:221
-#: .\app\templates\app\Viewquestion.html:251
+#: .\app\templates\app\Viewquestion.html:258
+#: .\app\templates\app\Viewquestion.html:288
 #: .\app\templates\app\admin_approve.html:295
 #: .\app\templates\app\admin_approve.html:325
+#: .\app\templates\app\department_admin.html:475
 #: .\app\templates\app\request_admin.html:422
 #: .\app\templates\app\request_admin.html:450
-#: .\app\templates\app\request_user.html:422
+#: .\app\templates\app\request_user.html:458
 msgid "Confirm your process ?"
 msgstr ""
 
@@ -73,8 +164,8 @@ msgid "Do you really want to delete all the selected question ?"
 msgstr ""
 
 #: .\app\templates\app\Editquestion.html:185
-#: .\app\templates\app\Viewquestion.html:226
-#: .\app\templates\app\request_user.html:427
+#: .\app\templates\app\Viewquestion.html:263
+#: .\app\templates\app\request_user.html:463
 msgid "This process can not be undone."
 msgstr ""
 
@@ -83,38 +174,26 @@ msgstr ""
 #: .\app\templates\app\Usermanagement.html:410
 #: .\app\templates\app\Usermanagement.html:432
 #: .\app\templates\app\Usermanagement.html:505
-#: .\app\templates\app\Viewquestion.html:231
-#: .\app\templates\app\Viewquestion.html:260
+#: .\app\templates\app\Viewquestion.html:268
+#: .\app\templates\app\Viewquestion.html:297
 #: .\app\templates\app\admin_approve.html:304
 #: .\app\templates\app\admin_approve.html:337
+#: .\app\templates\app\department_admin.html:418
+#: .\app\templates\app\department_admin.html:456
+#: .\app\templates\app\department_admin.html:479
 #: .\app\templates\app\request_admin.html:430
 #: .\app\templates\app\request_admin.html:455
-#: .\app\templates\app\request_user.html:432
+#: .\app\templates\app\request_user.html:468
 msgid "Check the box to confirm the action."
-msgstr ""
-
-#: .\app\templates\app\Editquestion.html:193
-#: .\app\templates\app\Editquestion.html:224
-#: .\app\templates\app\Editquestion.html:239
-#: .\app\templates\app\Usermanagement.html:413
-#: .\app\templates\app\Usermanagement.html:435
-#: .\app\templates\app\Viewquestion.html:234
-#: .\app\templates\app\Viewquestion.html:263
-#: .\app\templates\app\admin_approve.html:307
-#: .\app\templates\app\admin_approve.html:340
-#: .\app\templates\app\request_admin.html:433
-#: .\app\templates\app\request_admin.html:458
-#: .\app\templates\app\request_user.html:435
-#: .\env\Lib\site-packages\grappelli\templates\admin\delete_confirmation.html:55
-#: .\env\Lib\site-packages\grappelli\templates\admin\delete_selected_confirmation.html:58
-msgid "Cancel"
 msgstr ""
 
 #: .\app\templates\app\Editquestion.html:197
 #: .\app\templates\app\Editquestion.html:238
-#: .\app\templates\app\Viewquestion.html:238
-#: .\app\templates\app\Viewquestion.html:322
-#: .\app\templates\app\request_user.html:438
+#: .\app\templates\app\Viewquestion.html:245
+#: .\app\templates\app\Viewquestion.html:275
+#: .\app\templates\app\Viewquestion.html:359
+#: .\app\templates\app\department_admin.html:484
+#: .\app\templates\app\request_user.html:474
 #: .\env\Lib\site-packages\django\forms\formsets.py:417
 #: .\env\Lib\site-packages\grappelli\templates\admin\delete_confirmation.html:19
 #: .\env\Lib\site-packages\grappelli\templates\admin\submit_line.html:7
@@ -151,10 +230,12 @@ msgid "Export to Excel"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:354
+#: .\app\templates\app\department_admin.html:363
 msgid "ID"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:355
+#: .\app\templates\app\department_admin.html:364
 #: .\env\Lib\site-packages\grappelli\templates\admin\constance\includes\results_list.html:8
 msgid "Name"
 msgstr ""
@@ -168,15 +249,15 @@ msgid "Date Created"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:358
-#: .\app\templates\app\profile.html:249 .\app\templates\app\profile.html:326
+#: .\app\templates\app\profile.html:259 .\app\templates\app\profile.html:313
 msgid "Role"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:359
-#: .\app\templates\app\layout.html:295 .\app\templates\app\layout.html:298
-#: .\app\templates\app\layout.html:301
+#: .\app\templates\app\layout.html:300 .\app\templates\app\layout.html:303
+#: .\app\templates\app\layout.html:306
 #: .\app\templates\app\request_admin.html:339
-#: .\app\templates\app\request_user.html:330
+#: .\app\templates\app\request_user.html:344
 msgid "Status"
 msgstr ""
 
@@ -185,8 +266,9 @@ msgid "Last Login"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:361
+#: .\app\templates\app\department_admin.html:366
 #: .\app\templates\app\request_admin.html:342
-#: .\app\templates\app\request_user.html:333
+#: .\app\templates\app\request_user.html:347
 #: .\env\Lib\site-packages\grappelli\templates\admin\object_history.html:28
 msgid "Action"
 msgstr ""
@@ -224,9 +306,10 @@ msgid "Unsuspended"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:446
-#: .\app\templates\app\Viewquestion.html:267
-#: .\app\templates\app\Viewquestion.html:317
-#: .\app\templates\app\layout.html:311 .\app\templates\app\profile.html:222
+#: .\app\templates\app\Viewquestion.html:246
+#: .\app\templates\app\Viewquestion.html:304
+#: .\app\templates\app\Viewquestion.html:354
+#: .\app\templates\app\layout.html:316 .\app\templates\app\profile.html:232
 msgid "Edit"
 msgstr ""
 
@@ -261,24 +344,24 @@ msgstr ""
 #: .\app\templates\app\Usermanagement.html:477
 #: .\app\templates\app\Usermanagement.html:483
 #: .\app\templates\app\Usermanagement.html:489
-#: .\app\templates\app\profile.html:303 .\app\templates\app\profile.html:309
-#: .\app\templates\app\profile.html:315
+#: .\app\templates\app\profile.html:290 .\app\templates\app\profile.html:296
+#: .\app\templates\app\profile.html:302
 msgid "Male"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:478
 #: .\app\templates\app\Usermanagement.html:484
 #: .\app\templates\app\Usermanagement.html:490
-#: .\app\templates\app\profile.html:304 .\app\templates\app\profile.html:310
-#: .\app\templates\app\profile.html:316
+#: .\app\templates\app\profile.html:291 .\app\templates\app\profile.html:297
+#: .\app\templates\app\profile.html:303
 msgid "Female"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:479
 #: .\app\templates\app\Usermanagement.html:485
 #: .\app\templates\app\Usermanagement.html:491
-#: .\app\templates\app\profile.html:305 .\app\templates\app\profile.html:311
-#: .\app\templates\app\profile.html:317
+#: .\app\templates\app\profile.html:292 .\app\templates\app\profile.html:298
+#: .\app\templates\app\profile.html:304
 msgid "Other"
 msgstr ""
 
@@ -296,14 +379,18 @@ msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:510
 #: .\app\templates\app\Usermanagement.html:641
-#: .\app\templates\app\Viewquestion.html:358 .\app\templates\app\index.html:332
-#: .\app\templates\app\profile.html:274
-#: .\app\templates\app\request_admin.html:582
-#: .\app\templates\app\request_user.html:475
+#: .\app\templates\app\Viewquestion.html:395
+#: .\app\templates\app\department_admin.html:421
+#: .\app\templates\app\department_admin.html:459
+#: .\app\templates\app\department_admin.html:521
+#: .\app\templates\app\index.html:393 .\app\templates\app\profile.html:359
+#: .\app\templates\app\request_admin.html:590
+#: .\app\templates\app\request_user.html:511
 msgid "Close"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:511
+#: .\app\templates\app\department_admin.html:422
 msgid "Save changes"
 msgstr ""
 
@@ -353,79 +440,87 @@ msgid "Suspended By:"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:631
-#: .\app\templates\app\Viewquestion.html:348 .\app\templates\app\index.html:322
-#: .\app\templates\app\profile.html:263
-#: .\app\templates\app\request_admin.html:571
-#: .\app\templates\app\request_user.html:465
+#: .\app\templates\app\Viewquestion.html:385
+#: .\app\templates\app\department_admin.html:511
+#: .\app\templates\app\index.html:383 .\app\templates\app\profile.html:349
+#: .\app\templates\app\request_admin.html:580
+#: .\app\templates\app\request_user.html:501
 msgid "Successful"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:631
-#: .\app\templates\app\Viewquestion.html:348 .\app\templates\app\index.html:322
-#: .\app\templates\app\request_user.html:465
+#: .\app\templates\app\Viewquestion.html:385
+#: .\app\templates\app\department_admin.html:511
+#: .\app\templates\app\index.html:383 .\app\templates\app\profile.html:349
+#: .\app\templates\app\request_admin.html:580
+#: .\app\templates\app\request_user.html:501
 msgid "Error"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:655
-#: .\app\templates\app\Viewquestion.html:372
-#: .\app\templates\app\request_admin.html:594
-#: .\app\templates\app\request_user.html:488
-#: .\app\templates\app\search.html:419
-#: .\app\templates\app\search_history.html:235
-#: .\app\templates\app\user_question_view.html:517
-#: .\app\templates\app\view_history.html:254
+#: .\app\templates\app\Viewquestion.html:409
+#: .\app\templates\app\department_admin.html:534
+#: .\app\templates\app\request_admin.html:603
+#: .\app\templates\app\request_user.html:524
+#: .\app\templates\app\search.html:508
+#: .\app\templates\app\search_history.html:259
+#: .\app\templates\app\user_question_view.html:607
+#: .\app\templates\app\view_history.html:267
 msgid "Showing"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:655
-#: .\app\templates\app\Viewquestion.html:372
-#: .\app\templates\app\request_admin.html:594
-#: .\app\templates\app\request_user.html:488
-#: .\app\templates\app\search.html:419
-#: .\app\templates\app\search_history.html:235
-#: .\app\templates\app\user_question_view.html:517
-#: .\app\templates\app\view_history.html:254
+#: .\app\templates\app\Viewquestion.html:409
+#: .\app\templates\app\department_admin.html:534
+#: .\app\templates\app\request_admin.html:603
+#: .\app\templates\app\request_user.html:524
+#: .\app\templates\app\search.html:508
+#: .\app\templates\app\search_history.html:259
+#: .\app\templates\app\user_question_view.html:607
+#: .\app\templates\app\view_history.html:267
 msgid "out of"
 msgstr ""
 
 #: .\app\templates\app\Usermanagement.html:655
-#: .\app\templates\app\Viewquestion.html:373
-#: .\app\templates\app\request_admin.html:594
-#: .\app\templates\app\request_user.html:489
-#: .\app\templates\app\search.html:420
-#: .\app\templates\app\search_history.html:236
-#: .\app\templates\app\user_question_view.html:518
-#: .\app\templates\app\view_history.html:255
+#: .\app\templates\app\Viewquestion.html:410
+#: .\app\templates\app\department_admin.html:534
+#: .\app\templates\app\request_admin.html:603
+#: .\app\templates\app\request_user.html:525
+#: .\app\templates\app\search.html:509
+#: .\app\templates\app\search_history.html:260
+#: .\app\templates\app\user_question_view.html:608
+#: .\app\templates\app\view_history.html:268
 msgid "entries"
 msgstr ""
 
-#: .\app\templates\app\Viewquestion.html:126
-#: .\app\templates\app\Viewquestion.html:170
-#: .\app\templates\app\Viewquestion.html:191
+#: .\app\templates\app\Viewquestion.html:163
+#: .\app\templates\app\Viewquestion.html:207
+#: .\app\templates\app\Viewquestion.html:228
 msgid "Check All"
 msgstr ""
 
-#: .\app\templates\app\Viewquestion.html:170
+#: .\app\templates\app\Viewquestion.html:207
 msgid "Uncheck All"
 msgstr ""
 
-#: .\app\templates\app\Viewquestion.html:185
-msgid "View question"
+#: .\app\templates\app\Viewquestion.html:222
+msgid "Question Management"
 msgstr ""
 
-#: .\app\templates\app\Viewquestion.html:224
+#: .\app\templates\app\Viewquestion.html:225
+msgid "Select Multiple"
+msgstr ""
+
+#: .\app\templates\app\Viewquestion.html:261
 msgid "Do you really want to delete this question ?"
 msgstr ""
 
-#: .\app\templates\app\Viewquestion.html:254
+#: .\app\templates\app\Viewquestion.html:291
 msgid "Do you go and edit this question ?"
 msgstr ""
 
-#: .\app\templates\app\Viewquestion.html:310
-msgid "Add Question"
-msgstr ""
-
 #: .\app\templates\app\admin_approve.html:283
+#: .\app\templates\app\request_admin.html:372
 #: .\app\templates\app\request_admin.html:460
 msgid "Approve"
 msgstr ""
@@ -456,102 +551,173 @@ msgid "Reasons:"
 msgstr ""
 
 #: .\app\templates\app\admin_approve.html:344
+#: .\app\templates\app\request_admin.html:373
 #: .\app\templates\app\request_admin.html:435
 msgid "Reject"
 msgstr ""
 
-#: .\app\templates\app\index.html:255 .\app\templates\app\search.html:357
-#: .\app\templates\app\user_question_view.html:390
+#: .\app\templates\app\department_admin.html:351
+msgid "Department <b>Management</b>"
+msgstr ""
+
+#: .\app\templates\app\department_admin.html:355
+msgid "Add New Department"
+msgstr ""
+
+#: .\app\templates\app\department_admin.html:365
+msgid "Number of Question"
+msgstr ""
+
+#: .\app\templates\app\department_admin.html:397
+msgid "Edit Department"
+msgstr ""
+
+#: .\app\templates\app\department_admin.html:412
+#: .\app\templates\app\department_admin.html:450
+msgid "Department Name:"
+msgstr ""
+
+#: .\app\templates\app\department_admin.html:417
+msgid "Do you really want to changes department name ?"
+msgstr ""
+
+#: .\app\templates\app\department_admin.html:435
+msgid "Add Department"
+msgstr ""
+
+#: .\app\templates\app\department_admin.html:455
+msgid "Do you really want to add department name ?"
+msgstr ""
+
+#: .\app\templates\app\department_admin.html:460
+msgid "Add department"
+msgstr ""
+
+#: .\app\templates\app\department_admin.html:478
+msgid "Do you really want to remove"
+msgstr ""
+
+#: .\app\templates\app\department_admin.html:478
+msgid "department? The process cannot be undone."
+msgstr ""
+
+#: .\app\templates\app\editrequest.html:94
+msgid "Edit Request"
+msgstr ""
+
+#: .\app\templates\app\editrequest.html:103
+#: .\app\templates\app\view_request.html:80
+msgid "Request ID"
+msgstr ""
+
+#: .\app\templates\app\editrequest.html:116
+#: .\app\templates\app\requestadd.html:103
+msgid "Answer (optional)"
+msgstr ""
+
+#: .\app\templates\app\editrequest.html:138
+#: .\app\templates\app\request_admin.html:341
+#: .\app\templates\app\request_admin.html:392
+#: .\app\templates\app\request_user.html:425
+#: .\app\templates\app\requestadd.html:123
+#: .\app\templates\app\requesteditquestion.html:130
+#: .\app\templates\app\view_request.html:85
+msgid "Remark"
+msgstr ""
+
+#: .\app\templates\app\index.html:316 .\app\templates\app\search.html:446
+#: .\app\templates\app\user_question_view.html:470
 msgid "How can we help you ?"
 msgstr ""
 
-#: .\app\templates\app\index.html:256 .\app\templates\app\search.html:358
-#: .\app\templates\app\user_question_view.html:391
+#: .\app\templates\app\index.html:317 .\app\templates\app\search.html:447
+#: .\app\templates\app\user_question_view.html:471
 msgid "Type the question you want to ask"
 msgstr ""
 
-#: .\app\templates\app\index.html:261
-#: .\app\templates\app\user_question_view.html:396
+#: .\app\templates\app\index.html:322
+#: .\app\templates\app\user_question_view.html:476
 msgid "Search here....."
 msgstr ""
 
-#: .\app\templates\app\index.html:270 .\app\templates\app\search.html:372
-#: .\app\templates\app\user_question_view.html:441
+#: .\app\templates\app\index.html:331 .\app\templates\app\requestadd.html:82
+#: .\app\templates\app\search.html:461
+#: .\app\templates\app\user_question_view.html:524
 msgid "Request Add Question"
 msgstr ""
 
-#: .\app\templates\app\index.html:277
+#: .\app\templates\app\index.html:338
 msgid "View Questions"
 msgstr ""
 
-#: .\app\templates\app\index.html:279
+#: .\app\templates\app\index.html:340
 msgid "View all question in our knowledge base."
 msgstr ""
 
-#: .\app\templates\app\index.html:286
-#: .\app\templates\app\user_question_view.html:429
+#: .\app\templates\app\index.html:347
+#: .\app\templates\app\user_question_view.html:512
 msgid "FAQs"
 msgstr ""
 
-#: .\app\templates\app\index.html:288
+#: .\app\templates\app\index.html:349
 msgid "View the most asked questions in our knowledge base."
 msgstr ""
 
-#: .\app\templates\app\index.html:296
+#: .\app\templates\app\index.html:357
 msgid "Recent Updates"
 msgstr ""
 
-#: .\app\templates\app\index.html:298
+#: .\app\templates\app\index.html:359
 msgid "Check for the latest update of the question in our knowledge base."
 msgstr ""
 
-#: .\app\templates\app\index.html:339
+#: .\app\templates\app\index.html:400
 msgid "Feature Questions"
 msgstr ""
 
-#: .\app\templates\app\index.html:351 .\app\templates\app\index.html:360
-#: .\app\templates\app\layout.html:465
-#: .\app\templates\app\user_question_view.html:497
-#: .\app\templates\app\user_question_view.html:506
+#: .\app\templates\app\index.html:412 .\app\templates\app\index.html:421
+#: .\app\templates\app\layout.html:471 .\app\templates\app\question.html:136
+#: .\app\templates\app\user_question_view.html:587
+#: .\app\templates\app\user_question_view.html:596
 msgid "Views"
 msgstr ""
 
-#: .\app\templates\app\layout.html:259
+#: .\app\templates\app\layout.html:264
 msgid " days ago"
 msgstr ""
 
-#: .\app\templates\app\layout.html:262
+#: .\app\templates\app\layout.html:267
 msgid " hours ago"
 msgstr ""
 
-#: .\app\templates\app\layout.html:265
+#: .\app\templates\app\layout.html:270
 msgid " minutes ago"
 msgstr ""
 
-#: .\app\templates\app\layout.html:268
+#: .\app\templates\app\layout.html:273
 msgid " seconds ago"
 msgstr ""
 
-#: .\app\templates\app\layout.html:295
+#: .\app\templates\app\layout.html:300
 #: .\app\templates\app\request_admin.html:358
-#: .\app\templates\app\request_user.html:342
+#: .\app\templates\app\request_user.html:356
 msgid "Waiting for approval"
 msgstr ""
 
-#: .\app\templates\app\layout.html:298
+#: .\app\templates\app\layout.html:303
 #: .\app\templates\app\request_admin.html:360
-#: .\app\templates\app\request_user.html:344
+#: .\app\templates\app\request_user.html:358
 msgid "Approved"
 msgstr ""
 
-#: .\app\templates\app\layout.html:301
+#: .\app\templates\app\layout.html:306
 #: .\app\templates\app\request_admin.html:362
-#: .\app\templates\app\request_user.html:347
+#: .\app\templates\app\request_user.html:361
 msgid "Rejected"
 msgstr ""
 
-#: .\app\templates\app\layout.html:308
-#: .\app\templates\app\request_user.html:320
+#: .\app\templates\app\layout.html:313
+#: .\app\templates\app\request_user.html:334
 #: .\env\Lib\site-packages\grappelli\dashboard\templates\grappelli\dashboard\modules\app_list.html:19
 #: .\env\Lib\site-packages\grappelli\dashboard\templates\grappelli\dashboard\modules\model_list.html:9
 #: .\env\Lib\site-packages\grappelli\templates\admin\app_index.html:30
@@ -561,22 +727,22 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: .\app\templates\app\layout.html:314
+#: .\app\templates\app\layout.html:319
 msgid "Remove"
 msgstr ""
 
-#: .\app\templates\app\layout.html:346 .\app\templates\app\profile.html:214
-#: .\app\templates\app\request_user.html:310
-#: .\app\templates\app\search_history.html:194
-#: .\app\templates\app\view_history.html:201
+#: .\app\templates\app\layout.html:351 .\app\templates\app\profile.html:224
+#: .\app\templates\app\request_user.html:323
+#: .\app\templates\app\search_history.html:212
+#: .\app\templates\app\view_history.html:213
 msgid "Request"
 msgstr ""
 
-#: .\app\templates\app\layout.html:348
+#: .\app\templates\app\layout.html:353
 msgid "Requested by"
 msgstr ""
 
-#: .\app\templates\app\layout.html:379
+#: .\app\templates\app\layout.html:384
 #: .\env\Lib\site-packages\grappelli\dashboard\templates\admin\index.html:25
 #: .\env\Lib\site-packages\grappelli\templates\admin\500.html:9
 #: .\env\Lib\site-packages\grappelli\templates\admin\app_index.html:11
@@ -614,91 +780,111 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: .\app\templates\app\layout.html:384
+#: .\app\templates\app\layout.html:389
 msgid "Admin"
 msgstr ""
 
-#: .\app\templates\app\layout.html:388
-#: .\app\templates\app\request_user.html:323
+#: .\app\templates\app\layout.html:393
+#: .\app\templates\app\request_user.html:337
 msgid "My Requests"
 msgstr ""
 
-#: .\app\templates\app\layout.html:403 .\app\templates\app\layout.html:467
-#: .\app\templates\app\search_history.html:210
+#: .\app\templates\app\layout.html:409 .\app\templates\app\layout.html:473
+#: .\app\templates\app\search_history.html:228
 msgid "Search"
 msgstr ""
 
-#: .\app\templates\app\layout.html:442
+#: .\app\templates\app\layout.html:448
 msgid "Notifications"
 msgstr ""
 
-#: .\app\templates\app\layout.html:461 .\app\templates\app\profile.html:213
-#: .\app\templates\app\request_user.html:307
-#: .\app\templates\app\search_history.html:193
-#: .\app\templates\app\view_history.html:200
+#: .\app\templates\app\layout.html:451
+msgid "View all requests"
+msgstr ""
+
+#: .\app\templates\app\layout.html:467 .\app\templates\app\profile.html:223
+#: .\app\templates\app\request_user.html:320
+#: .\app\templates\app\search_history.html:211
+#: .\app\templates\app\view_history.html:212
 msgid "Profile"
 msgstr ""
 
-#: .\app\templates\app\layout.html:463
+#: .\app\templates\app\layout.html:469
 msgid "Requests"
 msgstr ""
 
-#: .\app\templates\app\layout.html:469
+#: .\app\templates\app\layout.html:475
 msgid "Logout"
 msgstr ""
 
-#: .\app\templates\app\profile.html:215
-#: .\app\templates\app\request_user.html:311
-#: .\app\templates\app\search_history.html:196
-#: .\app\templates\app\view_history.html:202
+#: .\app\templates\app\profile.html:225
+#: .\app\templates\app\request_user.html:324
+#: .\app\templates\app\search_history.html:214
+#: .\app\templates\app\view_history.html:214
 msgid "Search history"
 msgstr ""
 
-#: .\app\templates\app\profile.html:216
-#: .\app\templates\app\request_user.html:312
-#: .\app\templates\app\search_history.html:197
-#: .\app\templates\app\view_history.html:204
+#: .\app\templates\app\profile.html:226
+#: .\app\templates\app\request_user.html:325
+#: .\app\templates\app\search_history.html:215
+#: .\app\templates\app\view_history.html:216
 msgid "View history"
 msgstr ""
 
-#: .\app\templates\app\profile.html:225
+#: .\app\templates\app\profile.html:235
 msgid "My Profile"
 msgstr ""
 
-#: .\app\templates\app\profile.html:232
+#: .\app\templates\app\profile.html:242
 msgid "First name"
 msgstr ""
 
-#: .\app\templates\app\profile.html:235 .\app\templates\app\profile.html:292
+#: .\app\templates\app\profile.html:245 .\app\templates\app\profile.html:279
 msgid "Surname"
 msgstr ""
 
-#: .\app\templates\app\profile.html:240 .\app\templates\app\profile.html:297
+#: .\app\templates\app\profile.html:250 .\app\templates\app\profile.html:284
 msgid "E-mail"
 msgstr ""
 
-#: .\app\templates\app\profile.html:243 .\app\templates\app\profile.html:300
+#: .\app\templates\app\profile.html:253 .\app\templates\app\profile.html:287
 msgid "Gender"
 msgstr ""
 
-#: .\app\templates\app\profile.html:246 .\app\templates\app\profile.html:323
+#: .\app\templates\app\profile.html:256 .\app\templates\app\profile.html:310
 msgid "Birthday Date"
 msgstr ""
 
-#: .\app\templates\app\profile.html:252 .\app\templates\app\profile.html:329
+#: .\app\templates\app\profile.html:262 .\app\templates\app\profile.html:316
 msgid "Phone No"
 msgstr ""
 
-#: .\app\templates\app\profile.html:289
+#: .\app\templates\app\profile.html:276
 msgid "First Name"
 msgstr ""
 
-#: .\app\templates\app\profile.html:336
+#: .\app\templates\app\profile.html:323
 msgid "Save Profile"
 msgstr ""
 
-#: .\app\templates\app\profile.html:337
+#: .\app\templates\app\profile.html:324
 msgid "cancel"
+msgstr ""
+
+#: .\app\templates\app\question.html:145
+msgid "Request for changes"
+msgstr ""
+
+#: .\app\templates\app\question.html:151
+msgid "Edit question"
+msgstr ""
+
+#: .\app\templates\app\question.html:156
+msgid "Recently viewed questions"
+msgstr ""
+
+#: .\app\templates\app\question.html:168 .\app\templates\app\question.html:177
+msgid "Date"
 msgstr ""
 
 #: .\app\templates\app\request_admin.html:325
@@ -706,7 +892,7 @@ msgid "Request <b>Management</b>"
 msgstr ""
 
 #: .\app\templates\app\request_admin.html:337
-#: .\app\templates\app\request_user.html:329
+#: .\app\templates\app\request_user.html:343
 msgid "Type"
 msgstr ""
 
@@ -715,87 +901,101 @@ msgid "Request By"
 msgstr ""
 
 #: .\app\templates\app\request_admin.html:340
-#: .\app\templates\app\request_user.html:331
+#: .\app\templates\app\request_user.html:345
 msgid "Last updated"
 msgstr ""
 
-#: .\app\templates\app\request_admin.html:341
-#: .\app\templates\app\request_admin.html:392
-#: .\app\templates\app\request_user.html:389
-msgid "Remark"
-msgstr ""
-
 #: .\app\templates\app\request_admin.html:389
-#: .\app\templates\app\request_user.html:386
+#: .\app\templates\app\request_user.html:422
 msgid "Language"
 msgstr ""
 
-#: .\app\templates\app\request_admin.html:390
-#: .\app\templates\app\request_user.html:387
-msgid "Question"
-msgstr ""
-
-#: .\app\templates\app\request_admin.html:391
-#: .\app\templates\app\request_user.html:388
-msgid "Answer"
-msgstr ""
-
-#: .\app\templates\app\request_user.html:332
+#: .\app\templates\app\request_user.html:346
 msgid "Created on"
 msgstr ""
 
-#: .\app\templates\app\request_user.html:425
+#: .\app\templates\app\request_user.html:406
+msgid "Admin Remark"
+msgstr ""
+
+#: .\app\templates\app\request_user.html:461
 msgid "Do you really want to delete this request ?"
 msgstr ""
 
-#: .\app\templates\app\search.html:364
+#: .\app\templates\app\requesteditquestion.html:87
+msgid "Request edit question"
+msgstr ""
+
+#: .\app\templates\app\requesteditquestion.html:116
+#: .\app\templates\app\view_request.html:116
+msgid "Question English"
+msgstr ""
+
+#: .\app\templates\app\requesteditquestion.html:122
+#: .\app\templates\app\view_request.html:122
+msgid "Answer English"
+msgstr ""
+
+#: .\app\templates\app\search.html:453
 msgid " Search here....."
 msgstr ""
 
-#: .\app\templates\app\search_history.html:204
+#: .\app\templates\app\search_history.html:222
 msgid "My Search"
 msgstr ""
 
-#: .\app\templates\app\search_history.html:211
+#: .\app\templates\app\search_history.html:229
 msgid "Search Date"
 msgstr ""
 
-#: .\app\templates\app\search_history.html:212
+#: .\app\templates\app\search_history.html:230
 msgid "Search Time"
 msgstr ""
 
-#: .\app\templates\app\user_question_view.html:413
-#: .\app\templates\app\user_question_view.html:419
-#: .\app\templates\app\user_question_view.html:479
+#: .\app\templates\app\user_question_view.html:487
+msgid "Menu"
+msgstr ""
+
+#: .\app\templates\app\user_question_view.html:494
+#: .\app\templates\app\user_question_view.html:500
+#: .\app\templates\app\user_question_view.html:561
 msgid "All Questions"
 msgstr ""
 
-#: .\app\templates\app\user_question_view.html:434
+#: .\app\templates\app\user_question_view.html:517
 msgid "Recent update"
 msgstr ""
 
-#: .\app\templates\app\user_question_view.html:481
+#: .\app\templates\app\user_question_view.html:531
+msgid "Recent View"
+msgstr ""
+
+#: .\app\templates\app\user_question_view.html:563
 msgid "Frequently Asked Questions"
 msgstr ""
 
-#: .\app\templates\app\user_question_view.html:483
+#: .\app\templates\app\user_question_view.html:565
 msgid "Recent Update"
 msgstr ""
 
-#: .\app\templates\app\view_history.html:211
+#: .\app\templates\app\view_history.html:224
 msgid "My viewed question"
 msgstr ""
 
-#: .\app\templates\app\view_history.html:218
-msgid "View"
+#: .\app\templates\app\view_history.html:231
+msgid "View questions"
 msgstr ""
 
-#: .\app\templates\app\view_history.html:219
+#: .\app\templates\app\view_history.html:232
 msgid "Viewed Date"
 msgstr ""
 
-#: .\app\templates\app\view_history.html:220
+#: .\app\templates\app\view_history.html:233
 msgid "Viewed Time"
+msgstr ""
+
+#: .\app\templates\app\view_request.html:70
+msgid "View request"
 msgstr ""
 
 #: .\app\templates\password_reset.html:272
@@ -859,83 +1059,99 @@ msgid ""
 "you registered with, and <b>check your spam folder."
 msgstr ""
 
-#: .\app\views.py:46
+#: .\app\views.py:49
 msgid ""
-"There was something wrong while process your request, Please try again or "
-"contact Administrator"
+"There was something wrong while processing your recent request, Please try "
+"again or contact Administrator"
 msgstr ""
 
-#: .\app\views.py:291
+#: .\app\views.py:315
 msgid "Successfully added the question(s)"
 msgstr ""
 
-#: .\app\views.py:323
+#: .\app\views.py:347
 msgid "Successfully removed the question(s)"
 msgstr ""
 
-#: .\app\views.py:352
+#: .\app\views.py:376
 msgid "Successfully edited the question(s)"
 msgstr ""
 
-#: .\app\views.py:393
+#: .\app\views.py:420
 msgid "Successfully suspended "
 msgstr ""
 
-#: .\app\views.py:395
+#: .\app\views.py:422
 msgid "Successfully unsuspended "
 msgstr ""
 
-#: .\app\views.py:407
+#: .\app\views.py:434
 msgid "Successfully update "
 msgstr ""
 
-#: .\app\views.py:465
+#: .\app\views.py:495
 msgid "Your profile has been successfully updated."
 msgstr ""
 
-#: .\app\views.py:495
+#: .\app\views.py:535
 msgid "Username already exist."
 msgstr ""
 
-#: .\app\views.py:498
-msgid "Username can conatain only alphabets."
+#: .\app\views.py:538
+msgid "Username can contain only alphabets."
 msgstr ""
 
-#: .\app\views.py:501
-msgid "Invalide password format"
+#: .\app\views.py:541
+msgid "Invalid password format"
 msgstr ""
 
-#: .\app\views.py:504
-msgid "Firstname can conatain only alphabets."
+#: .\app\views.py:544
+msgid "Firstname can contain only alphabets."
 msgstr ""
 
-#: .\app\views.py:507
-msgid "Lastname can conatain only alphabets."
+#: .\app\views.py:547
+msgid "Lastname can contain only alphabets."
 msgstr ""
 
-#: .\app\views.py:510
+#: .\app\views.py:550
 msgid "Invalid phone number"
 msgstr ""
 
-#: .\app\views.py:557
+#: .\app\views.py:597
 msgid "You has been successfully registered to the website"
 msgstr ""
 
-#: .\app\views.py:619
+#: .\app\views.py:658 .\app\views.py:683
 msgid ""
 "Your request has been successfully created, admin will review it shortly."
 msgstr ""
 
-#: .\app\views.py:631
+#: .\app\views.py:670
 msgid "Your request has been successfully edited."
 msgstr ""
 
-#: .\app\views.py:655
+#: .\app\views.py:695
 msgid "Your request has been successfully deleted."
 msgstr ""
 
-#: .\app\views.py:707
+#: .\app\views.py:754
 msgid "Successfully rejected the request"
+msgstr ""
+
+#: .\app\views.py:776
+msgid "Successfully approved the request"
+msgstr ""
+
+#: .\app\views.py:822
+msgid "Successfully updated department name"
+msgstr ""
+
+#: .\app\views.py:831
+msgid "Successfully removed department"
+msgstr ""
+
+#: .\app\views.py:840
+msgid "Successfully added department"
 msgstr ""
 
 #: .\env\Lib\site-packages\_pytest\config\argparsing.py:445

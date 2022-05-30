@@ -161,7 +161,7 @@ def queryDb_QA_All_FAQ():
 def queryDb_QA_Dept(dept):
 
    try:
-     query = list(questionanswer.objects.filter(department_id=dept))
+     query = list(questionanswer.objects.filter(department_id=dept).order_by('-view_count'))
 
    except:
      query = "Error"
@@ -187,9 +187,9 @@ def queryDb_User_All():
 
        if   user.suspended_by is not None:
             user.suspended_by = query[int(user.suspended_by)-1].username+" (ID: "+str(user.suspended_by)+")"
-       elif user.created_by is not None:
+       if user.created_by is not None:
             user.created_by = query[int(user.created_by)-1].username+" (ID: "+str(user.created_by)+")"
-       elif user.updated_by is not None:
+       if user.updated_by is not None:
             user.updated_by = query[int(user.updated_by)-1].username+" (ID: "+str(user.updated_by)+")"
        else:
             user.suspended_by = user.suspended_by

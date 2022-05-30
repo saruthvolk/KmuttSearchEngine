@@ -5,7 +5,7 @@ from KmuttSearchEngine.Query import *
 
 class Result:
     code = ''
-    context = {}
+    context = None
     query = ''
 
 
@@ -68,7 +68,7 @@ def update_user_profile(request, id):
                 user.last_name = last_name
                 user.date_of_birth = date_of_birth
                 user.gender = gender
-                user.updated_by
+                user.updated_by = request.user.id
                 user.email = email
                 user.phone_no = phone_no
                 user.updated_date = current_time
@@ -97,9 +97,15 @@ def edit_user_profile(request):
             last_name = request.POST.get('last_name_edit')
             date_of_birth = request.POST.get('date_of_birth_edit')
             gender = request.POST.get('gender_edit')
-            email = request.POST.get('email_edit')
+            email1 = request.POST.get('email_edit')
             phone_no = request.POST.get('phone_no_edit')
 
+            if userinfo.objects.filter(email=email1).exists() and request.user.email != email1:
+
+                Result.code = "Error"
+                Result.context = "Email already exist"
+                return Result
+            
             query = userinfo.objects.filter(id=request.user.id)
 
             for user in query:
@@ -107,8 +113,8 @@ def edit_user_profile(request):
                 user.last_name = last_name
                 user.date_of_birth = date_of_birth
                 user.gender = gender
-                user.updated_by
-                user.email = email
+                user.updated_by = request.user.id
+                user.email = email1
                 user.phone_no = phone_no
                 user.updated_date = current_time
                 user.updated_time = current_time
